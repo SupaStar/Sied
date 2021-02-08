@@ -4,7 +4,7 @@
         {{-- Vendor Styles --}}
         @yield('vendor-style')
         {{-- Theme Styles --}}
-        <link rel="stylesheet" href="{{ asset(mix('css/bootstrap.css')) }}">
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
         <link rel="stylesheet" href="{{ asset(mix('css/bootstrap-extended.css')) }}">
         <link rel="stylesheet" href="{{ asset(mix('css/colors.css')) }}">
         <link rel="stylesheet" href="{{ asset(mix('css/components.css')) }}">
