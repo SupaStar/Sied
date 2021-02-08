@@ -1,0 +1,44 @@
+{
+    "containers": [
+      {
+          "id": 1,
+          "type": "45 ft containers",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      },
+      {
+          "id": 2,
+          "type": "40 ft containers",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      },
+      {
+          "id": 3,
+          "type": "20 ft containers",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      },
+      {
+          "id": 4,
+          "type": "Flat Rack Container 40ft",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      },
+      {
+          "id": 5,
+          "type": "Flat Rack Container 20ft",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      },
+      {
+          "id": 6,
+          "type": "Reefer Container",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      },
+      {
+          "id": 7,
+          "type": "45 ft containers (45 HC Container)",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      },
+      {
+          "id": 8,
+          "type": "40 ft containers(40 HC Container)",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      }
+    ]
+}

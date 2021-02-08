@@ -1,0 +1,65 @@
+{
+  "menu": [
+    {
+      "url": "",
+      "name": "Usuarios",
+      "slug": "usuarios",
+      "badgeClass": "badge badge-warning badge-pill float-right mr-2",
+      "icon": "feather icon-users",
+      "submenu": [
+        {
+          "url": "/usuarios/lista",
+          "name": "Lista de Usuarios",
+          "icon": "feather icon-circle",
+          "i18n": "nav.dashboard_analytics"
+        },
+        {
+          "url": "/usuarios/nuevo",
+          "name": "Nuevo Usuario",
+          "icon": "feather icon-circle",
+          "i18n": "nav.dashboard_analytics"
+        }
+      ]
+    },
+    {
+      "url": "",
+      "name": "Clientes",
+      "slug": "clientes",
+      "badgeClass": "badge badge-warning badge-pill float-right mr-2",
+      "icon": "feather icon-globe",
+      "submenu": [
+        {
+          "url": "/clientes/fisica",
+          "name": "Personas Fisicas",
+          "icon": "feather icon-circle",
+          "i18n": "nav.dashboard_analytics"
+        },
+        {
+          "url": "/morales/morales",
+          "name": "Personas Morales",
+          "icon": "feather icon-circle",
+          "i18n": "nav.dashboard_analytics"
+        },
+        {
+          "url": "#",
+          "name": "Fidecomiso",
+          "icon": "feather icon-circle",
+          "i18n": "nav.dashboard_analytics"
+        },
+        {
+          "url": "/creditos",
+          "name": "Creditos Grupales",
+          "icon": "feather icon-circle",
+          "i18n": "nav.dashboard_analytics"
+        },
+        {
+          "url": "/grupos",
+          "name": "Grupos",
+          "icon": "feather icon-circle",
+          "i18n": "nav.dashboard_analytics"
+        }
+      ]
+    }
+
+  ]
+}

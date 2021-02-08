@@ -1,0 +1,25 @@
+{
+  "menu": [
+    {
+      "url": "",
+      "name": "Dashboard",
+      "slug": "dashboard",
+      "badgeClass": "badge badge-warning badge-pill float-right mr-2",
+      "icon": "feather icon-bar-chart-2"
+    },
+    {
+      "url": "",
+      "name": "Reportes",
+      "slug": "reportes",
+      "badgeClass": "badge badge-warning badge-pill float-right mr-2",
+      "icon": "feather icon-file-text"
+    },
+    {
+      "url": "/cliente/mis-datos",
+      "name": "Mis Datos",
+      "slug": "misdats",
+      "badgeClass": "badge badge-warning badge-pill float-right mr-2",
+      "icon": "feather icon-archive"
+    }
+  ]
+}

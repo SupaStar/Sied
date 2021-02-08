@@ -1,0 +1,448 @@
+{
+  "identifier": "b7b954b9-f4da-4a22-8eaf-c97bb94b7613",
+  "frontImage": null,
+  "backImage": null,
+  "documentPortraitImage": null,
+  "faceImage": null,
+  "documentData": [
+    {
+      "type": "DocumentHolderFullName",
+      "name": null,
+      "value": "PEREZ ALBERTO",
+      "source": "OCR"
+    },
+    {
+      "type": "DateOfExpiry",
+      "name": "Fecha de Expiración",
+      "value": "31/12/2021",
+      "source": "OCR"
+    },
+    {
+      "type": "FullDateOfIssue",
+      "name": null,
+      "value": "01/01/2011",
+      "source": "OCR"
+    },
+    {
+      "type": "Sex",
+      "name": "Sexo",
+      "value": "M",
+      "source": "OCR"
+    },
+    {
+      "type": "IssuingStateName",
+      "name": "Nombre del País Emisor",
+      "value": "Mexico",
+      "source": "OCR"
+    },
+    {
+      "type": "PersonalNumber",
+      "name": "Número Personal",
+      "value": "PEPA930105HMCRRL00",
+      "source": "OCR"
+    },
+    {
+      "type": "Voter_Key",
+      "name": "Clave de Elector",
+      "value": "PRPRAL93010515H700",
+      "source": "OCR"
+    },
+    {
+      "type": "OcrNumber",
+      "name": "Número OCR",
+      "value": "4290124941114",
+      "source": "OCR"
+    },
+    {
+      "type": "Section",
+      "name": "Sección",
+      "value": "4290",
+      "source": "OCR"
+    },
+    {
+      "type": "PermanentAddress",
+      "name": "Dirección",
+      "value": "CUADRILLA DE BENITEZ S/N LOC CUADRILLA DE BENITEZ 51440 LUVIANOS ,MEX.",
+      "source": "OCR"
+    },
+    {
+      "type": "Address_State",
+      "name": "Estado",
+      "value": "15",
+      "source": "OCR"
+    },
+    {
+      "type": "Address_Location",
+      "name": "Localidad",
+      "value": "0166",
+      "source": "OCR"
+    },
+    {
+      "type": "Address_Municipality",
+      "name": "Municipio",
+      "value": "123",
+      "source": "OCR"
+    },
+    {
+      "type": "Surname",
+      "name": "Apellidos",
+      "value": "PEREZ",
+      "source": "OCR"
+    },
+    {
+      "type": "PermanentAddress_Street",
+      "name": "Calle",
+      "value": "CUADRILLA DE BENITEZ S/N",
+      "source": "OCR"
+    },
+    {
+      "type": "PermanentAddress_Suburb",
+      "name": "Barrio",
+      "value": "LOC CUADRILLA DE BENITEZ 51440",
+      "source": "OCR"
+    },
+    {
+      "type": "PermanentAddress_City",
+      "name": "Ciudad/Estado",
+      "value": "LUVIANOS ,MEX.",
+      "source": "OCR"
+    },
+    {
+      "type": "AddressArea",
+      "name": "Area Dirección",
+      "value": "Luvianos",
+      "source": "OCR"
+    },
+    {
+      "type": "AddressCity",
+      "name": "Ciudad Dirección",
+      "value": "Luvianos",
+      "source": "OCR"
+    },
+    {
+      "type": "AddressCounty",
+      "name": "Provincia Dirección",
+      "value": "Estado de México",
+      "source": "OCR"
+    },
+    {
+      "type": "AddressCountry",
+      "name": "País Dirección",
+      "value": "Mexico",
+      "source": "OCR"
+    },
+    {
+      "type": "AddressCountryCode",
+      "name": "Código País Dirección",
+      "value": "MX",
+      "source": "OCR"
+    },
+    {
+      "type": "AddressPostalCode",
+      "name": "Código Postal Dirección",
+      "value": "51440",
+      "source": "OCR"
+    }
+  ],
+  "documentVerifications": [
+    {
+      "name": "Identificación del Documento",
+      "category": "Identification",
+      "result": "Ok",
+      "output": "100",
+      "inputFields": [
+        {
+          "name": "0_Template",
+          "type": "Text",
+          "value": "Credencial para votar serie C"
+        }
+      ]
+    },
+    {
+      "name": "Patrón de Imagen",
+      "category": "SecurityFeatures",
+      "result": "Ok",
+      "output": "84",
+      "inputFields": [
+        {
+          "name": "1_Imagen Obtenida",
+          "type": "Image",
+          "value": "data:image/jpg;base64,/9j/4AAQSkZJRgABAQEBGQEZAAD/2wBDAAUEBAQEAwUEBAQGBQUGCA0ICAcHCBALDAkNExAUExIQEhIUFx0ZFBYcFhISGiMaHB4fISEhFBkkJyQgJh0gISD/2wBDAQUGBggHCA8ICA8gFRIVICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICD/wAARCABNAFgDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD7B8hv71H2cjuKDcf7NHn8fdqyRvkN6jNKYWzywpfPGeVNBn77TQA0wMMYINHkuOeKUXGTjZ+tH2gHPynigBogbfxjkUvkOO4pRN8+dpwBQbgf3TQAnlP2waatvLg7sdeKkFwvTYad9oX+6aQDBA+MDFFSeev900UAN8uPHSkMSHsar739WpwlcYG45+lUBP5MeRwaUwR+hqDzJc9TR5snq1KwEvkx/wCTR5Efp+tQiWXByx/KjzZMfeP5U7ATGFPX9aPIT3/OofNk/vH8qXzHx94mkBL5Sg96DEnoah81z9aDLID/APWoAsCGPg5Ioqt58inB5/CigC0JFH8S0b1J+8KreRJ/dH50eTL6CnYCzuU9xRlfaq3kyelHkSA9B+dAFrcPUU3K+1VjDIO3600xOO360WAufL6Cl+THRap+VJjp+tKIZPT9aLAWvlx2zRlOrEVW8qTOcUhhkz04osBawmc4U0VVEMoPTiigB32leytTvtC5+4RUf2YZxvp32fI6n8qAJPPX+6aQzr3BpPs4x98/lR9nHZ6AE89M5waPtMeDkUn2Y5+/TTbA/wAVMBftCH1UU8TJ1zTPsvq9L9mP9+gBxuYwcc0onUetRi3bP3qUW5/v0APMyZzk8UU37Of79FIRH9obIPFL9obPOKm8uPpsFBijx9wcUxkQuD/dFH2g/wB0VIEQjGwUCKP+5QBH9obuBR9pPZRUvlR/3aDFH/dpAQfaHJ5ApTcnOAOakMcZHKCmCKPdwopgJ9qKtgrn8ad9o4+6Kd5MfXbSiKPH3P1oAZ9o/wBkUVJ5UeB8tFAWP//Z"
+        },
+        {
+          "name": "1_Imagen de Referencia",
+          "type": "Image",
+          "value": "data:image/jpg;base64,/9j/4AAQSkZJRgABAQEBGQEZAAD/2wBDAAUEBAQEAwUEBAQGBQUGCA0ICAcHCBALDAkNExAUExIQEhIUFx0ZFBYcFhISGiMaHB4fISEhFBkkJyQgJh0gISD/2wBDAQUGBggHCA8ICA8gFRIVICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICD/wAARCAA4AEADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD3JfELbP8Aj2+X/epr+IW/htl/OrX2vRvveWv/AHzUcl9ozfKsaflXiX0sdpWfxAzKzNbfN/vVANeZlX/Rv/HquPd6R/zzH/fNLHNo3/PNPypJWGtCtJrvybltv/HqpPrTJ832bbWs9zpG3asabfpUTy6M6ruVd30pp2KbuZL68z/L5G3+Gnw63sVv3H/j1WnOkblbav8A3zR5+kKu7an/AHzTuQbP9m6Nu27/AJf9+q8mnaVv+V1/77q5/wAI7EE/17f981A/htXb/j7/AEqbAMXTdKO7dJ/4/Tk0vSvu+Z/4/Tf+EcUNtW5p3/CPru3Lc7aLjFOlaV/z1/8AH6hfS9O+8sny/wC/T28PfK3+lfpUL6B/duf/AB2quAjabpjfLv8A1pH0rSvK/wBZ/wCPVF/YPzf8fP8A47Tv7Byv/Hz/AOO0gsXjpur7t3n/AO989J/Zmq/xS/rTfturr/Cd3+5UTX+s/wB0/wDfFILEv9m6ru+WX/x+htM1f/nv/wCPVC+paun/ACzb/vmlTVNVZP8AVt/3xRYB/wDZuq/89W/77pjafqrf8tzu/wB+nNqmq7duxt3+7UR1HVR/A3/fFPrYLjf7O1Xdt3tu/wB+j+ytX27vN/8AH6d/aWqhlbZ/45Sf2jqu77jL/wAAoA1G19Wbb9mo/t9Pu/ZmooqrE3EfXYmX5rZmaj+3lWM7bVttFFSUCa/Ht+a2b5velGuxN/y7UUUfaEJLrcXy/wCjGmnX4ht/0ZqKKBn/2Q=="
+        }
+      ]
+    },
+    {
+      "name": "Fecha de Expiración",
+      "category": "DataIntegrity",
+      "result": "Ok",
+      "output": "100",
+      "inputFields": [
+        {
+          "name": "2_Fecha de Expiración",
+          "type": "Text",
+          "value": "31/12/2021"
+        }
+      ]
+    },
+    {
+      "name": "Número Personal",
+      "category": "DataIntegrity",
+      "result": "Ok",
+      "output": "100",
+      "inputFields": [
+        {
+          "name": "3_Sección",
+          "type": "Text",
+          "value": "Sección: 4290"
+        },
+        {
+          "name": "3_Número Personal",
+          "type": "Text",
+          "value": "Número Personal: 4290124941114"
+        }
+      ]
+    },
+    {
+      "name": "Coincidencia en Lista PEP",
+      "category": "ControlList",
+      "result": "Warning",
+      "output": "100",
+      "inputFields": [
+        {
+          "name": "Comments",
+          "type": "Text",
+          "value": "Parlamentos nacionales: , Nacionalidad: Gibraltar  Gibraltar Parliament"
+        }
+      ]
+    },
+    {
+      "name": "Coincidencia en Lista de Sanciones",
+      "category": "ControlList",
+      "result": "Failed",
+      "output": "97",
+      "inputFields": null
+    },
+    {
+      "name": "Coincidencia en Lista de Sanciones",
+      "category": "ControlList",
+      "result": "Failed",
+      "output": "97",
+      "inputFields": [
+        {
+          "name": "Comments",
+          "type": "Text",
+          "value": "OFAC EEUU: Nacimiento: 1984 (Linked To: CARTEL DE JALISCO NUEVA GENERACION; Linked To: LOS CUINIS; Linked To: GALLISTICA DIAMANTE)"
+        }
+      ]
+    },
+    {
+      "name": "Coincidencia en Lista de Sanciones",
+      "category": "ControlList",
+      "result": "Failed",
+      "output": "97",
+      "inputFields": [
+        {
+          "name": "Comments",
+          "type": "Text",
+          "value": "Sanciones SECO Suiza: Nacimiento: 1956 General Commissioner and Legal Assistance Main Officer (DAEJ) in the ‘El Chipote’ penitentiary centre. Responsible for serious human rights violations, including torture, use of extensive force, mistreatment of detainees and other forms of degrading treatment."
+        }
+      ]
+    },
+    {
+      "name": "Coincidencia en Lista PEP",
+      "category": "ControlList",
+      "result": "Warning",
+      "output": "97",
+      "inputFields": [
+        {
+          "name": "Comments",
+          "type": "Text",
+          "value": "Parlamentos nacionales: Nacimiento: 1971, Nacionalidad: Argentina  Argentina Cámara de Diputados"
+        }
+      ]
+    },
+    {
+      "name": "Coincidencia en Lista PEP",
+      "category": "ControlList",
+      "result": "Warning",
+      "output": "97",
+      "inputFields": [
+        {
+          "name": "Comments",
+          "type": "Text",
+          "value": "Parlamentos nacionales: , Nacionalidad: Dominican Republic  Dominican Republic Chamber of Deputies"
+        }
+      ]
+    },
+    {
+      "name": "Coincidencia en Lista PEP",
+      "category": "ControlList",
+      "result": "Warning",
+      "output": "97",
+      "inputFields": [
+        {
+          "name": "Comments",
+          "type": "Text",
+          "value": "Parlamentos nacionales: , Nacionalidad: Honduras  Honduras National Congress"
+        }
+      ]
+    },
+    {
+      "name": "Coincidencia en Lista PEP",
+      "category": "ControlList",
+      "result": "Warning",
+      "output": "97",
+      "inputFields": [
+        {
+          "name": "Comments",
+          "type": "Text",
+          "value": "Parlamentos nacionales: , Nacionalidad: Honduras  Honduras National Congress"
+        }
+      ]
+    },
+    {
+      "name": "Coincidencia en Lista PEP",
+      "category": "ControlList",
+      "result": "Warning",
+      "output": "97",
+      "inputFields": [
+        {
+          "name": "Comments",
+          "type": "Text",
+          "value": "Parlamentos nacionales: Nacimiento: 1959, Nacionalidad: Mexico  Mexico Chamber of Deputies"
+        }
+      ]
+    },
+    {
+      "name": "Coincidencia en Lista PEP",
+      "category": "ControlList",
+      "result": "Warning",
+      "output": "97",
+      "inputFields": [
+        {
+          "name": "Comments",
+          "type": "Text",
+          "value": "Parlamentos nacionales: Nacimiento: 1954, Nacionalidad: Mexico  Mexico Chamber of Deputies"
+        }
+      ]
+    },
+    {
+      "name": "Coincidencia en Lista PEP",
+      "category": "ControlList",
+      "result": "Warning",
+      "output": "97",
+      "inputFields": [
+        {
+          "name": "Comments",
+          "type": "Text",
+          "value": "Parlamentos nacionales: Nacimiento: 1956, Nacionalidad: Mexico  Mexico Chamber of Deputies"
+        }
+      ]
+    },
+    {
+      "name": "Coincidencia en Lista PEP",
+      "category": "ControlList",
+      "result": "Warning",
+      "output": "97",
+      "inputFields": [
+        {
+          "name": "Comments",
+          "type": "Text",
+          "value": "Parlamentos nacionales: Nacimiento: 1944, Nacionalidad: Mexico  Mexico Chamber of Deputies"
+        }
+      ]
+    },
+    {
+      "name": "Coincidencia en Lista PEP",
+      "category": "ControlList",
+      "result": "Warning",
+      "output": "97",
+      "inputFields": [
+        {
+          "name": "Comments",
+          "type": "Text",
+          "value": "Parlamentos nacionales: Nacimiento: 1968, Nacionalidad: Mexico  Mexico Chamber of Deputies"
+        }
+      ]
+    },
+    {
+      "name": "Coincidencia en Lista PEP",
+      "category": "ControlList",
+      "result": "Warning",
+      "output": "97",
+      "inputFields": [
+        {
+          "name": "Comments",
+          "type": "Text",
+          "value": "Parlamentos nacionales: Nacimiento: 1963, Nacionalidad: Mexico  Mexico Chamber of Deputies"
+        }
+      ]
+    },
+    {
+      "name": "Coincidencia en Lista PEP",
+      "category": "ControlList",
+      "result": "Warning",
+      "output": "97",
+      "inputFields": [
+        {
+          "name": "Comments",
+          "type": "Text",
+          "value": "Parlamentos nacionales: Nacimiento: 1968, Nacionalidad: Mexico  Mexico Chamber of Deputies"
+        }
+      ]
+    },
+    {
+      "name": "Coincidencia en Lista PEP",
+      "category": "ControlList",
+      "result": "Warning",
+      "output": "97",
+      "inputFields": [
+        {
+          "name": "Comments",
+          "type": "Text",
+          "value": "Parlamentos nacionales: Nacimiento: 1965, Nacionalidad: Mexico  Mexico Chamber of Deputies"
+        }
+      ]
+    },
+    {
+      "name": "Coincidencia en Lista PEP",
+      "category": "ControlList",
+      "result": "Warning",
+      "output": "97",
+      "inputFields": [
+        {
+          "name": "Comments",
+          "type": "Text",
+          "value": "Parlamentos nacionales: , Nacionalidad: Uruguay  Uruguay Chamber of Deputies"
+        }
+      ]
+    }
+  ],
+  "totalChecks": 21,
+  "successChecks": 4,
+  "warningChecks": 14,
+  "failedChecks": 3,
+  "expertUsed": false,
+  "checkTime": "00:00:05.4350000",
+  "expertComments": null,
+  "sourceType": "Camera",
+  "status": "Checked",
+  "userName": "Caliente",
+  "spentCredits": 1,
+  "startDateUtc": "2020-10-02T15:20:01.9476306",
+  "endDateUtc": "2020-10-02T15:29:37.8401965",
+  "securityLevel": "Low",
+  "globalResult": "ControlListHits",
+  "globalResultDescription": "Las verificaciones sobre el documento se han realizado correctamente, pero se han encontrado coincidencias en listas de control.",
+  "securityLevelDescription": "Bajo: El documento sólo contiene verificaciones de seguridad muy básicas, tales como código de barras, por lo que la autenticidad del documento no se puede asegurar con una fiabilidad razonable.",
+  "language": "es",
+  "documentType": "VotingCard",
+  "countryCode": "MEX",
+  "templateName": "Credencial para votar serie C",
+  "id": "qwertyGTA"
+}

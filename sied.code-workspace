@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../vuexy"
+		},
+		{
+			"path": "../yesh"
+		},
+		{
+			"path": "../ios"
+		}
+	],
+	"settings": {}
+}

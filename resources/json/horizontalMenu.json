@@ -1,0 +1,222 @@
+{
+  "menu": [
+    {
+      "url": "/",
+      "name": "Dashboard",
+      "slug": "dashboard",
+      "icon": "feather icon-bar-chart-2"
+    },
+    {
+      "url": "#",
+      "name": "Publicaciones",
+      "slug": "publicaciones",
+      "icon": "feather icon-star",
+      "dropdown": "1",
+      "submenu": [
+        {
+          "url": "",
+          "name": "Directorio",
+          "icon": "feather icon-book",
+          "slug": "directorio",
+          "submenu": [
+            {
+              "url": "/directorio/pendientes",
+              "name": "Por Aprobar",
+              "icon": "feather icon-circle",
+              "slug": "pendientes"
+            },
+            {
+              "url": "/directorio/aprobados",
+              "name": "Aprobados",
+              "icon": "feather icon-circle",
+              "slug": "aprobados"
+            },
+            {
+              "url": "/directorio/declinados",
+              "name": "Declinados",
+              "icon": "feather icon-circle",
+              "slug": "declinados"
+            },
+            {
+              "url": "/directorio/vencidos",
+              "name": "Vencidos",
+              "icon": "feather icon-circle",
+              "slug": "vencidos"
+            }
+          ]
+        },
+        {
+          "url": "",
+          "name": "Cartelera",
+          "icon": "feather icon-calendar",
+          "slug": "directorio",
+          "submenu": [
+            {
+              "url": "/cartelera/pendientes",
+              "name": "Por Aprobar",
+              "icon": "feather icon-circle",
+              "slug": "pendientes"
+            },
+            {
+              "url": "/cartelera/aprobados",
+              "name": "Aprobados",
+              "icon": "feather icon-circle",
+              "slug": "aprobados"
+            },
+            {
+              "url": "/cartelera/declinados",
+              "name": "Declinados",
+              "icon": "feather icon-circle",
+              "slug": "declinados"
+            },
+            {
+              "url": "/cartelera/vencidos",
+              "name": "Vencidos",
+              "icon": "feather icon-circle",
+              "slug": "vencidos"
+            }
+          ]
+        },
+        {
+          "url": "",
+          "name": "Mercado",
+          "icon": "feather icon-shopping-cart",
+          "slug": "mercado",
+          "submenu": [
+            {
+              "url": "/mercado/pendientes",
+              "name": "Por Aprobar",
+              "icon": "feather icon-circle",
+              "slug": "pendientes"
+            },
+            {
+              "url": "/mercado/aprobados",
+              "name": "Aprobados",
+              "icon": "feather icon-circle",
+              "slug": "aprobados"
+            },
+            {
+              "url": "/mercado/declinados",
+              "name": "Declinados",
+              "icon": "feather icon-circle",
+              "slug": "declinados"
+            },
+            {
+              "url": "/mercado/vencidos",
+              "name": "Vencidos",
+              "icon": "feather icon-circle",
+              "slug": "vencidos"
+            }
+          ]
+        },
+        {
+          "url": "",
+          "name": "Anuncios",
+          "icon": "feather icon-bell",
+          "slug": "anuncios",
+          "submenu": [
+            {
+              "url": "/anuncios/pendientes",
+              "name": "Por Aprobar",
+              "icon": "feather icon-circle",
+              "slug": "pendientes"
+            },
+            {
+              "url": "/anuncios/aprobados",
+              "name": "Aprobados",
+              "icon": "feather icon-circle",
+              "slug": "aprobados"
+            },
+            {
+              "url": "/anuncios/declinados",
+              "name": "Declinados",
+              "icon": "feather icon-circle",
+              "slug": "declinados"
+            },
+            {
+              "url": "/anuncios/vencidos",
+              "name": "Vencidos",
+              "icon": "feather icon-circle",
+              "slug": "vencidos"
+            }
+          ]
+        }
+
+      ]
+    },
+    {
+      "url": "#",
+      "name": "Categorias",
+      "slug": "categorias",
+      "icon": "feather icon-copy",
+      "dropdown": "1",
+      "submenu": [
+        {
+          "url": "/categorias/principales",
+          "name": "Principales",
+          "icon": "feather icon-circle",
+          "slug": "categorias-principales"
+        },
+        {
+          "url": "/categorias/sub-categorias",
+          "name": "Sub-Categorias",
+          "icon": "feather icon-circle",
+          "slug": "subcategorias"
+        }
+      ]
+    },
+    {
+      "url": "#",
+      "name": "Usuarios",
+      "slug": "usuarios",
+      "icon": "feather icon-users",
+      "dropdown": "1",
+      "submenu": [
+        {
+          "url": "/usuarios/administradores",
+          "name": "Administradores",
+          "icon": "feather icon-circle",
+          "slug": "usuarios-administradores"
+        },
+        {
+          "url": "/usuarios/pendientes",
+          "name": "Por Aprobar",
+          "icon": "feather icon-circle",
+          "slug": "usuarios-pendientes"
+        },
+        {
+          "url": "/usuarios/aprobados",
+          "name": "Aprobados",
+          "icon": "feather icon-circle",
+          "slug": "usuarios-aprobados"
+        },
+        {
+          "url": "/usuarios/vetados",
+          "name": "Vetados",
+          "icon": "feather icon-circle",
+          "slug": "usuarios-pendientes"
+        },
+        {
+          "url": "/usuarios/preguntas",
+          "name": "Preguntas",
+          "icon": "feather icon-circle",
+          "slug": "usuarios-preguntas"
+        }
+
+      ]
+    },
+    {
+      "url": "/publicidad",
+      "name": "Publicidad",
+      "slug": "publicidad",
+      "icon": "feather icon-tag"
+    },
+    {
+      "url": "/notificaciones",
+      "name": "Notificaciones",
+      "slug": "notificaciones",
+      "icon": "feather icon-circle"
+    }
+
+  ]
+}

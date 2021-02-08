@@ -1,0 +1,69 @@
+{
+    "vehicles": [
+      {
+          "id": 1,
+          "type": "Flat bed 53ft",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      },
+      {
+          "id": 2,
+          "type": "Flat bed 48ft",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      },
+      {
+          "id": 3,
+          "type": "Bobtail truck",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      },
+      {
+          "id": 4,
+          "type": "Lowboy Trailer",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      },
+      {
+          "id": 5,
+          "type": "53ft truck",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      },
+      {
+          "id": 6,
+          "type": "48ft truck",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      },
+      {
+          "id": 7,
+          "type": "Straight truck",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      },
+      {
+          "id": 8,
+          "type": "Sprinter Vans",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      },
+      {
+          "id": 9,
+          "type": "Box truck",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      },
+      {
+          "id": 10,
+          "type": "Lowboy Trailer",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      },
+      {
+          "id": 11,
+          "type": "Refrigerated Trailers",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      },
+      {
+          "id": 12,
+          "type": "Tail-lift Truck",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      },
+      {
+          "id": 13,
+          "type": "Box truck",
+          "img": "https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/products/01.png"
+      }
+    ]
+}

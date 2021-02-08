@@ -1,0 +1,11 @@
+#WindowLoad
+  {
+      position:fixed;
+      top:0px;
+      left:0px;
+      z-index:3200;
+      filter:alpha(opacity=85);
+     -moz-opacity:85;
+      opacity:0.85;
+      background:#ededed;
+  }
