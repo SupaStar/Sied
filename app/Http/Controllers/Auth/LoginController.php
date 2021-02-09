@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Auth;
+use App\User;
 
 class LoginController extends Controller
 {
@@ -63,6 +64,9 @@ class LoginController extends Controller
             'password'           => 'required',
             'g-recaptcha-response' => 'required|captcha'
         ]);
+        $usuario = User::where("email",$request->email)->where("password",$request->password)->first();
+        echo json_encode($usuario);
+        /*
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             // Success
             return redirect()->intended('/');
@@ -72,6 +76,7 @@ class LoginController extends Controller
 
             return redirect()->back();
         }
+        */
 
     }
 
