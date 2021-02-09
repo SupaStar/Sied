@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -67,7 +68,6 @@ class LoginController extends Controller
             // Success
             return redirect()->intended('/');
         } else {
-          return Auth::attempt(['email' => $request->email, 'password' => $request->password]);
             // Go back on error (or do what you want)
             return redirect()->back();
         }

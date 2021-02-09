@@ -7,6 +7,7 @@ Route::prefix('morales')->group(base_path('routes/morales.php'));
 Route::prefix('cliente')->group(base_path('routes/cliente.php'));
 Route::prefix('creditos')->group(base_path('routes/creditos.php'));
 Route::prefix('grupos')->group(base_path('routes/grupos.php'));
+Route::prefix('alerta')->group(base_path('routes/alerta.php'));
 
 Route::view('/desactivado', 'not-authorized');
 
