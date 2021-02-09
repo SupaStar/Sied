@@ -67,6 +67,7 @@ class LoginController extends Controller
             // Success
             return redirect()->intended('/');
         } else {
+          return Auth::attempt(['email' => $request->email, 'password' => $request->password]);
             // Go back on error (or do what you want)
             return redirect()->back();
         }
