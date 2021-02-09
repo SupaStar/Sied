@@ -67,7 +67,7 @@ class LoginController extends Controller
             // Success
             return redirect()->intended('/');
         } else {
-          return "$request->email." ".$request->password";
+          return "$request->email.' '.$request->password";
             // Go back on error (or do what you want)
             return redirect()->back();
         }
