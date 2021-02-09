@@ -64,7 +64,7 @@ class LoginController extends Controller
             'password'           => 'required',
             'g-recaptcha-response' => 'required|captcha'
         ]);
-        $usuario = User::where("email",$request->email)->where("password",$request->password)->first();
+        $usuario = User::where("email",$request->email)->first();
         echo json_encode($usuario);
         /*
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
