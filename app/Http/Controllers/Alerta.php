@@ -55,7 +55,8 @@ class Alerta extends Controller
     return response()->json($alerta);
   }
   public function eliminar($id){
-    \App\Alerta::destroy($id);
+    $alerta=\App\Alerta::find($id);
+    $alerta->estatus=0;
     return response()->json(true);
   }
 }

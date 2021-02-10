@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\AgenteAlerta;
+use App\Alerta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
@@ -1858,6 +1860,8 @@ class Clients extends Controller
     $npago->moneda = $moneda;
     $npago->origen = $request->origen;
     $npago->save();
+    $alertas=new Alerta();
+    $alertas->verificar($request,$cid);
 
     $user = Auth::user();
 
@@ -2001,8 +2005,8 @@ class Clients extends Controller
                         $lam = Amortizacion::where('id', $data2->id)->first();
                         $lpagos = $lam->pagos ? $lam->pagos : 0;
                         $restante = ($lam->flujo - $lpagos) - $pago;
-  
-  
+
+
                         $rpagos = New RelacionPagos;
                         $rpagos->periodo_id = $data2->id;
                         $rpagos->pago_id = $pagoid;
@@ -2079,8 +2083,8 @@ class Clients extends Controller
                   $lam = Amortizacion::where('id', $data->id)->first();
                   $lpagos = $lam->pagos ? $lam->pagos : 0;
                   $restante = ($lam->flujo - $lpagos) - $pago;
-  
-  
+
+
                   $rpagos = New RelacionPagos;
                   $rpagos->periodo_id = $data->id;
                   $rpagos->pago_id = $pagoid;
@@ -2147,7 +2151,7 @@ class Clients extends Controller
                   $lam = Amortizacion::where('id', $data->id)->first();
                   $lpagos = $lam->pagos ? $lam->pagos : 0;
                   $restante = ($lam->flujo - $lpagos) - $pago;
-  
+
                   $rpagos = New RelacionPagos;
                   $rpagos->periodo_id = $data->id;
                   $rpagos->pago_id = $pagoid;
@@ -2223,8 +2227,8 @@ class Clients extends Controller
                 $lam = Amortizacion::where('id', $data->id)->first();
                 $lpagos = $lam->pagos ? $lam->pagos : 0;
                 $restante = ($lam->flujo - $lpagos) - $pago;
-  
-  
+
+
                 $rpagos = New RelacionPagos;
                 $rpagos->periodo_id = $data->id;
                 $rpagos->pago_id = $pagoid;
@@ -2293,8 +2297,8 @@ class Clients extends Controller
                 $lam = Amortizacion::where('id', $data->id)->first();
                 $lpagos = $lam->pagos ? $lam->pagos : 0;
                 $restante = ($lam->flujo - $lpagos) - $pago;
-  
-  
+
+
                 $rpagos = New RelacionPagos;
                 $rpagos->periodo_id = $data->id;
                 $rpagos->pago_id = $pagoid;
@@ -2424,7 +2428,7 @@ class Clients extends Controller
                       $nhistorialflujo->cambio = $gcobranza;
                       $nhistorialflujo->descripcion = 'Gastos De Cobranza';
                       $nhistorialflujo->save();
-  
+
                     } else {
                       $nflujo =   $gdata->flujo + $moratorios;
                     }
@@ -2842,8 +2846,8 @@ class Clients extends Controller
                         $nhistorialflujo->cambio = $gcobranza;
                         $nhistorialflujo->descripcion = 'Gastos De Cobranza';
                         $nhistorialflujo->save();
-  
-  
+
+
                       } else {
                         $nflujo =   $gdata->flujo + $moratorios;
                       }
@@ -2935,7 +2939,7 @@ class Clients extends Controller
 
       $flujo = number_format($query->flujo,2);
 
-      
+
 
       return $flujo;
     })

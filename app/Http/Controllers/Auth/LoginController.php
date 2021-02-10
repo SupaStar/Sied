@@ -9,7 +9,6 @@ use Illuminate\Http\Response;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Auth;
-use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
