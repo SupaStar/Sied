@@ -1832,7 +1832,7 @@ class Clients extends Controller
     $npago->save();
     $alertas = new Alerta();
     $alertas->verificar($request, $cid);
-    return;
+    //return;
     $user = Auth::user();
 
     $comprobante = $request->file('comprobante') ? $request->file('comprobante') : 1;
