@@ -41,6 +41,8 @@ class RouteServiceProvider extends ServiceProvider
 
     $this->mapAlertaRoutes();
 
+    $this->mapConfiguracionAlertaRoutes();
+
     //
   }
 
@@ -79,5 +81,12 @@ class RouteServiceProvider extends ServiceProvider
       ->middleware('api')
       ->namespace($this->namespace)
       ->group(base_path('routes/alerta.php'));
+  }
+  public function mapConfiguracionAlertaRoutes()
+  {
+    Route::prefix('configAlerta')
+      ->middleware('api')
+      ->namespace($this->namespace)
+      ->group(base_path('routes/configuracionAlertas.php'));
   }
 }
