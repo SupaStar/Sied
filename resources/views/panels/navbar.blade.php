@@ -26,7 +26,7 @@
             <ul class="nav navbar-nav bookmark-icons">
 
               <li class="nav-item d-none d-lg-block"><a class="nav-link" href="/"
-                  data-toggle="tooltip" data-placement="top" title="SIED"><h4> Sistema de integración de Expedientes Digitales</h4></a></li>
+                  data-toggle="tooltip" data-placement="top" title="SIED"><h4> Sistema de integración de Expedientes Digitales - @yield('title')</h4></a></li>
             </ul>
           </div>
           <ul class="nav navbar-nav float-right">

@@ -60,7 +60,7 @@
           <td>{!! $configuracion->tipo_alerta !!}</td>
           <td>{!! $configuracion->titulo !!}</td>
           <td>{!! $configuracion->descripcion !!}</td>
-          <td>{!! $configuracion->estatus !!}</td>
+          <td>{!! $configuracion->credito->status !!}</td>
           <td>{!! $configuracion->observacion !!}</td>
           <td>{!! $configuracion->prioridad !!}</td>
         </tr>
