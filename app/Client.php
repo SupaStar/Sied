@@ -66,4 +66,8 @@ class Client extends Model
   {
     return $this->belongsTo('App\Grupo', 'grupo_id', 'id');
   }
+  public function alertas()
+  {
+    return $this->hasMany('App\ConfigAlertas', 'cliente_id','id');
+  }
 }

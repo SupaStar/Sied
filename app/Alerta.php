@@ -87,4 +87,5 @@ class Alerta extends Model
 //      $alerta->save();
 //    }
   }
+
 }

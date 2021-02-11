@@ -29,10 +29,17 @@ class Alerta extends Controller
     return response()->json($alerta);
   }
 
-  public function todos()
+  public function todo()
   {
+    $pageConfigs = [
+      'mainLayoutType' => 'vertical',
+      'pageName' => 'Alertas'
+    ];
     $alertas = \App\Alerta::all();
-    return response()->json($alertas);
+
+    return view('alertas',[
+      'pageConfigs' => $pageConfigs
+    ])->with('alertas',$alertas);
   }
   public function encontrar($id){
     $alerta=\App\Alerta::find($id);

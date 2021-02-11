@@ -6,5 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ConfigAlertas extends Model
 {
-  protected $table = "configuracionalerta";
+  protected $table = "alertas_pld";
+
 }

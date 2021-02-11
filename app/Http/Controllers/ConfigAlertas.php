@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Divisa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Client;
 
 class ConfigAlertas extends Controller
 {
   public function todos()
   {
-    $configuraciones = \App\ConfigAlertas::all();
-    return response()->json($configuraciones);
+
   }
 
   public function nueva(Request $request)
@@ -49,4 +51,5 @@ class ConfigAlertas extends Controller
     \App\ConfigAlertas::destroy($id);
     return response()->json(true);
   }
+
 }
