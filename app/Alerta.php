@@ -25,7 +25,7 @@ class Alerta extends Model
       $alerta->titulo = "Moneda seleccionada diferente";
       $registrado = Divisa::find($perfil->divisa);
       $divisaP = $divisaP == 0 ? "Otro" : "Moneda nacional";
-      $alerta->descripcion = "Moneda de pago registrada: " . $registrado->descripcion . "\nSe uso: " . $divisaP . " con nombre: " . $request->nmoneda;
+      $alerta->descripcion = "Moneda de pago registrada: " . $registrado->descripcion . "|Se uso: " . $divisaP . " con nombre: " . $request->nmoneda;
       $alerta->save();
     }
     $formaPago = InstrumentoMonetario::where("descripcion", $request->forma)->first();
@@ -39,7 +39,7 @@ class Alerta extends Model
       $alerta->tipo_alerta = "FormaPago";
       $alerta->titulo = "Forma de pago seleccionada diferente";
       $registrado = InstrumentoMonetario::find($perfil->instrumento_monetario);
-      $alerta->descripcion = "Forma de pago registrada: " . $registrado->descripcion . "\nSe uso: " . $request->forma;
+      $alerta->descripcion = "Forma de pago registrada: " . $registrado->descripcion . "|Se uso: " . $request->forma;
       $alerta->save();
     }
     $pagomesGlobal = ConfigAlertas::all()->first();
@@ -56,7 +56,7 @@ class Alerta extends Model
       $alerta->prioridad = "Alta";
       $alerta->tipo_alerta = "Numero de pagos";
       $alerta->titulo = "Numero de pagos mayor";
-      $alerta->descripcion = "Se pueden realizar: " . $numeroPagoMes . " pagos por mes\nSe han realizado: " . $nPagosMes;
+      $alerta->descripcion = "Se pueden realizar: " . $numeroPagoMes . " pagos por mes|Se han realizado: " . $nPagosMes;
       $alerta->save();
     }
     if ($pagomesGlobal->monto > $request->monto) {
@@ -68,7 +68,7 @@ class Alerta extends Model
       $alerta->prioridad = "Alta";
       $alerta->tipo_alerta = "Monto de pago";
       $alerta->titulo = "Monto de pago menor";
-      $alerta->descripcion = "El monto debe ser: " . $pagomesGlobal->monto . "\nSe pago: " . $request->monto;
+      $alerta->descripcion = "El monto debe ser: " . $pagomesGlobal->monto . "|Se pago: " . $request->monto;
       $alerta->save();
     }
 //    $origen = OrigenRecursos::where("descripcion",$request->origen)->first();
