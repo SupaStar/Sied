@@ -36,6 +36,13 @@ class Alerta extends Controller
       'pageName' => 'Alertas'
     ];
     $alertas = \App\Alerta::all();
+    foreach($alertas as $alerta)
+    {
+      $alerta->cliente;
+      $alerta->credito;
+    }
+
+
 
     return view('alertas',[
       'pageConfigs' => $pageConfigs

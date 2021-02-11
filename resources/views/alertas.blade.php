@@ -41,8 +41,8 @@
         <thead>
         <tr>
           <th>ID</th>
-          <th>cliente_id</th>
-          <th>credito_id</th>
+          <th>Nombre Cliente</th>
+          <th>Credito</th>
           <th>tipo_alerta</th>
           <th>tipo</th>
           <th>descripcion</th>
@@ -55,8 +55,8 @@
         @foreach($alertas as $configuracion)
         <tr>
           <td>{!! $configuracion->id !!}</td>
-          <td >{!! $configuracion->cliente_id !!}</td>
-          <td>{!! $configuracion->credito_id !!}</td>
+          <td >{!! $configuracion->cliente->name !!}</td>
+          <td>{!! $configuracion->credito->nombre !!}</td>
           <td>{!! $configuracion->tipo_alerta !!}</td>
           <td>{!! $configuracion->titulo !!}</td>
           <td>{!! $configuracion->descripcion !!}</td>

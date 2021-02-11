@@ -150,5 +150,12 @@ class Alerta extends Model
       }
     }
   }
-
+  public function cliente()
+  {
+    return $this->hasOne('\App\Client', 'id','cliente_id');
+  }
+  public function credito()
+  {
+    return $this->hasOne('\App\Credito', 'id', 'credito_id');
+  }
 }

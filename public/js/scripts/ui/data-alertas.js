@@ -87,12 +87,12 @@ function alertas(chn){
     columns: [
 
       {
-        data: 'cliente_id',
-        name: 'cliente_id'
+        data: 'Nombre Cliente',
+        name: 'Nombre Cliente'
       },
       {
-        data: 'credito_id',
-        name: 'credito_id'
+        data: 'Credito',
+        name: 'Credito'
       },
       {
         data: 'tipo_alerta',
