@@ -12,7 +12,7 @@ class Alerta extends Model
 
   public function verificar(Request $request, $creditoId)
   {
-    $perfil = Perfil::find($request->id)->first();
+    $perfil = Perfil::find($request->id);
     $divisaP = $request->moneda == "Nacional" ? 1 : 0;
     if ($perfil->divisa !== $divisaP) {
       $alerta = new Alerta();
@@ -25,22 +25,46 @@ class Alerta extends Model
       $alerta->titulo = "Moneda seleccionada diferente";
       $registrado = Divisa::find($perfil->divisa);
       $divisaP = $divisaP == 0 ? "Otro" : "Moneda nacional";
-      $alerta->descripcion = "Moneda de pago registrada: " . $registrado->descripcion . "\nSe uso: " . $divisaP . " con nombre: " . $request->nmoneda;
+      $alerta->descripcion = "Moneda de pago registrada: " . $registrado->descripcion . "|Se uso: " . $divisaP . " con nombre: " . $request->nmoneda;
       $alerta->save();
     }
-    $formaPago = InstrumentoMonetario::where("descripcion", $request->forma)->first();
-    if ($perfil->instrumento_monetario !== $formaPago->id) {
+    if ($request->origen == "No identificado") {
       $alerta = new Alerta();
       $alerta->cliente_id = $request->id;
       $alerta->credito_id = $creditoId;
       $alerta->estatus = 1;
       $alerta->observacion = "";
       $alerta->prioridad = "Alta";
-      $alerta->tipo_alerta = "FormaPago";
-      $alerta->titulo = "Forma de pago seleccionada diferente";
-      $registrado = InstrumentoMonetario::find($perfil->instrumento_monetario);
-      $alerta->descripcion = "Forma de pago registrada: " . $registrado->descripcion . "\nSe uso: " . $request->forma;
+      $alerta->tipo_alerta = "Origen de recursos";
+      $alerta->titulo = "Origen de recursos peligroso";
+      $alerta->descripcion = "Se registro un origen de recursos: " . $request->origen;
       $alerta->save();
+    } else {
+      if ($request->origen == "Cuentas de terceros") {
+        if ($request->cterceros == "Relacionados en listas negras") {
+          $alerta = new Alerta();
+          $alerta->cliente_id = $request->id;
+          $alerta->credito_id = $creditoId;
+          $alerta->estatus = 1;
+          $alerta->observacion = "";
+          $alerta->prioridad = "Alta";
+          $alerta->tipo_alerta = "Origen de recursos";
+          $alerta->titulo = "Origen de recursos peligroso";
+          $alerta->descripcion = "Se registro un origen de recursos: " . $request->origen . "|De tipo: " . $request->cterceros;
+          $alerta->save();
+        } else {
+          $alerta = new Alerta();
+          $alerta->cliente_id = $request->id;
+          $alerta->credito_id = $creditoId;
+          $alerta->estatus = 1;
+          $alerta->observacion = "";
+          $alerta->prioridad = "Alta";
+          $alerta->tipo_alerta = "Origen de recursos";
+          $alerta->titulo = "Origen de recursos peligroso";
+          $alerta->descripcion = "Se registro un origen de recursos: " . $request->origen . "|De tipo: Otros ," . $request->cterceros;
+          $alerta->save();
+        }
+      }
     }
     $pagomesGlobal = ConfigAlertas::all()->first();
     $numeroPagoMes = $perfil->nPagosMes + $pagomesGlobal->pagosMes;
@@ -56,7 +80,7 @@ class Alerta extends Model
       $alerta->prioridad = "Alta";
       $alerta->tipo_alerta = "Numero de pagos";
       $alerta->titulo = "Numero de pagos mayor";
-      $alerta->descripcion = "Se pueden realizar: " . $numeroPagoMes . " pagos por mes\nSe han realizado: " . $nPagosMes;
+      $alerta->descripcion = "Se pueden realizar: " . $numeroPagoMes . " pagos por mes|Se han realizado: " . $nPagosMes;
       $alerta->save();
     }
     if ($pagomesGlobal->monto > $request->monto) {
@@ -68,24 +92,63 @@ class Alerta extends Model
       $alerta->prioridad = "Alta";
       $alerta->tipo_alerta = "Monto de pago";
       $alerta->titulo = "Monto de pago menor";
-      $alerta->descripcion = "El monto debe ser: " . $pagomesGlobal->monto . "\nSe pago: " . $request->monto;
+      $alerta->descripcion = "El monto debe ser: " . $pagomesGlobal->monto . "|Se pago: " . $request->monto;
       $alerta->save();
     }
-//    $origen = OrigenRecursos::where("descripcion",$request->origen)->first();
-//    echo json_encode($request->origen);
-//    return;
-//    if ($perfil->origen_recursos !== $origen->id) {
-//      $alerta = new Alerta();
-//      $alerta->cliente_id = $request->id;
-//      $alerta->credito_id = $creditoId;
-//      $alerta->estatus = 1;
-//      $alerta->observacion = "";
-//      $alerta->prioridad = "Alta";
-//      $alerta->tipo_alerta = "Origen de los recursos";
-//      $alerta->titulo = "Origen de recursos diferente";
-//      $alerta->descripcion = "Origen de recursos diferente";
-//      $alerta->save();
-//    }
+    if ($request->forma === 0) {
+      $alerta = new Alerta();
+      $alerta->cliente_id = $request->id;
+      $alerta->credito_id = $creditoId;
+      $alerta->estatus = 1;
+      $alerta->observacion = "";
+      $alerta->prioridad = "Alta";
+      $alerta->tipo_alerta = "FormaPago";
+      $alerta->titulo = "Forma de pago seleccionada diferente";
+      $registrado = InstrumentoMonetario::find($perfil->instrumento_monetario);
+      $alerta->descripcion = "Forma de pago registrada: " . $registrado->descripcion . "|Se uso: " . $request->nforma;
+      $alerta->save();
+    } else {
+      $forma = $request->forma == "Nacional" || $request->forma == "Internacional" ? "Transferencia" : $request->forma;
+      $formaPago = InstrumentoMonetario::where("descripcion", $forma)->first();
+      if ($formaPago->id == 2) {
+        $alerta = new Alerta();
+        $alerta->cliente_id = $request->id;
+        $alerta->credito_id = $creditoId;
+        $alerta->estatus = 1;
+        $alerta->observacion = "";
+        $alerta->prioridad = "Alta";
+        $alerta->tipo_alerta = "FormaPago";
+        $alerta->titulo = "Forma de pago seleccionada diferente";
+        $registrado = InstrumentoMonetario::find($perfil->instrumento_monetario);
+        if ($perfil->instrumento_monetario !== $formaPago->id) {
+          $alerta->descripcion = "Forma de pago registrada: " . $registrado->descripcion . "|Se uso: " . $request->forma;
+          $alerta->save();
+        }
+        if ($request->forma == "Nacional") {
+          if ($request->lnacional !== "En la plaza") {
+            $alerta->descripcion = "Forma de pago registrada: " . $registrado->descripcion . "|Se uso: " . $request->forma . "|En el lugar: " . $request->lnacional;
+            $alerta->save();
+          }
+        } else {
+          $alerta->descripcion = "Forma de pago registrada: " . $registrado->descripcion . "|Se uso: " . $request->forma . "|En el lugar: " . $request->lnacional;
+          $alerta->save();
+        }
+      } else {
+        if ($perfil->instrumento_monetario !== $formaPago->id) {
+          $alerta = new Alerta();
+          $alerta->cliente_id = $request->id;
+          $alerta->credito_id = $creditoId;
+          $alerta->estatus = 1;
+          $alerta->observacion = "";
+          $alerta->prioridad = "Alta";
+          $alerta->tipo_alerta = "FormaPago";
+          $alerta->titulo = "Forma de pago seleccionada diferente";
+          $registrado = InstrumentoMonetario::find($perfil->instrumento_monetario);
+          $alerta->descripcion = "Forma de pago registrada: " . $registrado->descripcion . "|Se uso: " . $request->forma;
+          $alerta->save();
+        }
+      }
+    }
   }
 
 }
