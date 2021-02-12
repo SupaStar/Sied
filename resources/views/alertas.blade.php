@@ -49,6 +49,7 @@
           <th>Estatus</th>
           <th>Observacion</th>
           <th>Prioridad</th>
+          <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
@@ -60,65 +61,141 @@
     </div>
 
 
-    <div class="modal fade text-left" id="DescModal" tabindex="-1" role="dialog"
+    <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel33" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel33">Datos Negocio </h4>
+            <h4 class="modal-title" id="myModalLabel33">Agregar Pago </h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action="#">
+          <form action="/clientes/credito/pago"  enctype="multipart/form-data"  method="POST" class="steps-validation wizard-circle" id="formss" name="formss">
+            @csrf
+
+            <input value='id'  name='id'>
+
             <div class="modal-body">
-              <label>Nombre: </label>
-              <div class="form-group" id="nombre">
-              </div>
-              <label>Genero: </label>
-              <div class="form-group" id="genero">
-              </div>
-              <label>Fecha de Nacimiento: </label>
-              <div class="form-group" id="fnac">
-              </div>
-              <label>País de Nacimiento: </label>
-              <div class="form-group" id="pnac">
-              </div>
-              <label>Ocupación: </label>
-              <div class="form-group" id="ocupacion">
-              </div>
-              <label>Dirección: </label>
-              <div class="form-group" id="direccion">
-              </div>
-              <label>Telefonos: </label>
-              <div class="form-group" id="telefonos">
-              </div>
-              <label>Email: </label>
-              <div class="form-group" id="email">
-              </div>
-              <label>CURP: </label>
-              <div class="form-group" id="curp">
-              </div>
-              <label>RFC: </label>
-              <div class="form-group" id="rfc">
-              </div>
-              <h3>Datos de Cónyuge: </h3>
-              <label>Nombre: </label>
-              <div class="form-group" id="cnombre">
-              </div>
-              <label>Teléfono: </label>
-              <div class="form-group" id="ctelefono">
-              </div>
-              <label>Correo Eletrónico: </label>
-              <div class="form-group" id="cemail">
+              <label>Monto: </label>
+              <div class="form-group">
+                <input type="number" name="monto" step="any" min="0" placeholder="$" class="form-control required" required>
               </div>
 
-              <label>Archivos: </label>
-              <div class="form-group" id="imagenes">
-
+              <label>Moneda </label>
+              <div class="form-group">
+                <select class="form-control" id="moneda" name="moneda" onchange="cmoneda()">
+                  <option selected disabled>Seleccionar</option>
+                  <option value="Nacional">Nacional</option>
+                  <option value="0">Extranjera</option>
+                </select>
               </div>
 
-              <input type="hidden"  class="form-control" id="uid">
+              <div class="form-group" style="display:none" id="cssmoneda">
+                <input type='text' class="form-control " placeholder="Moneda" id="nmoneda"  name="nmoneda" />
+              </div>
+
+              <label>Forma de Pago </label>
+              <div class="form-group">
+                <select class="form-control" id="forma" name="forma" onchange="cforma()">
+                  <option selected disabled>Seleccionar</option>
+                  <option value="Efectivo">Efectivo</option>
+                  <option value="Transferencia">Transferencia</option>
+                  <option value="Cheques">Cheques</option>
+                  <option value="0">Otro</option>
+                </select>
+              </div>
+
+              <div class="form-group" style="display:none" id="cssforma">
+                <input type='text' class="form-control " placeholder="Forma de Pago" id="nforma"  name="nforma" />
+              </div>
+
+              <div  style="display:none" id="trforma">
+                <label>Lugar de Pago </label>
+                <div class="form-group">
+                  <select class="form-control" id="clforma" name="forma" onchange="lforma()">
+                    <option selected disabled>Seleccionar</option>
+                    <option value="Internacional">Internacional</option>
+                    <option value="Nacional">Nacional</option>
+                  </select>
+                </div>
+              </div>
+
+              <div  style="display:none" id="lnacional">
+                <label>Nacional </label>
+                <div class="form-group">
+                  <select class="form-control" id="clnacional" name="lnacional" >
+                    <option selected disabled>Seleccionar</option>
+                    <option value="En la plaza">En la plaza</option>
+                    <option value="En otros estados de la república">En otros estados de la república</option>
+                    <option value="En zona fronteriza">En zona fronteriza</option>
+                  </select>
+                </div>
+              </div>
+
+              <div  style="display:none" id="linternacional">
+                <label>Internacional </label>
+                <div class="form-group">
+                  <select class="form-control" id="clinternacional" name="linternacional" >
+                    <option selected disabled>Seleccionar</option>
+                    <option value="Países no cooperantes">Países no cooperantes</option>
+                    <option value="Paraísos fiscales">Paraísos fiscales</option>
+                    <option value="Otros">Otros</option>
+                  </select>
+                </div>
+              </div>
+
+              <label>Origen </label>
+              <div class="form-group">
+                <select class="form-control" id="origen" name="origen" onchange="corigen()">
+                  <option selected disabled>Seleccionar</option>
+                  <option value="Cuentas propias">Cuentas propias</option>
+                  <option value="En el caso de créditos de nómina, del empleador">En el caso de créditos de nómina, del empleador</option>
+                  <option value="Cuentas de terceros">Cuentas de terceros</option>
+                  <option value="No identificado">No identificado</option>
+                </select>
+              </div>
+
+              <div style="display:none" id="cterceros">
+                <label>Internacional </label>
+                <div class="form-group">
+                  <select class="form-control" id="ccterceros" name="cterceros" onchange="cccterceros()">
+                    <option selected disabled>Seleccionar</option>
+                    <option value="Relacionados en listas negras">Relacionados en listas negras</option>
+                    <option value="Otros">Otros</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style="display:none" id="coterceros">
+                <label>Internacional </label>
+                <div class="form-group">
+                  <select class="form-control" id="ccterceros" name="cterceros" >
+                    <option selected disabled>Seleccionar</option>
+                    <option value="Identificados">Identificados</option>
+                    <option value="No identificados">No identificados</option>
+                  </select>
+                </div>
+              </div>
+
+
+              <label>Comprobante </label>
+              <div class="form-group">
+                <input type="file"
+                       placeholder=".jpg, .jpeg, .png"
+                       class="form-control required" id="comprobante" name="comprobante" accept=".jpg, .jpeg, .png">
+              </div>
+
+              <label>Fecha de Pago </label>
+              <div class="form-group">
+                <input type='text' class="form-control pickadate-disable required" id="fecha" value="{{date('Y-m-d')}}"  name="fecha" required />
+              </div>
+
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success" >Aplicar</button>
             </div>
           </form>
         </div>

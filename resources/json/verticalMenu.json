@@ -85,11 +85,18 @@
       "submenu": [
         {
           "url": "/buzon/buzon",
-          "name": "Buzón",
+          "name": "Crear Buzón",
           "icon": "feather icon-circle",
           "i18n": "nav.dashboard_analytics"
-        }
-      ]
+        },
+          {
+            "url": "/buzon/buzones",
+            "name": "Buzones recibidos",
+            "icon": "feather icon-circle",
+            "i18n": "nav.dashboard_analytics"
+          }
+        ]
+
     }
   ]
 }

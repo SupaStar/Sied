@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Buzon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class BuzonController extends Controller
 {
@@ -15,24 +17,26 @@ class BuzonController extends Controller
 
   public function nuevo(Request $request)
   {
+
     $this->validate($request, [
-      'id' => 'required',
+      //'id' => 'required',
       'titulo' => 'required',
       'descripcion' => 'required',
     ]);
     $buzon = new Buzon();
-    $buzon->usuario_id = $request->id;
+    $id = Auth::id();
+    $buzon->usuario_id = $id;
     $buzon->titulo = $request->titulo;
     $buzon->descripcion = $request->descripcion;
     $buzon->prioridad = $request->prioridad == "" ? "Alta" : $request->prioridad;
     $buzon->save();
-    return response()->json($buzon);
+    return redirect('/buzon/buzon')->with('message', 'OK');;
   }
-  public function xd()
+  public function new()
   {
     $pageConfigs = [
       'mainLayoutType' => 'vertical',
-      'pageName' => 'Alertas'
+      'pageName' => 'Enviar Buzón'
     ];
 
     return view('buzon/nuevo',[
@@ -40,10 +44,16 @@ class BuzonController extends Controller
     ]);
   }
 
-  public function todos()
+  public function todo()
   {
-    $buzones = Buzon::all();
-    return response()->json($buzones);
+    $pageConfigs = [
+      'mainLayoutType' => 'vertical',
+      'pageName' => 'Buzón'
+    ];
+
+    return view('buzon/buzon', [
+      'pageConfigs' => $pageConfigs
+    ]);
   }
 
   public function encontrar($id)
@@ -69,5 +79,20 @@ class BuzonController extends Controller
     $buzon->descripcion = $request->descripcion;
     $buzon->prioridad = $request->prioridad == "" ? "Alta" : $request->prioridad;
     return response()->json($buzon);
+  }
+  public function getBuzones(Request $request)
+  {
+
+    if ($request->filtro == 'Prioridad') {
+      $result = DB::table('buzon')->where('prioridad', 'prioridad');
+    } else {
+      $result = \App\Buzon::all();
+      foreach ($result as $r) {
+        $r->usuario;
+      }
+    }
+
+    return datatables()->of($result)->toJson();
+
   }
 }

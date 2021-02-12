@@ -93,9 +93,14 @@ class Alerta extends Controller
         $r->cliente;
         $r->credito;
       }
-    }
 
-    return datatables()->of($result)->toJson();
+    }
+    return datatables()->of($result)->addColumn('actions', function($query) {
+
+      return '
+              <a href="#" title="Editar"><button style="z-index:999" type="button" data-toggle="modal" data-target="#inlineForm{{$result->id}}" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
+              ';
+    })->rawColumns(['actions'])->toJson();
 
   }
 }

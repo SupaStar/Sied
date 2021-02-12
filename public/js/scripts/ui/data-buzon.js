@@ -87,50 +87,28 @@ function alertas(chn){
         name: 'id'
       },
       {
-        data: 'cliente.name',
-        name: 'cliente.name'
-      },
-      {
-        data: 'credito.id',
-        name: 'credito.id'
-      },
-      {
-        data: 'credito.contrato',
-        name: 'credito.contrato'
-      },
-      {
-        data: 'tipo_alerta',
-        name: 'tipo_alerta'
+        data: 'usuario.name',
+        name: 'usuario.name'
       },
       {
         data: 'titulo',
         name: 'titulo'
-      }
-      ,
+      },
       {
         data: 'descripcion',
         name: 'descripcion'
-      }
-      ,
-      {
-        data: 'credito.status',
-        name: 'credito.status'
       },
       {
-        data: 'observacion',
-        name: 'observacion'
+        data: 'usuario.status',
+        name: 'usuario.status'
       },
       {
         data: 'prioridad',
         name: 'prioridad'
-      },
-      {
-        data: 'actions',
-        name: 'actions'
       }
     ],
     ajax: {
-      url: "/alertas/alerta",
+      url: "/buzon/getbuzon",
       data: {
         "filtro": filtro
       }
