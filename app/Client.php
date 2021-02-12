@@ -68,6 +68,6 @@ class Client extends Model
   }
   public function alertas()
   {
-    return $this->hasMany('App\Alerta', 'cliente_id','id');
+    return $this->hasOne('App\Alerta', 'cliente_id','id');
   }
 }

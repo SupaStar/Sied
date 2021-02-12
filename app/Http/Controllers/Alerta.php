@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class Alerta extends Controller
 {
@@ -35,18 +37,10 @@ class Alerta extends Controller
       'mainLayoutType' => 'vertical',
       'pageName' => 'Alertas'
     ];
-    $alertas = \App\Alerta::all();
-    foreach($alertas as $alerta)
-    {
-      $alerta->cliente;
-      $alerta->credito;
-    }
-
-
 
     return view('alertas',[
       'pageConfigs' => $pageConfigs
-    ])->with('alertas',$alertas);
+    ]);
   }
   public function encontrar($id){
     $alerta=\App\Alerta::find($id);
@@ -72,5 +66,24 @@ class Alerta extends Controller
     $alerta=\App\Alerta::find($id);
     $alerta->estatus=0;
     return response()->json(true);
+  }
+  public function getAlertas(Request $request)
+  {
+
+    if($request->filtro == 'Prioridad'){
+      $result = DB::table('alertas_pld')->where('prioridad', 'prioridad');
+    }elseif($request->filtro == 'Titulo'){
+      $result = DB::table('alertas_pld')->where('titulo', 'titulo');
+    }else{
+      $result=\App\Alerta::all();
+      foreach ($result as $r)
+      {
+        $r->cliente;
+        $r->credito;
+      }
+    }
+
+    return datatables()->of($result)->toJson();
+
   }
 }

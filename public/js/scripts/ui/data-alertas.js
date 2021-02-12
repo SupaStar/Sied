@@ -28,11 +28,8 @@ function alertas(chn){
       '<"top"<"actions action-btns"B><"action-filters"lf>><"clear">rt<"bottom"<"actions">p>',
     buttons: [
       {
-        text: "Nuevo Cliente",
-        action: function() {
-          window.location.href = "/clientes/nuevo/fisica";
-        },
-        className: "btn bg-gradient-primary waves-effect waves-light"
+
+
       }
     ],
     aLengthMenu: [[4, 10, 15, 20], [4, 10, 15, 20]],
@@ -48,7 +45,7 @@ function alertas(chn){
         "visible": false,
         "searchable": false
       },{
-        "targets": [ 2 ],
+        "targets": [ 0 ],
         "visible": false,
         "searchable": false
       },
@@ -85,14 +82,17 @@ function alertas(chn){
       $(".dt-buttons .btn").removeClass("btn-secondary")
     },
     columns: [
-
       {
-        data: 'Nombre Cliente',
-        name: 'Nombre Cliente'
+        data: 'id',
+        name: 'id'
       },
       {
-        data: 'Credito',
-        name: 'Credito'
+        data: 'cliente.name',
+        name: 'cliente.name'
+      },
+      {
+        data: 'credito.nombre',
+        name: 'credito.nombre'
       },
       {
         data: 'tipo_alerta',
@@ -101,14 +101,16 @@ function alertas(chn){
       {
         data: 'titulo',
         name: 'titulo'
-      },
+      }
+      ,
       {
         data: 'descripcion',
         name: 'descripcion'
-      },
+      }
+      ,
       {
-        data: 'estatus',
-        name: 'estatus'
+        data: 'credito.status',
+        name: 'credito.status'
       },
       {
         data: 'observacion',
@@ -118,7 +120,14 @@ function alertas(chn){
         data: 'prioridad',
         name: 'prioridad'
       }
-    ]
+    ],
+    ajax: {
+      url: "/alertas/alerta",
+      data: {
+        "filtro": filtro
+      }
+    }
+
   });
 
   actionDropdown.insertBefore($(".top .actions .dt-buttons"))

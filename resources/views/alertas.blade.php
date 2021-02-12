@@ -26,10 +26,9 @@
             Filtro
           </button>
           <div class="dropdown-menu">
-            <a class="dropdown-item" onclick="clients('');">Todos</a>
-            <a class="dropdown-item" onclick="clients('H');">Masculino</a>
-            <a class="dropdown-item" onclick="clients('M');">Femenino</a>
-            <a class="dropdown-item" onclick="clients('Archivados');">Archivados</a>
+            <a class="dropdown-item" onclick="alertas('');">Todos</a>
+            <a class="dropdown-item" onclick="alertas('Titulos');">Titulos</a>
+            <a class="dropdown-item" onclick="alertas('Prioridad');">Prioridad</a>
           </div>
         </div>
       </div>
@@ -43,29 +42,19 @@
           <th>ID</th>
           <th>Nombre Cliente</th>
           <th>Credito</th>
-          <th>tipo_alerta</th>
-          <th>tipo</th>
-          <th>descripcion</th>
-          <th>estatus</th>
-          <th>observacion</th>
-          <th>prioridad</th>
+          <th>Alerta</th>
+          <th>Titulo</th>
+          <th>Descripcion</th>
+          <th>Estatus</th>
+          <th>Observacion</th>
+          <th>Prioridad</th>
         </tr>
         </thead>
         <tbody>
-        @foreach($alertas as $configuracion)
-        <tr>
-          <td>{!! $configuracion->id !!}</td>
-          <td >{!! $configuracion->cliente->name !!}</td>
-          <td>{!! $configuracion->credito->nombre !!}</td>
-          <td>{!! $configuracion->tipo_alerta !!}</td>
-          <td>{!! $configuracion->titulo !!}</td>
-          <td>{!! $configuracion->descripcion !!}</td>
-          <td>{!! $configuracion->credito->status !!}</td>
-          <td>{!! $configuracion->observacion !!}</td>
-          <td>{!! $configuracion->prioridad !!}</td>
-        </tr>
-        @endforeach
-        </tbody>
+       <!--
+
+
+        --></tbody>
       </table>
     </div>
 
