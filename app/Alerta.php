@@ -83,6 +83,18 @@ class Alerta extends Model
       $alerta->descripcion = "Se pueden realizar: " . $numeroPagoMes . " pagos por mes|Se han realizado: " . $nPagosMes;
       $alerta->save();
     }
+    if ($request->monto > 93726.93) {
+      $alerta = new Alerta();
+      $alerta->cliente_id = $request->id;
+      $alerta->credito_id = $creditoId;
+      $alerta->estatus = 1;
+      $alerta->observacion = "";
+      $alerta->prioridad = "Alta";
+      $alerta->tipo_alerta = "Cantidad de pago";
+      $alerta->titulo = "El pago es muy grande";
+      $alerta->descripcion = "Se realizo un pago de: " . $request->monto;
+      $alerta->save();
+    }
     if ($pagomesGlobal->monto > $request->monto) {
       $alerta = new Alerta();
       $alerta->cliente_id = $request->id;
@@ -150,10 +162,12 @@ class Alerta extends Model
       }
     }
   }
+
   public function cliente()
   {
-    return $this->hasOne('\App\Client', 'id','cliente_id');
+    return $this->hasOne('\App\Client', 'id', 'cliente_id');
   }
+
   public function credito()
   {
     return $this->hasOne('\App\Creditos', 'id', 'credito_id');
