@@ -43,6 +43,8 @@ class RouteServiceProvider extends ServiceProvider
 
     $this->mapConfiguracionAlertaRoutes();
 
+    $this->mapBuzonRoutes();
+
     //
   }
 
@@ -88,5 +90,12 @@ class RouteServiceProvider extends ServiceProvider
       ->middleware('api')
       ->namespace($this->namespace)
       ->group(base_path('routes/configuracionAlertas.php'));
+  }
+  public function mapBuzonRoutes()
+  {
+    Route::prefix('buzon')
+      ->middleware('api')
+      ->namespace($this->namespace)
+      ->group(base_path('routes/buzon.php'));
   }
 }
