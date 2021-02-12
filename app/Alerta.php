@@ -83,7 +83,7 @@ class Alerta extends Model
       $alerta->descripcion = "Se pueden realizar: " . $numeroPagoMes . " pagos por mes|Se han realizado: " . $nPagosMes;
       $alerta->save();
     }
-    if ($request->monto > 4700) {
+    if ($request->monto > 93726.93) {
       $alerta = new Alerta();
       $alerta->cliente_id = $request->id;
       $alerta->credito_id = $creditoId;
