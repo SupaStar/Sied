@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class Alerta extends Controller
 {
+  public function __construct()
+  {
+    $this->middleware('auth');
+    $this->middleware('checkStatus');
+  }
+
   public function nueva(Request $request)
   {
     $this->validate($request, [
@@ -38,22 +44,26 @@ class Alerta extends Controller
       'pageName' => 'Alertas'
     ];
 
-    return view('alertas',[
+    return view('alertas', [
       'pageConfigs' => $pageConfigs
     ]);
   }
-  public function encontrar($id){
-    $alerta=\App\Alerta::find($id);
+
+  public function encontrar($id)
+  {
+    $alerta = \App\Alerta::find($id);
     return response()->json($alerta);
   }
-  public function editar($id,Request $request){
+
+  public function editar($id, Request $request)
+  {
     $this->validate($request, [
       'tipo_alerta' => 'required',
       'titulo' => 'required',
       'descripcion' => 'required',
       'prioridad' => 'required',
     ]);
-    $alerta=\App\Alerta::find($id);
+    $alerta = \App\Alerta::find($id);
     $alerta->tipo_alerta = $request->tipo_alerta;
     $alerta->titulo = $request->titulo;
     $alerta->descripcion = $request->descripcion;
@@ -62,22 +72,24 @@ class Alerta extends Controller
     $alerta->save();
     return response()->json($alerta);
   }
-  public function eliminar($id){
-    $alerta=\App\Alerta::find($id);
-    $alerta->estatus=0;
+
+  public function eliminar($id)
+  {
+    $alerta = \App\Alerta::find($id);
+    $alerta->estatus = 0;
     return response()->json(true);
   }
+
   public function getAlertas(Request $request)
   {
 
-    if($request->filtro == 'Prioridad'){
+    if ($request->filtro == 'Prioridad') {
       $result = DB::table('alertas_pld')->where('prioridad', 'prioridad');
-    }elseif($request->filtro == 'Titulo'){
+    } elseif ($request->filtro == 'Titulo') {
       $result = DB::table('alertas_pld')->where('titulo', 'titulo');
-    }else{
-      $result=\App\Alerta::all();
-      foreach ($result as $r)
-      {
+    } else {
+      $result = \App\Alerta::all();
+      foreach ($result as $r) {
         $r->cliente;
         $r->credito;
       }
