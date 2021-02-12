@@ -65,7 +65,7 @@
       "name": "Alertas",
       "slug": "alertas",
       "badgeClass": "badge badge-warning badge-pill float-right mr-2",
-      "icon": "feather feather-alert-circle",
+      "icon": "feather icon-alert-circle",
       "submenu": [
         {
           "url": "/alertas/alertas",
@@ -81,7 +81,7 @@
       "name": "Buzon",
       "slug": "buzon",
       "badgeClass": "badge badge-warning badge-pill float-right mr-2",
-      "icon": "feather feather-arrow-down-circle",
+      "icon": "feather icon-mail",
       "submenu": [
         {
           "url": "/buzon/buzon",
