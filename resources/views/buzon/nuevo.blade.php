@@ -16,27 +16,29 @@
                 @csrf
                 <div class="form-body">
                   <div class="row">
-                    <div class="col-md-3 col-12">
+                    <div class="col col-12">
                       <div class="form-label-group">
                         <input type="text" id="first-name-column" class="form-control" placeholder="Titulo:" name="titulo" required>
                         <label for="first-name-column">Titulo:</label>
                       </div>
                     </div>
-                    <div class="col-md-3 col-12">
+                    <div class="col col-12">
                       <div class="form-label-group">
                         <input type="text" id="last-name-column" class="form-control" placeholder="Descripcion:" name="descripcion" required>
                         <label for="last-name-column">Descripcion:</label>
                       </div>
                     </div>
-                    <div class="col-md-3 col-12">
+
+                    <div class="col col-12">
                       <div class="form-label-group">
-                        <input type="text" id="city-column" class="form-control" placeholder="estatus:" name="estatus" required>
-                        <label for="city-column">estatus</label>
-                      </div>
-                    </div>
-                    <div class="col-md-3 col-12">
-                      <div class="form-label-group">
-                        <input type="text" id="city-column" class="form-control" placeholder="prioridad:" name="prioridad" required>
+                        <select class="form-control" id="prioridad" name="prioridad" readonly>
+
+                            <option selected disabled>Seleccione la prioridad</option>
+                            <option value="Alta">Alta</option>
+                            <option value="Baja">Baja</option>
+
+
+                        </select>
                         <label for="city-column">prioridad</label>
                       </div>
                     </div>
@@ -64,7 +66,7 @@
       @if (session('message'))
       Swal.fire({
         title: "Bien!",
-        text: "Pago aplicado correctamente!",
+        text: "Su buzón fue enviado correctamente!",
         type: "success",
         confirmButtonClass: 'btn btn-primary',
         buttonsStyling: false,

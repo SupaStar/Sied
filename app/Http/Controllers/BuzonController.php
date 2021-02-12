@@ -73,6 +73,7 @@ class BuzonController extends Controller
     $this->validate($request, [
       'titulo' => 'required',
       'descripcion' => 'required',
+      'prioridad'=>'required',
     ]);
     $buzon = Buzon::find($id);
     $buzon->titulo = $request->titulo;
