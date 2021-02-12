@@ -15,21 +15,24 @@
               <form class="form" action="/buzon/nuevo" method="post">
                 @csrf
                 <div class="form-body">
-                  <div class="row">
-                    <div class="col col-12">
+                  <div class="row justify-content-md-center ">
+                    <div class="col col-6">
                       <div class="form-label-group">
                         <input type="text" id="first-name-column" class="form-control" placeholder="Titulo:" name="titulo" required>
                         <label for="first-name-column">Titulo:</label>
                       </div>
                     </div>
-                    <div class="col col-12">
+                  </div>
+                    <div class="row justify-content-md-center ">
+                    <div class="col col-6">
                       <div class="form-label-group">
-                        <input type="text" id="last-name-column" class="form-control" placeholder="Descripcion:" name="descripcion" required>
+                        <textarea type="text" id="last-name-column" class="form-control" placeholder="Descripcion:" name="descripcion" required></textarea>
                         <label for="last-name-column">Descripcion:</label>
                       </div>
                     </div>
-
-                    <div class="col col-12">
+                    </div>
+                      <div class="row justify-content-md-center ">
+                    <div class="col col-6">
                       <div class="form-label-group">
                         <select class="form-control" id="prioridad" name="prioridad" readonly>
 
@@ -42,13 +45,15 @@
                         <label for="city-column">prioridad</label>
                       </div>
                     </div>
-
-                    <div class="col-12">
+                      </div>
+                        <div class="row justify-content-md-center ">
+                    <div class="col col-3">
                       <button type="reset" class="btn btn-outline-warning mr-1 mb-1">Cancelar</button>
                       <button type="submit" class="btn btn-primary mr-1 mb-1">Aceptar</button>
                     </div>
                   </div>
                 </div>
+
               </form>
             </div>
           </div>

@@ -74,7 +74,7 @@
           <form action="/clientes/credito/pago"  enctype="multipart/form-data"  method="POST" class="steps-validation wizard-circle" id="formss" name="formss">
             @csrf
 
-            <input value='id'  name='id'>
+            <input id="inid"  name='id'>
 
             <div class="modal-body">
               <label>Monto: </label>

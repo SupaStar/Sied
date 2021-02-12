@@ -86,9 +86,15 @@ function alertas(chn){
         data: 'id',
         name: 'id'
       },
-      {
-        data: 'usuario.name',
-        name: 'usuario.name'
+      {"render":
+          function ( data,type,row ) {
+            return row.usuario.name+" "+row.usuario.lastname+" "+ row.usuario.o_lastname;
+            // donde, en teoría:
+            // row[3] es 'primer_nombre'
+            // row[4] es 'segundo_nombre'
+            // row[5] es 'apellido_paterno'
+            // row[6] es 'apellido_materno'
+          }
       },
       {
         data: 'titulo',
@@ -107,6 +113,7 @@ function alertas(chn){
         name: 'prioridad'
       }
     ],
+
     ajax: {
       url: "/buzon/getbuzon",
       data: {

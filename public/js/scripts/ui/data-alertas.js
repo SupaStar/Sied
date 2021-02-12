@@ -86,9 +86,15 @@ function alertas(chn){
         data: 'id',
         name: 'id'
       },
-      {
-        data: 'cliente.name',
-        name: 'cliente.name'
+      {"render":
+          function ( data,type,row ) {
+            return row.cliente.name+" "+row.cliente.lastname+" "+ row.cliente.o_lastname;
+            // donde, en teoría:
+            // row[3] es 'primer_nombre'
+            // row[4] es 'segundo_nombre'
+            // row[5] es 'apellido_paterno'
+            // row[6] es 'apellido_materno'
+          }
       },
       {
         data: 'credito.id',
@@ -128,7 +134,9 @@ function alertas(chn){
         data: 'actions',
         name: 'actions'
       }
-    ],
+    ],function(data) {
+      $("#inid").val("1")
+    },
     ajax: {
       url: "/alertas/alerta",
       data: {

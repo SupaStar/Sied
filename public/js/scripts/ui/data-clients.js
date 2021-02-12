@@ -273,6 +273,7 @@ function descmodal(id){
     id: id,
     _token: token
 }, function(data) {
+
   $('#nombre').html(data['nombre']);
   $('#genero').html(data['genero']);
   $('#fnac').html(data['fnac']);
