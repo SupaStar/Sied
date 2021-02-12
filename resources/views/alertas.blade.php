@@ -41,7 +41,8 @@
         <tr>
           <th>ID</th>
           <th>Nombre Cliente</th>
-          <th>Credito</th>
+          <th>Credito Id</th>
+          <th>Contrato de credito</th>
           <th>Alerta</th>
           <th>Titulo</th>
           <th>Descripcion</th>

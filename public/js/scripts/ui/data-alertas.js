@@ -91,8 +91,12 @@ function alertas(chn){
         name: 'cliente.name'
       },
       {
-        data: 'credito.nombre',
-        name: 'credito.nombre'
+        data: 'credito.id',
+        name: 'credito.id'
+      },
+      {
+        data: 'credito.contrato',
+        name: 'credito.contrato'
       },
       {
         data: 'tipo_alerta',

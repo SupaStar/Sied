@@ -156,6 +156,6 @@ class Alerta extends Model
   }
   public function credito()
   {
-    return $this->hasOne('\App\Credito', 'id', 'credito_id');
+    return $this->hasOne('\App\Creditos', 'id', 'credito_id');
   }
 }
