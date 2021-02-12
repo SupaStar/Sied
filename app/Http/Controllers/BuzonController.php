@@ -28,7 +28,7 @@ class BuzonController extends Controller
     $buzon->save();
     return response()->json($buzon);
   }
-  public function todo()
+  public function xd()
   {
     $pageConfigs = [
       'mainLayoutType' => 'vertical',
