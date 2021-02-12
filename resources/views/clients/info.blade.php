@@ -267,6 +267,7 @@
                                   <select class="form-control" id="entidad" name="entidad" readonly>
                                     <option selected disabled>Seleccionar</option>
                                     @foreach ($entidad as $dd)
+                                    @foreach ($entidad as $dd)
                                         <option @if(isset($datos->ef) && $datos->ef == $dd->code) selected @endif  value="{{$dd->code}}">{{$dd->entity}}</option>
                                     @endforeach
                                   </select>
@@ -927,7 +928,7 @@ $(document).ready(function(){
           }
         }
 
-        
+
 
 
 
@@ -1092,7 +1093,7 @@ $(document).ready(function(){
 
         }
 
-        
+
 
         function historialFlujo(id)
         {

@@ -55,22 +55,16 @@ class Alerta extends Controller
     return response()->json($alerta);
   }
 
-  public function editar($id, Request $request)
+  public function editar(Request $request)
   {
     $this->validate($request, [
-      'tipo_alerta' => 'required',
-      'titulo' => 'required',
-      'descripcion' => 'required',
-      'prioridad' => 'required',
+
+      'observacion' => 'required',
     ]);
-    $alerta = \App\Alerta::find($id);
-    $alerta->tipo_alerta = $request->tipo_alerta;
-    $alerta->titulo = $request->titulo;
-    $alerta->descripcion = $request->descripcion;
+    $alerta = \App\Alerta::find($request->id);
     $alerta->observacion = $request->observacion;
-    $alerta->prioridad = $request->prioridad;
     $alerta->save();
-    return response()->json($alerta);
+    return redirect('/alertas/alertas')->with('message', 'OK');
   }
 
   public function eliminar($id)
@@ -98,7 +92,7 @@ class Alerta extends Controller
     return datatables()->of($result)->addColumn('actions', function($query) {
 
       return '
-              <a href="#" title="Editar"><button style="z-index:999" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
+              <a href="#"  title="Editar"><button style="z-index:999" id="' . $query->id . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
               ';
     })->rawColumns(['actions'])->toJson();
 

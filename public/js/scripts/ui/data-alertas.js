@@ -134,9 +134,7 @@ function alertas(chn){
         data: 'actions',
         name: 'actions'
       }
-    ],function(data) {
-      $("#inid").val("1")
-    },
+    ],
     ajax: {
       url: "/alertas/alerta",
       data: {
