@@ -130,7 +130,7 @@ class Alerta extends Model
             $alerta->save();
           }
         } else {
-          $alerta->descripcion = "Forma de pago registrada: " . $registrado->descripcion . "|Se uso: " . $request->forma . "|En el lugar: " . $request->lnacional;
+          $alerta->descripcion = "Forma de pago registrada: " . $registrado->descripcion . "|Se uso: " . $request->forma . "|En el lugar: " . $request->linternacional;
           $alerta->save();
         }
       } else {
