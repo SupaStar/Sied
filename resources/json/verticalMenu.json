@@ -59,7 +59,37 @@
           "i18n": "nav.dashboard_analytics"
         }
       ]
+    },
+    {
+      "url": "",
+      "name": "Alertas",
+      "slug": "alertas",
+      "badgeClass": "badge badge-warning badge-pill float-right mr-2",
+      "icon": "feather feather-alert-circle",
+      "submenu": [
+        {
+          "url": "/alertas/alertas",
+          "name": "Alertas",
+          "icon": "feather icon-circle",
+          "i18n": "nav.dashboard_analytics"
+        }
+      ]
     }
-
+  ,
+    {
+      "url": "",
+      "name": "Buzon",
+      "slug": "buzon",
+      "badgeClass": "badge badge-warning badge-pill float-right mr-2",
+      "icon": "feather feather-arrow-down-circle",
+      "submenu": [
+        {
+          "url": "/buzon/buzon",
+          "name": "Buzón",
+          "icon": "feather icon-circle",
+          "i18n": "nav.dashboard_analytics"
+        }
+      ]
+    }
   ]
 }

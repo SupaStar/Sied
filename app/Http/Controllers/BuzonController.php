@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class BuzonController extends Controller
 {
+  public function __construct()
+  {
+    $this->middleware('auth');
+    $this->middleware('checkStatus');
+  }
+
   public function nuevo(Request $request)
   {
     $this->validate($request, [
@@ -22,6 +28,17 @@ class BuzonController extends Controller
     $buzon->save();
     return response()->json($buzon);
   }
+  public function todo()
+  {
+    $pageConfigs = [
+      'mainLayoutType' => 'vertical',
+      'pageName' => 'Alertas'
+    ];
+
+    return view('buzon/nuevo',[
+      'pageConfigs' => $pageConfigs
+    ]);
+  }
 
   public function todos()
   {
@@ -34,7 +51,6 @@ class BuzonController extends Controller
     $buzon = Buzon::find($id);
     return response()->json($buzon);
   }
-
   public function eliminar($id)
   {
     $buzon = Buzon::find($id);
