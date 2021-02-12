@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class BuzonController extends Controller
 {
+  public function __construct()
+  {
+    $this->middleware('auth');
+    $this->middleware('checkStatus');
+  }
+
   public function nuevo(Request $request)
   {
     $this->validate($request, [
