@@ -119,8 +119,8 @@ function alertas(chn){
       }
       ,
       {
-        data: 'credito.status',
-        name: 'credito.status'
+        data: 'estatus',
+        name: 'estatus'
       },
       {
         data: 'observacion',

@@ -84,6 +84,14 @@ class Alerta extends Controller
     } else {
       $result = \App\Alerta::all();
       foreach ($result as $r) {
+        if($r->estatus==1)
+        {
+          $r->estatus="Nuevo";
+        }
+        elseif($r->estatus==2)
+        {
+          $r->estatus="En proceso";
+        }
         $r->cliente;
         $r->credito;
       }
