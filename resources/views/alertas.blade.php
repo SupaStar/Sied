@@ -66,7 +66,7 @@
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel33">Agregar Pago </h4>
+            <h4 class="modal-title" id="myModalLabel33">Modificar Alerta </h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>

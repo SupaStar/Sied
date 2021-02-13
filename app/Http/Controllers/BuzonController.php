@@ -68,18 +68,16 @@ class BuzonController extends Controller
     return response()->json($buzon);
   }
 
-  public function editar($id, Request $request)
+  public function editar(Request $request)
   {
     $this->validate($request, [
-      'titulo' => 'required',
-      'descripcion' => 'required',
-      'prioridad'=>'required',
+      'estatus' => 'required',
+
     ]);
-    $buzon = Buzon::find($id);
-    $buzon->titulo = $request->titulo;
-    $buzon->descripcion = $request->descripcion;
-    $buzon->prioridad = $request->prioridad == "" ? "Alta" : $request->prioridad;
-    return response()->json($buzon);
+    $buzon = Buzon::find($request->id);
+    $buzon->estatus = $request->estatus;
+    $buzon->save();
+    return redirect('/buzon/buzones')->with('message', 'OK');
   }
   public function getBuzones(Request $request)
   {
@@ -89,11 +87,23 @@ class BuzonController extends Controller
     } else {
       $result = \App\Buzon::all();
       foreach ($result as $r) {
+        if ($r->estatus == 1) {
+          $r->estatus = "Nuevo";
+        } elseif ($r->estatus == 2) {
+          $r->estatus = "En proceso";
+        }
+        else{
+          $r->estatus="Revisado";
+        }
         $r->usuario;
       }
     }
 
-    return datatables()->of($result)->toJson();
+    return datatables()->of($result)->addColumn('actions', function ($query) {
 
+      return '
+              <a href="#"  title="Editar"><button style="z-index:999" value="'.$query->estatus.'"  id="' . $query->id . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
+              ';
+    })->rawColumns(['actions'])->toJson();
   }
 }

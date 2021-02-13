@@ -44,6 +44,7 @@
           <th>Descripción</th>
           <th>Estatus</th>
           <th>Prioridad</th>
+          <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
@@ -55,65 +56,41 @@
     </div>
 
 
-    <div class="modal fade text-left" id="DescModal" tabindex="-1" role="dialog"
+    <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel33" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel33">Datos Negocio </h4>
+            <h4 class="modal-title" id="myModalLabel33">Modificar estatus </h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action="#">
+          <form action="/buzon/editar"  enctype="multipart/form-data"  method="POST" class="steps-validation wizard-circle" id="formss" name="formss">
+            @csrf
+
+            <input type="hidden" id="inid" value="" name='id'>
+
             <div class="modal-body">
-              <label>Nombre: </label>
-              <div class="form-group" id="nombre">
-              </div>
-              <label>Genero: </label>
-              <div class="form-group" id="genero">
-              </div>
-              <label>Fecha de Nacimiento: </label>
-              <div class="form-group" id="fnac">
-              </div>
-              <label>País de Nacimiento: </label>
-              <div class="form-group" id="pnac">
-              </div>
-              <label>Ocupación: </label>
-              <div class="form-group" id="ocupacion">
-              </div>
-              <label>Dirección: </label>
-              <div class="form-group" id="direccion">
-              </div>
-              <label>Telefonos: </label>
-              <div class="form-group" id="telefonos">
-              </div>
-              <label>Email: </label>
-              <div class="form-group" id="email">
-              </div>
-              <label>CURP: </label>
-              <div class="form-group" id="curp">
-              </div>
-              <label>RFC: </label>
-              <div class="form-group" id="rfc">
-              </div>
-              <h3>Datos de Cónyuge: </h3>
-              <label>Nombre: </label>
-              <div class="form-group" id="cnombre">
-              </div>
-              <label>Teléfono: </label>
-              <div class="form-group" id="ctelefono">
-              </div>
-              <label>Correo Eletrónico: </label>
-              <div class="form-group" id="cemail">
-              </div>
 
-              <label>Archivos: </label>
-              <div class="form-group" id="imagenes">
 
+              <label>estatus: </label>
+              <div class="form-group">
+                <select class="form-control" id="estatus" name="estatus" readonly>
+
+                  <option selected disabled>Seleccione la prioridad</option>
+                  <option value="1">Nuevo</option>
+                  <option value="2">En proceso</option>
+                  <option value="3">Revisado</option>
+
+
+                </select>
               </div>
+            </div>
 
-              <input type="hidden"  class="form-control" id="uid">
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success" >Aplicar</button>
             </div>
           </form>
         </div>
@@ -125,41 +102,7 @@
 
 
 
-  {{-- Modal --}}
-  <div class="modal fade text-left" id="myfiles" tabindex="-1" role="dialog"
-       aria-labelledby="myModalLabel130" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
-      <div class="modal-content">
-        <div class="modal-header bg-info white">
-          <h5 class="modal-title" id="myModalLabel130">Archivos</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="table-responsive">
-            <table class="table table-hover mb-0">
-              <thead>
-              <tr>
-                <th>Archivo</th>
-                <th>Tipo</th>
-                <th>Subido</th>
-                <th>Ver</th>
-                <th>Descargar</th>
-              </tr>
-              </thead>
-              <tbody id="seemyfiles">
 
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
-        </div>
-      </div>
-    </div>
-  </div>
 @endsection
 @section('vendor-script')
   {{-- vendor js files --}}
@@ -178,10 +121,34 @@
   <script src="{{ asset('js/scripts/ui/data-buzon.js') }}?{{rand()}}"></script>
   <script>
     $(document).ready(function () {
+      $(function() {
+        $(document).on('click', 'button[type="button"]', function(event) {
+          let id = this.id;
+          let id2 = this.ariaLabel;
+          let id3 = this.value;
+
+          var value =id;
+          var value2 =id2;
+          var value3 =id3;
+          if(value3=="Nuevo")
+          {
+            $('#estatus').val(1);
+          }
+          else if(value3=="En proceso"){
+            $('#estatus').val(2);
+          }
+          else {
+            $('#estatus').val(3);
+          }
+          $('#inid').val(value);
+          $('#observacion').val(value2);
+
+        });
+      });
       @if (session('message'))
       Swal.fire({
         title: "Bien!",
-        text: "Cliente creado correctamente!",
+        text: "Estatus editada correctamente!",
         type: "success",
         confirmButtonClass: 'btn btn-primary',
         buttonsStyling: false,
@@ -189,45 +156,6 @@
         customClass: 'animated tada'
       });
       @endif
-      @if (session('perfil'))
-      Swal.fire({
-        title: "Bien!",
-        text: "Perfil Transacional Actualizado Correctamente!",
-        type: "success",
-        confirmButtonClass: 'btn btn-primary',
-        buttonsStyling: false,
-        animation: false,
-        customClass: 'animated tada'
-      });
-      @endif
-      @if (session('ebr'))
-      Swal.fire({
-        title: "Bien!",
-        text: "Criterio de Riesgo Actualizado Correctamente!",
-        type: "success",
-        confirmButtonClass: 'btn btn-primary',
-        buttonsStyling: false,
-        animation: false,
-        customClass: 'animated tada'
-      });
-      @endif
-      @if (session('credito'))
-      Swal.fire({
-        title: "Bien!",
-        text: "Credito Aprobado correctamente!",
-        type: "success",
-        confirmButtonClass: 'btn btn-primary',
-        buttonsStyling: false,
-        animation: false,
-        customClass: 'animated tada'
-      });
-      @endif
-
     });
-
-
-
-    function edit(id){
-    }
   </script>
 @endsection

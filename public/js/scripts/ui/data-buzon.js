@@ -105,12 +105,17 @@ function alertas(chn){
         name: 'descripcion'
       },
       {
-        data: 'usuario.status',
-        name: 'usuario.status'
+        data: 'estatus',
+        name: 'estatus'
       },
       {
         data: 'prioridad',
         name: 'prioridad'
+      }
+      ,
+      {
+        data: 'actions',
+        name: 'actions'
       }
     ],
 
