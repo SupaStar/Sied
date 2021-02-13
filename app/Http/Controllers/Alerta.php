@@ -58,11 +58,12 @@ class Alerta extends Controller
   public function editar(Request $request)
   {
     $this->validate($request, [
-
       'observacion' => 'required',
+      'estatus' => 'required'
     ]);
     $alerta = \App\Alerta::find($request->id);
     $alerta->observacion = $request->observacion;
+    $alerta->estatus = $request->estatus;
     $alerta->save();
     return redirect('/alertas/alertas')->with('message', 'OK');
   }
@@ -84,20 +85,17 @@ class Alerta extends Controller
     } else {
       $result = \App\Alerta::all();
       foreach ($result as $r) {
-        if($r->estatus==1)
-        {
-          $r->estatus="Nuevo";
-        }
-        elseif($r->estatus==2)
-        {
-          $r->estatus="En proceso";
+        if ($r->estatus == 1) {
+          $r->estatus = "Nuevo";
+        } elseif ($r->estatus == 2) {
+          $r->estatus = "En proceso";
         }
         $r->cliente;
         $r->credito;
       }
 
     }
-    return datatables()->of($result)->addColumn('actions', function($query) {
+    return datatables()->of($result)->addColumn('actions', function ($query) {
 
       return '
               <a href="#"  title="Editar"><button style="z-index:999" id="' . $query->id . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
