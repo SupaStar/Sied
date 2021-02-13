@@ -174,7 +174,7 @@
       @if (session('message'))
       Swal.fire({
         title: "Bien!",
-        text: "Observacion creada correctamente!",
+        text: "Observacion editada correctamente!",
         type: "success",
         confirmButtonClass: 'btn btn-primary',
         buttonsStyling: false,
