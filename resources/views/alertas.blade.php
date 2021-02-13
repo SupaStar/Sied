@@ -81,6 +81,17 @@
               <div class="form-group">
                 <textarea type="text" name="observacion"  placeholder="Observacion" class="form-control required" required></textarea>
               </div>
+              <label>estatus: </label>
+              <div class="form-group">
+                <select class="form-control" name="estatus" readonly>
+
+                  <option selected disabled>Seleccione la prioridad</option>
+                  <option value="1">Nuevo</option>
+                  <option value="2">En proceso</option>
+
+
+                </select>
+              </div>
               </div>
 
             <div class="modal-footer">
@@ -154,6 +165,7 @@
       $(function() {
         $(document).on('click', 'button[type="button"]', function(event) {
           let id = this.id;
+
           var value =id;
           $('#inid').val(value);
           console.log("Se presionó el Boton con Id :"+ value)
