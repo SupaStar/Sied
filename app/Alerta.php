@@ -163,6 +163,24 @@ class Alerta extends Model
     }
   }
 
+  public function validarDestino(Request $request, $idC, $creditoId)
+  {
+    $perfil = Perfil::where("cliente_id", $idC)->first();
+    if ($perfil->origen_recursos !== $request->recurso) {
+      $alerta = new Alerta();
+      $alerta->credito_id = $creditoId;
+      $alerta->estatus = 1;
+      $alerta->observacion = "";
+      $alerta->prioridad = "Alta";
+      $alerta->tipo_alerta = "Destino";
+      $alerta->titulo = "Destino recursos seleccionada diferente";
+      $registrado = DestinoRecursos::find($perfil->destino_recursos);
+      $seleccionado = DestinoRecursos::find($request->recurso);
+      $alerta->descripcion = "Destino de pago registrado: " . $registrado->descripcion . "|Se uso: " . $seleccionado->descripcion;
+      $alerta->save();
+    }
+  }
+
   public function cliente()
   {
     return $this->hasOne('\App\Client', 'id', 'cliente_id');

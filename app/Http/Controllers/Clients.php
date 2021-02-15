@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\AgenteAlerta;
 use App\Alerta;
+use App\DestinoCredito;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
@@ -3004,7 +3005,15 @@ class Clients extends Controller
 
 
     Client::where('id', $id)->update(['status' => 'credito']);
-
+    $origenC = new DestinoCredito();
+    $origenC->id_credito = $ncredito->id;
+    $origenC->id_origen_recursos = $request->recurso;
+    $origenC->titular = $request->titular;
+    $origenC->numero_cuenta_clabe = $request->numero_cuenta_clabe;
+    $origenC->tipo_cuenta = $request->tipo_cuenta;
+    $origenC->save();
+    $alerta = new Alerta();
+    $alerta->validarDestino($request, $id, $ncredito->id);
     return redirect('/clientes/fisica')->with('credito', 'OK');
 
   }

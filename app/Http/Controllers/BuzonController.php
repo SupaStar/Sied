@@ -9,29 +9,21 @@ use Illuminate\Support\Facades\DB;
 
 class BuzonController extends Controller
 {
-  public function __construct()
-  {
-    $this->middleware('auth');
-    $this->middleware('checkStatus');
-  }
 
   public function nuevo(Request $request)
   {
-
     $this->validate($request, [
-      //'id' => 'required',
       'titulo' => 'required',
       'descripcion' => 'required',
     ]);
     $buzon = new Buzon();
-    $id = Auth::id();
-    $buzon->usuario_id = $id;
     $buzon->titulo = $request->titulo;
     $buzon->descripcion = $request->descripcion;
     $buzon->prioridad = $request->prioridad == "" ? "Alta" : $request->prioridad;
     $buzon->save();
     return redirect('/buzon/buzon')->with('message', 'OK');;
   }
+
   public function new()
   {
     $pageConfigs = [
@@ -39,7 +31,7 @@ class BuzonController extends Controller
       'pageName' => 'Enviar Buzón'
     ];
 
-    return view('buzon/nuevo',[
+    return view('buzon/nuevo', [
       'pageConfigs' => $pageConfigs
     ]);
   }
@@ -61,6 +53,7 @@ class BuzonController extends Controller
     $buzon = Buzon::find($id);
     return response()->json($buzon);
   }
+
   public function eliminar($id)
   {
     $buzon = Buzon::find($id);
@@ -72,13 +65,15 @@ class BuzonController extends Controller
   {
     $this->validate($request, [
       'estatus' => 'required',
-
+      'observacion' => 'required'
     ]);
     $buzon = Buzon::find($request->id);
     $buzon->estatus = $request->estatus;
+    $buzon->observacion = $request->observacion;
     $buzon->save();
     return redirect('/buzon/buzones')->with('message', 'OK');
   }
+
   public function getBuzones(Request $request)
   {
 
@@ -91,9 +86,8 @@ class BuzonController extends Controller
           $r->estatus = "Nuevo";
         } elseif ($r->estatus == 2) {
           $r->estatus = "En proceso";
-        }
-        else{
-          $r->estatus="Revisado";
+        } else {
+          $r->estatus = "Revisado";
         }
         $r->usuario;
       }
@@ -102,7 +96,7 @@ class BuzonController extends Controller
     return datatables()->of($result)->addColumn('actions', function ($query) {
 
       return '
-              <a href="#"  title="Editar"><button style="z-index:999" value="'.$query->estatus.'"  id="' . $query->id . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
+              <a href="#"  title="Editar"><button style="z-index:999" value="' . $query->estatus . '"  id="' . $query->id . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
               ';
     })->rawColumns(['actions'])->toJson();
   }

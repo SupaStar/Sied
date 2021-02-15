@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class Alerta extends Controller
 {
@@ -63,9 +65,31 @@ class Alerta extends Controller
     ]);
     $alerta = \App\Alerta::find($request->id);
     $alerta->observacion = $request->observacion;
+    $alerta->sustento = $request->sustento;
+    $alerta->archivo_sustento = $this->agregarArchivo($request->file('Fsustento'), Auth::id(), $alerta->archivo_sustento);
+    $alerta->dictamen = $request->dictamen;
+    $alerta->archivo_dictamen = $this->agregarArchivo($request->file('Fdictamen'), Auth::id(), $alerta->archivo_dictamen);
+    $alerta->acuse = $request->acuse;
+    $alerta->archivo_acuse = $this->agregarArchivo($request->file('Facuse'), Auth::id(), $alerta->archivo_acuse);
+    $alerta->observacion = $request->observacion;
     $alerta->estatus = $request->estatus;
     $alerta->save();
     return redirect('/alertas/alertas')->with('message', 'OK');
+  }
+
+  public function agregarArchivo($archivo, $clientid, $anterior)
+  {
+    if (isset($archivo)) {
+      $path = 'fisicas/destino';
+      $extension = strtolower($archivo->getClientOriginalExtension());
+      if (strtolower($extension) == 'pdf') {
+        $filename = $clientid . '-destino.' . $extension;
+        $path = Storage::disk('public')->put($path . '/' . $filename, $archivo);
+        return $path;
+      }
+      return $anterior;
+    }
+    return $anterior;
   }
 
   public function eliminar($id)
@@ -98,7 +122,7 @@ class Alerta extends Controller
     return datatables()->of($result)->addColumn('actions', function ($query) {
 
       return '
-              <a href="#"  title="Editar"><button style="z-index:999" value="'.$query->estatus.'"  aria-label="'.$query->observacion.'" id="' . $query->id . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
+              <a href="#"  title="Editar"><button style="z-index:999" value="' . $query->estatus . '"  aria-label="' . $query->observacion . '" id="' . $query->id . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
               ';
     })->rawColumns(['actions'])->toJson();
 
