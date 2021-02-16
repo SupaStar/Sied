@@ -47,7 +47,7 @@
                     <li class="scrollable-container media-list">
 
                     </li>
-                    <li class="dropdown-menu-footer"><a class="dropdown-item p-1 text-center" href="javascript:void(0)">Leer Todas</a></li>
+                    <li class="dropdown-menu-footer"><a class="dropdown-item p-1 text-center" href="{{route("verAlertas")}}">Leer Todas</a></li>
                   </ul>
                 </li>
                   <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#"
