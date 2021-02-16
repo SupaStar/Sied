@@ -1,6 +1,7 @@
 var actionDropdown = $(".actions-dropodown")
 var filtro = '';
 $(document).ready(function() {
+
   "use strict"
   // init list view datatable
   alertas('');
@@ -16,6 +17,7 @@ $(document).ready(function() {
 function alertas(chn){
   filtro = chn;
   var dataListView = $(".data-list-view").DataTable({
+
     responsive: false,
     columnDefs: [
       {
@@ -86,16 +88,7 @@ function alertas(chn){
         data: 'id',
         name: 'id'
       },
-      {"render":
-          function ( data,type,row ) {
-            return row.usuario.name+" "+row.usuario.lastname+" "+ row.usuario.o_lastname;
-            // donde, en teoría:
-            // row[3] es 'primer_nombre'
-            // row[4] es 'segundo_nombre'
-            // row[5] es 'apellido_paterno'
-            // row[6] es 'apellido_materno'
-          }
-      },
+
       {
         data: 'titulo',
         name: 'titulo'
@@ -110,8 +103,8 @@ function alertas(chn){
       },
       {
         data: 'prioridad',
-        name: 'prioridad'
-      }
+        name: 'prioridad',
+              }
       ,
       {
         data: 'actions',
@@ -124,8 +117,19 @@ function alertas(chn){
       data: {
         "filtro": filtro
       }
+    },
+    "rowCallback": function( row, data, index ) {
+      if (data.prioridad == "Alta") {
+        $('td', row).eq(3).css('color', 'red');
+      }
+      else if(data.prioridad == "Media")
+      {
+        $('td', row).eq(3).css('color', 'orange');
+      }
+      else{
+        $('td', row).eq(3).css('color', 'green');
+      }
     }
-
   });
 
   actionDropdown.insertBefore($(".top .actions .dt-buttons"))

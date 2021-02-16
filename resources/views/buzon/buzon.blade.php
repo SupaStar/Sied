@@ -34,12 +34,12 @@
     </div>
 
     {{-- DataTable starts --}}
-    <div class="table-responsive">
-      <table class="table data-list-view">
+    <div  class="table-responsive">
+      <table id="tbbuzon" class="table data-list-view">
         <thead>
         <tr>
           <th>ID</th>
-          <th>Nombre Usuario</th>
+
           <th>Titulo</th>
           <th>Descripción</th>
           <th>Estatus</th>
@@ -121,7 +121,7 @@
   <script src="{{ asset('js/scripts/ui/data-buzon.js') }}?{{rand()}}"></script>
   <script>
     $(document).ready(function () {
-      $(function() {
+        $(function() {
         $(document).on('click', 'button[type="button"]', function(event) {
           let id = this.id;
           let id2 = this.ariaLabel;

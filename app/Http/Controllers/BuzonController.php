@@ -21,8 +21,9 @@ class BuzonController extends Controller
     $buzon->titulo = $request->titulo;
     $buzon->descripcion = $request->descripcion;
     $buzon->prioridad = $request->prioridad == "" ? "Alta" : $request->prioridad;
+    $buzon->observacion="";
     $buzon->save();
-    return redirect('/buzon/buzon')->with('message', 'OK');;
+    return redirect('/buzon/')->with('message', 'OK');;
   }
 
   public function new()
