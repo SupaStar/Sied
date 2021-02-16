@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -15,7 +16,8 @@ class AlterConfiguracionuidTable extends Migration
     {
       Schema::table('configuracionalerta', function (Blueprint $table) {
         $table->decimal("valor");
-        $table->dateTime('actualizacionUid')->useCurrent();
+        $ayer = Carbon::now()->addDays(-1)->format("Y-m-d");
+        $table->dateTime('actualizacionUid')->default($ayer);
       });
     }
 
