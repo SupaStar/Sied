@@ -54,7 +54,7 @@ $(".steps-validation").steps({
   headerTag: "h6",
   bodyTag: "fieldset",
   transitionEffect: "fade",
-  enableCancelButton: true,
+
   titleTemplate: '<span class="step">#index#</span> #title#',
   labels: {
     finish: "Guardar"
