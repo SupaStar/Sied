@@ -1,3 +1,6 @@
+@php
+  $numNotificaciones=count(\App\Alerta::where('estatus',1)->get());
+@endphp
 @if($configData["mainLayoutType"] == 'horizontal' && isset($configData["mainLayoutType"]))
 <nav class="header-navbar navbar-expand-lg navbar navbar-with-menu {{ $configData['navbarColor'] }} navbar-fixed">
   <div class="navbar-header d-xl-block d-none">
@@ -34,11 +37,11 @@
                   class="ficon feather icon-maximize"></i></a></li>
                   <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#"
                     data-toggle="dropdown"><i class="ficon feather icon-bell"></i><span
-                      class="badge badge-pill badge-primary badge-up">0</span></a>
+                      class="badge badge-pill badge-primary badge-up">{{$numNotificaciones}}</span></a>
                   <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
                     <li class="dropdown-menu-header">
                       <div class="dropdown-header m-0 p-2">
-                        <h3 class="white">0 Nuevas</h3><span class="grey darken-2">Notificaciones</span>
+                        <h3 class="white">{{$numNotificaciones}} Nuevas</h3><span class="grey darken-2">Notificaciones</span>
                       </div>
                     </li>
                     <li class="scrollable-container media-list">

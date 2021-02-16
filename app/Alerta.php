@@ -66,7 +66,8 @@ class Alerta extends Model
         }
       }
     }
-    $pagomesGlobal = ConfigAlertas::all()->first();
+    $pagomesGlobal = ConfigAlertas::find(1);
+    $pagomesGlobal->valorUID();
     $numeroPagoMes = $perfil->nPagosMes + $pagomesGlobal->pagosMes;
     $carbon = Carbon::now()->addMonth(-1);
     $mesAnterior = $carbon->format('d-m-Y');
@@ -83,7 +84,9 @@ class Alerta extends Model
       $alerta->descripcion = "Se pueden realizar: " . $numeroPagoMes . " pagos por mes|Se han realizado: " . $nPagosMes;
       $alerta->save();
     }
-    if ($request->monto > 93726.93) {
+    $pagomesGlobal = ConfigAlertas::find(1);
+    $montoMax = $pagomesGlobal->valor * 30000;
+    if ($request->monto > $montoMax) {
       $alerta = new Alerta();
       $alerta->cliente_id = $request->id;
       $alerta->credito_id = $creditoId;
