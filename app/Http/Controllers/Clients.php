@@ -1832,7 +1832,7 @@ class Clients extends Controller
     $npago->origen = $request->origen;
     $npago->save();
     $alertas = new Alerta();
-    $alertas->validarDestino($request,$request->id, $cid);
+    $alertas->verificar($request, $cid);
 
     $user = Auth::user();
 
@@ -3005,13 +3005,13 @@ class Clients extends Controller
 
 
     Client::where('id', $id)->update(['status' => 'credito']);
-    $origenC = new DestinoCredito();
-    $origenC->id_credito = $ncredito->id;
-    $origenC->id_origen_recursos = $request->recurso;
-    $origenC->titular = $request->titular;
-    $origenC->numero_cuenta_clabe = $request->numero_cuenta_clabe;
-    $origenC->tipo_cuenta = $request->tipo_cuenta;
-    $origenC->save();
+    $detinoC = new DestinoCredito();
+    $detinoC->id_credito = $ncredito->id;
+    $detinoC->id_origen_recursos = $request->recurso;
+    $detinoC->titular = $request->titular;
+    $detinoC->numero_cuenta_clabe = $request->numero_cuenta_clabe;
+    $detinoC->tipo_cuenta = $request->tipo_cuenta;
+    $detinoC->save();
     $alerta = new Alerta();
     $alerta->validarDestino($request, $id, $ncredito->id);
     return redirect('/clientes/fisica')->with('credito', 'OK');
