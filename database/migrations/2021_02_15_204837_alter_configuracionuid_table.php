@@ -15,7 +15,7 @@ class AlterConfiguracionuidTable extends Migration
     {
       Schema::table('configuracionalerta', function (Blueprint $table) {
         $table->decimal("valor");
-        $table->dateTime('actualizacionUid')->nullable();
+        $table->dateTime('actualizacionUid')->default(\Carbon\Carbon::now());
       });
     }
 
