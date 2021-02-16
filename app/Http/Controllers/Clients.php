@@ -3007,7 +3007,7 @@ class Clients extends Controller
     Client::where('id', $id)->update(['status' => 'credito']);
     $detinoC = new DestinoCredito();
     $detinoC->id_credito = $ncredito->id;
-    $detinoC->id_origen_recursos = $request->recurso;
+    $detinoC->id_destino_recursos = $request->recurso;
     $detinoC->titular = $request->titular;
     $detinoC->numero_cuenta_clabe = $request->numero_cuenta_clabe;
     $detinoC->tipo_cuenta = $request->tipo_cuenta;
