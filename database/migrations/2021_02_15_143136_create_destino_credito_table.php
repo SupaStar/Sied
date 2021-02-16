@@ -17,8 +17,8 @@ class CreateDestinoCreditoTable extends Migration
           $table->bigIncrements('id');
           $table->unsignedBigInteger('id_credito');
           $table->foreign("id_credito")->references("id")->on("credito");
-          $table->unsignedBigInteger('id_origen_recursos');
-          $table->foreign("id_origen_recursos")->references("id")->on("origen_recursos");
+          $table->unsignedBigInteger('id_destino_recursos');
+          $table->foreign("id_destino_recursos")->references("id")->on("destino_recursos");
           $table->text('titular');
           $table->text('numero_cuenta_clabe');
           $table->integer('tipo_cuenta');
