@@ -151,30 +151,51 @@
                 <div class="modal-body">
                   <label>Sustento:  </label>
                   <div class="form-group">
-                    <textarea type="text" name="acuse" id="acuse"  placeholder="Observacion" class="form-control required" required></textarea>
+                    <textarea type="text" name="sustento" id="sustento"  placeholder="Observacion" class="form-control required"></textarea>
+                    <label>
+                      Imagen Acuse
+                    </label>
+                    <input type="file"  data-toggle="tooltip" data-placement="top"
+                           title="Solo se permiten imagenes JPG, JPEG, PNG, cargue por lo menos una imagen"
+                           class="form-control required" id="Fsustento" name="Fsustento" accept=".jpg, .jpeg, .png">
                   </div>
 
-                  <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+                  <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Siguiente</button>
                 </div>
               </div>
               <div class="row setup-content" id="step-2">
                 <div class="modal-body">
-                  <label>Observación: </label>
+                  <label>Dictamen: </label>
                   <div class="form-group">
-                    <textarea type="text" name="sustento" id="sustento"  placeholder="Observacion" class="form-control required" required></textarea>
+
+                    <textarea type="text" name="dictamen" id="dictamen"  placeholder="Observacion" class="form-control required"></textarea>
+                    <label>
+                      Imagen Acuse
+                    </label>
+                    <input type="file"  data-toggle="tooltip" data-placement="top"
+                           title="Solo se permiten imagenes JPG, JPEG, PNG, cargue por lo menos una imagen"
+                           class="form-control required" id="Fdictamen" name="Fdictamen" accept=".jpg, .jpeg, .png">
                   </div>
 
-                  <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+                  <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Siguiente</button>
+                  <a class="btn btn-primary btn-lg pull-right" type="button" href="#step-1" >Atras</a>
                 </div>
               </div>
               <div class="row setup-content" id="step-3">
                 <div class="modal-body">
-                  <label>Observación: </label>
+                  <label>Acuse: </label>
                   <div class="form-group">
-                    <textarea type="text" name="dictamen" id="dictamen"  placeholder="Observacion" class="form-control required" required></textarea>
+
+                    <textarea type="text" name="acuse" id="acuse"  placeholder="Observacion" class="form-control required" required></textarea>
+                    <label>
+                      Imagen Acuse
+                    </label>
+                    <input required type="file"  data-toggle="tooltip" data-placement="top"
+                           title="Solo se permiten imagenes JPG, JPEG, PNG, cargue por lo menos una imagen"
+                           class="form-control required" id="Facuse" name="Facuse" accept=".jpg, .jpeg, .png">
                   </div>
 
-                  <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+                  <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Siguiente</button>
                 </div>
               </div>
 
@@ -195,8 +216,8 @@
 
                     </select>
                   </div>
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                  <button type="submit" class="btn btn-success" >Aplicar</button>
+                  <button type="button" class="btn btn-primary btn-lg pull-right" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-primary btn-lg pull-right" >Aplicar</button>
                 </div>
 
 
@@ -268,8 +289,8 @@
   <script>
     $(document).ready(function () {
       $(function() {
-        $(document).on('click', 'button[type="button"]', function(event) {
-          let id = this.id;
+        $(document).on('click', 'button[id="btnedita"]', function(event) {
+          let id = this.name;
           let id2 = this.ariaLabel;
           let id3 = this.value;
 

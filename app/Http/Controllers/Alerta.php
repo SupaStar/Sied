@@ -122,7 +122,7 @@ class Alerta extends Controller
     return datatables()->of($result)->addColumn('actions', function ($query) {
 
       return '
-              <a href="#"  title="Editar"><button style="z-index:999" value="' . $query->estatus . '"  aria-label="' . $query->observacion . '" id="' . $query->id . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
+              <a href="#"  title="Editar"><button style="z-index:999" id="btnedita" value="' . $query->estatus . '"  aria-label="' . $query->observacion . '" name="' . $query->id . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
               ';
     })->rawColumns(['actions'])->toJson();
 
