@@ -17,22 +17,22 @@ class ApiController extends Controller
   {
     $alerta = \App\Alerta::find($request->id);
     $obs = "";
-    $estaus = 1;
+    $estatus = 1;
     if ($request->observacion != null) {
       $obs = $request->observacion;
     }
     $alerta->observacion = $obs;
     $alerta->sustento = $request->sustento;
-    $estaus=$request->sustengo!=null?2:$estaus;
+    $estatus=$request->sustento!=null?2:$estatus;
     $alerta->archivo_sustento = $this->agregarArchivo($request->file('Fsustento'), $request->inid, $alerta->archivo_sustento);
     $alerta->dictamen = $request->dictamen;
-    $estaus=$request->dictamen!=null?3:$estaus;
+    $estatus=$request->dictamen!=null?3:$estatus;
     $alerta->archivo_dictamen = $this->agregarArchivo($request->file('Fdictamen'), $request->inid, $alerta->archivo_dictamen);
     $alerta->acuse = $request->acuse;
-    $estaus=$request->acuse!=null?4:$estaus;
+    $estatus=$request->acuse!=null?4:$estatus;
     $alerta->archivo_acuse = $this->agregarArchivo($request->file('Facuse'), $request->inid, $alerta->archivo_acuse);
-    $estaus=$request->estatus==5?5:$estaus;
-    $alerta->estatus = $estaus;
+    $estatus=$request->estatus==5?5:$estatus;
+    $alerta->estatus = $estatus;
     $alerta->save();
     return response()->json(["estado" => true]);
   }
