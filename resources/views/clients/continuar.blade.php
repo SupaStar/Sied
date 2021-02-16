@@ -183,7 +183,7 @@
                                       <input minlength="15" required disabled type="number" class="form-control required" name="numero_cuenta_clabe" id="numero_cuenta_clabe" placeholder="Numero de cuenta o tarjeta" autocomplete="off" >
                                       <br>
                                       <select class="form-control required" id="recurso" name="recurso">
-                                        <option selected disabled>Seleccionar</option>
+                                        <option selected disabled>Seleccionar destino recursos</option>
                                         @foreach($destino as $data)
                                           @if(isset($datos->destino_recursos))
                                             @if($datos->destino_recursos == $data->id)
