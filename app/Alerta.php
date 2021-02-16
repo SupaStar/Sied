@@ -169,7 +169,7 @@ class Alerta extends Model
   public function validarDestino(Request $request, $idC, $creditoId)
   {
     $perfil = Perfil::where("cliente_id", $idC)->first();
-    if ($perfil->origen_recursos !== $request->recurso) {
+    if ($perfil->destino_recursos !== $request->recurso) {
       $alerta = new Alerta();
       $alerta->cliente_id=$idC;
       $alerta->credito_id = $creditoId;
