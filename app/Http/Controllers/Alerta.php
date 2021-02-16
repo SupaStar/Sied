@@ -77,6 +77,26 @@ class Alerta extends Controller
     return redirect('/alertas/alertas')->with('message', 'OK');
   }
 
+  public function editarAPI(Request $request)
+  {
+    $this->validate($request, [
+      'observacion' => 'required',
+      'estatus' => 'required'
+    ]);
+    $alerta = \App\Alerta::find($request->id);
+    $alerta->observacion = $request->observacion;
+    $alerta->sustento = $request->sustento;
+    $alerta->archivo_sustento = $this->agregarArchivo($request->file('Fsustento'), $request->inid, $alerta->archivo_sustento);
+    $alerta->dictamen = $request->dictamen;
+    $alerta->archivo_dictamen = $this->agregarArchivo($request->file('Fdictamen'), $request->inid, $alerta->archivo_dictamen);
+    $alerta->acuse = $request->acuse;
+    $alerta->archivo_acuse = $this->agregarArchivo($request->file('Facuse'), $request->inid, $alerta->archivo_acuse);
+    $alerta->observacion = $request->observacion;
+    $alerta->estatus = $request->estatus;
+    $alerta->save();
+    return response()->json(["estado" => true]);
+  }
+
   public function agregarArchivo($archivo, $clientid, $anterior)
   {
     if (isset($archivo)) {
