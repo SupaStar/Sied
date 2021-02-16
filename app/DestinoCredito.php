@@ -13,8 +13,8 @@ class DestinoCredito extends Model
     return $this->hasOne("App\Creditos", "id", "id_credito");
   }
 
-  public function origen()
+  public function destino()
   {
-    return $this->hasOne("App\OrigenRecursos", "id", "id_origen_recursos");
+    return $this->hasOne("App\DestinoRecursos", "id", "id_destino_recursos");
   }
 }
