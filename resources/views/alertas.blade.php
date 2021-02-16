@@ -79,29 +79,29 @@
                 <div class="modal-body">
                   <label>Sustento: </label>
                   <div class="form-group">
-                    <textarea type="text" name="sustento" id="sustento" placeholder="Observacion"
-                              class="form-control required"></textarea>
-                    <label>Imagen Acuse</label>
-                    <input type="file" data-toggle="tooltip" data-placement="top"
-                           title="Solo se permiten imagenes JPG, JPEG, PNG, cargue por lo menos una imagen"
-                           class="form-control required" id="Fsustento" name="Fsustento" accept=".jpg, .jpeg, .png">
+                    <textarea type="text" name="sustento" id="sustento" placeholder="Sustento"
+                              class="form-control"></textarea>
+                    <label>Documento Sustento</label>
+                    <input required type="file" data-toggle="tooltip" data-placement="top"
+                           title="Solo se permiten archivos PDF, cargue por lo menos un pdf"
+                           class="form-control" id="Fsustento" name="Fsustento" accept="application/pdf">
                   </div>
                 </div>
               </fieldset>
               <h6>Dictamen</h6>
               <fieldset class="row setup-content" id="step-2">
                 <div class="modal-body">
-                  <label>Dictamen: </label>
+                  <label>Documento Dictamen: </label>
                   <div class="form-group">
 
-                    <textarea type="text" name="dictamen" id="dictamen" placeholder="Observacion"
-                              class="form-control required"></textarea>
+                    <textarea type="text" name="dictamen" id="dictamen" placeholder="Dictamen"
+                              class="form-control"></textarea>
                     <label>
                       Imagen Acuse
                     </label>
-                    <input type="file" data-toggle="tooltip" data-placement="top"
-                           title="Solo se permiten imagenes JPG, JPEG, PNG, cargue por lo menos una imagen"
-                           class="form-control required" id="Fdictamen" name="Fdictamen" accept=".jpg, .jpeg, .png">
+                    <input required type="file" data-toggle="tooltip" data-placement="top"
+                           title="Solo se permiten archivos PDF, cargue por lo menos un pdf"
+                           class="form-control" id="Fdictamen" name="Fdictamen" accept="application/pdf">
                   </div>
                 </div>
               </fieldset>
@@ -110,14 +110,14 @@
                 <div class="modal-body">
                   <label>Acuse: </label>
                   <div class="form-group">
-                    <textarea type="text" name="acuse" id="acuse" placeholder="Observacion"
-                              class="form-control required" required></textarea>
+                    <textarea type="text" name="acuse" id="acuse" placeholder="acuse"
+                              class="form-control" ></textarea>
                     <label>
-                      Imagen Acuse
+                      Documento Acuse
                     </label>
                     <input required type="file" data-toggle="tooltip" data-placement="top"
-                           title="Solo se permiten imagenes JPG, JPEG, PNG, cargue por lo menos una imagen"
-                           class="form-control required" id="Facuse" name="Facuse" accept=".jpg, .jpeg, .png">
+                           title="Solo se permiten archivos PDF, cargue por lo menos un pdf"
+                           class="form-control" id="Facuse" name="Facuse" accept="application/pdf">
                   </div>
                 </div>
               </fieldset>
@@ -131,7 +131,7 @@
                   </div>
                   <label>estatus: </label>
                   <div class="form-group">
-                    <select class="form-control" id="estatus" name="estatus" readonly>
+                    <select class="form-control" id="estatus" name="estatus" required>
                       <option selected disabled>Seleccione la prioridad</option>
                       <option value="1">Nuevo</option>
                       <option value="2">En proceso</option>
@@ -240,5 +240,54 @@
 
       $('div.setup-panel div a.btn-primary').trigger('click');
     });
+    function jsRemoveWindowLoad() {
+      // eliminamos el div que bloquea pantalla
+      $("#WindowLoad").remove();
+    }
+
+    function jsShowWindowLoad() {
+      //si no enviamos message se pondra este por defecto
+      message = '<img src="{{asset('images/loader.gif')}}" alt="Por Favor Espere...">';
+
+      //centrar imagen gif
+      height = 20;//El div del titulo, para que se vea mas arriba (H)
+      var ancho = 0;
+      var alto = 0;
+
+      //obtenemos el ancho y alto de la ventana de nuestro navegador, compatible con todos los navegadores
+      if (window.innerWidth == undefined) ancho = window.screen.width;
+      else ancho = window.innerWidth;
+      if (window.innerHeight == undefined) alto = window.screen.height;
+      else alto = window.innerHeight;
+
+      //operación necesaria para centrar el div que muestra el message
+      var heightdivsito = alto/2 - parseInt(height)/2;//Se utiliza en el margen superior, para centrar
+
+      //imagen que aparece mientras nuestro div es mostrado y da apariencia de cargando
+      imgCentro = "<div style='text-align:center;height:" + alto + "px;'><div  style='color:#000;margin-top:" + heightdivsito + "px; font-size:20px;font-weight:bold'>" + message + "</div><div class='loader-bubble loader-bubble-primary m-5'></div></div>";
+
+      //creamos el div que bloquea grande------------------------------------------
+      div = document.createElement("div");
+      div.id = "WindowLoad"
+      div.style.width = ancho + "px";
+      div.style.height = alto + "px";
+      $("body").append(div);
+
+      //creamos un input text para que el foco se plasme en este y el usuario no pueda escribir en nada de atras
+      input = document.createElement("input");
+      input.id = "focusInput";
+      input.type = "text"
+
+      //asignamos el div que bloquea
+      $("#WindowLoad").append(input);
+
+      //asignamos el foco y ocultamos el input text
+      $("#focusInput").focus();
+      $("#focusInput").hide();
+
+      //centramos el div del texto
+      $("#WindowLoad").html(imgCentro);
+
+    }
   </script>
 @endsection
