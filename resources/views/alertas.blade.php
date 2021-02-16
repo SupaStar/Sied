@@ -225,21 +225,21 @@
               $("#sustento").val(response.sustento);
               $("#acuse").val(response.acuse);
               $("#dictamen").val(response.dictamen);
-              if (response.archivo_sustento !== ""||response.archivo_sustento ==null) {
+              if (response.archivo_sustento !== ""&&response.archivo_sustento !=null) {
                 $("#sustentoSub").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
                 $("#Fsustento").removeAttr("required");
               } else {
                 $("#sustentoSub").html("");
                 $("#Fsustento").attr("required",true);
               }
-              if (response.archivo_dictamen !== ""||response.archivo_dictamen ==null) {
+              if (response.archivo_dictamen !== ""&&response.archivo_dictamen !=null) {
                 $("#sustentoDic").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
                 $("#Fdictamen").removeAttr("required");
               } else {
                 $("#sustentoDic").html("");
                 $("#Fdictamen").attr("required",true);
               }
-              if (response.archivo_acuse !== ""||response.archivo_acuse ==null) {
+              if (response.archivo_acuse !== ""&&response.archivo_acuse !=null) {
                 $("#sustentoAcus").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
                 $("#Facuse").removeAttr("required");
               } else {
