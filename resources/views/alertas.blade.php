@@ -114,7 +114,7 @@
                   <label>Acuse: </label>
                   <div class="form-group">
                     <textarea type="text" name="acuse" id="acuse" placeholder="acuse"
-                              class="form-control" ></textarea>
+                              class="form-control"></textarea>
                     <label>
                       Documento Acuse
                     </label>
@@ -216,36 +216,43 @@
           let id = this.name;
           let id2 = this.ariaLabel;
           let id3 = this.value;
-          let rutaApi=$("#ruta_api_encontrar").val()+"/"+id;
+          let rutaApi = $("#ruta_api_encontrar").val() + "/" + id;
           $.ajax({
-            type:"get",
-            url:rutaApi,
-            datatype:"json",
-            success:function (response){
+            type: "get",
+            url: rutaApi,
+            datatype: "json",
+            success: function (response) {
               $("#sustento").val(response.sustento);
               $("#acuse").val(response.acuse);
               $("#dictamen").val(response.dictamen);
-              if(response.archivo_sustento!==""){
+              if (response.archivo_sustento !== "") {
                 $("#sustentoSub").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
                 $("#Fsustento").removeAttr("required");
-              }else{
+              } else {
                 $("#sustentoSub").html("");
-                $("#Fsustento").attr("required");
+                $("#Fsustento").attr("required",true);
               }
-              if(response.archivo_dictamen!==""){
+              if (response.archivo_dictamen !== "") {
                 $("#sustentoDic").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
                 $("#Fdictamen").removeAttr("required");
-              }
-              else{
+              } else {
                 $("#sustentoDic").html("");
-                $("#Fdictamen").attr("required");
+                $("#Fdictamen").attr("required",true);
               }
-              if(response.archivo_acuse!==""){
+              if (response.archivo_acuse !== "") {
                 $("#sustentoAcus").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
                 $("#Facuse").removeAttr("required");
-              }else{
+              } else {
                 $("#sustentoAcus").html("");
-                $("#Facuse").attr("required");
+                $("#Facuse").attr("required",true);
+              }
+              let actual = $(".current")[0].children[0].children[1].innerHTML;
+              for (var llegar = 1; llegar < actual; llegar++) {
+                $(".actions")[2].children[0].children[0].children[0].click();
+              }
+              let lista = $(".steps")[0].children[0];
+              for (var i = 1; i < lista.children.length; i++) {
+                lista.children[i].className = "disabled";
               }
             }
           });
@@ -277,6 +284,7 @@
 
       $('div.setup-panel div a.btn-primary').trigger('click');
     });
+
     function jsRemoveWindowLoad() {
       // eliminamos el div que bloquea pantalla
       $("#WindowLoad").remove();
@@ -298,7 +306,7 @@
       else alto = window.innerHeight;
 
       //operación necesaria para centrar el div que muestra el message
-      var heightdivsito = alto/2 - parseInt(height)/2;//Se utiliza en el margen superior, para centrar
+      var heightdivsito = alto / 2 - parseInt(height) / 2;//Se utiliza en el margen superior, para centrar
 
       //imagen que aparece mientras nuestro div es mostrado y da apariencia de cargando
       imgCentro = "<div style='text-align:center;height:" + alto + "px;'><div  style='color:#000;margin-top:" + heightdivsito + "px; font-size:20px;font-weight:bold'>" + message + "</div><div class='loader-bubble loader-bubble-primary m-5'></div></div>";
