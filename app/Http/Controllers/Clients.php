@@ -1832,7 +1832,7 @@ class Clients extends Controller
     $npago->origen = $request->origen;
     $npago->save();
     $alertas = new Alerta();
-    $alertas->verificar($request, $cid);
+    $alertas->validarDestino($request,$request->id, $cid);
 
     $user = Auth::user();
 

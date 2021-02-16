@@ -1,6 +1,6 @@
 <?php
 
-Route::get('alertas', 'Alerta@todo');
+Route::get('alertas', 'Alerta@todo')->name("verAlertas");
 Route::post('nuevaAlerta', 'Alerta@nueva');
 Route::get('encontrar/{id}', 'Alerta@encontrar');
 Route::post('editar/', 'Alerta@editar');
