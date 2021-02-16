@@ -1,9 +1,9 @@
 
-@extends('layouts/contentLayoutMaster')
-
-@section('title', $pageConfigs['pageName'] )
+@extends('layouts/fullLayoutMaster')
+@section('title', 'Envie un Buzón')
 
 @section('content')
+  @include('panels.breadcrumb')
 
   <!-- // Basic multiple Column Form section start -->
   <section id="multiple-column-form">
@@ -26,7 +26,9 @@
                     <div class="row justify-content-md-center ">
                     <div class="col col-6">
                       <div class="form-label-group">
-                        <textarea type="text" id="last-name-column" class="form-control" placeholder="Descripcion:" name="descripcion" required></textarea>
+                        <textarea type="text" style="margin-top: 0px;
+    margin-bottom: 0px;
+    height: 250px;" id="last-name-column" class="form-control" placeholder="Descripcion:" name="descripcion" required></textarea>
                         <label for="last-name-column">Descripcion:</label>
                       </div>
                     </div>
@@ -38,6 +40,7 @@
 
                             <option selected disabled>Seleccione la prioridad</option>
                             <option value="Alta">Alta</option>
+                            <option value="Media">Media</option>
                             <option value="Baja">Baja</option>
 
 

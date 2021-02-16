@@ -1,6 +1,6 @@
 <?php
 Route::get("buzones","BuzonController@todo");
-Route::get("buzon","BuzonController@new");
+Route::get("/","BuzonController@new");
 Route::get("getbuzon","BuzonController@getBuzones");
 Route::post("nuevo","BuzonController@nuevo");
 Route::get("encontrar/{id}","BuzonController@encontrar");
