@@ -152,7 +152,7 @@
   {{-- Data list view end --}}
 
   <input value="{{route('editar_alerta_api')}}" id="ruta_api" aria-label="ruta api editar" hidden>
-  <input value="{{route('encontrar_alerta_api')}}" id="ruta_api_encontrar" aria-label="ruta api encontrar">
+  <input hidden value="{{route('encontrar_alerta_api')}}" id="ruta_api_encontrar" aria-label="ruta api encontrar">
 
 
   {{-- Modal --}}
