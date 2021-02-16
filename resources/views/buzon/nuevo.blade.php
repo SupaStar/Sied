@@ -69,6 +69,8 @@
 @section('page-script')
   {{-- Page js files --}}
   <script src="{{ asset('js/scripts/ui/data-users.js') }}?{{rand()}}"></script>
+
+  <script src="{{ asset(mix('js/scripts/forms/wizard-steps.js')) }}?{{rand()}}"></script>
   <script>
     $(document).ready(function () {
       @if (session('message'))

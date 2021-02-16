@@ -119,8 +119,10 @@
 @section('page-script')
   {{-- Page js files --}}
   <script src="{{ asset('js/scripts/ui/data-buzon.js') }}?{{rand()}}"></script>
+
   <script>
     $(document).ready(function () {
+
         $(function() {
         $(document).on('click', 'button[type="button"]', function(event) {
           let id = this.id;
