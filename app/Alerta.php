@@ -110,7 +110,7 @@ class Alerta extends Model
       $alerta->descripcion = "El monto debe ser: " . $pagomesGlobal->monto . "|Se pago: " . $request->monto;
       $alerta->save();
     }
-    if ($request->forma === 0) {
+    if ($request->forma == 0) {
       $alerta = new Alerta();
       $alerta->cliente_id = $request->id;
       $alerta->credito_id = $creditoId;
