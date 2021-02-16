@@ -9,61 +9,7 @@
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/extensions/dataTables.checkboxes.css')) }}">
 @endsection
 @section('page-style')
-  {{-- Page css files --}}
-  <link rel="stylesheet" href="{{ asset(mix('css/plugins/file-uploaders/dropzone.css')) }}">
-  <link rel="stylesheet" href="{{ asset(mix('css/pages/data-list-view.css')) }}">
-  <style>
-    body{
-      margin-top:40px;
-    }
-
-    .stepwizard-step p {
-      margin-top: 10px;
-    }
-
-    .stepwizard-row {
-      display: table-row;
-    }
-
-    .stepwizard {
-      display: table;
-      width: 100%;
-      position: relative;
-    }
-
-    .stepwizard-step button[disabled] {
-      opacity: 1 !important;
-      filter: alpha(opacity=100) !important;
-    }
-
-    .stepwizard-row:before {
-      top: 14px;
-      bottom: 0;
-      position: absolute;
-      content: " ";
-      width: 100%;
-      height: 1px;
-      background-color: #ccc;
-      z-order: 0;
-
-    }
-
-    .stepwizard-step {
-      display: table-cell;
-      text-align: center;
-      position: relative;
-    }
-
-    .btn-circle {
-      width: 30px;
-      height: 30px;
-      text-align: center;
-      padding: 6px 0;
-      font-size: 12px;
-      line-height: 1.428571429;
-      border-radius: 15px;
-    }
-  </style>
+  <link rel="stylesheet" href="{{ asset(mix('css/plugins/forms/wizard.css')) }}">
 @endsection
 
 @section('content')
@@ -105,10 +51,10 @@
         </tr>
         </thead>
         <tbody>
-       <!--
+        <!--
 
 
-        --></tbody>
+         --></tbody>
       </table>
     </div>
 
@@ -124,105 +70,75 @@
             </button>
           </div>
           <div class="container">
-            <div class="stepwizard">
-              <div class="stepwizard-row setup-panel">
-                <div class="stepwizard-step">
-                  <a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
-                  <p>Recabando sustento</p>
-                </div>
-                <div class="stepwizard-step">
-                  <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
-                  <p>Dictamen</p>
-                </div>
-                <div class="stepwizard-step">
-                  <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
-                  <p>Acuse</p>
-                </div>
-                <div class="stepwizard-step">
-                  <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
-                  <p>Observaciones</p>
-                </div>
-              </div>
-            </div>
-            <form action="/alertas/editar"  enctype="multipart/form-data"  method="POST" class="steps-validation wizard-circle" id="formss" name="formss">
+            <form action="/alertas/editar" enctype="multipart/form-data" method="POST"
+                  class="steps-validation wizard-circle" id="formss" name="formss">
               @csrf
               <input type="hidden" id="inid" value="" name='id'>
-              <div class="row setup-content" id="step-1">
+              <h6>Recabando sustento</h6>
+              <fieldset>
                 <div class="modal-body">
-                  <label>Sustento:  </label>
+                  <label>Sustento: </label>
                   <div class="form-group">
-                    <textarea type="text" name="sustento" id="sustento"  placeholder="Observacion" class="form-control required"></textarea>
-                    <label>
-                      Imagen Acuse
-                    </label>
-                    <input type="file"  data-toggle="tooltip" data-placement="top"
+                    <textarea type="text" name="sustento" id="sustento" placeholder="Observacion"
+                              class="form-control required"></textarea>
+                    <label>Imagen Acuse</label>
+                    <input type="file" data-toggle="tooltip" data-placement="top"
                            title="Solo se permiten imagenes JPG, JPEG, PNG, cargue por lo menos una imagen"
                            class="form-control required" id="Fsustento" name="Fsustento" accept=".jpg, .jpeg, .png">
                   </div>
-
-                  <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Siguiente</button>
                 </div>
-              </div>
-              <div class="row setup-content" id="step-2">
+              </fieldset>
+              <h6>Dictamen</h6>
+              <fieldset class="row setup-content" id="step-2">
                 <div class="modal-body">
                   <label>Dictamen: </label>
                   <div class="form-group">
 
-                    <textarea type="text" name="dictamen" id="dictamen"  placeholder="Observacion" class="form-control required"></textarea>
+                    <textarea type="text" name="dictamen" id="dictamen" placeholder="Observacion"
+                              class="form-control required"></textarea>
                     <label>
                       Imagen Acuse
                     </label>
-                    <input type="file"  data-toggle="tooltip" data-placement="top"
+                    <input type="file" data-toggle="tooltip" data-placement="top"
                            title="Solo se permiten imagenes JPG, JPEG, PNG, cargue por lo menos una imagen"
                            class="form-control required" id="Fdictamen" name="Fdictamen" accept=".jpg, .jpeg, .png">
                   </div>
-
-                  <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Siguiente</button>
-                  <a class="btn btn-primary btn-lg pull-right" type="button" href="#step-1" >Atras</a>
                 </div>
-              </div>
-              <div class="row setup-content" id="step-3">
+              </fieldset>
+              <h6>Acuse</h6>
+              <fieldset class="row setup-content" id="step-3">
                 <div class="modal-body">
                   <label>Acuse: </label>
                   <div class="form-group">
-
-                    <textarea type="text" name="acuse" id="acuse"  placeholder="Observacion" class="form-control required" required></textarea>
+                    <textarea type="text" name="acuse" id="acuse" placeholder="Observacion"
+                              class="form-control required" required></textarea>
                     <label>
                       Imagen Acuse
                     </label>
-                    <input required type="file"  data-toggle="tooltip" data-placement="top"
+                    <input required type="file" data-toggle="tooltip" data-placement="top"
                            title="Solo se permiten imagenes JPG, JPEG, PNG, cargue por lo menos una imagen"
                            class="form-control required" id="Facuse" name="Facuse" accept=".jpg, .jpeg, .png">
                   </div>
-
-                  <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Siguiente</button>
                 </div>
-              </div>
-
-              <div class="row setup-content" id="step-4">
+              </fieldset>
+              <h6>Observaciones</h6>
+              <fieldset class="row setup-content" id="step-4">
                 <div class="modal-body">
                   <label>Observación: </label>
                   <div class="form-group">
-                    <textarea type="text" name="observacion" id="observacion"  placeholder="Observacion" class="form-control required" required></textarea>
+                    <textarea type="text" name="observacion" id="observacion" placeholder="Observacion"
+                              class="form-control required" required></textarea>
                   </div>
                   <label>estatus: </label>
                   <div class="form-group">
                     <select class="form-control" id="estatus" name="estatus" readonly>
-
                       <option selected disabled>Seleccione la prioridad</option>
                       <option value="1">Nuevo</option>
                       <option value="2">En proceso</option>
-
-
                     </select>
                   </div>
-                  <button type="button" class="btn btn-primary btn-lg pull-right" data-dismiss="modal">Cancelar</button>
-                  <button type="submit" class="btn btn-primary btn-lg pull-right" >Aplicar</button>
                 </div>
-
-
-                </div>
-
+              </fieldset>
             </form>
           </div>
         </div>
@@ -280,7 +196,9 @@
   <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.select.min.js')) }}"></script>
   <script src="{{ asset(mix('vendors/js/tables/datatable/datatables.checkboxes.min.js')) }}"></script>
   <script src="{{ asset(mix('js/scripts/modal/components-modal.js')) }}"></script>
-
+  <script src="{{ asset(mix('vendors/js/extensions/jquery.steps.min.js')) }}"></script>
+  <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
+  <script src="{{ asset(mix('js/scripts/forms/wizard-steps.js')) }}?{{rand()}}"></script>
 @endsection
 @section('page-script')
   {{-- Page js files --}}
@@ -288,20 +206,18 @@
 
   <script>
     $(document).ready(function () {
-      $(function() {
-        $(document).on('click', 'button[id="btnedita"]', function(event) {
+      $(function () {
+        $(document).on('click', 'button[id="btnedita"]', function (event) {
           let id = this.name;
           let id2 = this.ariaLabel;
           let id3 = this.value;
 
-          var value =id;
-          var value2 =id2;
-          var value3 =id3;
-          if(value3=="Nuevo")
-          {
+          var value = id;
+          var value2 = id2;
+          var value3 = id3;
+          if (value3 == "Nuevo") {
             $('#estatus').val(1);
-          }
-          else{
+          } else {
             $('#estatus').val(2);
           }
           $('#inid').val(value);
@@ -320,44 +236,7 @@
         customClass: 'animated tada'
       });
       @endif
-      var navListItems = $('div.setup-panel div a'),
-        allWells = $('.setup-content'),
-        allNextBtn = $('.nextBtn');
 
-      allWells.hide();
-
-      navListItems.click(function (e) {
-        e.preventDefault();
-        var $target = $($(this).attr('href')),
-          $item = $(this);
-
-        if (!$item.hasClass('disabled')) {
-          navListItems.removeClass('btn-primary').addClass('btn-default');
-          $item.addClass('btn-primary');
-          allWells.hide();
-          $target.show();
-          $target.find('input:eq(0)').focus();
-        }
-      });
-
-      allNextBtn.click(function(){
-        var curStep = $(this).closest(".setup-content"),
-          curStepBtn = curStep.attr("id"),
-          nextStepWizard = $('div.setup-panel div a[href="#' + curStepBtn + '"]').parent().next().children("a"),
-          curInputs = curStep.find("input[type='text'],input[type='url']"),
-          isValid = true;
-
-        $(".form-group").removeClass("has-error");
-        for(var i=0; i<curInputs.length; i++){
-          if (!curInputs[i].validity.valid){
-            isValid = false;
-            $(curInputs[i]).closest(".form-group").addClass("has-error");
-          }
-        }
-
-        if (isValid)
-          nextStepWizard.removeAttr('disabled').trigger('click');
-      });
 
       $('div.setup-panel div a.btn-primary').trigger('click');
     });
