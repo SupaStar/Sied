@@ -171,6 +171,7 @@ class Alerta extends Model
     $perfil = Perfil::where("cliente_id", $idC)->first();
     if ($perfil->origen_recursos !== $request->recurso) {
       $alerta = new Alerta();
+      $alerta->cliente_id=$idC;
       $alerta->credito_id = $creditoId;
       $alerta->estatus = 1;
       $alerta->observacion = "";

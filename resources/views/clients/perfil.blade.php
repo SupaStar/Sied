@@ -143,15 +143,7 @@
                       <select class="form-control required" id="drecursos" name="drecursos">
                         <option selected disabled>Seleccionar</option>
                             @foreach($destino as $data)
-                            @if(isset($datos->destino_recursos))
-                            @if($datos->destino_recursos == $data->id)
-                              <option value="{{$data->id}}" selected>{{$data->descripcion}}</option>
-                            @else
-                            <option value="{{$data->id}}">{{$data->descripcion}}</option>
-                            @endif
-                            @else
-                            <option value="{{$data->id}}">{{$data->descripcion}}</option>
-                            @endif
+                           <option value="{{$data->id}}">{{$data->descripcion}}</option>
                             @endforeach
 
                       </select>

@@ -83,12 +83,7 @@
       "badgeClass": "badge badge-warning badge-pill float-right mr-2",
       "icon": "feather icon-mail",
       "submenu": [
-        {
-          "url": "/buzon/buzon",
-          "name": "Crear Buzón",
-          "icon": "feather icon-circle",
-          "i18n": "nav.dashboard_analytics"
-        },
+
           {
             "url": "/buzon/buzones",
             "name": "Buzones recibidos",

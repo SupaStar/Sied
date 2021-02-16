@@ -123,37 +123,62 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form action="/alertas/editar"  enctype="multipart/form-data"  method="POST" class="steps-validation wizard-circle" id="formss" name="formss">
-
-
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-success" >Aplicar</button>
-            </div>
-          </form>
           <div class="container">
             <div class="stepwizard">
               <div class="stepwizard-row setup-panel">
                 <div class="stepwizard-step">
                   <a href="#step-1" type="button" class="btn btn-primary btn-circle">1</a>
-                  <p>Step 1</p>
+                  <p>Recabando sustento</p>
                 </div>
                 <div class="stepwizard-step">
                   <a href="#step-2" type="button" class="btn btn-default btn-circle" disabled="disabled">2</a>
-                  <p>Step 2</p>
+                  <p>Dictamen</p>
                 </div>
                 <div class="stepwizard-step">
                   <a href="#step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
-                  <p>Step 3</p>
+                  <p>Acuse</p>
+                </div>
+                <div class="stepwizard-step">
+                  <a href="#step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+                  <p>Observaciones</p>
                 </div>
               </div>
             </div>
             <form action="/alertas/editar"  enctype="multipart/form-data"  method="POST" class="steps-validation wizard-circle" id="formss" name="formss">
+              @csrf
+              <input type="hidden" id="inid" value="" name='id'>
               <div class="row setup-content" id="step-1">
-                @csrf
+                <div class="modal-body">
+                  <label>Sustento:  </label>
+                  <div class="form-group">
+                    <textarea type="text" name="acuse" id="acuse"  placeholder="Observacion" class="form-control required" required></textarea>
+                  </div>
 
-                <input type="hidden" id="inid" value="" name='id'>
+                  <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+                </div>
+              </div>
+              <div class="row setup-content" id="step-2">
+                <div class="modal-body">
+                  <label>Observación: </label>
+                  <div class="form-group">
+                    <textarea type="text" name="sustento" id="sustento"  placeholder="Observacion" class="form-control required" required></textarea>
+                  </div>
 
+                  <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+                </div>
+              </div>
+              <div class="row setup-content" id="step-3">
+                <div class="modal-body">
+                  <label>Observación: </label>
+                  <div class="form-group">
+                    <textarea type="text" name="dictamen" id="dictamen"  placeholder="Observacion" class="form-control required" required></textarea>
+                  </div>
+
+                  <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+                </div>
+              </div>
+
+              <div class="row setup-content" id="step-4">
                 <div class="modal-body">
                   <label>Observación: </label>
                   <div class="form-group">
@@ -170,26 +195,18 @@
 
                     </select>
                   </div>
-                  <button class="btn btn-primary nextBtn btn-lg pull-right" type="button" >Next</button>
+                  <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                  <button type="submit" class="btn btn-success" >Aplicar</button>
                 </div>
 
-              </div>
-              <div class="row setup-content" id="step-2">
 
-              </div>
-              <div class="row setup-content" id="step-3">
-                <div class="col-xs-12">
-                  <div class="col-md-12">
-                    <h3> Step 3</h3>
-                    <button class="btn btn-success btn-lg pull-right" type="submit">Finish!</button>
-                  </div>
                 </div>
-              </div>
+
             </form>
           </div>
         </div>
       </div>
-    </div>
+
     {{-- add new sidebar ends --}}
   </section>
   {{-- Data list view end --}}

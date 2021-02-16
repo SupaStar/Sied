@@ -3006,6 +3006,7 @@ class Clients extends Controller
 
     Client::where('id', $id)->update(['status' => 'credito']);
     $detinoC = new DestinoCredito();
+    $destino=$detinoC::all();
     $detinoC->id_credito = $ncredito->id;
     $detinoC->id_destino_recursos = $request->recurso;
     $detinoC->titular = $request->titular;
@@ -3020,8 +3021,11 @@ class Clients extends Controller
 
   public function continuar($id)
   {
+    $detinoC = new DestinoCredito();
     $client = Client::where('id', $id)->first();
-
+    //$destino=$detinoC::all();
+    //$destino=$detinoC::all();
+    $destino = DestinoRecursos::get();
     $pageConfigs = [
       'mainLayoutType' => 'vertical',
       'pageHeader' => true,
@@ -3032,7 +3036,7 @@ class Clients extends Controller
     return view('/clients/continuar', [
       'pageConfigs' => $pageConfigs,
       'client' => $client,
-      'id' => $id
+      'id' => $id,'destino' => $destino
     ]);
   }
 
