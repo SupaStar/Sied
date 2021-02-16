@@ -198,7 +198,7 @@
   <script src="{{ asset(mix('js/scripts/modal/components-modal.js')) }}"></script>
   <script src="{{ asset(mix('vendors/js/extensions/jquery.steps.min.js')) }}"></script>
   <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
-  <script src="{{ asset(mix('js/scripts/forms/wizard-steps.js')) }}?{{rand()}}"></script>
+  <script src="{{ asset('js/scripts/forms/wizard-steps2.js') }}?{{rand()}}"></script>
 @endsection
 @section('page-script')
   {{-- Page js files --}}
