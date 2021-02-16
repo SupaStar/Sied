@@ -73,6 +73,20 @@ $(".steps-validation").steps({
       form.find(".body:eq(" + newIndex + ") .error").removeClass("error");
     }
     form.validate().settings.ignore = ":disabled,:hidden";
+    if(form.valid()){
+      var formulario=new FormData($("#formss")[0]);
+      let ruta=$("#ruta_api").val();
+      $.ajax({
+        type:"post",
+        url:ruta,
+        data:formulario,
+        datatype:"json",
+        contentType: false,
+        processData: false,
+        success:function (response){
+        }
+      });
+    }
     return form.valid();
   },
   onFinishing: function(event, currentIndex) {

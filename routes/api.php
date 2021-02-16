@@ -11,7 +11,6 @@ Route::group([
     Route::get('logout', 'AuthController@logout');
     Route::get('user', 'AuthController@user');
     Route::get('checksession', 'AuthController@checksession');
-    Route::post("editarAlerta", "Alerta@editarAPI")->name("editar_alerta_api");
     Route::group([
       'prefix' => 'create'
     ], function () {
@@ -64,7 +63,8 @@ Route::group([
 Route::group([
   'prefix' => 'data'
 ], function () {
-
+  Route::post("editarAlerta", "ApiController@editarAPI")->name("editar_alerta_api");
+  Route::get("encontrarAlerta/{id?}", "ApiController@encontrarApi")->name("encontrar_alerta_api");
   Route::get('categories', 'DataController@categories');
 
   Route::get('questions', 'DataController@questions');

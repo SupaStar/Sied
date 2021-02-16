@@ -82,6 +82,8 @@
                     <textarea type="text" name="sustento" id="sustento" placeholder="Sustento"
                               class="form-control"></textarea>
                     <label>Documento Sustento</label>
+                    <br>
+                    <strong id="sustentoSub"></strong>
                     <input required type="file" data-toggle="tooltip" data-placement="top"
                            title="Solo se permiten archivos PDF, cargue por lo menos un pdf"
                            class="form-control" id="Fsustento" name="Fsustento" accept="application/pdf">
@@ -93,12 +95,13 @@
                 <div class="modal-body">
                   <label>Documento Dictamen: </label>
                   <div class="form-group">
-
                     <textarea type="text" name="dictamen" id="dictamen" placeholder="Dictamen"
                               class="form-control"></textarea>
                     <label>
                       Imagen Acuse
                     </label>
+                    <br>
+                    <strong id="sustentoDic"></strong>
                     <input required type="file" data-toggle="tooltip" data-placement="top"
                            title="Solo se permiten archivos PDF, cargue por lo menos un pdf"
                            class="form-control" id="Fdictamen" name="Fdictamen" accept="application/pdf">
@@ -115,6 +118,7 @@
                     <label>
                       Documento Acuse
                     </label>
+                    <strong id="sustentoAcus"></strong>
                     <input required type="file" data-toggle="tooltip" data-placement="top"
                            title="Solo se permiten archivos PDF, cargue por lo menos un pdf"
                            class="form-control" id="Facuse" name="Facuse" accept="application/pdf">
@@ -143,11 +147,12 @@
           </div>
         </div>
       </div>
-
     {{-- add new sidebar ends --}}
   </section>
   {{-- Data list view end --}}
 
+  <input value="{{route('editar_alerta_api')}}" id="ruta_api" aria-label="ruta api editar" hidden>
+  <input value="{{route('encontrar_alerta_api')}}" id="ruta_api_encontrar" aria-label="ruta api encontrar">
 
 
   {{-- Modal --}}
@@ -211,7 +216,39 @@
           let id = this.name;
           let id2 = this.ariaLabel;
           let id3 = this.value;
-
+          let rutaApi=$("#ruta_api_encontrar").val()+"/"+id;
+          $.ajax({
+            type:"get",
+            url:rutaApi,
+            datatype:"json",
+            success:function (response){
+              $("#sustento").val(response.sustento);
+              $("#acuse").val(response.acuse);
+              $("#dictamen").val(response.dictamen);
+              if(response.archivo_sustento!==""){
+                $("#sustentoSub").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
+                $("#Fsustento").removeAttr("required");
+              }else{
+                $("#sustentoSub").html("");
+                $("#Fsustento").attr("required");
+              }
+              if(response.archivo_dictamen!==""){
+                $("#sustentoDic").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
+                $("#Fdictamen").removeAttr("required");
+              }
+              else{
+                $("#sustentoDic").html("");
+                $("#Fdictamen").attr("required");
+              }
+              if(response.archivo_acuse!==""){
+                $("#sustentoAcus").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
+                $("#Facuse").removeAttr("required");
+              }else{
+                $("#sustentoAcus").html("");
+                $("#Facuse").attr("required");
+              }
+            }
+          });
           var value = id;
           var value2 = id2;
           var value3 = id3;
