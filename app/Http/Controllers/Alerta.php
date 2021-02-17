@@ -94,6 +94,7 @@ class Alerta extends Controller
     $alerta = \App\Alerta::find($request->id);
     $alerta->observacion = $request->observacion;
     $alerta->sustento = $request->sustento;
+    $alerta->envio = $request->envio;
     $alerta->archivo_sustento = $this->agregarArchivo($request->file('Fsustento'), $request->inid, $alerta->archivo_sustento);
     $alerta->dictamen = $request->dictamen;
     $alerta->archivo_dictamen = $this->agregarArchivo($request->file('Fdictamen'), $request->inid, $alerta->archivo_dictamen);

@@ -18,12 +18,17 @@ class ApiController extends Controller
   {
     $alerta = \App\Alerta::find($request->id);
     $obs = "";
+    $envio = 0;
     $estatus = 1;
     if ($request->observacion != null) {
       $obs = $request->observacion;
     }
+    if ($request->envio!=null){
+      $envio=$request->envio;
+    }
     $alerta->observacion = $obs;
     $alerta->sustento = $request->sustento;
+    $alerta->envio = $envio;
     $estatus=$request->sustento!=null?2:$estatus;
     $alerta->archivo_sustento = $this->agregarArchivo($request->file('Fsustento'), $request->inid, $alerta->archivo_sustento);
     $alerta->dictamen = $request->dictamen;
