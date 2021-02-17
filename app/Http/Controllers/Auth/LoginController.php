@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\ConfigAlertas;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
@@ -63,6 +64,8 @@ class LoginController extends Controller
             'password'           => 'required',
            //'g-recaptcha-response' => 'required|captcha'
         ]);
+      $pagomesGlobal = ConfigAlertas::find(1);
+      $pagomesGlobal->valorUID();
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             // Success
             return redirect()->intended('/');
