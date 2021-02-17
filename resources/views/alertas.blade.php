@@ -87,6 +87,7 @@
                     <input required type="file" data-toggle="tooltip" data-placement="top"
                            title="Solo se permiten archivos PDF, cargue por lo menos un pdf"
                            class="form-control" id="Fsustento" name="Fsustento" accept="application/pdf">
+                    <div id="linkArSus"></div>
                   </div>
                 </div>
               </fieldset>
@@ -105,6 +106,7 @@
                     <input required type="file" data-toggle="tooltip" data-placement="top"
                            title="Solo se permiten archivos PDF, cargue por lo menos un pdf"
                            class="form-control" id="Fdictamen" name="Fdictamen" accept="application/pdf">
+                    <div id="linkArDic"></div>
                   </div>
                 </div>
               </fieldset>
@@ -122,6 +124,7 @@
                     <input required type="file" data-toggle="tooltip" data-placement="top"
                            title="Solo se permiten archivos PDF, cargue por lo menos un pdf"
                            class="form-control" id="Facuse" name="Facuse" accept="application/pdf">
+                    <div id="linkArAcus"></div>
                   </div>
                 </div>
               </fieldset>
@@ -227,23 +230,29 @@
               $("#dictamen").val(response.dictamen);
               if (response.archivo_sustento !== ""&&response.archivo_sustento !=null) {
                 $("#sustentoSub").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
+                $("#linkArSus").html("<a href='/uploads/"+response.archivo_sustento+"' aria-label='archivo sustento' target='_blank'>Ver archivo</a>");
                 $("#Fsustento").removeAttr("required");
               } else {
                 $("#sustentoSub").html("");
+                $("#linkArSus").html("");
                 $("#Fsustento").attr("required",true);
               }
               if (response.archivo_dictamen !== ""&&response.archivo_dictamen !=null) {
                 $("#sustentoDic").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
+                $("#linkArDic").html("<a href='/uploads/"+response.archivo_dictamen+"' aria-label='archivo dictamen' target='_blank'>Ver archivo</a>");
                 $("#Fdictamen").removeAttr("required");
               } else {
                 $("#sustentoDic").html("");
+                $("#linkArDic").html("");
                 $("#Fdictamen").attr("required",true);
               }
               if (response.archivo_acuse !== ""&&response.archivo_acuse !=null) {
                 $("#sustentoAcus").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
+                $("#linkArAcus").html("<a href='/uploads/"+response.archivo_acuse+"' aria-label='archivo acuse' target='_blank'>Ver archivo</a>");
                 $("#Facuse").removeAttr("required");
               } else {
                 $("#sustentoAcus").html("");
+                $("#linkArAcus").html("");
                 $("#Facuse").attr("required",true);
               }
               let actual = $(".current")[0].children[0].children[1].innerHTML;
