@@ -64,8 +64,10 @@
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel33">Modificar Alerta</h4>
-           <div> <br><h4 id="nombre"> </h4><br><h4 id="alertah">  </h4></div>
+            <h4 class="modal-title" id="myModalLabel33">Modificar Alerta
+              <div id="nombre"></div>
+              <div id="alertah"></div>
+            </h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -78,9 +80,10 @@
               <h6>Recabando sustento</h6>
               <fieldset id="field1">
                 <div class="modal-body">
-                  <div id="lblsustento" hidden class="alert alert-primary"  role="alert">
+                  <div id="lblsustento" hidden class="alert alert-primary" role="alert">
                     Información ya registrada
-                  </div> <br>
+                  </div>
+                  <br>
                   <label>Sustento: </label>
                   <div class="form-group">
                     <textarea type="text" name="sustento" id="sustento" placeholder="Sustento"
@@ -99,9 +102,10 @@
               <fieldset class="row setup-content" id="step-2">
                 <div class="modal-body">
 
-                  <div id="lbldictamen" hidden class="alert alert-primary"  role="alert">
+                  <div id="lbldictamen" hidden class="alert alert-primary" role="alert">
                     Información ya registrada
-                  </div> <br>
+                  </div>
+                  <br>
                   <label>Dictamen: </label>
                   <div class="form-group">
                     <textarea type="text" name="dictamen" id="dictamen" placeholder="Dictamen"
@@ -121,7 +125,7 @@
               <h6>Acuse</h6>
               <fieldset class="row setup-content" id="step-3">
                 <div class="modal-body">
-                  <div id="lblacuse" hidden class="alert alert-primary"  role="alert">
+                  <div id="lblacuse" hidden class="alert alert-primary" role="alert">
                     Información ya registrada
                   </div>
                   <br>
@@ -232,7 +236,6 @@
           let id3 = this.value;
 
 
-
           let rutaApi = $("#ruta_api_encontrar").val() + "/" + id;
           $.ajax({
             type: "get",
@@ -242,42 +245,42 @@
               $("#sustento").val(response.sustento);
               $("#acuse").val(response.acuse);
               $("#dictamen").val(response.dictamen);
-              $("#nombre").text("Cliente: "+response.cliente.name);
-              $("#alertah").text("Tipo de alerta: "+response.tipo_alerta)
-              if (response.archivo_sustento !== ""&&response.archivo_sustento !=null) {
+              $("#nombre").text("Cliente: " + response.cliente.name);
+              $("#alertah").text('Motivo: ' + response.tipo_alerta)
+              if (response.archivo_sustento !== "" && response.archivo_sustento != null) {
                 $("#sustentoSub").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
-                $("#linkArSus").html("<a class='btn btn-info' href='/uploads/"+response.archivo_sustento+"' aria-label='archivo sustento' target='_blank'>Ver archivo</a>");
+                $("#linkArSus").html("<a class='btn btn-info' href='/uploads/" + response.archivo_sustento + "' aria-label='archivo sustento' target='_blank'>Ver archivo</a>");
                 $("#Fsustento").removeAttr("required");
                 $("#lblsustento").removeAttr("hidden");
 
               } else {
                 $("#sustentoSub").html("");
                 $("#linkArSus").html("");
-                $("#Fsustento").attr("required",true);
-                $("#lblsustento").attr("hidden",true)
+                $("#Fsustento").attr("required", true);
+                $("#lblsustento").attr("hidden", true)
               }
-              if (response.archivo_dictamen !== ""&&response.archivo_dictamen !=null) {
+              if (response.archivo_dictamen !== "" && response.archivo_dictamen != null) {
                 $("#sustentoDic").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
-                $("#linkArDic").html("<a class='btn btn-info' href='/uploads/"+response.archivo_dictamen+"' aria-label='archivo dictamen' target='_blank'>Ver archivo</a>");
+                $("#linkArDic").html("<a class='btn btn-info' href='/uploads/" + response.archivo_dictamen + "' aria-label='archivo dictamen' target='_blank'>Ver archivo</a>");
                 $("#Fdictamen").removeAttr("required");
                 $("#lbldictamen").removeAttr("hidden")
               } else {
                 $("#sustentoDic").html("");
                 $("#linkArDic").html("");
-                $("#Fdictamen").attr("required",true);
-                $("#lbldictamen").attr("hidden",true)
+                $("#Fdictamen").attr("required", true);
+                $("#lbldictamen").attr("hidden", true)
               }
-              if (response.archivo_acuse !== ""&&response.archivo_acuse !=null) {
+              if (response.archivo_acuse !== "" && response.archivo_acuse != null) {
                 $("#sustentoAcus").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
-                $("#linkArAcus").html("<a class='btn btn-info' href='/uploads/"+response.archivo_acuse+"' aria-label='archivo acuse' target='_blank'>Ver archivo</a>");
+                $("#linkArAcus").html("<a class='btn btn-info' href='/uploads/" + response.archivo_acuse + "' aria-label='archivo acuse' target='_blank'>Ver archivo</a>");
                 $("#Facuse").removeAttr("required");
                 $("#lblacuse").removeAttr("hidden")
 
               } else {
                 $("#sustentoAcus").html("");
                 $("#linkArAcus").html("");
-                $("#Facuse").attr("required",true);
-                $("#lblacuse").attr("hidden",true)
+                $("#Facuse").attr("required", true);
+                $("#lblacuse").attr("hidden", true)
               }
               let actual = $(".current")[0].children[0].children[1].innerHTML;
               for (var llegar = 1; llegar < actual; llegar++) {
@@ -287,8 +290,6 @@
               for (var i = 1; i < lista.children.length; i++) {
                 lista.children[i].className = "disabled";
               }
-
-
 
 
             }
