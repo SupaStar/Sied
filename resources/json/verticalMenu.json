@@ -69,29 +69,17 @@
       "submenu": [
         {
           "url": "/alertas/alertas",
-          "name": "Alertas",
+          "name": "Alertas PLD",
+          "icon": "feather icon-circle",
+          "i18n": "nav.dashboard_analytics"
+        }, {
+          "url": "/alertas/alertasinternas",
+          "name": "Alertas Internas",
           "icon": "feather icon-circle",
           "i18n": "nav.dashboard_analytics"
         }
       ]
     }
-  ,
-    {
-      "url": "",
-      "name": "Buzon",
-      "slug": "buzon",
-      "badgeClass": "badge badge-warning badge-pill float-right mr-2",
-      "icon": "feather icon-mail",
-      "submenu": [
 
-          {
-            "url": "/buzon/buzones",
-            "name": "Buzones recibidos",
-            "icon": "feather icon-circle",
-            "i18n": "nav.dashboard_analytics"
-          }
-        ]
-
-    }
   ]
 }

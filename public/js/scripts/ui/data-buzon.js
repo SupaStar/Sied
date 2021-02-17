@@ -102,6 +102,10 @@ function alertas(chn){
         name: 'estatus'
       },
       {
+        data: 'observacion',
+        name: 'observacion',
+              }
+      ,{
         data: 'prioridad',
         name: 'prioridad',
               }
@@ -120,14 +124,14 @@ function alertas(chn){
     },
     "rowCallback": function( row, data, index ) {
       if (data.prioridad == "Alta") {
-        $('td', row).eq(3).css('color', 'red');
+        $('td', row).eq(4).css('color', 'red');
       }
       else if(data.prioridad == "Media")
       {
-        $('td', row).eq(3).css('color', 'orange');
+        $('td', row).eq(4).css('color', 'orange');
       }
       else{
-        $('td', row).eq(3).css('color', 'green');
+        $('td', row).eq(4).css('color', 'green');
       }
     }
   });

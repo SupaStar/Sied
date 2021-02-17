@@ -43,6 +43,7 @@
           <th>Titulo</th>
           <th>Descripción</th>
           <th>Estatus</th>
+          <th>Observación</th>
           <th>Prioridad</th>
           <th>Acciones</th>
         </tr>
@@ -72,14 +73,18 @@
             <input type="hidden" id="inid" value="" name='id'>
 
             <div class="modal-body">
-
+              <label>Observación: </label>
+              <div class="form-group">
+                    <textarea type="text" name="observacion" id="observacion" placeholder="Observacion"
+                              class="form-control required" required></textarea>
+              </div>
 
               <label>estatus: </label>
               <div class="form-group">
-                <select class="form-control" id="estatus" name="estatus" readonly>
+                <select class="form-control required" id="estatus" name="estatus" required>
 
                   <option selected disabled>Seleccione la prioridad</option>
-                  <option value="1">Nuevo</option>
+
                   <option value="2">En proceso</option>
                   <option value="3">Revisado</option>
 
@@ -150,7 +155,7 @@
       @if (session('message'))
       Swal.fire({
         title: "Bien!",
-        text: "Estatus editada correctamente!",
+        text: "Alerta Interna editada correctamente!",
         type: "success",
         confirmButtonClass: 'btn btn-primary',
         buttonsStyling: false,
