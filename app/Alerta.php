@@ -12,7 +12,7 @@ class Alerta extends Model
 
   public function verificar(Request $request, $creditoId)
   {
-    $perfil = Perfil::where('cliente_id', $request->id);
+    $perfil = Perfil::where('cliente_id', $request->id)->first();
     $divisaP = $request->moneda == "Nacional" ? 1 : 0;
     if ($perfil->divisa !== $divisaP) {
       $alerta = new Alerta();
