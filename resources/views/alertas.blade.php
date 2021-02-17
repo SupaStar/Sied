@@ -64,19 +64,23 @@
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel33">Modificar Alerta </h4>
+            <h4 class="modal-title" id="myModalLabel33">Modificar Alerta</h4>
+           <div> <br><h4 id="nombre"> </h4><br><h4 id="alertah">  </h4></div>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="container">
+          <div id="containermodal" class="container">
             <form action="/alertas/editar" enctype="multipart/form-data" method="POST"
                   class="steps-validation wizard-circle" id="formss" name="formss">
               @csrf
               <input type="hidden" id="inid" value="" name='id'>
               <h6>Recabando sustento</h6>
-              <fieldset>
+              <fieldset id="field1">
                 <div class="modal-body">
+                  <div id="lblsustento" hidden class="alert alert-primary"  role="alert">
+                    Información ya registrada
+                  </div> <br>
                   <label>Sustento: </label>
                   <div class="form-group">
                     <textarea type="text" name="sustento" id="sustento" placeholder="Sustento"
@@ -93,12 +97,16 @@
               <h6>Dictamen</h6>
               <fieldset class="row setup-content" id="step-2">
                 <div class="modal-body">
-                  <label>Documento Dictamen: </label>
+
+                  <div id="lbldictamen" hidden class="alert alert-primary"  role="alert">
+                    Información ya registrada
+                  </div> <br>
+                  <label>Dictamen: </label>
                   <div class="form-group">
                     <textarea type="text" name="dictamen" id="dictamen" placeholder="Dictamen"
                               class="form-control"></textarea>
                     <label>
-                      Imagen Acuse
+                      Documento dictamen:
                     </label>
                     <br>
                     <strong id="sustentoDic"></strong>
@@ -111,6 +119,10 @@
               <h6>Acuse</h6>
               <fieldset class="row setup-content" id="step-3">
                 <div class="modal-body">
+                  <div id="lblacuse" hidden class="alert alert-primary"  role="alert">
+                    Información ya registrada
+                  </div>
+                  <br>
                   <label>Acuse: </label>
                   <div class="form-group">
                     <textarea type="text" name="acuse" id="acuse" placeholder="acuse"
@@ -136,9 +148,8 @@
                   <label>estatus: </label>
                   <div class="form-group">
                     <select class="form-control" id="estatus" name="estatus" required>
-                      <option selected disabled>Seleccione la prioridad</option>
-                      <option value="1">Nuevo</option>
-                      <option value="2">En proceso</option>
+                      <option selected disabled>Seleccione el estatus</option>
+                      <option value="1">Concluido</option>
                     </select>
                   </div>
                 </div>
@@ -216,6 +227,9 @@
           let id = this.name;
           let id2 = this.ariaLabel;
           let id3 = this.value;
+
+
+
           let rutaApi = $("#ruta_api_encontrar").val() + "/" + id;
           $.ajax({
             type: "get",
@@ -225,26 +239,36 @@
               $("#sustento").val(response.sustento);
               $("#acuse").val(response.acuse);
               $("#dictamen").val(response.dictamen);
+              $("#nombre").text("Cliente: "+response.cliente.name);
+              $("#alertah").text("Tipo de alerta: "+response.tipo_alerta)
               if (response.archivo_sustento !== ""&&response.archivo_sustento !=null) {
                 $("#sustentoSub").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
                 $("#Fsustento").removeAttr("required");
+                $("#lblsustento").removeAttr("hidden");
+
               } else {
                 $("#sustentoSub").html("");
                 $("#Fsustento").attr("required",true);
+                $("#lblsustento").attr("hidden",true)
               }
               if (response.archivo_dictamen !== ""&&response.archivo_dictamen !=null) {
                 $("#sustentoDic").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
                 $("#Fdictamen").removeAttr("required");
+                $("#lbldictamen").removeAttr("hidden")
               } else {
                 $("#sustentoDic").html("");
                 $("#Fdictamen").attr("required",true);
+                $("#lbldictamen").attr("hidden",true)
               }
               if (response.archivo_acuse !== ""&&response.archivo_acuse !=null) {
                 $("#sustentoAcus").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
                 $("#Facuse").removeAttr("required");
+                $("#lblacuse").removeAttr("hidden")
+
               } else {
                 $("#sustentoAcus").html("");
                 $("#Facuse").attr("required",true);
+                $("#lblacuse").attr("hidden",true)
               }
               let actual = $(".current")[0].children[0].children[1].innerHTML;
               for (var llegar = 1; llegar < actual; llegar++) {
@@ -254,11 +278,16 @@
               for (var i = 1; i < lista.children.length; i++) {
                 lista.children[i].className = "disabled";
               }
+
+
+
+
             }
           });
           var value = id;
           var value2 = id2;
           var value3 = id3;
+
           if (value3 == "Nuevo") {
             $('#estatus').val(1);
           } else {

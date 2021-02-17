@@ -10,6 +10,7 @@ class ApiController extends Controller
   public function encontrarApi($id)
   {
     $alerta = \App\Alerta::find($id);
+    $alerta->cliente;
     return response()->json($alerta);
   }
 
@@ -33,6 +34,7 @@ class ApiController extends Controller
     $alerta->archivo_acuse = $this->agregarArchivo($request->file('Facuse'), $request->inid, $alerta->archivo_acuse);
     $estatus=$request->estatus==5?5:$estatus;
     $alerta->estatus = $estatus;
+
     $alerta->save();
     return response()->json(["estado" => true]);
   }
