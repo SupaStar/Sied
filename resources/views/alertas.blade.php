@@ -230,7 +230,7 @@
               $("#dictamen").val(response.dictamen);
               if (response.archivo_sustento !== ""&&response.archivo_sustento !=null) {
                 $("#sustentoSub").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
-                $("#linkArSus").html("<a href='/uploads/"+response.archivo_sustento+"' aria-label='archivo sustento' target='_blank'>Ver archivo</a>");
+                $("#linkArSus").html("<a class='btn btn-info' href='/uploads/"+response.archivo_sustento+"' aria-label='archivo sustento' target='_blank'>Ver archivo</a>");
                 $("#Fsustento").removeAttr("required");
               } else {
                 $("#sustentoSub").html("");
@@ -239,7 +239,7 @@
               }
               if (response.archivo_dictamen !== ""&&response.archivo_dictamen !=null) {
                 $("#sustentoDic").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
-                $("#linkArDic").html("<a href='/uploads/"+response.archivo_dictamen+"' aria-label='archivo dictamen' target='_blank'>Ver archivo</a>");
+                $("#linkArDic").html("<a class='btn btn-info' href='/uploads/"+response.archivo_dictamen+"' aria-label='archivo dictamen' target='_blank'>Ver archivo</a>");
                 $("#Fdictamen").removeAttr("required");
               } else {
                 $("#sustentoDic").html("");
@@ -248,7 +248,7 @@
               }
               if (response.archivo_acuse !== ""&&response.archivo_acuse !=null) {
                 $("#sustentoAcus").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
-                $("#linkArAcus").html("<a href='/uploads/"+response.archivo_acuse+"' aria-label='archivo acuse' target='_blank'>Ver archivo</a>");
+                $("#linkArAcus").html("<a class='btn btn-info' href='/uploads/"+response.archivo_acuse+"' aria-label='archivo acuse' target='_blank'>Ver archivo</a>");
                 $("#Facuse").removeAttr("required");
               } else {
                 $("#sustentoAcus").html("");
