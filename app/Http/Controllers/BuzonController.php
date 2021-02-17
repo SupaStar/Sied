@@ -73,7 +73,7 @@ class BuzonController extends Controller
     $buzon->estatus = $request->estatus;
     $buzon->observacion = $request->observacion;
     $buzon->save();
-    return redirect('/buzon/buzones')->with('message', 'OK');
+    return redirect('/alertas/alertasinternas')->with('message', 'OK');
   }
 
   public function getBuzones(Request $request)

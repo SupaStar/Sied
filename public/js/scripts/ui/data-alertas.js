@@ -140,6 +140,17 @@ function alertas(chn){
       data: {
         "filtro": filtro
       }
+    }, "rowCallback": function( row, data, index ) {
+      if (data.prioridad == "Alta") {
+        $('td', row).eq(8).css('color', 'red');
+      }
+      else if(data.prioridad == "Media")
+      {
+        $('td', row).eq(8).css('color', 'orange');
+      }
+      else{
+        $('td', row).eq(8).css('color', 'green');
+      }
     }
 
   });

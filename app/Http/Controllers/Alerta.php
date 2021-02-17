@@ -142,7 +142,11 @@ class Alerta extends Controller
         if ($r->estatus == 1) {
           $r->estatus = "Nuevo";
         } elseif ($r->estatus == 2) {
-          $r->estatus = "En proceso";
+          $r->estatus = "Recabando información";
+        }elseif ($r->estatus == 3) {
+          $r->estatus = "Observaciones";
+        }else{
+          $r->estatus = "Observaciones";
         }
         $r->cliente;
         $r->credito;
@@ -156,5 +160,16 @@ class Alerta extends Controller
               ';
     })->rawColumns(['actions'])->toJson();
 
+  }
+  public function verbuzon()
+  {
+    $pageConfigs = [
+      'mainLayoutType' => 'vertical',
+      'pageName' => 'Alertas Internas'
+    ];
+
+    return view('buzon/buzon', [
+      'pageConfigs' => $pageConfigs
+    ]);
   }
 }
