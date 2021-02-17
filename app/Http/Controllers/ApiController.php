@@ -23,25 +23,34 @@ class ApiController extends Controller
     if ($request->observacion != null) {
       $obs = $request->observacion;
     }
-    if ($request->envio!=null){
-      $envio=$request->envio;
+    if ($request->envio != null) {
+      $envio = $request->envio;
     }
     $alerta->observacion = $obs;
     $alerta->sustento = $request->sustento;
     $alerta->envio = $envio;
-    $estatus=$request->sustento!=null?2:$estatus;
+    $estatus = $request->sustento != null ? 2 : $estatus;
     $alerta->archivo_sustento = $this->agregarArchivo($request->file('Fsustento'), $request->inid, $alerta->archivo_sustento);
     $alerta->dictamen = $request->dictamen;
-    $estatus=$request->dictamen!=null?3:$estatus;
+    $estatus = $request->dictamen != null ? 3 : $estatus;
     $alerta->archivo_dictamen = $this->agregarArchivo($request->file('Fdictamen'), $request->inid, $alerta->archivo_dictamen);
     $alerta->acuse = $request->acuse;
-    $estatus=$request->acuse!=null?4:$estatus;
+    $estatus = $request->acuse != null ? 4 : $estatus;
     $alerta->archivo_acuse = $this->agregarArchivo($request->file('Facuse'), $request->inid, $alerta->archivo_acuse);
-    $estatus=$request->estatus==5?5:$estatus;
+    $estatus = $request->estatus == 5 ? 5 : $estatus;
     $alerta->estatus = $estatus;
 
     $alerta->save();
     return response()->json(["estado" => true]);
+  }
+
+  public function alertasTerminadas()
+  {
+    $alertas = \App\Alerta::where('estatus', 5);
+    foreach ($alertas as $alerta){
+      $alerta->cliente;
+    }
+    return response()->json($alertas);
   }
 
   public function agregarArchivo($archivo, $clientid, $anterior)
