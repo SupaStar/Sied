@@ -82,7 +82,7 @@ class BuzonController extends Controller
     if ($request->filtro == 'Prioridad') {
       $result = DB::table('buzon')->where('prioridad', 'prioridad');
     } else {
-      $result = \App\Buzon::all();
+      $result = \App\Buzon::where('estatus','<>',3);
       foreach ($result as $r) {
         if ($r->estatus == 1) {
           $r->estatus = "Nuevo";
