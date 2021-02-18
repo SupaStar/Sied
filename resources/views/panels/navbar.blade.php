@@ -19,8 +19,12 @@ $configAlertas=\App\ConfigAlertas::find(1)->first();
           <div style="margin-top:-30px; margin-left:0px; position:absolute; float:left; z-index:-1">Tiempo
             Actual: {{date('d-m-Y')}} <small id="reloj" style="font-size: 15px;"></small>
           </div>
-          <div style="margin-top:-30px; margin-right:0px; position:relative; float:right; z-index:-1">Valor
-            UID: {{$configAlertas->valor}}, TIIE28: {{$configAlertas->tiie28}}, Fix: {{$configAlertas->fix}}, Cetes28: {{$configAlertas->cetes28}}</div>
+          <div style="margin-top:-30px; margin-right:0px; position:relative; float:right; z-index:-1"><strong>Valor
+              UID: <label style="color: green;">{{$configAlertas->valor}}</label>, <label
+                style="color: green;">TIIE28: {{$configAlertas->tiie28}}</label>, USD: <label
+                style="color: green;">{{$configAlertas->fix}}</label>,
+              Cetes28: <label style="color: green;">{{$configAlertas->cetes28}}</label></strong>
+          </div>
           <div id="clock"></div>
           <div id="date"></div>
           <div class="navbar-container content">
