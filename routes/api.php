@@ -66,6 +66,7 @@ Route::group([
   Route::post("editarAlerta", "ApiController@editarAPI")->name("editar_alerta_api");
   Route::get("encontrarAlerta/{id?}", "ApiController@encontrarApi")->name("encontrar_alerta_api");
   Route::get("alertarTermin", "ApiController@alertasTerminadas")->name("alertas_terminadas_api");
+  Route::get("monedas", "ApiController@cambiarValoresMonedas")->name("valores_monedas_api");
   Route::get('categories', 'DataController@categories');
 
   Route::get('questions', 'DataController@questions');

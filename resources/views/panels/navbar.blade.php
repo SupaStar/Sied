@@ -20,8 +20,8 @@ $configAlertas=\App\ConfigAlertas::find(1)->first();
             Actual: {{date('d-m-Y')}} <small id="reloj" style="font-size: 15px;"></small>
           </div>
           <div style="margin-top:-30px; margin-right:0px; position:relative; float:right; z-index:-1"><strong>Valor
-              UID: <label style="color: green;">{{$configAlertas->valor}}</label>, <label
-                style="color: green;">TIIE28: {{$configAlertas->tiie28}}</label>, USD: <label
+              UID: <label style="color: green;">{{$configAlertas->valor}}</label>, TIIE28: <label
+                style="color: green;">{{$configAlertas->tiie28}}</label>, USD: <label
                 style="color: green;">{{$configAlertas->fix}}</label>,
               Cetes28: <label style="color: green;">{{$configAlertas->cetes28}}</label></strong>
           </div>
