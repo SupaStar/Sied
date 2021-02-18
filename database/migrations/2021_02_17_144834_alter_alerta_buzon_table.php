@@ -14,7 +14,7 @@ class AlterAlertaBuzonTable extends Migration
     public function up()
     {
       Schema::table('alertas_pld', function (Blueprint $table) {
-        $table->integer("envio");
+        $table->integer("envio")->default(0);
       });
       Schema::table('configuracionalerta', function (Blueprint $table) {
         $table->decimal("tiie28");
