@@ -15,7 +15,7 @@ $(document).ready(function() {
   }
 });
 function alertas(chn){
-
+  filtro = chn;
   var dataListView = $(".data-list-view").DataTable({
     responsive: false,
     columnDefs: [
@@ -141,17 +141,6 @@ function alertas(chn){
       data: {
         "filtro": filtro
       }
-    }, "rowCallback": function( row, data, index ) {
-      if (data.prioridad == "Alta") {
-        $('td', row).eq(8).css('color', 'red');
-      }
-      else if(data.prioridad == "Media")
-      {
-        $('td', row).eq(8).css('color', 'orange');
-      }
-      else{
-        $('td', row).eq(8).css('color', 'green');
-      }
     }
 
   });
@@ -160,7 +149,7 @@ function alertas(chn){
 
 }
 function alertas2(chn){
-
+  filtro = chn;
   var dataListView = $(".data-list-view1").DataTable({
     responsive: false,
     columnDefs: [
@@ -264,7 +253,10 @@ function alertas2(chn){
         name: 'descripcion'
       }
       ,
-
+      {
+        data: 'estatus',
+        name: 'estatus'
+      },
       {
         data: 'observacion',
         name: 'observacion'
@@ -279,20 +271,9 @@ function alertas2(chn){
       }
     ],
     ajax: {
-      url: "/alertas/alerta",
+      url: "/alertas/alerta2",
       data: {
         "filtro": filtro
-      }
-    }, "rowCallback": function( row, data, index ) {
-      if (data.prioridad == "Alta") {
-        $('td', row).eq(8).css('color', 'red');
-      }
-      else if(data.prioridad == "Media")
-      {
-        $('td', row).eq(8).css('color', 'orange');
-      }
-      else{
-        $('td', row).eq(8).css('color', 'green');
       }
     }
 

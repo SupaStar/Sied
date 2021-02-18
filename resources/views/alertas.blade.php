@@ -51,7 +51,11 @@
                       <div class="action-btns d-none">
                         <div class="btn-dropdown mr-1 mb-1">
                           <div class="btn-group dropdown actions-dropodown">
-
+                            <div class="dropdown-menu">
+                              <a class="dropdown-item" onclick="alertas('');">Todos</a>
+                              <a class="dropdown-item" onclick="alertas('Titulos');">Titulos</a>
+                              <a class="dropdown-item" onclick="alertas('Concluido');">Prioridad</a>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -101,7 +105,7 @@
                   </section>
                   <!-- invoice functionality end -->
                   <section class="card invoice-page">
-                    <section id="data-list-view" class="data-list-view-header">
+                    <section id="data-list-view1" class="data-list-view-header">
 
                       <div class="action-btns d-none">
                         <div class="btn-dropdown mr-1 mb-1">
@@ -111,7 +115,10 @@
                               Filtro
                             </button>
                             <div class="dropdown-menu">
-                             </div>
+                              <a class="dropdown-item" onclick="alertas2('');">Todos</a>
+                              <a class="dropdown-item" onclick="alertas2('Titulos');">Titulos</a>
+                              <a class="dropdown-item" onclick="alertas2('Prioridad');">Prioridad</a>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -267,7 +274,7 @@
                 <div class="form-group">
                   <select class="form-control" id="estatus" name="estatus" required>
                     <option selected disabled>Seleccione el estatus</option>
-                    <option value="1">Concluido</option>
+                    <option value="5">Concluido</option>
                   </select>
                 </div>
               </div>
@@ -278,7 +285,6 @@
     </div>
     <input value="{{route('editar_alerta_api')}}" id="ruta_api" aria-label="ruta api editar" hidden>
     <input hidden value="{{route('encontrar_alerta_api')}}" id="ruta_api_encontrar" aria-label="ruta api encontrar">
-    <input hidden value="{{route('alertas_terminadas_api')}}" id="ruta_api_alertas" aria-label="ruta api alertas">
     {{-- add new sidebar ends --}}
 @endsection
 @section('vendor-script')

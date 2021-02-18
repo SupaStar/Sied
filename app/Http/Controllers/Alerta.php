@@ -138,7 +138,7 @@ class Alerta extends Controller
     } elseif ($request->filtro == 'Titulo') {
       $result = DB::table('alertas_pld')->where('titulo', 'titulo');
     } else {
-      $result = \App\Alerta::where('estatus', 5);
+      $result = \App\Alerta::all();
 
       foreach ($result as $r) {
         if ($r->estatus == 1) {
@@ -158,6 +158,28 @@ class Alerta extends Controller
       }
 
     }
+    return datatables()->of($result)->addColumn('actions', function ($query) {
+
+      return '
+              <a href="#" id="editname"  title="Editar"><button style="z-index:999" id="btnedita" value="' . $query->estatus . '"  aria-label="' . $query->observacion . '" name="' . $query->id . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><input hidden id="inputname" value="'.$query->cliente->name.'"><input hidden id="inputalerta" value="'.$query->tipo_alerta.'"><i id="ialerta" aria-label="'.$query->tipo_alerta.'" class="feather icon-edit primary"></i></button></a>
+              ';
+    })->rawColumns(['actions'])->toJson();
+
+  }
+  public function getAlertas2(Request $request)
+  {
+
+
+      $result =  \App\Alerta::where('estatus', 5)->get();;
+
+      foreach ($result as $r) {
+        $r->estatus = "Concluido";
+        $r->cliente;
+        $r->credito;
+
+      }
+
+
     return datatables()->of($result)->addColumn('actions', function ($query) {
 
       return '
