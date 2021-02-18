@@ -15,7 +15,8 @@ class ConfigAlertas extends Model
     $fechaBd=Carbon::make($db->actualizacionUid)->format("Y-m-d");
     if($fechaBd<Carbon::now()){
       $hoy = Carbon::now()->format("Y-m-d");
-      $endpoint = "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SP68257,SF60648,SF43718/datos/" . $hoy . "/" . $hoy;
+      $ayer = Carbon::now()->addDays(-1)->format("Y-m-d");
+      $endpoint = "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SP68257,SF60648,SF43718/datos/" . $ayer . "/" . $hoy;
       $client = curl_init();
       curl_setopt($client, CURLOPT_URL, $endpoint);
       curl_setopt($client, CURLOPT_HTTPHEADER, array(
