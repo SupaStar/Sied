@@ -51,11 +51,7 @@
                       <div class="action-btns d-none">
                         <div class="btn-dropdown mr-1 mb-1">
                           <div class="btn-group dropdown actions-dropodown">
-                            <div class="dropdown-menu">
-                              <a class="dropdown-item" onclick="alertas('');">Todos</a>
-                              <a class="dropdown-item" onclick="alertas('Titulos');">Titulos</a>
-                              <a class="dropdown-item" onclick="alertas('Concluido');">Prioridad</a>
-                            </div>
+
                           </div>
                         </div>
                       </div>
@@ -115,10 +111,7 @@
                               Filtro
                             </button>
                             <div class="dropdown-menu">
-                              <a class="dropdown-item" onclick="alertas2('');">Todos</a>
-                              <a class="dropdown-item" onclick="alertas2('Titulos');">Titulos</a>
-                              <a class="dropdown-item" onclick="alertas2('Prioridad');">Prioridad</a>
-                            </div>
+                             </div>
                           </div>
                         </div>
                       </div>
@@ -285,6 +278,7 @@
     </div>
     <input value="{{route('editar_alerta_api')}}" id="ruta_api" aria-label="ruta api editar" hidden>
     <input hidden value="{{route('encontrar_alerta_api')}}" id="ruta_api_encontrar" aria-label="ruta api encontrar">
+    <input hidden value="{{route('alertas_terminadas_api')}}" id="ruta_api_alertas" aria-label="ruta api alertas">
     {{-- add new sidebar ends --}}
 @endsection
 @section('vendor-script')

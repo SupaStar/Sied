@@ -138,16 +138,20 @@ class Alerta extends Controller
     } elseif ($request->filtro == 'Titulo') {
       $result = DB::table('alertas_pld')->where('titulo', 'titulo');
     } else {
-      $result = \App\Alerta::all();
+      $result = \App\Alerta::where('estatus', 5);
+
       foreach ($result as $r) {
         if ($r->estatus == 1) {
           $r->estatus = "Nuevo";
         } elseif ($r->estatus == 2) {
           $r->estatus = "Recabando información";
         }elseif ($r->estatus == 3) {
+          $r->estatus = "En proceso";
+        }elseif ($r->estatus == 4) {
           $r->estatus = "Observaciones";
         }else{
           $r->estatus = "Concluido";
+
         }
         $r->cliente;
         $r->credito;
