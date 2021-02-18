@@ -138,7 +138,7 @@ class Alerta extends Controller
     } elseif ($request->filtro == 'Titulo') {
       $result = DB::table('alertas_pld')->where('titulo', 'titulo');
     } else {
-      $result = \App\Alerta::all();
+      $result = \App\Alerta::where('estatus','<>',5)->get();
 
       foreach ($result as $r) {
         if ($r->estatus == 1) {
