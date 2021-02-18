@@ -46,7 +46,7 @@ class ApiController extends Controller
 
   public function alertasTerminadas()
   {
-    $alertas = \App\Alerta::where('estatus', 5);
+    $alertas = \App\Alerta::where('estatus', 5)->get();
     foreach ($alertas as $alerta){
       $alerta->cliente;
     }
