@@ -325,6 +325,7 @@
               $("#dictamen").val(response.dictamen);
               $("#nombre").text("Cliente: " + response.cliente.name);
               $("#alertah").text('Motivo: ' + response.tipo_alerta)
+              $("#envio").val(response.envio)
               if (response.archivo_sustento !== "" && response.archivo_sustento != null) {
                 $("#sustentoSub").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
                 $("#linkArSus").html("<a class='btn btn-info' href='/uploads/" + response.archivo_sustento + "' aria-label='archivo sustento' target='_blank'>Ver archivo</a>");
