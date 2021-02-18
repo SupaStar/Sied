@@ -171,7 +171,7 @@
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title" id="myModalLabel33">Modificar estatus </h4>
+          <h4 class="modal-title" id="myModalLabel33">Modificar estatus de Alerta Interna </h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -203,8 +203,8 @@
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-success" >Aplicar</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-primary" >Aplicar</button>
           </div>
         </form>
       </div>
@@ -231,6 +231,7 @@
 
   <script>
     $(document).ready(function () {
+
 
         $(function() {
         $(document).on('click', 'button[type="button"]', function(event) {
