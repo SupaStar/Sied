@@ -88,7 +88,33 @@ class BuzonController extends Controller
           $r->estatus = "Nuevo";
         } elseif ($r->estatus == 2) {
           $r->estatus = "En proceso";
-        } else {
+        } elseif($r->estatus == 3) {
+          $r->estatus = "Revisado";
+        }
+        $r->usuario;
+      }
+    }
+
+    return datatables()->of($result)->addColumn('actions', function ($query) {
+
+      return '
+              <a href="#"  title="Editar"><button style="z-index:999" value="' . $query->estatus . '"  id="' . $query->id . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
+              ';
+    })->rawColumns(['actions'])->toJson();
+  }
+  public function getBuzones2(Request $request)
+  {
+
+    if ($request->filtro == 'Prioridad') {
+      $result = DB::table('buzon')->where('prioridad', 'prioridad');
+    } else {
+      $result = \App\Buzon::where("estatus",3);
+      foreach ($result as $r) {
+        if ($r->estatus == 1) {
+          $r->estatus = "Nuevo";
+        } elseif ($r->estatus == 2) {
+          $r->estatus = "En proceso";
+        } elseif($r->estatus == 3) {
           $r->estatus = "Revisado";
         }
         $r->usuario;

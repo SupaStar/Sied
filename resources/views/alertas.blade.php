@@ -10,6 +10,8 @@
 @endsection
 @section('page-style')
   <link rel="stylesheet" href="{{ asset(mix('css/plugins/forms/wizard.css')) }}">
+
+  <link rel="stylesheet" href="{{ asset(mix('css/pages/data-list-view.css')) }}">
 @endsection
 
 @section('content')
