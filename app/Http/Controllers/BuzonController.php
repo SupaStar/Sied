@@ -82,7 +82,8 @@ class BuzonController extends Controller
     if ($request->filtro == 'Prioridad') {
       $result = DB::table('buzon')->where('prioridad', 'prioridad');
     } else {
-      $result = \App\Buzon::where('estatus','<>',3);
+
+      $result = \App\Buzon::where('estatus','<>',3)->get();
       foreach ($result as $r) {
         if ($r->estatus == 1) {
           $r->estatus = "Nuevo";
@@ -98,7 +99,7 @@ class BuzonController extends Controller
     return datatables()->of($result)->addColumn('actions', function ($query) {
 
       return '
-              <a href="#"  title="Editar"><button style="z-index:999" value="' . $query->estatus . '"  id="' . $query->id . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
+              <a href="#"  title="Editar"><button style="z-index:999" value="' . $query->estatus . '"  id="' . $query->id . '" aria-label="' . $query->observacion . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><i id="liob" value="'.$query->observacion.'" class="feather icon-edit primary"></i></button></a>
               ';
     })->rawColumns(['actions'])->toJson();
   }
@@ -116,7 +117,7 @@ class BuzonController extends Controller
     return datatables()->of($result2)->addColumn('actions', function ($query) {
 
       return '
-              <a href="#"  title="Editar"><button style="z-index:999" value="' . $query->estatus . '"  id="' . $query->id . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
+              <a href="#"  title="Editar"><button style="z-index:999" value="' . $query->estatus . '"  id="' . $query->id . '" aria-label="' . $query->observacion . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
               ';
     })->rawColumns(['actions'])->toJson();
   }
