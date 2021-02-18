@@ -259,11 +259,6 @@ function alertas2(chn){
       else{
         $('td', row).eq(4).css('color', 'green');
       }
-    },
-    "rowCallback": function( row, data, index ) {
-      if (data.estatus == 3) {
-        $('td', row).eq(2).text("Revisado");
-      }
     }
   });
 
