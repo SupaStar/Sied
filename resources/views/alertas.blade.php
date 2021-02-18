@@ -13,201 +13,279 @@
 @endsection
 
 @section('content')
-  {{-- Data list view starts --}}
-  <section id="data-list-view" class="data-list-view-header">
+  <section id="nav-justified">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card overflow-hidden">
+          <div class="card-content">
+            <div class="card-body">
 
-    <div class="action-btns d-none">
-      <div class="btn-dropdown mr-1 mb-1">
-        <div class="btn-group dropdown actions-dropodown">
-          <button type="button" class="btn btn-white px-1 py-1 dropdown-toggle waves-effect waves-light"
-                  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Filtro
-          </button>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" onclick="alertas('');">Todos</a>
-            <a class="dropdown-item" onclick="alertas('Titulos');">Titulos</a>
-            <a class="dropdown-item" onclick="alertas('Prioridad');">Prioridad</a>
+              <br>
+              <ul class="nav nav-tabs nav-justified" id="myTab2" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="home-tab-justified" data-toggle="tab" href="#home-just" role="tab"
+                     aria-controls="home-just" aria-selected="true">Alertas</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="profile-tab-credito" data-toggle="tab" href="#profile-credito" role="tab"
+                     aria-controls="profile-just" aria-selected="true">Alertas Concluidas</a>
+                </li>
+
+              </ul>
+
+              {{-- Tab panes --}}
+              <div class="tab-content pt-1">
+                <div class="tab-pane active" id="home-just" role="tabpanel" aria-labelledby="home-tab-justified">
+                  <!-- invoice functionality start -->
+                  <section class="invoice-print mb-1">
+                    <div class="row">
+                      <fieldset class="col-12 col-md-5 mb-1 mb-md-0">
+                      </fieldset>
+
+                    </div>
+                  </section>
+                  <!-- invoice functionality end -->
+                  <section class="card invoice-page">
+                    <section id="data-list-view" class="data-list-view-header">
+
+                      <div class="action-btns d-none">
+                        <div class="btn-dropdown mr-1 mb-1">
+                          <div class="btn-group dropdown actions-dropodown">
+                            <div class="dropdown-menu">
+                              <a class="dropdown-item" onclick="alertas('');">Todos</a>
+                              <a class="dropdown-item" onclick="alertas('Titulos');">Titulos</a>
+                              <a class="dropdown-item" onclick="alertas('Concluido');">Prioridad</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {{-- DataTable starts --}}
+                      <div class="table-responsive">
+                        <table class="table data-list-view">
+                          <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Nombre Cliente</th>
+                            <th>Credito Id</th>
+                            <th>Contrato de credito</th>
+                            <th>Alerta</th>
+                            <th>Titulo</th>
+                            <th>Descripcion</th>
+                            <th>Estatus</th>
+                            <th>Observacion</th>
+                            <th>Prioridad</th>
+                            <th>Acciones</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <!--
+
+
+                           --></tbody>
+                        </table>
+                      </div>
+
+
+
+                    </section>
+                    {{-- Data list view end --}}
+
+
+                  </section>
+                </div>
+
+                <div class="tab-pane" id="profile-credito" role="tabpanel" aria-labelledby="profile-tab-justified">
+                  <section class="invoice-print mb-1">
+                    <div class="row">
+                      <fieldset class="col-12 col-md-5 mb-1 mb-md-0">
+                      </fieldset>
+
+                    </div>
+                  </section>
+                  <!-- invoice functionality end -->
+                  <section class="card invoice-page">
+                    <section id="data-list-view" class="data-list-view-header">
+
+                      <div class="action-btns d-none">
+                        <div class="btn-dropdown mr-1 mb-1">
+                          <div class="btn-group dropdown actions-dropodown">
+                            <button type="button" class="btn btn-white px-1 py-1 dropdown-toggle waves-effect waves-light"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Filtro
+                            </button>
+                            <div class="dropdown-menu">
+                              <a class="dropdown-item" onclick="alertas2('');">Todos</a>
+                              <a class="dropdown-item" onclick="alertas2('Titulos');">Titulos</a>
+                              <a class="dropdown-item" onclick="alertas2('Prioridad');">Prioridad</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {{-- DataTable starts --}}
+                      <div class="table-responsive">
+                        <table class="table data-list-view1">
+                          <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Nombre Cliente</th>
+                            <th>Credito Id</th>
+                            <th>Contrato de credito</th>
+                            <th>Alerta</th>
+                            <th>Titulo</th>
+                            <th>Descripcion</th>
+                            <th>Estatus</th>
+                            <th>Observacion</th>
+                            <th>Prioridad</th>
+                            <th>Acciones</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <!--
+
+
+                           --></tbody>
+                        </table>
+                      </div>
+
+
+
+                    </section>
+                    {{-- Data list view end --}}
+
+
+
+                  </section>
+
+                </div>
+
+
+
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-
-    {{-- DataTable starts --}}
-    <div class="table-responsive">
-      <table class="table data-list-view">
-        <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombre Cliente</th>
-          <th>Credito Id</th>
-          <th>Contrato de credito</th>
-          <th>Alerta</th>
-          <th>Titulo</th>
-          <th>Descripcion</th>
-          <th>Estatus</th>
-          <th>Observacion</th>
-          <th>Prioridad</th>
-          <th>Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        <!--
-
-
-         --></tbody>
-      </table>
-    </div>
-
-
-    <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog"
-         aria-labelledby="myModalLabel33" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title" id="myModalLabel33">Modificar Alerta
-              <div id="nombre"></div>
-              <div id="alertah"></div>
-            </h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div id="containermodal" class="container">
-            <form action="/alertas/editar" enctype="multipart/form-data" method="POST"
-                  class="steps-validation wizard-circle" id="formss" name="formss">
-              @csrf
-              <input type="hidden" id="inid" value="" name='id'>
-              <h6>Recabando sustento</h6>
-              <fieldset id="field1">
-                <div class="modal-body">
-                  <div id="lblsustento" hidden class="alert alert-primary" role="alert">
-                    Información ya registrada
-                  </div>
-                  <br>
-                  <label>Sustento: </label>
-                  <div class="form-group">
-                    <textarea type="text" name="sustento" id="sustento" placeholder="Sustento"
-                              class="form-control"></textarea>
-                    <label>Documento Sustento</label>
-                    <br>
-                    <strong id="sustentoSub"></strong>
-                    <input required type="file" data-toggle="tooltip" data-placement="top"
-                           title="Solo se permiten archivos PDF, cargue por lo menos un pdf"
-                           class="form-control" id="Fsustento" name="Fsustento" accept="application/pdf">
-                    <div id="linkArSus"></div>
-                  </div>
-                </div>
-              </fieldset>
-              <h6>Dictamen</h6>
-              <fieldset class="row setup-content" id="step-2">
-                <div class="modal-body">
-
-                  <div id="lbldictamen" hidden class="alert alert-primary" role="alert">
-                    Información ya registrada
-                  </div>
-                  <br>
-                  <label>Dictamen: </label>
-                  <div class="form-group">
-                    <textarea type="text" name="dictamen" id="dictamen" placeholder="Dictamen"
-                              class="form-control"></textarea>
-                    <label>
-                      Documento dictamen:
-                    </label>
-                    <br>
-                    <strong id="sustentoDic"></strong>
-                    <input required type="file" data-toggle="tooltip" data-placement="top"
-                           title="Solo se permiten archivos PDF, cargue por lo menos un pdf"
-                           class="form-control" id="Fdictamen" name="Fdictamen" accept="application/pdf">
-                    <div id="linkArDic"></div>
-                  </div>
-                </div>
-              </fieldset>
-              <h6>Acuse</h6>
-              <fieldset class="row setup-content" id="step-3">
-                <div class="modal-body">
-                  <div id="lblacuse" hidden class="alert alert-primary" role="alert">
-                    Información ya registrada
-                  </div>
-                  <br>
-                  <label>Acuse: </label>
-                  <div class="form-group">
-                    <textarea type="text" name="acuse" id="acuse" placeholder="acuse"
-                              class="form-control"></textarea>
-                    <label>
-                      Documento Acuse
-                    </label>
-                    <strong id="sustentoAcus"></strong>
-                    <input required type="file" data-toggle="tooltip" data-placement="top"
-                           title="Solo se permiten archivos PDF, cargue por lo menos un pdf"
-                           class="form-control" id="Facuse" name="Facuse" accept="application/pdf">
-                    <div id="linkArAcus"></div>
-                  </div>
-                </div>
-              </fieldset>
-              <h6>Observaciones</h6>
-              <fieldset class="row setup-content" id="step-4">
-                <div class="modal-body">
-                  <label>Observación: </label>
-                  <div class="form-group">
-                    <textarea type="text" name="observacion" id="observacion" placeholder="Observacion"
-                              class="form-control required" required></textarea>
-                  </div>
-                  <label>estatus: </label>
-                  <div class="form-group">
-                    <select class="form-control" id="estatus" name="estatus" required>
-                      <option selected disabled>Seleccione el estatus</option>
-                      <option value="1">Concluido</option>
-                    </select>
-                  </div>
-                </div>
-              </fieldset>
-            </form>
-          </div>
-        </div>
-      </div>
-    {{-- add new sidebar ends --}}
   </section>
-  {{-- Data list view end --}}
-
-  <input value="{{route('editar_alerta_api')}}" id="ruta_api" aria-label="ruta api editar" hidden>
-  <input hidden value="{{route('encontrar_alerta_api')}}" id="ruta_api_encontrar" aria-label="ruta api encontrar">
-
 
   {{-- Modal --}}
-  <div class="modal fade text-left" id="myfiles" tabindex="-1" role="dialog"
-       aria-labelledby="myModalLabel130" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+  <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog"
+       aria-labelledby="myModalLabel33" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
       <div class="modal-content">
-        <div class="modal-header bg-info white">
-          <h5 class="modal-title" id="myModalLabel130">Archivos</h5>
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel33">Modificar Alerta
+            <div id="nombre"></div>
+            <div id="alertah"></div>
+          </h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
-          <div class="table-responsive">
-            <table class="table table-hover mb-0">
-              <thead>
-              <tr>
-                <th>Archivo</th>
-                <th>Tipo</th>
-                <th>Subido</th>
-                <th>Ver</th>
-                <th>Descargar</th>
-              </tr>
-              </thead>
-              <tbody id="seemyfiles">
+        <div id="containermodal" class="container">
+          <form action="/alertas/editar" enctype="multipart/form-data" method="POST"
+                class="steps-validation wizard-circle" id="formss" name="formss">
+            @csrf
+            <input type="hidden" id="inid" value="" name='id'>
+            <h6>Recabando sustento</h6>
+            <fieldset id="field1">
+              <div class="modal-body">
+                <div id="lblsustento" hidden class="alert alert-primary" role="alert">
+                  Información ya registrada
+                </div>
+                <br>
+                <label>Sustento: </label>
+                <div class="form-group">
+                    <textarea type="text" name="sustento" id="sustento" placeholder="Sustento"
+                              class="form-control"></textarea>
+                  <label>Documento Sustento</label>
+                  <br>
+                  <strong id="sustentoSub"></strong>
+                  <input required type="file" data-toggle="tooltip" data-placement="top"
+                         title="Solo se permiten archivos PDF, cargue por lo menos un pdf"
+                         class="form-control" id="Fsustento" name="Fsustento" accept="application/pdf">
+                  <div id="linkArSus"></div>
+                </div>
+              </div>
+            </fieldset>
+            <h6>Dictamen</h6>
+            <fieldset class="row setup-content" id="step-2">
+              <div class="modal-body">
 
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
+                <div id="lbldictamen" hidden class="alert alert-primary" role="alert">
+                  Información ya registrada
+                </div>
+                <br>
+                <label>Tipo de Operación</label>
+                <select name="envio" class="form-control" id="envio" required>
+                  <option selected disabled>Seleccione un tipo de operación</option>
+                  <option value="1">Operación dictaminada como no usual o no preocupante</option>
+                  <option value="2">Operación sin sustento considerada como inusual o preocupante (Envio a autoridad)</option>
+                </select>
+                <label>Dictamen: </label>
+                <div class="form-group">
+                    <textarea type="text" name="dictamen" id="dictamen" placeholder="Dictamen"
+                              class="form-control"></textarea>
+                  <label>
+                    Documento dictamen:
+                  </label>
+                  <br>
+                  <strong id="sustentoDic"></strong>
+                  <input required type="file" data-toggle="tooltip" data-placement="top"
+                         title="Solo se permiten archivos PDF, cargue por lo menos un pdf"
+                         class="form-control" id="Fdictamen" name="Fdictamen" accept="application/pdf">
+                  <div id="linkArDic"></div>
+                </div>
+              </div>
+            </fieldset>
+            <h6>Acuse</h6>
+            <fieldset class="row setup-content" id="step-3">
+              <div class="modal-body">
+                <div id="lblacuse" hidden class="alert alert-primary" role="alert">
+                  Información ya registrada
+                </div>
+                <br>
+                <label>Acuse: </label>
+                <div class="form-group">
+                    <textarea type="text" name="acuse" id="acuse" placeholder="acuse"
+                              class="form-control"></textarea>
+                  <label>
+                    Documento Acuse
+                  </label>
+                  <strong id="sustentoAcus"></strong>
+                  <input required type="file" data-toggle="tooltip" data-placement="top"
+                         title="Solo se permiten archivos PDF, cargue por lo menos un pdf"
+                         class="form-control" id="Facuse" name="Facuse" accept="application/pdf">
+                  <div id="linkArAcus"></div>
+                </div>
+              </div>
+            </fieldset>
+            <h6>Observaciones</h6>
+            <fieldset class="row setup-content" id="step-4">
+              <div class="modal-body">
+                <label>Observación: </label>
+                <div class="form-group">
+                    <textarea type="text" name="observacion" id="observacion" placeholder="Observacion"
+                              class="form-control required" required></textarea>
+                </div>
+                <label>estatus: </label>
+                <div class="form-group">
+                  <select class="form-control" id="estatus" name="estatus" required>
+                    <option selected disabled>Seleccione el estatus</option>
+                    <option value="1">Concluido</option>
+                  </select>
+                </div>
+              </div>
+            </fieldset>
+          </form>
         </div>
       </div>
     </div>
-  </div>
+    <input value="{{route('editar_alerta_api')}}" id="ruta_api" aria-label="ruta api editar" hidden>
+    <input hidden value="{{route('encontrar_alerta_api')}}" id="ruta_api_encontrar" aria-label="ruta api encontrar">
+    {{-- add new sidebar ends --}}
 @endsection
 @section('vendor-script')
   {{-- vendor js files --}}

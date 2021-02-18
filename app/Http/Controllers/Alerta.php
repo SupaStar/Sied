@@ -76,6 +76,7 @@ class Alerta extends Controller
     $alerta->dictamen = $request->dictamen;
     $estaus=$request->dictamen!=null?3:$estaus;
     $alerta->archivo_dictamen = $this->agregarArchivo($request->file('Fdictamen'), $request->inid, $alerta->archivo_dictamen);
+    $alerta->envio=$request->envio;
     $alerta->acuse = $request->acuse;
     $estaus=$request->acuse!=null?4:$estaus;
     $alerta->archivo_acuse = $this->agregarArchivo($request->file('Facuse'), $request->inid, $alerta->archivo_acuse);
@@ -146,7 +147,7 @@ class Alerta extends Controller
         }elseif ($r->estatus == 3) {
           $r->estatus = "Observaciones";
         }else{
-          $r->estatus = "Observaciones";
+          $r->estatus = "Concluido";
         }
         $r->cliente;
         $r->credito;
