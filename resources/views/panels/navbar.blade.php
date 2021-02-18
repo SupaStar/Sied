@@ -19,12 +19,24 @@ $configAlertas=\App\ConfigAlertas::find(1)->first();
           <div style="margin-top:-30px; margin-left:0px; position:absolute; float:left; z-index:-1">Tiempo
             Actual: {{date('d-m-Y')}} <small id="reloj" style="font-size: 15px;"></small>
           </div>
-          <div style="margin-top:-30px; margin-right:0px; position:relative; float:right; z-index:-1"><strong>Valor
-              UID: <label style="color: green;">{{$configAlertas->valor}}</label>, TIIE28: <label
+
+
+
+          <div style="margin-top:-30px; margin-right:0px; position:relative; float:right; z-index:-1"><button style="
+    height: 1px;
+    margin-bottom: 7px;
+    margin-top: -1%;
+    padding-bottom: 23px;
+    padding-top: 8px;
+    margin-right: 9px;
+    margin-bottom: 0px;" id="btnactualizamoneda" class="btn btn-primary">Actualizar Valores</button><strong>Valor
+              UID: <label id="lbluid" style="color: green;">{{$configAlertas->valor}}</label>, TIIE28: <label id="lbltiie28"
                 style="color: green;">{{$configAlertas->tiie28}}</label>, USD: <label
-                style="color: green;">{{$configAlertas->fix}}</label>,
-              Cetes28: <label style="color: green;">{{$configAlertas->cetes28}}</label></strong>
+               id="lblfix" style="color: green;">{{$configAlertas->fix}}</label>,
+              Cetes28: <label id="lblcetes28" style="color: green;">{{$configAlertas->cetes28}}</label></strong>
+
           </div>
+
           <div id="clock"></div>
           <div id="date"></div>
           <div class="navbar-container content">
@@ -214,3 +226,5 @@ $configAlertas=\App\ConfigAlertas::find(1)->first();
       </ul>
     {{-- Search Ends --}}
     <!-- END: Header-->
+
+

@@ -43,6 +43,7 @@ $configData = Helper::applClasses();
 @extends((( $configData["mainLayoutType"] === 'horizontal') ? 'layouts.horizontalLayoutMaster' :
 'layouts.verticalLayoutMaster' ))
 @endisset
+
 <script>
     window.onload = function(){
         var timeout;
@@ -96,6 +97,34 @@ $configData = Helper::applClasses();
             mireloj.innerHTML=mihora; //incluir hora en elemento
          	 }
          setInterval(actualizar,1000);
+      $(function() {
+        $(document).on('click', 'button[id="btnactualizamoneda"]', function(event) {
+          $.ajax(
+            {
+              type:"get",
+              url:"/api/data/monedas",
+              datatype:"json",
+              success:function (response)
+              {
+                $("#lbluid").empty()
+                $("#lbluid").append(response.valor)
+                $("#lbltiie28").empty()
+                $("#lbltiie28").append(response.tiie28)
+                $("#lblfix").empty()
+                $("#lblfix").append(response.fix)
+                $("#lblcetes28").empty()
+                $("#lblcetes28").append(response.cetes28)
+              }
+            }
+          )
+        })
+      })
     }
+
+
+
+
 </script>
+
+
 
