@@ -60,9 +60,21 @@ $(".steps-validation").steps({
     finish: "Guardar"
   },
   onStepChanging: function(event, currentIndex, newIndex) {
-    console.log('change');
+    backup=($('#formss').steps("getCurrentStep",2))
+    let cm=$('#envio').val();
+    let lista = $(".steps")[0].children[0].children.length;
+    if(lista<4)
+    {
+      $('#formss').steps("insert",2,backup)
+
+    }
+    if(cm==2) {
+      $('#formss').steps("remove",2)
+    }
+
     // Allways allow previous action even if the current form is not valid!
     if (currentIndex > newIndex) {
+
       return true;
     }
 
