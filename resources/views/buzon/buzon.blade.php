@@ -74,6 +74,7 @@
                             <th>ID</th>
 
                             <th>Titulo</th>
+                            <th>Tipo de Alerta</th>
                             <th>Descripción</th>
                             <th>Estatus</th>
                             <th>Observación</th>
@@ -126,6 +127,7 @@
                           <tr>
                             <th>ID</th>
                             <th>Titulo</th>
+                            <th>Tipo de Alerta</th>
                             <th>Descripción</th>
                             <th>Estatus</th>
                             <th>Observación</th>

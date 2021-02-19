@@ -43,7 +43,7 @@ class Alerta extends Controller
   {
     $pageConfigs = [
       'mainLayoutType' => 'vertical',
-      'pageName' => 'Alertas'
+      'pageName' => 'Operaciones inusuales'
     ];
 
     return view('alertas', [
@@ -153,6 +153,7 @@ class Alerta extends Controller
           $r->estatus = "Concluido";
 
         }
+        $r->operacion= "operacion inusual";
         $r->cliente;
         $r->credito;
       }
@@ -174,6 +175,7 @@ class Alerta extends Controller
 
       foreach ($result as $r) {
         $r->estatus = "Concluido";
+        $r->operacion= "operacion inusual";
         $r->cliente;
         $r->credito;
 
@@ -192,7 +194,7 @@ class Alerta extends Controller
   {
     $pageConfigs = [
       'mainLayoutType' => 'vertical',
-      'pageName' => 'Alertas Internas'
+      'pageName' => 'Operaciones internas preocupantes'
     ];
 
     return view('buzon/buzon', [
