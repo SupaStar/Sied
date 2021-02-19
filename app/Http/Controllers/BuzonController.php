@@ -42,7 +42,7 @@ class BuzonController extends Controller
   {
     $pageConfigs = [
       'mainLayoutType' => 'vertical',
-      'pageName' => 'Buzón'
+      'pageName' => 'Operaciones internas preocupantes'
     ];
 
     return view('buzon/buzon', [
@@ -92,6 +92,7 @@ class BuzonController extends Controller
         } elseif($r->estatus == 3) {
           $r->estatus = "Revisado";
         }
+        $r->operacion= "operacion interna preocupante";
         $r->usuario;
       }
     }
@@ -110,6 +111,7 @@ class BuzonController extends Controller
       $result2 = \App\Buzon::where("estatus",3)->get();
       foreach ($result2 as $r) {
        $r->estatus="Revisado";
+       $r->operacion= "operacion interna preocupante";
         $r->usuario;
       }
 

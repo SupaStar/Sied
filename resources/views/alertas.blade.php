@@ -69,8 +69,9 @@
                           <tr>
                             <th>ID</th>
                             <th>Nombre Cliente</th>
-                            <th>Credito Id</th>
+
                             <th>Contrato de credito</th>
+                            <th>Tipo de Alerta</th>
                             <th>Alerta</th>
                             <th>Titulo</th>
                             <th>Descripcion</th>
@@ -132,11 +133,12 @@
                           <tr>
                             <th>ID</th>
                             <th>Nombre Cliente</th>
-                            <th>Credito Id</th>
                             <th>Contrato de credito</th>
+                            <th>Tipo de Alerta</th>
                             <th>Alerta</th>
                             <th>Titulo</th>
                             <th>Descripcion</th>
+
                             <th>Estatus</th>
                             <th>Observacion</th>
                             <th>Prioridad</th>

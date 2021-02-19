@@ -93,6 +93,9 @@ function alertas(chn){
       {
         data: 'titulo',
         name: 'titulo'
+      },{
+        data: 'operacion',
+        name: 'operacion'
       },
       {
         data: 'descripcion',
@@ -218,6 +221,9 @@ function alertas2(chn){
       {
         data: 'titulo',
         name: 'titulo'
+      },{
+        data: 'operacion',
+        name: 'operacion'
       },
       {
         data: 'descripcion',

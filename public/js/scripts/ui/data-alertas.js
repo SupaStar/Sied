@@ -97,13 +97,13 @@ function alertas(chn){
             // row[6] es 'apellido_materno'
           }
       },
-      {
-        data: 'credito.id',
-        name: 'credito.id'
-      },
+
       {
         data: 'credito.contrato',
         name: 'credito.contrato'
+      }, {
+        data: 'operacion',
+        name: 'operacion'
       },
       {
         data: 'tipo_alerta',
@@ -244,13 +244,13 @@ function alertas2(chn){
             // row[6] es 'apellido_materno'
           }
       },
-      {
-        data: 'credito.id',
-        name: 'credito.id'
-      },
+
       {
         data: 'credito.contrato',
         name: 'credito.contrato'
+      }, {
+        data: 'operacion',
+        name: 'operacion'
       },
       {
         data: 'tipo_alerta',
