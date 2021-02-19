@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\AgenteAlerta;
 use App\Alerta;
 use App\DestinoCredito;
+use App\Riesgos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
@@ -577,7 +578,8 @@ class Clients extends Controller
     );
 
     $update = Perfil::updateOrCreate($fields, $args);
-
+    $riesgos = new Riesgos();
+    $riesgos->editarGrado($cid);
     return redirect('/clientes/fisica')->with('perfil', 'OK');
   }
 
@@ -1833,7 +1835,7 @@ class Clients extends Controller
     $npago->save();
     $alertas = new Alerta();
     $alertas->verificar($request, $cid);
-    $alertas->validarRiesgo($request->id,$cid);
+    $alertas->validarRiesgo($request->id, $cid);
     $user = Auth::user();
 
     $comprobante = $request->file('comprobante') ? $request->file('comprobante') : 1;
@@ -3006,7 +3008,7 @@ class Clients extends Controller
 
     Client::where('id', $id)->update(['status' => 'credito']);
     $detinoC = new DestinoCredito();
-    $destino=$detinoC::all();
+    $destino = $detinoC::all();
     $detinoC->id_credito = $ncredito->id;
     $detinoC->id_destino_recursos = $request->recurso;
     $detinoC->titular = $request->titular;
@@ -3036,7 +3038,7 @@ class Clients extends Controller
     return view('/clients/continuar', [
       'pageConfigs' => $pageConfigs,
       'client' => $client,
-      'id' => $id,'destino' => $destino
+      'id' => $id, 'destino' => $destino
     ]);
   }
 
