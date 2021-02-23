@@ -720,7 +720,7 @@
                             <label for="lastName3">
                               Profesión
                             </label>
-                            <select class="form-control required" id="profesion" name="profesion" required>
+                            <select readonly disabled class="form-control required" id="profesion" name="profesion" required>
 
                               <option  selected disabled>Seleccionar</option>
                               @foreach($profesiones as $data)
@@ -743,7 +743,7 @@
                             <label for="lastName3">
                               Actividad ó Giro
                             </label>
-                            <select class="form-control required" id="actividad" name="actividad" required>
+                            <select readonly disabled class="form-control required" id="actividad" name="actividad" required>
                               <option selected disabled>Seleccionar</option>
                               @foreach($origen as $data)
                                 @if(isset($datos))
@@ -777,7 +777,7 @@
                             <label for="lastName3">
                               Criterio
                             </label>
-                            <select class="form-control required" id="efr" name="efr" required>
+                            <select readonly disabled class="form-control required" id="efr" name="efr" required>
                               <option  selected disabled>Seleccionar</option>
                               @foreach($efresidencia as $data)
                                 @if(isset($datos))
