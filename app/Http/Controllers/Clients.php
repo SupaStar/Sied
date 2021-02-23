@@ -968,15 +968,41 @@ class Clients extends Controller
     $paises = db::table('paises')->get();
     $entidad = db::table('entidad_federativa')->get();
     $datos = db::table('clientes')->where('id', $id)->first();
+    $datos = Perfil::where('cliente_id', '=', $id)->first();
+    $origen = OrigenRecursos::get();
+    $destino = DestinoRecursos::get();
+    $instrumento = InstrumentoMonetario::get();
+    $divisa = Divisa::get();
+    $profesiones = Profesion::get();
+    $actividad = ActividadGiro::get();
+    $profesion = DB::TABLE('clientes')->where('id', $id)->first()->job;
+    $actividad = ActividadGiro::get();
+    $efresidencia = EFResidencia::get();
+    $gresidencia = Client::where('id', $id)->first()->ef;
+    $residencia = EntidadFederativa::where('code', $gresidencia)->first()->entity;
 
-    return view('/clients/fisicas-editar', [
-      'pageConfigs' => $pageConfigs,
-      'nacionalidades' => $nacionalidades,
-      'paises' => $paises,
-      'entidad' => $entidad,
-      'datos' => $datos
-    ]);
-  }
+
+    if (isset($datos)) {
+
+    return view('/clients/fisicas-editar', compact(
+      'pageConfigs',
+      'id',
+      'datos',
+      'origen',
+      'instrumento',
+      'divisa',
+      'destino',
+      'profesiones',
+      'profesion',
+      'actividad',
+      'nacionalidades',
+      'paises',
+      'entidad','profesion',
+      'efresidencia',
+      'residencia',
+      'actividad'
+    ));
+  }}
 
   /**
    * Display a listing of the resource.
