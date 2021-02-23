@@ -112,7 +112,7 @@ class Clients extends Controller
     ]);
   }
 
-  public function fperfil($id)
+  public function fperfil($id,$redireccion=0)
   {
     $pageConfigs = [
       'mainLayoutType' => 'vertical',
@@ -139,7 +139,8 @@ class Clients extends Controller
         'destino',
         'profesiones',
         'profesion',
-        'actividad'
+        'actividad',
+        'redireccion'
       ));
     } else {
       return view('/clients/perfil', compact(
@@ -151,7 +152,8 @@ class Clients extends Controller
         'destino',
         'profesiones',
         'profesion',
-        'actividad'
+        'actividad',
+        'redireccion'
       ));
     }
   }
@@ -173,7 +175,6 @@ class Clients extends Controller
     $gresidencia = Client::where('id', $id)->first()->ef;
     $residencia = EntidadFederativa::where('code', $gresidencia)->first()->entity;
     $profesion = DB::TABLE('clientes')->where('id', $id)->first()->job;
-
     if (isset($datos)) {
       return view('/clients/ebr', compact(
         'pageConfigs',
@@ -190,19 +191,7 @@ class Clients extends Controller
         'actividad'
       ));
     } else {
-      return view('/clients/ebr', compact(
-        'pageConfigs',
-        'id',
-        'origen',
-        'instrumento',
-        'divisa',
-        'destino',
-        'profesiones',
-        'profesion',
-        'efresidencia',
-        'residencia',
-        'actividad'
-      ));
+      return redirect()->route('web_perfil_trans', ['id' => $id, 'redireccion' => true]);
     }
   }
 
@@ -578,8 +567,8 @@ class Clients extends Controller
     );
 
     $update = Perfil::updateOrCreate($fields, $args);
-    $riesgos = new Riesgos();
-    $riesgos->editarGrado($cid);
+//    $riesgos = new Riesgos();
+//    $riesgos->editarGrado($cid);
     return redirect('/clientes/fisica')->with('perfil', 'OK');
   }
 
@@ -600,7 +589,8 @@ class Clients extends Controller
     );
 
     $update = Perfil::updateOrCreate($fields, $args);
-
+    $riesgos = new Riesgos();
+    $riesgos->editarGrado($cid);
     return redirect('/clientes/fisica')->with('ebr', 'OK');
   }
 

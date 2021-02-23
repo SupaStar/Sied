@@ -27,7 +27,7 @@ Route::get('editar/fisica/{id}', 'Clients@editarfisica');
 
 Route::get('fisicas/info/{id}', 'Clients@info');
 Route::get('fisicas/editar/{id}', 'Clients@editar');
-Route::get('fisicas/perfil/{id}', 'Clients@fperfil');
+Route::get('fisicas/perfil/{id}/{redireccion?}', 'Clients@fperfil')->name('web_perfil_trans');
 Route::get('fisicas/riesgo/{id}', 'Clients@friesgo');
 Route::get('fisicas/ebr/{id}', 'Clients@ebr');
 
