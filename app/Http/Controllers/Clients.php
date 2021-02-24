@@ -967,7 +967,7 @@ class Clients extends Controller
     $nacionalidades = db::table('nacionalidades')->get();
     $paises = db::table('paises')->get();
     $entidad = db::table('entidad_federativa')->get();
-    $datos = db::table('clientes')->where('id', $id)->first();
+    $datos2 = db::table('clientes')->where('id', $id)->first();
     $datos = Perfil::where('cliente_id', '=', $id)->first();
     $origen = OrigenRecursos::get();
     $destino = DestinoRecursos::get();
@@ -988,6 +988,7 @@ class Clients extends Controller
       'pageConfigs',
       'id',
       'datos',
+      'datos2',
       'origen',
       'instrumento',
       'divisa',

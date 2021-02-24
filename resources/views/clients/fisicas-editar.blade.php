@@ -58,7 +58,7 @@
                                 <form action="/clientes/fisicas/editado" enctype="multipart/form-data" method="POST" class="steps-validation wizard-circle" id="formss" name="formss">
                                       @csrf
 
-                                      <input type="hidden" class="form-control required" id="id" name="id" value="@if(isset($datos->id)){{$datos->id}}@endif" >
+                                      <input type="hidden" class="form-control required" id="id" name="id" value="@if(isset($datos2->id)){{$datos2->id}}@endif" >
 
                                         <!-- Step 1 -->
                                         <h6><i class="step-icon feather icon-user"></i> Datos Personales</h6>
@@ -69,7 +69,7 @@
                                                     <label for="firstName3">
                                                         Nombre(s)
                                                     </label>
-                                                  <input type="text" class="form-control required" id="nombre" name="nombre" value="@if(isset($datos->name)) {{$datos->name}} @endif" >
+                                                  <input type="text" class="form-control required" id="nombre" name="nombre" value="@if(isset($datos2->name)) {{$datos2->name}} @endif" >
                                                 </div>
                                             </div>
 
@@ -78,7 +78,7 @@
                                                   <label for="lastName3">
                                                       Apellido Paterno
                                                   </label>
-                                                  <input type="text" class="form-control required" id="apellidop" name="apellidop" value="@if(isset($datos->lastname)) {{$datos->lastname}} @endif">
+                                                  <input type="text" class="form-control required" id="apellidop" name="apellidop" value="@if(isset($datos2->lastname)) {{$datos2->lastname}} @endif">
                                               </div>
                                           </div>
                                           <div class="col-md-4">
@@ -86,7 +86,7 @@
                                                 <label for="lastName3">
                                                     Apellido Materno
                                                 </label>
-                                                <input type="text" class="form-control required" id="apellidom" name="apellidom" value="@if(isset($datos->o_lastname)) {{$datos->o_lastname}} @endif">
+                                                <input type="text" class="form-control required" id="apellidom" name="apellidom" value="@if(isset($datos2->o_lastname)) {{$datos2->o_lastname}} @endif">
                                             </div>
                                         </div>
                                   </div>
@@ -98,8 +98,8 @@
                                             </label>
                                                   <select class="form-control"  name="genero" id="genero">
                                                     <option selected disabled>Seleccionar</option>
-                                                    <option value="H" @if(isset($datos->gender) && $datos->gender  == 'H') selected @endif>Masculino</option>
-                                                    <option value="M" @if(isset($datos->gender) && $datos->gender == 'M') selected @endif>Femenino</option>
+                                                    <option value="H" @if(isset($datos2->gender) && $datos2->gender  == 'H') selected @endif>Masculino</option>
+                                                    <option value="M" @if(isset($datos2->gender) && $datos2->gender == 'M') selected @endif>Femenino</option>
                                                   </select>
                                         </div>
                                     </div>
@@ -109,7 +109,7 @@
                                           <label for="lastName3">
                                               Fecha de Nacimiento
                                           </label>
-                                          <input type='text' class="form-control pickadate-translations" id="nacimiento" name="fnacimiento" value="@if(isset($datos->date_birth)) {{$datos->date_birth}} @endif" />
+                                          <input type='text' class="form-control pickadate-translations" id="nacimiento" name="fnacimiento" value="@if(isset($datos2->date_birth)) {{$datos2->date_birth}} @endif" />
                                       </div>
                                 </div>
 
@@ -121,7 +121,7 @@
                                             <select class="form-control" id="basicSelect" name="pais_nacimiento">
                                               <option selected disabled>Seleccionar</option>
                                               @foreach ($paises as $dd)
-                                                  <option @if(isset($datos->country_birth) && $datos->country_birth == $dd->code) selected @endif value="{{$dd->code}}">{{$dd->pais}}</option>
+                                                  <option @if(isset($datos2->country_birth) && $datos2->country_birth == $dd->code) selected @endif value="{{$dd->code}}">{{$dd->pais}}</option>
                                               @endforeach
                                             </select>
                                   </div>
@@ -136,7 +136,7 @@
                                                   <select class="form-control" id="lnacimiento" name="lnacimiento">
                                                     <option selected disabled>Seleccionar</option>
                                                     @foreach ($entidad as $dd)
-                                                        <option @if(isset($datos->nationality) && $datos->nationality == $dd->code) selected @endif value="{{$dd->code}}">{{$dd->entity}}</option>
+                                                        <option @if(isset($datos2->nationality) && $datos2->nationality == $dd->code) selected @endif value="{{$dd->code}}">{{$dd->entity}}</option>
                                                     @endforeach
                                                   </select>
                                         </div>
@@ -151,7 +151,7 @@
                                                   <select class="form-control" id="basicSelect" name="nacionalidad">
                                                       <option selected disabled>Seleccionar</option>
                                                       @foreach ($nacionalidades as $dd)
-                                                          <option @if(isset($datos->place_birth) && $datos->place_birth == $dd->code) selected @endif value="{{$dd->code}}">{{$dd->country}}</option>
+                                                          <option @if(isset($datos2->place_birth) && $datos2->place_birth == $dd->code) selected @endif value="{{$dd->code}}">{{$dd->country}}</option>
                                                       @endforeach
                                                   </select>
                                                 </div>
@@ -161,7 +161,7 @@
                                                       <label for="lastName3">
                                                           Ocupación
                                                       </label>
-                                                      <input type="text" value="@if(isset($datos->job)) {{$datos->job}} @endif" class="form-control required"  name="ocupacion">
+                                                      <input type="text" value="@if(isset($datos2->job)) {{$datos2->job}} @endif" class="form-control required"  name="ocupacion">
                                                   </div>
                                             </div>
                                       </div>
@@ -177,7 +177,7 @@
                                                     <label for="proposalTitle3">
                                                         Calle
                                                     </label>
-                                                    <input type="text" value="@if(isset($datos->street)) {{$datos->street}} @endif" class="form-control required"  name="calle">
+                                                    <input type="text" value="@if(isset($datos2->street)) {{$datos2->street}} @endif" class="form-control required"  name="calle">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -185,7 +185,7 @@
                                                   <label for="proposalTitle3">
                                                       # Exterior
                                                   </label>
-                                                  <input type="text" value="@if(isset($datos->exterior)) {{$datos->exterior}} @endif" class="form-control required"  name="exterior">
+                                                  <input type="text" value="@if(isset($datos2->exterior)) {{$datos2->exterior}} @endif" class="form-control required"  name="exterior">
                                               </div>
                                           </div>
                                           <div class="col-md-4">
@@ -193,7 +193,7 @@
                                                 <label for="proposalTitle3">
                                                     # Interior
                                                 </label>
-                                                <input type="text" value="@if(isset($datos->inside)) {{$datos->inside}} @endif" class="form-control required"  name="interior">
+                                                <input type="text" value="@if(isset($datos2->inside)) {{$datos2->inside}} @endif" class="form-control required"  name="interior">
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -201,7 +201,7 @@
                                               <label for="proposalTitle3">
                                                   Codigo Postal
                                               </label>
-                                              <input type="text" value="@if(isset($datos->pc)) {{$datos->pc}} @endif" class="form-control required"  name="cp" id="cp" onchange="sepomex();" >
+                                              <input type="text" value="@if(isset($datos2->pc)) {{$datos2->pc}} @endif" class="form-control required"  name="cp" id="cp" onchange="sepomex();" >
                                           </div>
                                       </div>
 
@@ -211,9 +211,9 @@
                                                 Colonia
                                             </label>
                                                   <select class="form-control"  name="colonia" id="colonia">
-                                                    @if(isset($datos->colony))
+                                                    @if(isset($datos2->colony))
                                                     <option  disabled>Seleccionar</option>
-                                                    <option selected value="{{$datos->colony}}" >{{$datos->colony}}</option>
+                                                    <option selected value="{{$datos2->colony}}" >{{$datos2->colony}}</option>
                                                       @else
                                                       <option selected disabled>Seleccionar</option>
                                                       @endif
@@ -228,9 +228,9 @@
                                                 <select class="form-control"  name="municipio" id="municipio">
 
 
-                                                  @if(isset($datos->town))
+                                                  @if(isset($datos2->town))
                                                   <option  disabled>Seleccionar</option>
-                                                  <option selected value="{{$datos->town}}" >{{$datos->town}}</option>
+                                                  <option selected value="{{$datos2->town}}" >{{$datos2->town}}</option>
                                                     @else
                                                     <option selected disabled>Seleccionar</option>
                                                     @endif
@@ -246,9 +246,9 @@
                                         </label>
                                               <select class="form-control"  name="ciudad" id="ciudad">
 
-                                                @if(isset($datos->city))
+                                                @if(isset($datos2->city))
                                                 <option  disabled>Seleccionar</option>
-                                                <option selected value="{{$datos->city}}" >{{$datos->city}}</option>
+                                                <option selected value="{{$datos2->city}}" >{{$datos2->city}}</option>
                                                   @else
                                                   <option selected disabled>Seleccionar</option>
                                                   @endif
@@ -264,7 +264,7 @@
                                             <select class="form-control" id="entidad" name="entidad">
                                               <option selected disabled>Seleccionar</option>
                                               @foreach ($entidad as $dd)
-                                                  <option @if(isset($datos->ef) && $datos->ef == $dd->code) selected @endif  value="{{$dd->code}}">{{$dd->entity}}</option>
+                                                  <option @if(isset($datos2->ef) && $datos->ef == $dd->code) selected @endif  value="{{$dd->code}}">{{$dd->entity}}</option>
                                               @endforeach
                                             </select>
                                   </div>
@@ -275,7 +275,7 @@
                                         País
                                     </label>
                                           <select class="form-control" id="pais" name="pais">
-                                            @if(isset($datos->country))
+                                            @if(isset($datos2->country))
                                             <option disabled>Seleccionar</option>
                                             <option selected value="México">México</option>
                                             @else
@@ -298,7 +298,7 @@
                                                     <label for="firstName3">
                                                         Número Teléfonico 1
                                                     </label>
-                                                    <input type="text" value="@if(isset($datos->phone1)) {{$datos->phone1}} @endif"  class="form-control"  name="telefono1" >
+                                                    <input type="text" value="@if(isset($datos2->phone1)) {{$datos2->phone1}} @endif"  class="form-control"  name="telefono1" >
                                                 </div>
                                             </div>
 
@@ -307,7 +307,7 @@
                                                   <label for="lastName3">
                                                     Número Teléfonico 2
                                                   </label>
-                                                  <input type="text" value="@if(isset($datos->phone2)) {{$datos->phone2}} @endif"  class="form-control " name="telefono2">
+                                                  <input type="text" value="@if(isset($datos2->phone2)) {{$datos2->phone2}} @endif"  class="form-control " name="telefono2">
                                               </div>
                                           </div>
                                           <div class="col-md-4">
@@ -315,7 +315,7 @@
                                                 <label for="lastName3">
                                                   Email
                                                 </label>
-                                                <input type="text" value="@if(isset($datos->email)) {{$datos->email}} @endif"  class="form-control " id="memail" name="memail">
+                                                <input type="text" value="@if(isset($datos2->email)) {{$datos2->email}} @endif"  class="form-control " id="memail" name="memail">
                                             </div>
                                         </div>
                                             </div>
@@ -325,7 +325,7 @@
                                                     <label for="firstName3">
                                                         CURP
                                                     </label>
-                                                    <input type="text" value="@if(isset($datos->curp)) {{$datos->curp}} @endif"  class="form-control required"  name="curp" id="curp" >
+                                                    <input type="text" value="@if(isset($datos2->curp)) {{$datos2->curp}} @endif"  class="form-control required"  name="curp" id="curp" >
                                                 </div>
                                             </div>
 
@@ -334,7 +334,7 @@
                                                   <label for="lastName3">
                                                     RFC
                                                   </label>
-                                                  <input type="text" value="@if(isset($datos->rfc)) {{$datos->rfc}} @endif"  class="form-control required" name="rfc" id="rfc">
+                                                  <input type="text" value="@if(isset($datos2->rfc)) {{$datos2->rfc}} @endif"  class="form-control required" name="rfc" id="rfc">
                                               </div>
                                           </div>
                                             </div>
@@ -342,7 +342,7 @@
                                               <div class="col-md-4">
                                                 <div class="form-group">
                                                     <div class="vs-radio-con vs-radio-primary">
-                                                      @if(isset($datos->c_name) && $datos->c_name != null)
+                                                      @if(isset($datos2->c_name) && $datos2->c_name != null)
                                                       <input type="radio" name="vueradisize" value="true" onchange="conyuge()">
                                                       @else
                                                       <input type="radio" name="vueradisize" value="false" onchange="conyuge()">
@@ -357,7 +357,7 @@
                                             </div>
                                             </div>
 
-                                            @if(isset($datos->c_name) && $datos->c_name != null)
+                                            @if(isset($datos2->c_name) && $datos2->c_name != null)
                                             <div id="conyuge" style="display:block;" >
                                               @else
                                             <div id="conyuge" style="display:none;" >
@@ -501,7 +501,7 @@
                               <label for="lastName3">
                                 Frecuencia de los pagos que realizará en el siguiente semestre
                               </label>
-                              <select class="form-control" id="frecuencia" name="frecuencia" @if(isset($datos))disabled @endif>
+                              <select class="form-control" id="frecuencia" name="frecuencia" @if(isset($datos))@endif>
                                 @if(isset($datos->frecuencia))
                                   <option value="{{ $datos->frecuencia }}" selected>{{ $datos->frecuencia }}</option>
                                 @else
@@ -522,7 +522,7 @@
                               <label for="firstName3">
                                 Monto estimado de pagos a realizar en los próximos seis meses
                               </label>
-                              <input type="number" value="@if(isset($datos->monto)){{ $datos->monto }}@endif" @if(isset($datos))disabled @endif step="any"
+                              <input type="number" value="@if(isset($datos->monto)){{ $datos->monto }}@endif" @if(isset($datos)) @endif step="any"
                                      class="form-control required" id="monto" name="monto">
                             </div>
                           </div>
@@ -533,7 +533,7 @@
                                 Tipo de crédito que pretende utilizar en el siguiente semestre
                               </label>
                               <input type="text" value="@if(isset($datos->tcredito)){{ $datos->tcredito }}@endif"
-                                     @if(isset($datos))disabled @endif class="form-control required" id="tcredito" name="tcredito">
+                                     @if(isset($datos)) @endif class="form-control required" id="tcredito" name="tcredito">
                             </div>
                           </div>
                         </div>
@@ -544,7 +544,7 @@
                               <label for="lastName3">
                                 Origen de Recursos
                               </label>
-                              <select class="form-control required" id="orecursos" name="orecursos" required  @if(isset($datos))disabled @endif>
+                              <select class="form-control required" id="orecursos" name="orecursos" required  @if(isset($datos)) @endif>
                                 <option selected disabled>Seleccionar</option>
                                 @foreach($origen as $data)
                                   @if(isset($datos->origen_recursos))
@@ -568,7 +568,7 @@
                               <label for="lastName3">
                                 Forma de Pago
                               </label>
-                              <select class="form-control required" id="imonetario" name="imonetario" @if(isset($datos))disabled @endif>
+                              <select class="form-control required" id="imonetario" name="imonetario" @if(isset($datos)) @endif>
 
                                 <option selected disabled>Seleccionar</option>
                                 @foreach($instrumento as $data)
@@ -593,7 +593,7 @@
                               <label for="lastName3">
                                 Divisa
                               </label>
-                              <select class="form-control required" id="divisa" name="divisa" @if(isset($datos))disabled @endif>
+                              <select class="form-control required" id="divisa" name="divisa" @if(isset($datos)) @endif>
                                 <option selected disabled>Seleccionar</option>
                                 @foreach($divisa as $data)
                                   @if(isset($datos->divisa))
@@ -618,7 +618,7 @@
                               <label for="lastName3">
                                 Destino De Recursos
                               </label>
-                              <select class="form-control required" id="drecursos" name="drecursos" @if(isset($datos))disabled @endif>
+                              <select class="form-control required" id="drecursos" name="drecursos" @if(isset($datos)) @endif>
                                 <option selected disabled>Seleccionar</option>
                                 @foreach($destino as $data)
                                   <option value="{{$data->id}}">{{$data->descripcion}}</option>
@@ -633,7 +633,7 @@
                               <label for="lastName3">
                                 Disponibilidad del cliente para la entrega de documentación
                               </label>
-                              <select class="form-control" id="disponibilidad" name="disponibilidad" @if(isset($datos))disabled @endif>
+                              <select class="form-control" id="disponibilidad" name="disponibilidad" @if(isset($datos)) @endif>
 
                                 @if(isset($datos->frecuencia))
                                   <option value="{{ $datos->frecuencia }}" selected>{{ $datos->frecuencia }}</option>
@@ -652,7 +652,7 @@
                               <label for="lastName3">
                                 Ingreso Mensual Estimado
                               </label>
-                              <input type="number" value="@if(isset($datos->ingreso)){{ $datos->ingreso }}@endif" @if(isset($datos))disabled @endif step="any"
+                              <input type="number" value="@if(isset($datos->ingreso)){{ $datos->ingreso }}@endif" @if(isset($datos)) @endif step="any"
                                      class="form-control required" id="ingreso" name="ingreso">
                             </div>
                           </div>
@@ -666,7 +666,7 @@
                               <label for="lastName3">
                                 Especifique si observo alguna conducta inapropiada del cliente
                               </label>
-                              <input type="text" class="form-control required" id="conducta" @if(isset($datos))disabled @endif name="conducta"
+                              <input type="text" class="form-control required" id="conducta" @if(isset($datos)) @endif name="conducta"
                                      value="@if(isset($datos->conducta)){{ $datos->conducta }}@endif">
                             </div>
                           </div>
@@ -677,7 +677,7 @@
                                 su perfil transaccional, como características específicas de su actividad, antecedentes o
                                 proyectos
                               </label>
-                              <input type="text" class="form-control required" id="comentario" @if(isset($datos))disabled @endif name="comentario"
+                              <input type="text" class="form-control required" id="comentario" @if(isset($datos))@endif name="comentario"
                                      value="@if(isset($datos->comentario)){{ $datos->comentario }}@endif">
                             </div>
                           </div>
@@ -685,9 +685,9 @@
                             <button type="reset" class="btn btn-secondary mr-1 mb-1" @if(isset($datos))disabled readonly hidden @endif>Limpiar</button>
                           </div>
                           <div class="col-md-6 text-left">
-                            <button type="submit" class="btn btn-primary float-right mr-1 mb-1" @if(isset($datos))disabled readonly hidden @endif>Guardar</button>
+                            <button type="submit" class="btn btn-primary float-right mr-1 mb-1" @if(isset($datos)) @endif>Guardar</button>
                             <a href="/clientes/fisica"> <button type="button"
-                                                                class="btn btn-primary float-right mr-1 mb-1" >Ok</button></a>
+                                                                class="btn btn-primary float-right mr-1 mb-1" >Cancelar</button></a>
                           </div>
 
                         </div>
@@ -712,7 +712,7 @@
                             <label for="lastName3">
                               Ocupación
                             </label>
-                            <input type="text" class="form-control required" value="@if(isset($profesion)){{ $profesion }}@endif" readonly>
+                            <input type="text" class="form-control required" value="@if(isset($profesion)){{ $profesion }}@endif">
                           </div>
                         </div>
                         <div class="col-md-4">
@@ -720,7 +720,7 @@
                             <label for="lastName3">
                               Profesión
                             </label>
-                            <select readonly disabled class="form-control required" id="profesion" name="profesion" required>
+                            <select class="form-control required" id="profesion" name="profesion" required>
 
                               <option  selected disabled>Seleccionar</option>
                               @foreach($profesiones as $data)
@@ -743,7 +743,7 @@
                             <label for="lastName3">
                               Actividad ó Giro
                             </label>
-                            <select readonly disabled class="form-control required" id="actividad" name="actividad" required>
+                            <select  class="form-control required" id="actividad" name="actividad" required>
                               <option selected disabled>Seleccionar</option>
                               @foreach($origen as $data)
                                 @if(isset($datos))
@@ -769,7 +769,7 @@
                             <label for="lastName3">
                               Entidad Federativa
                             </label>
-                            <input type="text" class="form-control required" value="@if(isset($residencia)){{ $residencia }}@endif" readonly>
+                            <input type="text" class="form-control required" value="@if(isset($residencia)){{ $residencia }}@endif" >
                           </div>
                         </div>
                         <div class="col-md-4">
@@ -777,7 +777,7 @@
                             <label for="lastName3">
                               Criterio
                             </label>
-                            <select readonly disabled class="form-control required" id="efr" name="efr" required>
+                            <select class="form-control required" id="efr" name="efr" required>
                               <option  selected disabled>Seleccionar</option>
                               @foreach($efresidencia as $data)
                                 @if(isset($datos))
@@ -802,9 +802,9 @@
                           <button hidden type="reset" class="btn btn-secondary mr-1 mb-1">Limpiar</button>
                         </div>
                         <div class="col-md-6 text-left">
-                          <button hidden type="submit" class="btn btn-primary float-right mr-1 mb-1">Guardar</button>
+                          <button type="submit" class="btn btn-primary float-right mr-1 mb-1">Guardar</button>
                           <a href="/clientes/fisica"> <button  type="button"
-                                                              class="btn btn-primary float-right mr-1 mb-1">Ok</button></a>
+                                                              class="btn btn-primary float-right mr-1 mb-1">Cancelar</button></a>
                         </div>
 
 

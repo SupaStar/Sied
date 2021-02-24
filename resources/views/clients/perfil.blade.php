@@ -209,7 +209,7 @@
                   <div class="col-md-6 text-left">
                     <button type="submit" class="btn btn-primary float-right mr-1 mb-1" @if(isset($datos))disabled readonly hidden @endif>Guardar</button>
                   <a href="/clientes/fisica"> <button type="button"
-                      class="btn btn-danger float-right mr-1 mb-1" @if(isset($datos))disabled readonly hidden @endif>Cancelar</button></a>
+                      class="btn btn-primary float-right mr-1 mb-1" @if(isset($datos))@endif>Ok</button></a>
                   </div>
 
                     <input value="{{$redireccion}}" id="redireccion" aria-label="redireccion" hidden>
