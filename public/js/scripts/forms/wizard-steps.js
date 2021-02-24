@@ -81,7 +81,7 @@ $(".steps-validation").steps({
   },
   onFinished: function(event, currentIndex) {
     jsShowWindowLoad();
-    document.formss.submit();
+    document.getElementById('formss').submit();
   },
   onCanceled: function(event) {
     $("#formss").steps("setStep", 0);

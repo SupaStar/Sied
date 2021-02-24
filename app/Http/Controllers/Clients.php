@@ -619,13 +619,14 @@ class Clients extends Controller
     $dd = date('Y-m-d', strtotime($bith));
     $cid = $request->id;
     if ($request->id = !null) {
-      $cliente = Client::find($request->id);
+      $cliente = Client::find($cid);
     } else {
       $cliente = new Client;
     }
 
     $user = Auth::user();
-
+//echo json_encode($cliente);
+//return;
     $cliente->name = strtoupper($request->nombre);
     $cliente->lastname = strtoupper($request->apellidop);
     $cliente->o_lastname = strtoupper($request->apellidom);
