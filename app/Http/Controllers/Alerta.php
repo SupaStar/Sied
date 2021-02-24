@@ -103,7 +103,6 @@ class Alerta extends Controller
     $alerta->archivo_acuse = $this->agregarArchivo($request->file('Facuse'), $request->inid, $alerta->archivo_acuse);
     $alerta->observacion = $request->observacion;
     $alerta->estatus = $request->estatus;
-    $alerta->cliente;
     $alerta->save();
     return response()->json(["estado" => true]);
   }
@@ -153,7 +152,7 @@ class Alerta extends Controller
           $r->estatus = "Concluido";
 
         }
-        $r->operacion= "operacion inusual";
+        $r->operacion= "Operación inusual";
         $r->cliente;
         $r->credito;
       }
@@ -162,7 +161,7 @@ class Alerta extends Controller
     return datatables()->of($result)->addColumn('actions', function ($query) {
 
       return '
-              <a href="#" id="editname"  title="Editar"><button style="z-index:999" id="btnedita" value="' . $query->estatus . '"  aria-label="' . $query->observacion . '" name="' . $query->id . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><input hidden id="inputname" value="'.$query->cliente->name.'"><input hidden id="inputalerta" value="'.$query->tipo_alerta.'"><i id="ialerta" aria-label="'.$query->tipo_alerta.'" class="feather icon-edit primary"></i></button></a>
+              <a href="#"  title="Editar"><button style="z-index:999" id="btnedita" value="' . $query->estatus . '"  aria-label="' . $query->observacion . '" name="' . $query->id . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
               ';
     })->rawColumns(['actions'])->toJson();
 
@@ -175,7 +174,7 @@ class Alerta extends Controller
 
       foreach ($result as $r) {
         $r->estatus = "Concluido";
-        $r->operacion= "operacion inusual";
+        $r->operacion= "Operación inusual";
         $r->cliente;
         $r->credito;
 

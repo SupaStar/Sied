@@ -482,8 +482,8 @@
                                               <button hidden type="reset" class="btn btn-secondary mr-1 mb-1">Limpiar</button>
                                             </div>
                                             <div class="col-md-6 text-left">
-                                              <button type="submit" class="btn btn-primary float-right mr-1 mb-1">Guardar</button>
-                                              <a href="/clientes/fisica"> <button  type="button"
+                                              <button hidden type="submit" class="btn btn-primary float-right mr-1 mb-1">Guardar</button>
+                                              <a href="/clientes/fisica"> <button hidden type="button"
                                                                                    class="btn btn-primary float-right mr-1 mb-1">Cancelar</button></a>
                                             </div>
 
