@@ -683,12 +683,13 @@ class Clients extends Controller
         $uploads->save();
 
         $image = Image::make(File::get($fileine));
+        $image->insert(public_path('images/confidencial.png'), 'center');
         $image->resize(1280, null, function ($constraint) {
           $constraint->aspectRatio();
           $constraint->upsize();
         });
 
-        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
+        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode('jpg', 30));
       } else {
         $uploads = new Files();
         $uploads->client_id = $cid;
@@ -725,7 +726,7 @@ class Clients extends Controller
           $constraint->upsize();
         });
 
-        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
+        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode('jpg', 30));
       } else {
         $uploads = new Files();
         $uploads->client_id = $cid;
@@ -756,10 +757,11 @@ class Clients extends Controller
         $uploads->save();
 
         $image = Image::make(File::get($filecurp));
+        $image->insert(public_path('images/confidencial.png'), 'center');
         $image->resize(1280, null, function ($constraint) {
           $constraint->aspectRatio();
           $constraint->upsize();
-        })->insert(public_path('images/confidencial.png'), 'center');
+        });
         Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
       } else {
         $uploads = new Files();
@@ -791,6 +793,7 @@ class Clients extends Controller
         $uploads->save();
 
         $image = Image::make(File::get($filedom));
+        $image->insert(public_path('images/confidencial.png'), 'center');
         $image->resize(1280, null, function ($constraint) {
           $constraint->aspectRatio();
           $constraint->upsize();
@@ -826,6 +829,7 @@ class Clients extends Controller
         $uploads->save();
 
         $image = Image::make(File::get($filecom1));
+        $image->insert(public_path('images/confidencial.png'), 'center');
         $image->resize(1280, null, function ($constraint) {
           $constraint->aspectRatio();
           $constraint->upsize();
@@ -861,6 +865,7 @@ class Clients extends Controller
         $uploads->save();
 
         $image = Image::make(File::get($filecom2));
+        $image->insert(public_path('images/confidencial.png'), 'center');
         $image->resize(1280, null, function ($constraint) {
           $constraint->aspectRatio();
           $constraint->upsize();
@@ -896,6 +901,7 @@ class Clients extends Controller
         $uploads->save();
 
         $image = Image::make(File::get($filecom3));
+        $image->insert(public_path('images/confidencial.png'), 'center');
         $image->resize(1280, null, function ($constraint) {
           $constraint->aspectRatio();
           $constraint->upsize();
@@ -931,6 +937,7 @@ class Clients extends Controller
         $uploads->save();
 
         $image = Image::make(File::get($filerfc));
+        $image->insert(public_path('images/confidencial.png'), 'center');
         $image->resize(1280, null, function ($constraint) {
           $constraint->aspectRatio();
           $constraint->upsize();
@@ -949,6 +956,7 @@ class Clients extends Controller
         Storage::disk('public')->put($path . '/' . $cid . '.' . $extension, File::get($filerfc));
       }
     }
+
 
     return redirect('/clientes/fisica')->with('message', 'OK');
   }

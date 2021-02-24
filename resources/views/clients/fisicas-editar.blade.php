@@ -261,11 +261,11 @@
                                       <label for="firstName3">
                                           Entidad Federativa
                                       </label>
-                                            <select class="form-control" id="entidad" name="entidad">
+                                            <select  class="form-control required" id="entidad" name="entidad">
                                               <option selected disabled>Seleccionar</option>
                                               @foreach ($entidad as $dd)
-                                                  <option @if(isset($datos2->ef) && $datos->ef == $dd->code) selected @endif  value="{{$dd->code}}">{{$dd->entity}}</option>
-                                              @endforeach
+                                                  <option @if(isset($datos2->ef) && $datos2->ef == $dd->code) selected @endif  value="{{$dd->code}}">{{$dd->entity}}</option>
+                                            git add .  @endforeach
                                             </select>
                                   </div>
                               </div>
@@ -475,7 +475,20 @@
                                             <input type="file" class="form-control " id="eventName3" name="filerfc" >
                                         </div>
                                     </div>
+
                                 </div>
+                                          <div class="row">
+                                            <div class="col-md-6">
+                                              <button hidden type="reset" class="btn btn-secondary mr-1 mb-1">Limpiar</button>
+                                            </div>
+                                            <div class="col-md-6 text-left">
+                                              <button type="submit" class="btn btn-primary float-right mr-1 mb-1">Guardar</button>
+                                              <a href="/clientes/fisica"> <button  type="button"
+                                                                                   class="btn btn-primary float-right mr-1 mb-1">Cancelar</button></a>
+                                            </div>
+
+
+                                          </div>
                                   </fieldset>
                                   </form>
                                 </div>
