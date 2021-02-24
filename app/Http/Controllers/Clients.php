@@ -567,8 +567,8 @@ class Clients extends Controller
     );
 
     $update = Perfil::updateOrCreate($fields, $args);
-//    $riesgos = new Riesgos();
-//    $riesgos->editarGrado($cid);
+    $riesgos = new Riesgos();
+    $riesgos->editarGrado($cid);
     return redirect('/clientes/fisica')->with('perfil', 'OK');
   }
 
@@ -655,6 +655,8 @@ class Clients extends Controller
     $cliente->c_phone = $request->ctelefono;
     $cliente->c_email = strtoupper($request->cemail);
     $cliente->save();
+    $riesgos = new Riesgos();
+    $riesgos->editarGrado($cid);
 
     $fileine = $request->file('inefront') ? $request->file('inefront') : 1;
     $ineback = $request->file('ineback') ? $request->file('ineback') : 1;
