@@ -112,7 +112,7 @@ class Clients extends Controller
     ]);
   }
 
-  public function fperfil($id,$redireccion=0)
+  public function fperfil($id, $redireccion = 0)
   {
     $pageConfigs = [
       'mainLayoutType' => 'vertical',
@@ -625,8 +625,6 @@ class Clients extends Controller
     }
 
     $user = Auth::user();
-//echo json_encode($cliente);
-//return;
     $cliente->name = strtoupper($request->nombre);
     $cliente->lastname = strtoupper($request->apellidop);
     $cliente->o_lastname = strtoupper($request->apellidom);
@@ -995,26 +993,27 @@ class Clients extends Controller
 
     if (isset($datos)) {
 
-    return view('/clients/fisicas-editar', compact(
-      'pageConfigs',
-      'id',
-      'datos',
-      'datos2',
-      'origen',
-      'instrumento',
-      'divisa',
-      'destino',
-      'profesiones',
-      'profesion',
-      'actividad',
-      'nacionalidades',
-      'paises',
-      'entidad','profesion',
-      'efresidencia',
-      'residencia',
-      'actividad'
-    ));
-  }}
+      return view('/clients/fisicas-editar', compact(
+        'pageConfigs',
+        'id',
+        'datos',
+        'datos2',
+        'origen',
+        'instrumento',
+        'divisa',
+        'destino',
+        'profesiones',
+        'profesion',
+        'actividad',
+        'nacionalidades',
+        'paises',
+        'entidad', 'profesion',
+        'efresidencia',
+        'residencia',
+        'actividad'
+      ));
+    }
+  }
 
   /**
    * Display a listing of the resource.
@@ -1863,7 +1862,7 @@ class Clients extends Controller
     $npago->save();
     $alertas = new Alerta();
     $alertas->verificar($request, $cid);
-    $alertas->validarRiesgo($request->id, $cid);
+    $alertas->validarRiesgo($request->id, $cid, "Pago");
     $user = Auth::user();
 
     $comprobante = $request->file('comprobante') ? $request->file('comprobante') : 1;
@@ -3045,6 +3044,7 @@ class Clients extends Controller
     $detinoC->save();
     $alerta = new Alerta();
     $alerta->validarDestino($request, $id, $ncredito->id);
+    $alerta->validarRiesgo($id, $ncredito->id, "Nuevo credito");
     return redirect('/clientes/fisica')->with('credito', 'OK');
 
   }

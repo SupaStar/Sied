@@ -197,7 +197,7 @@ class Alerta extends Model
     return $this->hasOne('\App\Creditos', 'id', 'credito_id');
   }
 
-  public function validarRiesgo($id, $creditoId)
+  public function validarRiesgo($id, $creditoId,$operacion)
   {
     $riesgoBD = Riesgos::where('id_cliente', $id)->first();
     if ($riesgoBD != null) {
@@ -224,7 +224,7 @@ class Alerta extends Model
         $alerta->observacion = "";
         $alerta->prioridad = "Alta";
         $alerta->tipo_alerta = "Cliente de riesgo alto";
-        $alerta->titulo = "Cliente con un riesgo alto";
+        $alerta->titulo = "Cliente con un riesgo alto realizo la oiperacion: ".$operacion;
         $alerta->descripcion = "El cliente tiene una puntuacion de: " . $riesgoBD->valor . "|El cual esta considerado como alto";
         $alerta->save();
       }
