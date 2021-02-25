@@ -132,7 +132,7 @@ class Alerta extends Controller
   public function getAlertas(Request $request)
   {
         if ($request->filtro == 1) {
-      $result = \App\Alerta::where('envio',1)->where("estatus","<",5)->get();
+      $result = \App\Alerta::where('envio',1)->where("estatus","<>",5)->get();
       foreach ($result as $r) {
         if ($r->estatus == 1) {
           $r->estatus = "Nuevo";
@@ -213,7 +213,7 @@ class Alerta extends Controller
         $r->cliente;
         $r->credito;}
     }elseif ($request->filtro == 5) {
-      $result = \App\Alerta::where('envio',5)->where("estatus","<",5)->get();
+      $result = \App\Alerta::where('envio',5)->where("estatus","<>",5)->get();
       foreach ($result as $r) {
         if ($r->estatus == 1) {
           $r->estatus = "Nuevo";
