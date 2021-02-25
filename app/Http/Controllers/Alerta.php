@@ -258,7 +258,7 @@ class Alerta extends Controller
           $r->cliente;
           $r->credito;
         }
-        else{
+        elseif($r->envio==0){
           $r->estatus = "Concluido";
           $r->operacion = "Sin operación";
           $r->cliente;
