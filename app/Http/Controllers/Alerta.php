@@ -142,8 +142,11 @@ class Alerta extends Controller
           $r->estatus = "En proceso";
         }elseif ($r->estatus == 4) {
           $r->estatus = "Observaciones";
-        }else{
+        }elseif($r->estatus==5){
           $r->estatus = "Concluido";
+        }
+        else{
+          $r->estatus = "Sin estatus";
         }
         $r->operacion= "Operación no preocupante";
         $r->cliente;
@@ -160,8 +163,11 @@ class Alerta extends Controller
           $r->estatus = "En proceso";
         }elseif ($r->estatus == 4) {
           $r->estatus = "Observaciones";
-        }else{
+        }elseif($r->estatus==5){
           $r->estatus = "Concluido";
+        }
+        else{
+          $r->estatus = "Sin estatus";
         }
         $r->operacion= "Operación inusual";
         $r->cliente;
@@ -177,8 +183,11 @@ class Alerta extends Controller
           $r->estatus = "En proceso";
         }elseif ($r->estatus == 4) {
           $r->estatus = "Observaciones";
-        }else{
+        }elseif($r->estatus==5){
           $r->estatus = "Concluido";
+        }
+        else{
+          $r->estatus = "Sin estatus";
         }
         $r->operacion= "Clientes Clasificados en el mayor grado de mayor riesgo";
         $r->cliente;
@@ -194,8 +203,11 @@ class Alerta extends Controller
           $r->estatus = "En proceso";
         }elseif ($r->estatus == 4) {
           $r->estatus = "Observaciones";
-        }else{
+        }elseif($r->estatus==5){
           $r->estatus = "Concluido";
+        }
+        else{
+          $r->estatus = "Sin estatus";
         }
         $r->operacion= "Operación clientes Clasificados en el mayor grado de mayor riesgo";
         $r->cliente;
@@ -233,37 +245,31 @@ class Alerta extends Controller
         }elseif($r->estatus == 5){
           $r->estatus = "Concluido";
         }
-        else{
+        elseif($r->estatus==0){
           $r->estatus = "Sin estatus";
         }
         if($r->envio==1) {
-          $r->estatus = "Concluido";
           $r->operacion = "Operación no preocupante";
           $r->cliente;
           $r->credito;
         } elseif($r->envio==2) {
-          $r->estatus = "Concluido";
           $r->operacion = "Operación inusual";
           $r->cliente;
           $r->credito;
         } elseif($r->envio==3) {
-          $r->estatus = "Concluido";
           $r->operacion = "Clientes Clasificados en el mayor grado de mayor riesgo";
           $r->cliente;
           $r->credito;
         } elseif($r->envio==4) {
-          $r->estatus = "Concluido";
           $r->operacion = "Operación clientes Clasificados en el mayor grado de mayor riesgo";
           $r->cliente;
           $r->credito;
         } elseif($r->envio==5) {
-          $r->estatus = "Concluido";
           $r->operacion = "Operaciones relevantes";
           $r->cliente;
           $r->credito;
         }
         elseif($r->envio==0){
-          $r->estatus = "Concluido";
           $r->operacion = "Sin operación";
           $r->cliente;
           $r->credito;
