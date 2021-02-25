@@ -89,7 +89,7 @@ class BuzonController extends Controller
         } elseif($r->estatus == 3) {
           $r->estatus = "Revisado";
         }
-        $r->operacion= "operacion interna preocupante";
+        $r->operacion= "Operación interna preocupante";
         $r->usuario;
       }
     }elseif ($request->filtro == 'Prioridad Media') {
@@ -102,7 +102,7 @@ class BuzonController extends Controller
         } elseif($r->estatus == 3) {
           $r->estatus = "Revisado";
         }
-        $r->operacion= "operacion interna preocupante";
+        $r->operacion= "Operación interna preocupante";
         $r->usuario;
       }
     }elseif ($request->filtro == 'Prioridad Baja') {
@@ -115,7 +115,7 @@ class BuzonController extends Controller
         } elseif($r->estatus == 3) {
           $r->estatus = "Revisado";
         }
-        $r->operacion= "operacion interna preocupante";
+        $r->operacion= "Operación interna preocupante";
         $r->usuario;
       }
     } else {
@@ -129,7 +129,7 @@ class BuzonController extends Controller
         } elseif($r->estatus == 3) {
           $r->estatus = "Revisado";
         }
-        $r->operacion= "operacion interna preocupante";
+        $r->operacion= "Operación interna preocupante";
         $r->usuario;
       }
     }
@@ -149,7 +149,7 @@ class BuzonController extends Controller
       foreach ($result2 as $r) {
 
         $r->estatus="Revisado";
-        $r->operacion= "operacion interna preocupante";
+        $r->operacion= "Operación interna preocupante";
         $r->usuario;
       }
     }elseif($request->filtro="Media"){
@@ -157,7 +157,7 @@ class BuzonController extends Controller
       foreach ($result2 as $r) {
 
         $r->estatus="Revisado";
-        $r->operacion= "operacion interna preocupante";
+        $r->operacion= "Operación interna preocupante";
         $r->usuario;
       }
     }elseif($request->filtro="Baja"){
@@ -165,7 +165,7 @@ class BuzonController extends Controller
       foreach ($result2 as $r) {
 
         $r->estatus="Revisado";
-        $r->operacion= "operacion interna preocupante";
+        $r->operacion= "Operación interna preocupante";
         $r->usuario;
       }
     } else {
@@ -174,7 +174,7 @@ class BuzonController extends Controller
       foreach ($result2 as $r) {
 
         $r->estatus = "Revisado";
-        $r->operacion = "operacion interna preocupante";
+        $r->operacion = "Operación interna preocupante";
         $r->usuario;
       }
     }
