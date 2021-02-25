@@ -252,9 +252,15 @@ class Alerta extends Controller
           $r->operacion = "Operación clientes Clasificados en el mayor grado de mayor riesgo";
           $r->cliente;
           $r->credito;
-        } else {
+        } elseif($r->envio==5) {
           $r->estatus = "Concluido";
           $r->operacion = "Operaciones relevantes";
+          $r->cliente;
+          $r->credito;
+        }
+        else{
+          $r->estatus = "Concluido";
+          $r->operacion = "Sin operación";
           $r->cliente;
           $r->credito;
         }
