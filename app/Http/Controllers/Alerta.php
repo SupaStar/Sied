@@ -230,9 +230,13 @@ class Alerta extends Controller
           $r->estatus = "En proceso";
         }elseif ($r->estatus == 4) {
           $r->estatus = "Observaciones";
-        }else{
+        }elseif($r->estatus == 5){
           $r->estatus = "Concluido";
-        }if($r->envio==1) {
+        }
+        else{
+          $r->estatus = "Sin estatus";
+        }
+        if($r->envio==1) {
           $r->estatus = "Concluido";
           $r->operacion = "Operación no preocupante";
           $r->cliente;
