@@ -156,7 +156,7 @@ function alertas2(chn){
       },
     ],
     dom:
-      '<"top"<"actions action-btns"B><"action-filters"lf>><"clear">rt<"bottom"<"actions">p>',
+      '<"top"<"action-filters"lf>><"clear">rt<"bottom"<"actions">p>',
     buttons: [
       {
 
