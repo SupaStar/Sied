@@ -219,7 +219,7 @@ class Alerta extends Controller
         $r->credito;}
     }
     else {
-      $result = \App\Alerta::where('estatus','<',5)->get();
+      $result = \App\Alerta::all();
 
       foreach ($result as $r) {
         if ($r->estatus == 1) {
