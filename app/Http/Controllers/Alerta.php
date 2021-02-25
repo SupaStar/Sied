@@ -131,12 +131,94 @@ class Alerta extends Controller
 
   public function getAlertas(Request $request)
   {
-
-    if ($request->filtro == 'Prioridad') {
-      $result = DB::table('alertas_pld')->where('prioridad', 'prioridad');
-    } elseif ($request->filtro == 'Titulo') {
-      $result = DB::table('alertas_pld')->where('titulo', 'titulo');
-    } else {
+        if ($request->filtro == 1) {
+      $result = \App\Alerta::where('envio',1)->get();
+      foreach ($result as $r) {
+        if ($r->estatus == 1) {
+          $r->estatus = "Nuevo";
+        } elseif ($r->estatus == 2) {
+          $r->estatus = "Recabando información";
+        }elseif ($r->estatus == 3) {
+          $r->estatus = "En proceso";
+        }elseif ($r->estatus == 4) {
+          $r->estatus = "Observaciones";
+        }else{
+          $r->estatus = "Concluido";
+        }
+        $r->operacion= "Operación no preocupante";
+        $r->cliente;
+        $r->credito;}
+    }
+    elseif ($request->filtro == 2) {
+      $result = \App\Alerta::where('envio',2)->get();
+      foreach ($result as $r) {
+        if ($r->estatus == 1) {
+          $r->estatus = "Nuevo";
+        } elseif ($r->estatus == 2) {
+          $r->estatus = "Recabando información";
+        }elseif ($r->estatus == 3) {
+          $r->estatus = "En proceso";
+        }elseif ($r->estatus == 4) {
+          $r->estatus = "Observaciones";
+        }else{
+          $r->estatus = "Concluido";
+        }
+        $r->operacion= "Operación inusual";
+        $r->cliente;
+        $r->credito;}
+    }elseif ($request->filtro == 3) {
+      $result = \App\Alerta::where('envio',3)->get();
+      foreach ($result as $r) {
+        if ($r->estatus == 1) {
+          $r->estatus = "Nuevo";
+        } elseif ($r->estatus == 2) {
+          $r->estatus = "Recabando información";
+        }elseif ($r->estatus == 3) {
+          $r->estatus = "En proceso";
+        }elseif ($r->estatus == 4) {
+          $r->estatus = "Observaciones";
+        }else{
+          $r->estatus = "Concluido";
+        }
+        $r->operacion= "Clientes Clasificados en el mayor grado de mayor riesgo";
+        $r->cliente;
+        $r->credito;}
+    }elseif ($request->filtro == 4) {
+      $result = \App\Alerta::where('envio',4)->get();
+      foreach ($result as $r) {
+        if ($r->estatus == 1) {
+          $r->estatus = "Nuevo";
+        } elseif ($r->estatus == 2) {
+          $r->estatus = "Recabando información";
+        }elseif ($r->estatus == 3) {
+          $r->estatus = "En proceso";
+        }elseif ($r->estatus == 4) {
+          $r->estatus = "Observaciones";
+        }else{
+          $r->estatus = "Concluido";
+        }
+        $r->operacion= "Operación clientes Clasificados en el mayor grado de mayor riesgo";
+        $r->cliente;
+        $r->credito;}
+    }elseif ($request->filtro == 5) {
+      $result = \App\Alerta::where('envio',5)->get();
+      foreach ($result as $r) {
+        if ($r->estatus == 1) {
+          $r->estatus = "Nuevo";
+        } elseif ($r->estatus == 2) {
+          $r->estatus = "Recabando información";
+        }elseif ($r->estatus == 3) {
+          $r->estatus = "En proceso";
+        }elseif ($r->estatus == 4) {
+          $r->estatus = "Observaciones";
+        }else{
+          $r->estatus = "Concluido";
+        }
+        $r->operacion= "Operaciones relevantes";
+        $r->cliente;
+        $r->credito;}
+    }
+    else {
       $result = \App\Alerta::where('estatus','<>',5)->get();
 
       foreach ($result as $r) {
@@ -150,11 +232,32 @@ class Alerta extends Controller
           $r->estatus = "Observaciones";
         }else{
           $r->estatus = "Concluido";
-
+        }if($r->envio==1) {
+          $r->estatus = "Concluido";
+          $r->operacion = "Operación no preocupante";
+          $r->cliente;
+          $r->credito;
+        } elseif($r->envio==2) {
+          $r->estatus = "Concluido";
+          $r->operacion = "Operación inusual";
+          $r->cliente;
+          $r->credito;
+        } elseif($r->envio==3) {
+          $r->estatus = "Concluido";
+          $r->operacion = "Clientes Clasificados en el mayor grado de mayor riesgo";
+          $r->cliente;
+          $r->credito;
+        } elseif($r->envio==4) {
+          $r->estatus = "Concluido";
+          $r->operacion = "Operación clientes Clasificados en el mayor grado de mayor riesgo";
+          $r->cliente;
+          $r->credito;
+        } else {
+          $r->estatus = "Concluido";
+          $r->operacion = "Operaciones relevantes";
+          $r->cliente;
+          $r->credito;
         }
-        $r->operacion= "Operación inusual";
-        $r->cliente;
-        $r->credito;
       }
 
     }
@@ -168,27 +271,145 @@ class Alerta extends Controller
   }
   public function getAlertas2(Request $request)
   {
-
-
-      $result =  \App\Alerta::where('estatus', 5)->get();;
-
+        if ($request->filtro == 1) {
+      $result = \App\Alerta::where('estatus',5)->where('envio',1)->get();
       foreach ($result as $r) {
-        $r->estatus = "Concluido";
+        if ($r->estatus == 1) {
+          $r->estatus = "Nuevo";
+        } elseif ($r->estatus == 2) {
+          $r->estatus = "Recabando información";
+        }elseif ($r->estatus == 3) {
+          $r->estatus = "En proceso";
+        }elseif ($r->estatus == 4) {
+          $r->estatus = "Observaciones";
+        }else{
+          $r->estatus = "Concluido";
+        }
+        $r->operacion= "Operación no preocupante";
+        $r->cliente;
+        $r->credito;}
+    }
+    elseif ($request->filtro == 2) {
+      $result = \App\Alerta::where('estatus',5)->where('envio',2)->get();
+      foreach ($result as $r) {
+        if ($r->estatus == 1) {
+          $r->estatus = "Nuevo";
+        } elseif ($r->estatus == 2) {
+          $r->estatus = "Recabando información";
+        }elseif ($r->estatus == 3) {
+          $r->estatus = "En proceso";
+        }elseif ($r->estatus == 4) {
+          $r->estatus = "Observaciones";
+        }else{
+          $r->estatus = "Concluido";
+        }
         $r->operacion= "Operación inusual";
         $r->cliente;
-        $r->credito;
+        $r->credito;}
+    }elseif ($request->filtro == 3) {
+      $result = \App\Alerta::where('estatus',5)->where('envio',3)->get();
+      foreach ($result as $r) {
+        if ($r->estatus == 1) {
+          $r->estatus = "Nuevo";
+        } elseif ($r->estatus == 2) {
+          $r->estatus = "Recabando información";
+        }elseif ($r->estatus == 3) {
+          $r->estatus = "En proceso";
+        }elseif ($r->estatus == 4) {
+          $r->estatus = "Observaciones";
+        }else{
+          $r->estatus = "Concluido";
+        }
+        $r->operacion= "Clientes Clasificados en el mayor grado de mayor riesgo";
+        $r->cliente;
+        $r->credito;}
+    }elseif ($request->filtro == 4) {
+      $result = \App\Alerta::where('estatus',5)->where('envio',4)->get();
+      foreach ($result as $r) {
+        if ($r->estatus == 1) {
+          $r->estatus = "Nuevo";
+        } elseif ($r->estatus == 2) {
+          $r->estatus = "Recabando información";
+        }elseif ($r->estatus == 3) {
+          $r->estatus = "En proceso";
+        }elseif ($r->estatus == 4) {
+          $r->estatus = "Observaciones";
+        }else{
+          $r->estatus = "Concluido";
+        }
+        $r->operacion= "Operación clientes Clasificados en el mayor grado de mayor riesgo";
+        $r->cliente;
+        $r->credito;}
+    }elseif ($request->filtro == 5) {
+      $result = \App\Alerta::where('estatus',5)->where('envio',5)->get();
+      foreach ($result as $r) {
+        if ($r->estatus == 1) {
+          $r->estatus = "Nuevo";
+        } elseif ($r->estatus == 2) {
+          $r->estatus = "Recabando información";
+        }elseif ($r->estatus == 3) {
+          $r->estatus = "En proceso";
+        }elseif ($r->estatus == 4) {
+          $r->estatus = "Observaciones";
+        }else{
+          $r->estatus = "Concluido";
+        }
+        $r->operacion= "Operaciones relevantes";
+        $r->cliente;
+        $r->credito;}
+    }
+    else {
+      $result = \App\Alerta::where('estatus',5)->get();
 
+      foreach ($result as $r) {
+        if ($r->estatus == 1) {
+          $r->estatus = "Nuevo";
+        } elseif ($r->estatus == 2) {
+          $r->estatus = "Recabando información";
+        }elseif ($r->estatus == 3) {
+          $r->estatus = "En proceso";
+        }elseif ($r->estatus == 4) {
+          $r->estatus = "Observaciones";
+        }else{
+          $r->estatus = "Concluido";
+        }if($r->envio==1) {
+          $r->estatus = "Concluido";
+          $r->operacion = "Operación no preocupante";
+          $r->cliente;
+          $r->credito;
+        } elseif($r->envio==2) {
+          $r->estatus = "Concluido";
+          $r->operacion = "Operación inusual";
+          $r->cliente;
+          $r->credito;
+        } elseif($r->envio==3) {
+          $r->estatus = "Concluido";
+          $r->operacion = "Clientes Clasificados en el mayor grado de mayor riesgo";
+          $r->cliente;
+          $r->credito;
+        } elseif($r->envio==4) {
+          $r->estatus = "Concluido";
+          $r->operacion = "Operación clientes Clasificados en el mayor grado de mayor riesgo";
+          $r->cliente;
+          $r->credito;
+        } else {
+          $r->estatus = "Concluido";
+          $r->operacion = "Operaciones relevantes";
+          $r->cliente;
+          $r->credito;
+        }
       }
 
-
+    }
     return datatables()->of($result)->addColumn('actions', function ($query) {
 
       return '
-              <a href="#" id="editname"  title="Editar"><button style="z-index:999" id="btnedita" value="' . $query->estatus . '"  aria-label="' . $query->observacion . '" name="' . $query->id . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><input hidden id="inputname" value="'.$query->cliente->name.'"><input hidden id="inputalerta" value="'.$query->tipo_alerta.'"><i id="ialerta" aria-label="'.$query->tipo_alerta.'" class="feather icon-edit primary"></i></button></a>
+              <a href="#"  title="Editar"><button style="z-index:999" id="btnedita" value="' . $query->estatus . '"  aria-label="' . $query->observacion . '" name="' . $query->id . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
               ';
     })->rawColumns(['actions'])->toJson();
 
   }
+
   public function verbuzon()
   {
     $pageConfigs = [

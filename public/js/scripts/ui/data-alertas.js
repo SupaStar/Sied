@@ -1,4 +1,5 @@
-var actionDropdown = $(".actions-dropodown")
+var actionDropdown = $("#dp1")
+var actionDropdown1 = $("#dp2")
 var filtro = '';
 $(document).ready(function() {
   "use strict"
@@ -16,7 +17,7 @@ $(document).ready(function() {
 });
 function alertas(chn){
   filtro = chn;
-  var dataListView = $(".data-list-view").DataTable({
+  var dataListView = $("#td2").DataTable({
     responsive: false,
     columnDefs: [
       {
@@ -142,7 +143,6 @@ function alertas(chn){
         "filtro": filtro
       }
     }
-
     ,
     "rowCallback": function( row, data, index ) {
       if (data.prioridad == "Alta") {
@@ -163,7 +163,7 @@ function alertas(chn){
 }
 function alertas2(chn){
   filtro = chn;
-  var dataListView = $(".data-list-view1").DataTable({
+  var dataListView = $("#td02").DataTable({
     responsive: false,
     columnDefs: [
       {
@@ -304,6 +304,6 @@ function alertas2(chn){
     }
   });
 
-  actionDropdown.insertBefore($(".top .actions .dt-buttons"))
+
 
 }

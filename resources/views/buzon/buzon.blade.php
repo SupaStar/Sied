@@ -59,8 +59,10 @@
                               Filtro
                             </button>
                             <div class="dropdown-menu">
-                              <a class="dropdown-item" onclick="alertas('');">Todos</a>
-                              <a class="dropdown-item" onclick="alertas('Prioridad');">Prioridad</a>
+                              <a class="dropdown-item" onclick="alertas('');alertas2('');">Todos</a>
+                              <a class="dropdown-item" onclick="alertas('Prioridad Alta');alertas2('Alta');">Prioridad Alta</a>
+                              <a class="dropdown-item" onclick="alertas('Prioridad Media');alertas2('Media');">Prioridad Media</a>
+                              <a class="dropdown-item" onclick="alertas('Prioridad Baja');alertas2('Baja');">Prioridad Baja</a>
                             </div>
                           </div>
                         </div>
@@ -109,17 +111,7 @@
                   <section class="card invoice-page">
                     <section id="data-list-view1" class="data-list-view-header">
 
-                      <div class="action-btns d-none">
-                        <div class="btn-dropdown mr-1 mb-1">
-                          <div class="btn-group dropdown actions-dropodown">
 
-                            <div class="dropdown-menu">
-                              <a class="dropdown-item" onclick="alertas2('');">Todos</a>
-                              <a class="dropdown-item" onclick="alertas2('Prioridad');">Prioridad</a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
 
                       <div class="table-responsive">
                         <table class="table data-list-view1" style="min-width: 1500px; !important;">

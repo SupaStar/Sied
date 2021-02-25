@@ -52,11 +52,23 @@
 
                       <div class="action-btns d-none">
                         <div class="btn-dropdown mr-1 mb-1">
-                          <div class="btn-group dropdown actions-dropodown">
+                          <div id="dp1" class="btn-group dropdown actions-dropodown">
+                            <button type="button" class="btn btn-white px-1 py-1 dropdown-toggle waves-effect waves-light"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Filtro
+                            </button>
                             <div class="dropdown-menu">
-                              <a class="dropdown-item" onclick="alertas('');">Todos</a>
-                              <a class="dropdown-item" onclick="alertas('Titulos');">Titulos</a>
-                              <a class="dropdown-item" onclick="alertas('Concluido');">Prioridad</a>
+                              <a class="dropdown-item" onclick="alertas('');alertas2('');">Todos</a>
+                              <a class="dropdown-item" onclick="alertas(1);alertas2(1);">Operación dictaminada como no usual o no preocupante</a>
+                              <a class="dropdown-item" onclick="alertas(2);alertas2(2);">Operación sin sustento considerada como inusual o preocupante (Envio a autoridad)</a>
+                              <a class="dropdown-item" onclick="alertas(3);alertas2(3);">Clientes Clasificados en el mayor grado de mayor riesgo</a>
+                              <a class="dropdown-item" onclick="alertas(4);alertas2(4);">Operación de clientes clasificados en grados de mayor riesgo</a>
+                              <a class="dropdown-item" onclick="alertas(5);alertas2(5);">Operaciones relevantes</a>
+                              <option value="1"></option>
+                              <option value="2"></option>
+                              <option value="3"></option>
+                              <option value="4"></option>
+                              <option value="5"></option>
                             </div>
                           </div>
                         </div>
@@ -64,7 +76,8 @@
 
                       {{-- DataTable starts --}}
                       <div class="table-responsive">
-                        <table class="table data-list-view">
+
+                        <table id="td2" class="table data-list-view" style="width: 100% !important;">
                           <thead>
                           <tr>
                             <th>ID</th>
@@ -108,27 +121,27 @@
                   </section>
                   <!-- invoice functionality end -->
                   <section class="card invoice-page">
-                    <section id="data-list-view1" class="data-list-view-header">
+                    <section id="data-list-view" class="data-list-view-header">
+
 
                       <div class="action-btns d-none">
                         <div class="btn-dropdown mr-1 mb-1">
-                          <div class="btn-group dropdown actions-dropodown">
+                          <div id="dp2" class="btn-group dropdown actions-dropodown">
                             <button type="button" class="btn btn-white px-1 py-1 dropdown-toggle waves-effect waves-light"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               Filtro
                             </button>
                             <div class="dropdown-menu">
-                              <a class="dropdown-item" onclick="alertas2('');">Todos</a>
-                              <a class="dropdown-item" onclick="alertas2('Titulos');">Titulos</a>
-                              <a class="dropdown-item" onclick="alertas2('Prioridad');">Prioridad</a>
+                              <a class="dropdown-item" onclick="alertas('');alertas2('');">Todos</a>
+                              <a class="dropdown-item" onclick="alertas('Alta');alertas2('Alta');">Alta</a>
                             </div>
                           </div>
                         </div>
                       </div>
 
-                      {{-- DataTable starts --}}
                       <div class="table-responsive">
-                        <table class="table data-list-view1">
+
+                        <table id="td02" style="width: 100% !important;" class="table data-list-view">
                           <thead>
                           <tr>
                             <th>ID</th>
@@ -227,6 +240,9 @@
                   <option selected disabled>Seleccione un tipo de operación</option>
                   <option value="1">Operación dictaminada como no usual o no preocupante</option>
                   <option value="2">Operación sin sustento considerada como inusual o preocupante (Envio a autoridad)</option>
+                  <option value="3">Clientes Clasificados en el mayor grado de mayor riesgo</option>
+                  <option value="4">Operación de clientes clasificados en grados de mayor riesgo</option>
+                  <option value="5">Operaciones relevantes</option>
                 </select>
                 <label>Dictamen: </label>
                 <div class="form-group">
@@ -311,6 +327,9 @@
 
   <script>
     $(document).ready(function () {
+      let ns=$('#formss').steps("getCurrentStep");
+
+
       $(function () {
         $(document).on('click', 'button[id="btnedita"]', function (event) {
           let id = this.name;
@@ -331,10 +350,12 @@
               $("#alertah").text('Motivo: ' + response.tipo_alerta)
               $("#envio").val(response.envio)
               if (response.archivo_sustento !== "" && response.archivo_sustento != null) {
+
                 $("#sustentoSub").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
                 $("#linkArSus").html("<a class='btn btn-info' href='/uploads/" + response.archivo_sustento + "' aria-label='archivo sustento' target='_blank'>Ver archivo</a>");
                 $("#Fsustento").removeAttr("required");
                 $("#lblsustento").removeAttr("hidden");
+
 
               } else {
                 $("#sustentoSub").html("");
@@ -342,16 +363,19 @@
                 $("#Fsustento").attr("required", true);
                 $("#lblsustento").attr("hidden", true)
               }
+
               if (response.archivo_dictamen !== "" && response.archivo_dictamen != null) {
                 $("#sustentoDic").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
                 $("#linkArDic").html("<a class='btn btn-info' href='/uploads/" + response.archivo_dictamen + "' aria-label='archivo dictamen' target='_blank'>Ver archivo</a>");
                 $("#Fdictamen").removeAttr("required");
-                $("#lbldictamen").removeAttr("hidden")
+                $("#lbldictamen").removeAttr("hidden") ; $("li.disabled").removeAttr("hidden")
+
               } else {
                 $("#sustentoDic").html("");
                 $("#linkArDic").html("");
                 $("#Fdictamen").attr("required", true);
-                $("#lbldictamen").attr("hidden", true)
+                $("#lbldictamen").attr("hidden", true); $("li.disabled").removeAttr("hidden")
+
               }
               if (response.archivo_acuse !== "" && response.archivo_acuse != null) {
                 $("#sustentoAcus").html("Ya se tiene un archivo guardado, si deseas reemplazarlo sube otro");
@@ -366,10 +390,13 @@
                 $("#lblacuse").attr("hidden", true)
               }
               let actual = $(".current")[0].children[0].children[1].innerHTML;
+
               for (var llegar = 1; llegar < actual; llegar++) {
+
                 $(".actions")[2].children[0].children[0].children[0].click();
               }
               let lista = $(".steps")[0].children[0];
+
               for (var i = 1; i < lista.children.length; i++) {
                 lista.children[i].className = "disabled";
               }
@@ -456,5 +483,6 @@
       $("#WindowLoad").html(imgCentro);
 
     }
+
   </script>
 @endsection

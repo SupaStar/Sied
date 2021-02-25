@@ -58,9 +58,15 @@ $(".steps-validation").steps({
   titleTemplate: '<span class="step">#index#</span> #title#',
   labels: {
     finish: "Guardar"
+  },onInit: function (event, currentIndex) {
+    $('.actions > ul > li:first-child').attr('style', 'display:none');
   },
   onStepChanging: function(event, currentIndex, newIndex) {
-    console.log('change');
+    if (currentIndex > 0) {
+      $('.actions > ul > li:first-child').removeAttr('style', '');
+    } else {
+      $('.actions > ul > li:first-child').removeAttr('style', 'display:none');
+    }
     // Allways allow previous action even if the current form is not valid!
     if (currentIndex > newIndex) {
       return true;

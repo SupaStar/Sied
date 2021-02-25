@@ -58,11 +58,20 @@ $(".steps-validation").steps({
   titleTemplate: '<span class="step">#index#</span> #title#',
   labels: {
     finish: "Guardar"
+  },onInit: function (event, currentIndex) {
+    $('.actions > ul > li:first-child').attr('style', 'display:none');
   },
   onStepChanging: function(event, currentIndex, newIndex) {
+    if (currentIndex > 0) {
+      $('.actions > ul > li:first-child').removeAttr('style', '');
+    } else {
+      $('.actions > ul > li:first-child').removeAttr('style', 'display:none');
+    }
     backup=($('#formss').steps("getCurrentStep",2))
+
     let cm=$('#envio').val();
     let lista = $(".steps")[0].children[0].children.length;
+
     if(lista<4)
     {
       $('#formss').steps("insert",2,backup)
@@ -71,6 +80,7 @@ $(".steps-validation").steps({
     if(cm==2) {
       $('#formss').steps("remove",2)
     }
+
 
     // Allways allow previous action even if the current form is not valid!
     if (currentIndex > newIndex) {

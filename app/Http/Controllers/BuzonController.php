@@ -79,8 +79,45 @@ class BuzonController extends Controller
   public function getBuzones(Request $request)
   {
 
-    if ($request->filtro == 'Prioridad') {
-      $result = DB::table('buzon')->where('prioridad', 'prioridad');
+    if ($request->filtro == 'Prioridad Alta') {
+      $result = \App\Buzon::where('prioridad',"Alta")->get();
+      foreach ($result as $r) {
+        if ($r->estatus == 1) {
+          $r->estatus = "Nuevo";
+        } elseif ($r->estatus == 2) {
+          $r->estatus = "En proceso";
+        } elseif($r->estatus == 3) {
+          $r->estatus = "Revisado";
+        }
+        $r->operacion= "operacion interna preocupante";
+        $r->usuario;
+      }
+    }elseif ($request->filtro == 'Prioridad Media') {
+      $result = \App\Buzon::where('prioridad',"Media")->get();
+      foreach ($result as $r) {
+        if ($r->estatus == 1) {
+          $r->estatus = "Nuevo";
+        } elseif ($r->estatus == 2) {
+          $r->estatus = "En proceso";
+        } elseif($r->estatus == 3) {
+          $r->estatus = "Revisado";
+        }
+        $r->operacion= "operacion interna preocupante";
+        $r->usuario;
+      }
+    }elseif ($request->filtro == 'Prioridad Baja') {
+      $result = \App\Buzon::where('prioridad',"Baja")->get();
+      foreach ($result as $r) {
+        if ($r->estatus == 1) {
+          $r->estatus = "Nuevo";
+        } elseif ($r->estatus == 2) {
+          $r->estatus = "En proceso";
+        } elseif($r->estatus == 3) {
+          $r->estatus = "Revisado";
+        }
+        $r->operacion= "operacion interna preocupante";
+        $r->usuario;
+      }
     } else {
 
       $result = \App\Buzon::where('estatus','<>',3)->get();
@@ -107,14 +144,40 @@ class BuzonController extends Controller
   public function getBuzones2(Request $request)
   {
 
-
-      $result2 = \App\Buzon::where("estatus",3)->get();
+    if($request->filtro="Alta"){
+      $result2 = \App\Buzon::where("prioridad","Alta")->get();
       foreach ($result2 as $r) {
-       $r->estatus="Revisado";
-       $r->operacion= "operacion interna preocupante";
+
+        $r->estatus="Revisado";
+        $r->operacion= "operacion interna preocupante";
         $r->usuario;
       }
+    }elseif($request->filtro="Media"){
+      $result2 = \App\Buzon::where("prioridad","Media")->get();
+      foreach ($result2 as $r) {
 
+        $r->estatus="Revisado";
+        $r->operacion= "operacion interna preocupante";
+        $r->usuario;
+      }
+    }elseif($request->filtro="Baja"){
+      $result2 = \App\Buzon::where("prioridad","Baja")->get();
+      foreach ($result2 as $r) {
+
+        $r->estatus="Revisado";
+        $r->operacion= "operacion interna preocupante";
+        $r->usuario;
+      }
+    } else {
+
+      $result2 = \App\Buzon::where("estatus", 3)->get();
+      foreach ($result2 as $r) {
+
+        $r->estatus = "Revisado";
+        $r->operacion = "operacion interna preocupante";
+        $r->usuario;
+      }
+    }
 
     return datatables()->of($result2)->addColumn('actions', function ($query) {
 
