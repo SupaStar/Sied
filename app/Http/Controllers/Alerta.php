@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AlertasExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Alerta extends Controller
 {
@@ -14,6 +16,15 @@ class Alerta extends Controller
   {
     $this->middleware('auth');
     $this->middleware('checkStatus');
+  }
+
+  public function generarExcel()
+  {
+    return Excel::download((new AlertasExport)->fechaInicio('2021-02-20',''), 'alertas.xlsx');
+  }
+  public function generarPDF()
+  {
+    return Excel::download((new AlertasExport)->fechaInicio('2021-02-20',''), 'alertas.pdf',\Maatwebsite\Excel\Excel::MPDF,['Content-Type' => 'application/pdf']);
   }
 
   public function nueva(Request $request)
@@ -71,16 +82,16 @@ class Alerta extends Controller
     }
     $alerta->observacion = $obs;
     $alerta->sustento = $request->sustento;
-    $estaus=$request->sustengo!=null?2:$estaus;
+    $estaus = $request->sustengo != null ? 2 : $estaus;
     $alerta->archivo_sustento = $this->agregarArchivo($request->file('Fsustento'), $request->inid, $alerta->archivo_sustento);
     $alerta->dictamen = $request->dictamen;
-    $estaus=$request->dictamen!=null?3:$estaus;
+    $estaus = $request->dictamen != null ? 3 : $estaus;
     $alerta->archivo_dictamen = $this->agregarArchivo($request->file('Fdictamen'), $request->inid, $alerta->archivo_dictamen);
-    $alerta->envio=$request->envio;
+    $alerta->envio = $request->envio;
     $alerta->acuse = $request->acuse;
-    $estaus=$request->acuse!=null?4:$estaus;
+    $estaus = $request->acuse != null ? 4 : $estaus;
     $alerta->archivo_acuse = $this->agregarArchivo($request->file('Facuse'), $request->inid, $alerta->archivo_acuse);
-    $estaus=$request->estatus==5?5:$estaus;
+    $estaus = $request->estatus == 5 ? 5 : $estaus;
     $alerta->estatus = $estaus;
     $alerta->save();
     return redirect('/alertas/alertas')->with('message', 'OK');
@@ -131,7 +142,7 @@ class Alerta extends Controller
 
   public function getAlertas(Request $request)
   {
-        if ($request->filtro == 1) {
+    if ($request->filtro == 1) {
       $result = \App\Alerta::where('envio',1)->where("estatus","<>",5)->get();
       foreach ($result as $r) {
         if ($r->estatus == 1) {
@@ -290,7 +301,7 @@ class Alerta extends Controller
   }
   public function getAlertas2(Request $request)
   {
-        if ($request->filtro == 1) {
+    if ($request->filtro == 1) {
       $result = \App\Alerta::where('estatus',5)->where('envio',1)->get();
       foreach ($result as $r) {
         if ($r->estatus == 1) {

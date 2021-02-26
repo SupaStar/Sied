@@ -19,7 +19,8 @@ $configAlertas=\App\ConfigAlertas::find(1)->first();
           <div style="margin-top:-30px; margin-left:0px; position:absolute; float:left; z-index:-1">Tiempo
             Actual: {{date('d-m-Y')}} <small id="reloj" style="font-size: 15px;"></small>
           </div>
-
+{{--<a class="btn btn-danger" href="{{route('generar_excel')}}">Excel</a>--}}
+{{--<a class="btn btn-danger" href="{{route('generar_pdf')}}">PDF</a>--}}
 
 
           <div style="margin-top:-30px; margin-right:0px; position:relative; float:right; z-index:-1"><button style="
