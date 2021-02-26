@@ -333,8 +333,10 @@ function alertas2(chn){
      if($('#start').val()>$('#finish').val())
      {
       alert("Seleccione una fecha de inicio menor a la final")
+       $('#finish').attr('disabled')
      }
      else {
+       $('#finish').attr('disabled')
        var dataListView = $("#td2").DataTable({
          "destroy": true,
          responsive: false,
