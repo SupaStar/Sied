@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AlertasExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class Alerta extends Controller
 {
@@ -14,6 +16,15 @@ class Alerta extends Controller
   {
     $this->middleware('auth');
     $this->middleware('checkStatus');
+  }
+
+  public function generarExcel()
+  {
+    return Excel::download((new AlertasExport)->fechaInicio('2021-02-20',''), 'alertas.xlsx');
+  }
+  public function generarPDF()
+  {
+    return Excel::download((new AlertasExport)->fechaInicio('2021-02-20',''), 'alertas.pdf',\Maatwebsite\Excel\Excel::MPDF,['Content-Type' => 'application/pdf']);
   }
 
   public function nueva(Request $request)
@@ -71,16 +82,16 @@ class Alerta extends Controller
     }
     $alerta->observacion = $obs;
     $alerta->sustento = $request->sustento;
-    $estaus=$request->sustengo!=null?2:$estaus;
+    $estaus = $request->sustengo != null ? 2 : $estaus;
     $alerta->archivo_sustento = $this->agregarArchivo($request->file('Fsustento'), $request->inid, $alerta->archivo_sustento);
     $alerta->dictamen = $request->dictamen;
-    $estaus=$request->dictamen!=null?3:$estaus;
+    $estaus = $request->dictamen != null ? 3 : $estaus;
     $alerta->archivo_dictamen = $this->agregarArchivo($request->file('Fdictamen'), $request->inid, $alerta->archivo_dictamen);
-    $alerta->envio=$request->envio;
+    $alerta->envio = $request->envio;
     $alerta->acuse = $request->acuse;
-    $estaus=$request->acuse!=null?4:$estaus;
+    $estaus = $request->acuse != null ? 4 : $estaus;
     $alerta->archivo_acuse = $this->agregarArchivo($request->file('Facuse'), $request->inid, $alerta->archivo_acuse);
-    $estaus=$request->estatus==5?5:$estaus;
+    $estaus = $request->estatus == 5 ? 5 : $estaus;
     $alerta->estatus = $estaus;
     $alerta->save();
     return redirect('/alertas/alertas')->with('message', 'OK');
@@ -131,94 +142,97 @@ class Alerta extends Controller
 
   public function getAlertas(Request $request)
   {
-        if ($request->filtro == 1) {
-      $result = \App\Alerta::where('envio',1)->get();
+    if ($request->filtro == 1) {
+      $result = \App\Alerta::where('envio', 1)->get();
       foreach ($result as $r) {
         if ($r->estatus == 1) {
           $r->estatus = "Nuevo";
         } elseif ($r->estatus == 2) {
           $r->estatus = "Recabando información";
-        }elseif ($r->estatus == 3) {
+        } elseif ($r->estatus == 3) {
           $r->estatus = "En proceso";
-        }elseif ($r->estatus == 4) {
+        } elseif ($r->estatus == 4) {
           $r->estatus = "Observaciones";
-        }else{
+        } else {
           $r->estatus = "Concluido";
         }
-        $r->operacion= "Operación no preocupante";
+        $r->operacion = "Operación no preocupante";
         $r->cliente;
-        $r->credito;}
-    }
-    elseif ($request->filtro == 2) {
-      $result = \App\Alerta::where('envio',2)->get();
+        $r->credito;
+      }
+    } elseif ($request->filtro == 2) {
+      $result = \App\Alerta::where('envio', 2)->get();
       foreach ($result as $r) {
         if ($r->estatus == 1) {
           $r->estatus = "Nuevo";
         } elseif ($r->estatus == 2) {
           $r->estatus = "Recabando información";
-        }elseif ($r->estatus == 3) {
+        } elseif ($r->estatus == 3) {
           $r->estatus = "En proceso";
-        }elseif ($r->estatus == 4) {
+        } elseif ($r->estatus == 4) {
           $r->estatus = "Observaciones";
-        }else{
+        } else {
           $r->estatus = "Concluido";
         }
-        $r->operacion= "Operación inusual";
+        $r->operacion = "Operación inusual";
         $r->cliente;
-        $r->credito;}
-    }elseif ($request->filtro == 3) {
-      $result = \App\Alerta::where('envio',3)->get();
+        $r->credito;
+      }
+    } elseif ($request->filtro == 3) {
+      $result = \App\Alerta::where('envio', 3)->get();
       foreach ($result as $r) {
         if ($r->estatus == 1) {
           $r->estatus = "Nuevo";
         } elseif ($r->estatus == 2) {
           $r->estatus = "Recabando información";
-        }elseif ($r->estatus == 3) {
+        } elseif ($r->estatus == 3) {
           $r->estatus = "En proceso";
-        }elseif ($r->estatus == 4) {
+        } elseif ($r->estatus == 4) {
           $r->estatus = "Observaciones";
-        }else{
+        } else {
           $r->estatus = "Concluido";
         }
-        $r->operacion= "Clientes Clasificados en el mayor grado de mayor riesgo";
+        $r->operacion = "Clientes Clasificados en el mayor grado de mayor riesgo";
         $r->cliente;
-        $r->credito;}
-    }elseif ($request->filtro == 4) {
-      $result = \App\Alerta::where('envio',4)->get();
+        $r->credito;
+      }
+    } elseif ($request->filtro == 4) {
+      $result = \App\Alerta::where('envio', 4)->get();
       foreach ($result as $r) {
         if ($r->estatus == 1) {
           $r->estatus = "Nuevo";
         } elseif ($r->estatus == 2) {
           $r->estatus = "Recabando información";
-        }elseif ($r->estatus == 3) {
+        } elseif ($r->estatus == 3) {
           $r->estatus = "En proceso";
-        }elseif ($r->estatus == 4) {
+        } elseif ($r->estatus == 4) {
           $r->estatus = "Observaciones";
-        }else{
+        } else {
           $r->estatus = "Concluido";
         }
-        $r->operacion= "Operación clientes Clasificados en el mayor grado de mayor riesgo";
+        $r->operacion = "Operación clientes Clasificados en el mayor grado de mayor riesgo";
         $r->cliente;
-        $r->credito;}
-    }elseif ($request->filtro == 5) {
-      $result = \App\Alerta::where('envio',5)->get();
+        $r->credito;
+      }
+    } elseif ($request->filtro == 5) {
+      $result = \App\Alerta::where('envio', 5)->get();
       foreach ($result as $r) {
         if ($r->estatus == 1) {
           $r->estatus = "Nuevo";
         } elseif ($r->estatus == 2) {
           $r->estatus = "Recabando información";
-        }elseif ($r->estatus == 3) {
+        } elseif ($r->estatus == 3) {
           $r->estatus = "En proceso";
-        }elseif ($r->estatus == 4) {
+        } elseif ($r->estatus == 4) {
           $r->estatus = "Observaciones";
-        }else{
+        } else {
           $r->estatus = "Concluido";
         }
-        $r->operacion= "Operaciones relevantes";
+        $r->operacion = "Operaciones relevantes";
         $r->cliente;
-        $r->credito;}
-    }
-    else {
+        $r->credito;
+      }
+    } else {
       $result = \App\Alerta::all();
 
       foreach ($result as $r) {
@@ -226,39 +240,39 @@ class Alerta extends Controller
           $r->estatus = "Nuevo";
         } elseif ($r->estatus == 2) {
           $r->estatus = "Recabando información";
-        }elseif ($r->estatus == 3) {
+        } elseif ($r->estatus == 3) {
           $r->estatus = "En proceso";
-        }elseif ($r->estatus == 4) {
+        } elseif ($r->estatus == 4) {
           $r->estatus = "Observaciones";
-        }else{
+        } else {
           $r->estatus = "Concluido";
-        }if($r->envio==1) {
+        }
+        if ($r->envio == 1) {
           $r->estatus = "Concluido";
           $r->operacion = "Operación no preocupante";
           $r->cliente;
           $r->credito;
-        } elseif($r->envio==2) {
+        } elseif ($r->envio == 2) {
           $r->estatus = "Concluido";
           $r->operacion = "Operación inusual";
           $r->cliente;
           $r->credito;
-        } elseif($r->envio==3) {
+        } elseif ($r->envio == 3) {
           $r->estatus = "Concluido";
           $r->operacion = "Clientes Clasificados en el mayor grado de mayor riesgo";
           $r->cliente;
           $r->credito;
-        } elseif($r->envio==4) {
+        } elseif ($r->envio == 4) {
           $r->estatus = "Concluido";
           $r->operacion = "Operación clientes Clasificados en el mayor grado de mayor riesgo";
           $r->cliente;
           $r->credito;
-        } elseif($r->envio==5) {
+        } elseif ($r->envio == 5) {
           $r->estatus = "Concluido";
           $r->operacion = "Operaciones relevantes";
           $r->cliente;
           $r->credito;
-        }
-        elseif($r->envio==0){
+        } elseif ($r->envio == 0) {
           $r->estatus = "Concluido";
           $r->operacion = "Sin operación";
           $r->cliente;
@@ -275,125 +289,130 @@ class Alerta extends Controller
     })->rawColumns(['actions'])->toJson();
 
   }
+
   public function getAlertas2(Request $request)
   {
-        if ($request->filtro == 1) {
-      $result = \App\Alerta::where('estatus',5)->where('envio',1)->get();
+    if ($request->filtro == 1) {
+      $result = \App\Alerta::where('estatus', 5)->where('envio', 1)->get();
       foreach ($result as $r) {
         if ($r->estatus == 1) {
           $r->estatus = "Nuevo";
         } elseif ($r->estatus == 2) {
           $r->estatus = "Recabando información";
-        }elseif ($r->estatus == 3) {
+        } elseif ($r->estatus == 3) {
           $r->estatus = "En proceso";
-        }elseif ($r->estatus == 4) {
+        } elseif ($r->estatus == 4) {
           $r->estatus = "Observaciones";
-        }else{
+        } else {
           $r->estatus = "Concluido";
         }
-        $r->operacion= "Operación no preocupante";
+        $r->operacion = "Operación no preocupante";
         $r->cliente;
-        $r->credito;}
-    }
-    elseif ($request->filtro == 2) {
-      $result = \App\Alerta::where('estatus',5)->where('envio',2)->get();
+        $r->credito;
+      }
+    } elseif ($request->filtro == 2) {
+      $result = \App\Alerta::where('estatus', 5)->where('envio', 2)->get();
       foreach ($result as $r) {
         if ($r->estatus == 1) {
           $r->estatus = "Nuevo";
         } elseif ($r->estatus == 2) {
           $r->estatus = "Recabando información";
-        }elseif ($r->estatus == 3) {
+        } elseif ($r->estatus == 3) {
           $r->estatus = "En proceso";
-        }elseif ($r->estatus == 4) {
+        } elseif ($r->estatus == 4) {
           $r->estatus = "Observaciones";
-        }else{
+        } else {
           $r->estatus = "Concluido";
         }
-        $r->operacion= "Operación inusual";
+        $r->operacion = "Operación inusual";
         $r->cliente;
-        $r->credito;}
-    }elseif ($request->filtro == 3) {
-      $result = \App\Alerta::where('estatus',5)->where('envio',3)->get();
+        $r->credito;
+      }
+    } elseif ($request->filtro == 3) {
+      $result = \App\Alerta::where('estatus', 5)->where('envio', 3)->get();
       foreach ($result as $r) {
         if ($r->estatus == 1) {
           $r->estatus = "Nuevo";
         } elseif ($r->estatus == 2) {
           $r->estatus = "Recabando información";
-        }elseif ($r->estatus == 3) {
+        } elseif ($r->estatus == 3) {
           $r->estatus = "En proceso";
-        }elseif ($r->estatus == 4) {
+        } elseif ($r->estatus == 4) {
           $r->estatus = "Observaciones";
-        }else{
+        } else {
           $r->estatus = "Concluido";
         }
-        $r->operacion= "Clientes Clasificados en el mayor grado de mayor riesgo";
+        $r->operacion = "Clientes Clasificados en el mayor grado de mayor riesgo";
         $r->cliente;
-        $r->credito;}
-    }elseif ($request->filtro == 4) {
-      $result = \App\Alerta::where('estatus',5)->where('envio',4)->get();
+        $r->credito;
+      }
+    } elseif ($request->filtro == 4) {
+      $result = \App\Alerta::where('estatus', 5)->where('envio', 4)->get();
       foreach ($result as $r) {
         if ($r->estatus == 1) {
           $r->estatus = "Nuevo";
         } elseif ($r->estatus == 2) {
           $r->estatus = "Recabando información";
-        }elseif ($r->estatus == 3) {
+        } elseif ($r->estatus == 3) {
           $r->estatus = "En proceso";
-        }elseif ($r->estatus == 4) {
+        } elseif ($r->estatus == 4) {
           $r->estatus = "Observaciones";
-        }else{
+        } else {
           $r->estatus = "Concluido";
         }
-        $r->operacion= "Operación clientes Clasificados en el mayor grado de mayor riesgo";
+        $r->operacion = "Operación clientes Clasificados en el mayor grado de mayor riesgo";
         $r->cliente;
-        $r->credito;}
-    }elseif ($request->filtro == 5) {
-      $result = \App\Alerta::where('estatus',5)->where('envio',5)->get();
+        $r->credito;
+      }
+    } elseif ($request->filtro == 5) {
+      $result = \App\Alerta::where('estatus', 5)->where('envio', 5)->get();
       foreach ($result as $r) {
         if ($r->estatus == 1) {
           $r->estatus = "Nuevo";
         } elseif ($r->estatus == 2) {
           $r->estatus = "Recabando información";
-        }elseif ($r->estatus == 3) {
+        } elseif ($r->estatus == 3) {
           $r->estatus = "En proceso";
-        }elseif ($r->estatus == 4) {
+        } elseif ($r->estatus == 4) {
           $r->estatus = "Observaciones";
-        }else{
+        } else {
           $r->estatus = "Concluido";
         }
-        $r->operacion= "Operaciones relevantes";
+        $r->operacion = "Operaciones relevantes";
         $r->cliente;
-        $r->credito;}
-    }
-    else {
-      $result = \App\Alerta::where('estatus',5)->get();
+        $r->credito;
+      }
+    } else {
+      $result = \App\Alerta::where('estatus', 5)->get();
 
       foreach ($result as $r) {
         if ($r->estatus == 1) {
           $r->estatus = "Nuevo";
         } elseif ($r->estatus == 2) {
           $r->estatus = "Recabando información";
-        }elseif ($r->estatus == 3) {
+        } elseif ($r->estatus == 3) {
           $r->estatus = "En proceso";
-        }elseif ($r->estatus == 4) {
+        } elseif ($r->estatus == 4) {
           $r->estatus = "Observaciones";
-        }else{
+        } else {
           $r->estatus = "Concluido";
-        }if($r->envio==1) {
+        }
+        if ($r->envio == 1) {
           $r->estatus = "Concluido";
           $r->operacion = "Operación no preocupante";
           $r->cliente;
           $r->credito;
-        } elseif($r->envio==2) {
+        } elseif ($r->envio == 2) {
           $r->estatus = "Concluido";
           $r->operacion = "Operación inusual";
           $r->cliente;
           $r->credito;
-        } elseif($r->envio==3) {
+        } elseif ($r->envio == 3) {
           $r->estatus = "Concluido";
           $r->operacion = "Clientes Clasificados en el mayor grado de mayor riesgo";
           $r->cliente;
           $r->credito;
-        } elseif($r->envio==4) {
+        } elseif ($r->envio == 4) {
           $r->estatus = "Concluido";
           $r->operacion = "Operación clientes Clasificados en el mayor grado de mayor riesgo";
           $r->cliente;
