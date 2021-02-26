@@ -428,6 +428,11 @@ class Alerta extends Controller
     })->rawColumns(['actions'])->toJson();
 
   }
+  public function getAlertasfecha(Request $request)
+  {
+    return json_encode($request->fechafinal);
+
+  }
 
   public function verbuzon()
   {

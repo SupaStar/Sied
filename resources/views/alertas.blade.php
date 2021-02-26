@@ -76,7 +76,15 @@
 
                       {{-- DataTable starts --}}
                       <div class="table-responsive">
+                        <label for="start">Inicio:</label>
 
+                        <input  type="date" id="start" name="trip-start"
+                               value="2018-07-22"
+                               min="2000-01-01"><label for="start">Final:</label>
+
+                        <input type="date" id="finish" name="trip-finish"
+                               value="2018-07-22"
+                               min="2000-01-01">
                         <table id="td2" class="table data-list-view" style="width: 100% !important;">
                           <thead>
                           <tr>
@@ -328,6 +336,18 @@
   <script>
     $(document).ready(function () {
       let ns=$('#formss').steps("getCurrentStep");
+      var today = new Date();
+
+      var dd = String(today.getDate()).padStart(2, '0');
+      var mm = String(today.getMonth() + 1).padStart(2, '0');
+      var yyyy = today.getFullYear();
+
+      today = yyyy + '-' + mm + '-' + dd;
+      console.log(today)
+      $('#start').attr('max',today);
+      $('#start').attr('value',today);
+      $('#finish').attr('max',today);
+      $('#finish').attr('value',today);
 
 
       $(function () {

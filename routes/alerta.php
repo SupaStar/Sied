@@ -8,3 +8,4 @@ Route::post('editar/', 'Alerta@editar');
 Route::delete('eliminar/{id}', 'Alerta@eliminar');
 Route::get('alerta','Alerta@getAlertas');
 Route::get('alerta2','Alerta@getAlertas2');
+Route::get('alertaf','Alerta@getAlertasfecha');

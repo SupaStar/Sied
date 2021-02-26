@@ -60,6 +60,65 @@ class ApiController extends Controller
     }
     return response()->json($alertas);
   }
+  public function alertasfecha(Request $request)
+  {
+
+
+    $finicio=Carbon::parse($request->fechainicio)->format('Y-m-d');
+    $ffinal=Carbon::parse($request->fechafinal)->format('Y-m-d');
+    $result = \App\Alerta::where("created_at",">=",$finicio)->where("created_at","<=",$ffinal)->get();
+
+    foreach ($result as $r) {
+      if ($r->estatus == 1) {
+        $r->estatus = "Nuevo";
+      } elseif ($r->estatus == 2) {
+        $r->estatus = "Recabando información";
+      }elseif ($r->estatus == 3) {
+        $r->estatus = "En proceso";
+      }elseif ($r->estatus == 4) {
+        $r->estatus = "Observaciones";
+      }elseif($r->estatus == 5){
+        $r->estatus = "Concluido";
+      }
+      elseif($r->estatus==0){
+        $r->estatus = "Sin estatus";
+      }
+      if($r->envio==1) {
+        $r->operacion = "Operación no preocupante";
+        $r->cliente;
+        $r->credito;
+      } elseif($r->envio==2) {
+        $r->operacion = "Operación inusual";
+        $r->cliente;
+        $r->credito;
+      } elseif($r->envio==3) {
+        $r->operacion = "Clientes Clasificados en el mayor grado de mayor riesgo";
+        $r->cliente;
+        $r->credito;
+      } elseif($r->envio==4) {
+        $r->operacion = "Operación clientes Clasificados en el mayor grado de mayor riesgo";
+        $r->cliente;
+        $r->credito;
+      } elseif($r->envio==5) {
+        $r->operacion = "Operaciones relevantes";
+        $r->cliente;
+        $r->credito;
+      }
+      elseif($r->envio==0){
+        $r->operacion = "Sin operación";
+        $r->cliente;
+        $r->credito;
+      }
+    }
+
+
+return datatables()->of($result)->addColumn('actions', function ($query) {
+
+  return '
+              <a href="#"  title="Editar"><button style="z-index:999" id="btnedita" value="' . $query->estatus . '"  aria-label="' . $query->observacion . '" name="' . $query->id . '" type="button" data-toggle="modal" data-target="#inlineForm" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
+              ';
+})->rawColumns(['actions'])->toJson();
+  }
 
   public function cambiarValoresMonedas()
   {
