@@ -33,7 +33,7 @@ function alertas(chn){
       {
         text: "Generar pdf",
         action: function() {
-          window.location.href = "";
+          window.location.href = "/alertas/pdf";
         },
         className: "btn bg-gradient-danger waves-effect waves-light mx-2",
         style:"border-top-right-radius: 5px;" +
@@ -41,7 +41,7 @@ function alertas(chn){
       },{
         text: "Generar excel",
         action: function() {
-          window.location.href = "";
+          window.location.href = "/alertas/excel";
         },
         className: "btn bg-gradient-success waves-effect waves-light"
       }
@@ -190,7 +190,7 @@ function alertas2(chn){
       {
         text: "Generar pdf",
         action: function() {
-          window.location.href = "";
+          window.location.href = "/alertas/pdf";
         },
         className: "btn bg-gradient-danger waves-effect waves-light mx-2",
         style:"border-top-right-radius: 5px;" +
@@ -198,7 +198,7 @@ function alertas2(chn){
       },{
         text: "Generar excel",
         action: function() {
-          window.location.href = "";
+          window.location.href = "/alertas/excel";
         },
         className: "btn bg-gradient-success waves-effect waves-light"
       }
@@ -353,7 +353,7 @@ function alertas2(chn){
            {
              text: "Generar pdf",
              action: function() {
-               window.location.href = "";
+               window.location.href = "/alertas/pdf";
              },
              className: "btn bg-gradient-danger waves-effect waves-light mx-2",
              style:"border-top-right-radius: 5px;" +
@@ -361,7 +361,7 @@ function alertas2(chn){
            },{
              text: "Generar excel",
              action: function() {
-               window.location.href = "";
+               window.location.href = "/alertas/excel";
              },
              className: "btn bg-gradient-success waves-effect waves-light"
            }
