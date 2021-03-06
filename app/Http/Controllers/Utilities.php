@@ -45,7 +45,6 @@ class Utilities extends Controller
         $data = $this->checkine($unique, $base64inefront, $base64ineback);
         $data = $this->checkine($unique, $base64inefront, $base64ineback);
         $status = '';
-
         $logs = new Logs();
         $logs->type = 'test';
         $logs->message = 'antes de status';
@@ -117,17 +116,17 @@ class Utilities extends Controller
     $type = $request->ncontrato;
     $id = $request->id;
 
-    if($type == 'PYME'){
-      $ncon = 'PM'.date('Ymd').$id.'1';
+    if ($type == 'PYME') {
+      $ncon = 'PM' . date('Ymd') . $id . '1';
     }
-    if($type == 'GRUPAL'){
-      $ncon = 'GP'.date('Ymd').$id.'1';
+    if ($type == 'GRUPAL') {
+      $ncon = 'GP' . date('Ymd') . $id . '1';
     }
-    if($type == 'INDIVIDUAL'){
-      $ncon = 'ID'.date('Ymd').$id.'1';
+    if ($type == 'INDIVIDUAL') {
+      $ncon = 'ID' . date('Ymd') . $id . '1';
     }
-    if($type == 'NOMINA'){
-      $ncon = 'NM'.date('Ymd').$id.'1';
+    if ($type == 'NOMINA') {
+      $ncon = 'NM' . date('Ymd') . $id . '1';
     }
     $res = array(
       "message" => $ncon,
@@ -141,13 +140,13 @@ class Utilities extends Controller
   {
     $state = strtoupper($state);
     $data = EntidadFederativa::whereRaw("UPPER(entity) = '$state'")->first();
-    if(isset($data->code)){
+    if (isset($data->code)) {
       $res = array(
         "message" => "exist",
         "state" => $data->code,
         "code" => "200"
       );
-    }else{
+    } else {
       $res = array(
         "message" => "notexist",
         "code" => "300"
@@ -162,8 +161,7 @@ class Utilities extends Controller
 
     $ccurp = DB::TABLE('clientes')->where('CURP', $curp)->FIRST();
 
-    if($ccurp)
-    {
+    if ($ccurp) {
 
       $curl = curl_init();
       $token = $this->gtoken();
@@ -191,9 +189,9 @@ class Utilities extends Controller
 
       $response['estatus'] = 'EXISTE';
       $response['mensaje'] = 'Este cliente ya se encuentra registrado';
-      
+
       return response()->json($response);
-    }else{
+    } else {
       $curl = curl_init();
       $token = $this->gtoken();
       curl_setopt_array($curl, array(

@@ -479,6 +479,22 @@
                   </div>
                 </div>
                 </tab-content>
+                <tab-content title="Croquis" icon="step-icon feather icon-folder-plus" :before-change="()=>validateAsync('paso4')">
+                  <div id="paso4">
+                    <div class="row">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label for="eventName3">
+                            Croquis
+                          </label>
+                          <div id="map"></div>
+                          <input aria-label="latitud" id="lat" name="lat" hidden>
+                          <input aria-label="longitud" id="long" name="long" hidden>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </tab-content>
 
               </form-wizard>
             </form>
@@ -514,6 +530,10 @@
         <script src="https://unpkg.com/vue-form-wizard/dist/vue-form-wizard.js"></script>
         <script src="{{ asset('js/curp.js') }}?{{rand()}}"></script>
         <script src="{{ asset('datepicker/datepicker.js') }}?{{rand()}}"></script>
+        <script
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAC2KCt-r7yAiuktmaXWVtTaVjilIcCPFM&libraries=&v=weekly"
+          async></script>
+        <script src="{{ asset('js/scripts/maps.js') }}?{{rand()}}"></script>
 <script>
 Vue.use(VueFormWizard);
 var app = new Vue({
@@ -920,6 +940,7 @@ var app = new Vue({
       $("#conyuge").css("display", "block");
     },
     sepomex() {
+      initMap();
       var cp = $('#cp').val();
       var municipio = [];
       var ciudad = [];
