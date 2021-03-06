@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="https://unpkg.com/vue-form-wizard/dist/vue-form-wizard.min.css">
 
         <style>
+
           #WindowLoad
             {
                 position:fixed;
@@ -29,6 +30,12 @@
               display:flex;
               justify-content:center;
             }
+          @media (min-width:720px) {
+            #map{
+              width: 300%;
+            }
+
+          }
           </style>
 @endsection
 @section('content')
@@ -487,7 +494,7 @@
                           <label for="eventName3">
                             Croquis
                           </label>
-                          <div id="map"></div>
+                          <div title="maps" id="map" frameborder="0" allowfullscreen="" style="position: initial !important; height: 400px" aria-hidden="false" tabindex="0"></div>
                           <input aria-label="latitud" id="lat" name="lat" hidden>
                           <input aria-label="longitud" id="long" name="long" hidden>
                         </div>
