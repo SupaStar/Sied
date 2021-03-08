@@ -31,14 +31,18 @@ class ConfigAlertas extends Model
           $idTiie = array_search("SF60648", $ids);
           $idFix = array_search("SF43718", $ids);
           $idUid = array_search("SP68257", $ids);
-          $db->valor = $series[$idUid]->datos[0]->dato;
-          $db->tiie28 = $series[$idTiie]->datos[0]->dato;
-          $db->fix = $series[$idFix]->datos[0]->dato;
+          if (isset($series[$idUid]->datos[0]->dato))
+            $db->valor = $series[$idUid]->datos[0]->dato;
+          if (isset($series[$idTiie]->datos[0]->dato))
+            $db->tiie28 = $series[$idTiie]->datos[0]->dato;
+          if (isset($series[$idFix]->datos[0]->dato))
+            $db->fix = $series[$idFix]->datos[0]->dato;
           $semanaPas = Carbon::now()->addDay(-7)->format("Y-m-d");
           $endpoint = "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF60633/datos/" . $semanaPas . "/" . $hoy;
           curl_setopt($client, CURLOPT_URL, $endpoint);
           $data = json_decode(curl_exec($client));
-          $db->cetes28 = $data->bmx->series[0]->datos[0]->dato;
+          if (isset($data->bmx->series[0]->datos[0]->dato))
+            $db->cetes28 = $data->bmx->series[0]->datos[0]->dato;
           $db->actualizacionUid = Carbon::now();
           $db->save();
           break;
