@@ -292,7 +292,7 @@ class Morales extends Controller
           $constraint->upsize();
         });
 
-        Storage::disk('public')->put($path . '/' . $filename, (string) $image->encode($extension, 30));
+        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
       } else {
         $uploads = new Files();
         $uploads->client_id = $cid;
@@ -329,7 +329,7 @@ class Morales extends Controller
           $constraint->upsize();
         });
 
-        Storage::disk('public')->put($path . '/' . $filename, (string) $image->encode($extension, 30));
+        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
       } else {
         $uploads = new Files();
         $uploads->client_id = $cid;
@@ -364,7 +364,7 @@ class Morales extends Controller
           $constraint->aspectRatio();
           $constraint->upsize();
         })->insert(public_path('images/confidencial.png'), 'center');
-        Storage::disk('public')->put($path . '/' . $filename, (string) $image->encode($extension, 30));
+        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
       } else {
         $uploads = new Files();
         $uploads->client_id = $cid;
@@ -399,7 +399,7 @@ class Morales extends Controller
           $constraint->aspectRatio();
           $constraint->upsize();
         });
-        Storage::disk('public')->put($path . '/' . $filename, (string) $image->encode($extension, 30));
+        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
       } else {
         $uploads = new Files();
         $uploads->client_id = $cid;
@@ -434,7 +434,7 @@ class Morales extends Controller
           $constraint->aspectRatio();
           $constraint->upsize();
         });
-        Storage::disk('public')->put($path . '/' . $filename, (string) $image->encode($extension, 30));
+        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
       } else {
         $uploads = new Files();
         $uploads->client_id = $cid;
@@ -469,7 +469,7 @@ class Morales extends Controller
           $constraint->aspectRatio();
           $constraint->upsize();
         });
-        Storage::disk('public')->put($path . '/' . $filename, (string) $image->encode($extension, 30));
+        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
       } else {
         $uploads = new Files();
         $uploads->client_id = $cid;
@@ -504,7 +504,7 @@ class Morales extends Controller
           $constraint->aspectRatio();
           $constraint->upsize();
         });
-        Storage::disk('public')->put($path . '/' . $filename, (string) $image->encode($extension, 30));
+        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
       } else {
         $uploads = new Files();
         $uploads->client_id = $cid;
@@ -539,7 +539,7 @@ class Morales extends Controller
           $constraint->aspectRatio();
           $constraint->upsize();
         });
-        Storage::disk('public')->put($path . '/' . $filename, (string) $image->encode($extension, 30));
+        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
       } else {
         $uploads = new Files();
         $uploads->client_id = $cid;
@@ -608,6 +608,7 @@ class Morales extends Controller
       'entidad' => $entidad,
     ]);
   }
+
   /**
    * Display a listing of the resource.
    *
@@ -632,6 +633,7 @@ class Morales extends Controller
       'entidad' => $entidad,
     ]);
   }
+
   /**
    * Display a listing of the resource.
    *
@@ -652,12 +654,46 @@ class Morales extends Controller
     ]);
   }
 
+  public function agregarArchivo($archivo)
+  {
+    $id=rand();
+    $path = 'morales/documentos';
+    $extension = strtolower($archivo->getClientOriginalExtension());
+    if (strtolower($extension) == 'pdf') {
+      $filename = $id . '-destino.' . $extension;
+      $path = Storage::disk('public')->put($path . '/' . $filename, $archivo);
+      return $path;
+    }
+    return '';
+  }
+  public function agregarImagen($archivo){
+    $image = Image::make(File::get($archivo));
+    $path = 'morales/imagenes';
+    $id=rand();
+    $extension = strtolower($archivo->getClientOriginalExtension());
+    $filename = $id . '-destino.'.$extension;
+    $image->resize(1280, null, function ($constraint) {
+      $constraint->aspectRatio();
+      $constraint->upsize();
+    });
+
+    $ruta=Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
+    return $ruta;
+  }
+
   public function create(Request $request)
   {
     /*$request->validate([
         'email' => 'required|string|email|unique:users'
       ]);*/
-
+    $request->entrevista=$this->agregarArchivo($request->file('entrevista'));
+    $request->reporte=$this->agregarArchivo($request->file('reporte'));
+    $request->autorizacion_reporte_circulo_credito=$this->agregarArchivo($request->file('autorizacion_reporte_circulo_credito'));
+    $request->ultima_declaracion_anual=$this->agregarArchivo($request->file('ultima_declaracion_anual'));
+    $request->estados_financieros_anuales=$this->agregarArchivo($request->file('estados_financieros_anuales'));
+    $request->estados_financieros_recientes=$this->agregarArchivo($request->file('estados_financieros_recientes'));
+    $request->fotografia1=$this->agregarImagen($request->file('fotografia1'));
+    $request->fotografia2=$this->agregarImagen($request->file('fotografia2'));
     $moral = new Moral($request->all());
 
     DB::beginTransaction();
@@ -671,7 +707,6 @@ class Morales extends Controller
       return response()->json(['error' => $ex->getMessage()], 500);
     }
     DB::commit();
-
 
 
     $cid = $moral->id;
@@ -723,7 +758,7 @@ class Morales extends Controller
             $constraint->upsize();
           });
 
-          Storage::disk('public')->put($path . '/' . $filename, (string) $image->encode('jpg', 30));
+          Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode('jpg', 30));
         } else {
           $uploads = new Files();
           $uploads->client_id = $personaMoral->id;
@@ -760,7 +795,7 @@ class Morales extends Controller
             $constraint->upsize();
           });
 
-          Storage::disk('public')->put($path . '/' . $filename, (string) $image->encode('jpg', 30));
+          Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode('jpg', 30));
         } else {
           $uploads = new Files();
           $uploads->client_id = $personaMoral->id;
@@ -780,7 +815,6 @@ class Morales extends Controller
     $filecurp = $request->file('filecurp') ? $request->file('filecurp') : 1;
     $filedom = $request->file('filedom') ? $request->file('filedom') : 1;
     $filerfc = $request->file('filerfc') ? $request->file('filerfc') : 1;
-
 
 
     if ($filecurp != 1) {
@@ -804,7 +838,7 @@ class Morales extends Controller
           $constraint->aspectRatio();
           $constraint->upsize();
         });
-        Storage::disk('public')->put($path . '/' . $filename, (string) $image->encode($extension, 30));
+        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
       } else {
         $uploads = new Files();
         $uploads->client_id = $cid;
@@ -840,7 +874,7 @@ class Morales extends Controller
           $constraint->aspectRatio();
           $constraint->upsize();
         });
-        Storage::disk('public')->put($path . '/' . $filename, (string) $image->encode($extension, 30));
+        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
       } else {
         $uploads = new Files();
         $uploads->client_id = $cid;
@@ -877,7 +911,7 @@ class Morales extends Controller
           $constraint->aspectRatio();
           $constraint->upsize();
         });
-        Storage::disk('public')->put($path . '/' . $filename, (string) $image->encode($extension, 30));
+        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
       } else {
         $uploads = new Files();
         $uploads->client_id = $cid;
@@ -967,7 +1001,7 @@ class Morales extends Controller
     $images = DB::TABLE('files')->where('client_id', $id)->get();
 
     foreach ($images as $img) {
-      array_push($data['images'], array('extension' => $img->extension, 'name' => $img->name,  'path' => $img->full));
+      array_push($data['images'], array('extension' => $img->extension, 'name' => $img->name, 'path' => $img->full));
     }
 
     return response($data, 200);

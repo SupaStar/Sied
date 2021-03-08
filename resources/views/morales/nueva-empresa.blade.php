@@ -68,6 +68,14 @@
                           <input type="text" class="form-control required" name="nombre" id="nombreEmpresa" required data-validation-required-message="This First Name field is required">
                         </div>
                       </div>
+                      <div class="col-md-6">
+                        <div class="form-group" id="div-1">
+                          <label for="nombre_administrador">
+                            Nombre (s) completo del administrador (es), Director, Gerente General o Apoderado Legal que, con su firma, puedan obligar a la persona moral para efectos de la celebración de un contrato o realización de la Operación que de trate
+                          </label>
+                          <input type="text" class="form-control required" name="nombre_administrador" id="nombre_administrador" required data-validation-required-message="This Name field is required">
+                        </div>
+                      </div>
                     </div>
                     <div class="row">
                       <h3>Integrantes</h3>
@@ -502,7 +510,130 @@
                     </div>
                   </div>
                 </tab-content>
-
+                <tab-content title="Documentos" icon="step-icon feather icon-folder-plus" :before-change="()=>validateAsync('paso5')">
+                  <div id="paso5"></div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="giro">
+                          Giro
+                        </label>
+                        <input id="giro" type="text" class="form-control required" name="giro">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="fecha_constitucion">
+                          Fecha de constitucion
+                        </label>
+                        <input  id="fecha_constitucion" type="date" class="form-control required" name="fecha_constitucion">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="garantias">
+                          Descripcion de las garantias
+                        </label>
+                        <textarea id="garantias" type="text" class="form-control required" name="garantias">
+                        </textarea>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="fotografia1">
+                          Fotografia 1
+                        </label>
+                        <input id="fotografia1" type="file" accept="image/png, image/jpeg" class="form-control required" name="fotografia1">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="fotografia2">
+                          Fotografia 2
+                        </label>
+                        <input id="fotografia2" type="file" accept="image/png, image/jpeg" class="form-control required" name="fotografia2">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="numero_empleados">
+                          Numero de empleados
+                        </label>
+                        <input id="numero_empleados" type="number" class="form-control required" name="numero_empleados">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="entrevista">
+                          Entrevista de Identificacion firmada con Declaración de que actua por cuenta propia o de un tercero
+                        </label>
+                        <input id="entrevista" type="file" accept="application/pdf" class="form-control required" name="entrevista">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="autorizacion_reporte_circulo_credito">
+                          Autorización Reporte de Circulo de Crédito
+                        </label>
+                        <input id="autorizacion_reporte_circulo_credito" type="file" accept="application/pdf" class="form-control required" name="autorizacion_reporte_circulo_credito">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="reporte">
+                          Reporte Visita Ocular
+                        </label>
+                        <input id="reporte" type="file" accept="application/pdf" class="form-control required" name="reporte">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="ultima_declaracion_anual">
+                          Última declaración anual de Impuestos
+                        </label>
+                        <input id="ultima_declaracion_anual" type="file" accept="application/pdf" class="form-control required" name="ultima_declaracion_anual">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="estados_financieros_anuales">
+                          Estados Financieros Anuales del periodo anterior
+                        </label>
+                        <input id="estados_financieros_anuales" type="file" accept="application/pdf" class="form-control required" name="estados_financieros_anuales">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label for="estados_financieros_recientes">
+                          Estados Financieros Recientes (no menos de 3 meses)
+                        </label>
+                        <input id="estados_financieros_recientes" type="file" accept="application/pdf" class="form-control required" name="estados_financieros_recientes">
+                      </div>
+                    </div>
+                  </div>
+                </tab-content>
               </form-wizard>
             </form>
             <div v-if="errorMsg">
