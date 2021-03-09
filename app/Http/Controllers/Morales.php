@@ -23,8 +23,8 @@ class Morales extends Controller
 {
   public function __construct()
   {
-    $this->middleware('auth');
-    $this->middleware('checkStatus');
+//    $this->middleware('auth');
+//    $this->middleware('checkStatus');
   }
 
   public function morales()
@@ -654,31 +654,53 @@ class Morales extends Controller
     ]);
   }
 
-  public function agregarArchivo($archivo)
+  public function agregarArchivo($archivo, $cid, $uid, $tipo)
   {
-    $id=rand();
-    $path = 'morales/documentos';
-    $extension = strtolower($archivo->getClientOriginalExtension());
-    if (strtolower($extension) == 'pdf') {
-      $filename = $id . '-destino.' . $extension;
-      $path = Storage::disk('public')->put($path . '/' . $filename, $archivo);
-      return $path;
+    if (isset($archivo)) {
+      $path = 'personas-morales/'.Str::slug($tipo);
+      $extension = strtolower($archivo->getClientOriginalExtension());
+      if (strtolower($extension) == 'pdf') {
+        $filename = $cid . '-destino.' . $extension;
+        $path = Storage::disk('public')->put($path . '/' . $filename, $archivo);
+        $uploads = new Files();
+        $uploads->client_id = $cid;
+        $uploads->type = $tipo;
+        $uploads->path = $path;
+        $uploads->extension = $extension;
+        $uploads->name = $filename;
+        $uploads->full = $path . '/' . $filename;
+        $uploads->user_id = $uid;
+        $uploads->save();
+      }
     }
     return '';
   }
-  public function agregarImagen($archivo){
-    $image = Image::make(File::get($archivo));
-    $path = 'morales/imagenes';
-    $id=rand();
-    $extension = strtolower($archivo->getClientOriginalExtension());
-    $filename = $id . '-destino.'.$extension;
-    $image->resize(1280, null, function ($constraint) {
-      $constraint->aspectRatio();
-      $constraint->upsize();
-    });
 
-    $ruta=Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
-    return $ruta;
+  public function agregarImagen($archivo, $cid, $uid, $tipo)
+  {
+    if (isset($archivo)) {
+      $image = Image::make(File::get($archivo));
+      $path = 'personas-morales/imagenes';
+      $id = rand();
+      $extension = strtolower($archivo->getClientOriginalExtension());
+      $filename = $id . '-destino.' . $extension;
+      $image->resize(1280, null, function ($constraint) {
+        $constraint->aspectRatio();
+        $constraint->upsize();
+      });
+
+      Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
+      $uploads = new Files();
+      $uploads->client_id = $cid;
+      $uploads->type = $tipo;
+      $uploads->path = $path;
+      $uploads->extension = $extension;
+      $uploads->name = $filename;
+      $uploads->full = $path . '/' . $filename;
+      $uploads->user_id = $uid;
+      $uploads->save();
+    }
+    return;
   }
 
   public function create(Request $request)
@@ -686,14 +708,6 @@ class Morales extends Controller
     /*$request->validate([
         'email' => 'required|string|email|unique:users'
       ]);*/
-    $request->entrevista=$this->agregarArchivo($request->file('entrevista'));
-    $request->reporte=$this->agregarArchivo($request->file('reporte'));
-    $request->autorizacion_reporte_circulo_credito=$this->agregarArchivo($request->file('autorizacion_reporte_circulo_credito'));
-    $request->ultima_declaracion_anual=$this->agregarArchivo($request->file('ultima_declaracion_anual'));
-    $request->estados_financieros_anuales=$this->agregarArchivo($request->file('estados_financieros_anuales'));
-    $request->estados_financieros_recientes=$this->agregarArchivo($request->file('estados_financieros_recientes'));
-    $request->fotografia1=$this->agregarImagen($request->file('fotografia1'));
-    $request->fotografia2=$this->agregarImagen($request->file('fotografia2'));
     $moral = new Moral($request->all());
 
     DB::beginTransaction();
@@ -713,6 +727,15 @@ class Morales extends Controller
     $user = $request->user();
     $userid = $user->id;
 
+    $this->agregarArchivo($request->file('entrevista'), $cid, $userid, 'Entrevista');
+    $this->agregarArchivo($request->file('reporte'), $cid, $userid, 'Reporte');
+    $this->agregarArchivo($request->file('autorizacion_reporte_circulo_credito'), $cid, $userid, 'Reporte Circulo');
+    $this->agregarArchivo($request->file('ultima_declaracion_anual'), $cid, $userid, 'Declaracion anual');
+    $this->agregarArchivo($request->file('estados_financieros_anuales'), $cid, $userid, 'Estados Anuales');
+    $this->agregarArchivo($request->file('estados_financieros_recientes'), $cid, $userid, 'Estados Recientes');
+    $this->agregarImagen($request->file('fotografia1'), $cid, $userid, 'Imagen1');
+    $this->agregarImagen($request->file('fotografia2'), $cid, $userid, 'Imagen2');
+
     $random = Str::random(50);
     $category = new User;
     $category->name = $request->nombre;
@@ -724,7 +747,8 @@ class Morales extends Controller
     $category->password = bcrypt('123456');
     $category->activate = $random;
     $category->save();
-    Mail::to(array($request->email))->send(new EmailVerification($random));
+    //TODO cuidar email
+    //Mail::to(array($request->email))->send(new EmailVerification($random));
 
 
     $moral->refresh();

@@ -35,15 +35,7 @@ class Moral extends Model
     'garantias',
     'lat',
     'long',
-    'numero_empleados',
-    'entrevista',
-    'fotografia1',
-    'fotografia2',
-    'reporte',
-    'autorizacion_reporte_circulo_credito',
-    'ultima_declaracion_anual',
-    'estados_financieros_anuales',
-    'estados_financieros_recientes',
+    'numero_empleados'
   ];
 
 
