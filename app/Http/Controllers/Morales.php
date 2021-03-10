@@ -23,8 +23,8 @@ class Morales extends Controller
 {
   public function __construct()
   {
-//    $this->middleware('auth');
-//    $this->middleware('checkStatus');
+    $this->middleware('auth');
+    $this->middleware('checkStatus');
   }
 
   public function morales()
@@ -49,8 +49,7 @@ class Morales extends Controller
     $nacionalidades = db::table('nacionalidades')->get();
     $paises = db::table('paises')->get();
     $entidad = db::table('entidad_federativa')->get();
-    $datos = Moral::find($id)->with('personasMorales');
-
+    $datos = Moral::where('id',$id)->with('personasMorales')->first();
     return view('/morales/info', [
       'pageConfigs' => $pageConfigs,
       'nacionalidades' => $nacionalidades,
@@ -660,15 +659,14 @@ class Morales extends Controller
       $path = 'personas-morales/'.Str::slug($tipo);
       $extension = strtolower($archivo->getClientOriginalExtension());
       if (strtolower($extension) == 'pdf') {
-        $filename = $cid . '-destino.' . $extension;
-        $path = Storage::disk('public')->put($path . '/' . $filename, $archivo);
+        Storage::disk('public')->put($path . '/' . $cid . '.' . $extension, File::get($archivo));
         $uploads = new Files();
         $uploads->client_id = $cid;
         $uploads->type = $tipo;
         $uploads->path = $path;
         $uploads->extension = $extension;
-        $uploads->name = $filename;
-        $uploads->full = $path . '/' . $filename;
+        $uploads->name = $cid . '.' . $extension;
+        $uploads->full = $path . '/' . $cid . '.' . $extension;
         $uploads->user_id = $uid;
         $uploads->save();
       }
