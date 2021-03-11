@@ -62,7 +62,7 @@ class LoginController extends Controller
         $this->validate($request, [
             'email'           => 'required|max:255|email',
             'password'           => 'required',
-           'g-recaptcha-response' => 'required|captcha'
+       //    'g-recaptcha-response' => 'required|captcha'
         ]);
       $pagomesGlobal = ConfigAlertas::find(1);
       $pagomesGlobal->valorUID();

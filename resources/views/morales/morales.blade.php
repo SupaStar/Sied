@@ -28,6 +28,10 @@
             <th>ID</th>
             <th>Empresa</th>
             <th>No. socios</th>
+            <th>Fecha de constitución</th>
+            <th>Nacionalidad</th>
+            <th>Lista Negra</th>
+            <th>Estado</th>
             <th>Acciones</th>
           </tr>
         </thead>

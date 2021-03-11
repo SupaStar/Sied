@@ -95,6 +95,12 @@ function clients(chn){
       {
           data: 'socios',
           name: 'socios'
+      },{
+          data: 'fecha_constitucion',
+          name: 'fecha_constitucion'
+      },{
+          data: 'country',
+          name: 'country'
       },
       {
         data: 'actions',
