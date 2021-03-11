@@ -26,13 +26,12 @@
     <div id="invoice-items-details" class="pt-1 invoice-items-table">
 
 
-
       <div class="container-fluid">
         <div class="row justify-content-center mb-4">
           <div class="offset-6 col-3 text-center">
-            <a href="{{ url('/uploads/fisicas/ine/'.$miid.'-frontal.jpg') }}"
+            <a href="{{ url('/uploads/personas-morales/ine/'.$datos->personasMorales[0]->id.'-frontal.png') }}"
               target="_blank"> <img
-                src="{{ url('/uploads/fisicas/ine/'.$miid.'-frontal.jpg') }}"
+                src="{{ url('/uploads/personas-morales/ine/'.$datos->personasMorales[0]->id.'-frontal.png') }}"
                 alt="INE" height="100"></a>
           </div>
           <div class="col-3 text-center">
@@ -178,11 +177,11 @@
                 </div>
               </div>
             </div>
-          
+
 
           <!-- Step 3 -->
           <h6><i class="step-icon feather icon-file-plus"></i> Datos Adicionales</h6>
-          
+
             <div class="row">
               <div class="col-md-4">
                 <div class="form-group">

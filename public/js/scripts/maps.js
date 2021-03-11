@@ -1,4 +1,5 @@
 let map;
+
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: {lat: -34.397, lng: 150.644},
@@ -6,6 +7,7 @@ function initMap() {
   });
   buscar();
 }
+
 function toggleBounce() {
   if (marker.getAnimation() !== null) {
     marker.setAnimation(null);
@@ -13,10 +15,12 @@ function toggleBounce() {
     marker.setAnimation(google.maps.Animation.BOUNCE);
   }
 }
-function buscar(){
+
+function buscar() {
   var geocoder = new google.maps.Geocoder();
-  var direccion=$("#street").val()+' '+$('#exterior').val()+' '+$("#cp").val();
-  geocoder.geocode({'address': direccion}, function(results, status) {
+  var direccion = $("#street").val() + ' ' + $('#exterior').val() + ' ' + $("#cp").val() + ' '
+    + $('select[name="colony"] option:selected').text() + ' ' + $('select[name="town"] option:selected').text();
+  geocoder.geocode({'address': direccion}, function (results, status) {
     if (status === 'OK') {
 
       var resultados = results[0].geometry.location,
@@ -25,7 +29,7 @@ function buscar(){
 
       $("#lat").val(resultados_lat);
       $("#long").val(resultados_long);
-      map.zoom=16;
+      map.zoom = 16;
       map.setCenter(results[0].geometry.location);
       var marker = new google.maps.Marker({
         map: map,
@@ -37,8 +41,7 @@ function buscar(){
 
       marker.addListener('click', toggleBounce);
 
-      marker.addListener( 'dragend', function (event)
-      {
+      marker.addListener('dragend', function (event) {
         $("#lat").val(this.getPosition().lat());
         $("#long").val(this.getPosition().lng());
       });

@@ -281,7 +281,7 @@
                           <label for="proposalTitle3">
                             # Interior
                           </label>
-                          <input type="text" class="form-control " name="incide">
+                          <input type="text" class="form-control " name="inside">
                         </div>
                       </div>
                       <div class="col-md-4">
@@ -328,7 +328,7 @@
                           <label for="firstName3">
                             Entidad Federativa
                           </label>
-                          <select class="form-control" id="entidad" name="ef">
+                          <select class="form-control" id="entidad" name="ef" @change="initMap">
                             <option selected disabled>Seleccionar</option>
                             @foreach($entidad as $dd)
                               <option value="{{ $dd->code }}">{{ $dd->entity }}</option>
@@ -1078,7 +1078,6 @@ var app = new Vue({
       $("#conyuge").css("display", "block");
     },
     sepomex() {
-      initMap();
       var cp = $('#cp').val();
       var municipio = [];
       var ciudad = [];
