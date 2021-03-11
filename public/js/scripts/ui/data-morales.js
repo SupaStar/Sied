@@ -84,10 +84,7 @@ function clients(chn){
       $(".dt-buttons .btn").removeClass("btn-secondary")
     },
     columns: [
-      {
-          data: 'id',
-          name: 'id'
-      },
+
       {
           data: 'nombre',
           name: 'nombre'
@@ -101,6 +98,13 @@ function clients(chn){
       },{
           data: 'country',
           name: 'country'
+      },{
+          data: 'status',
+          name: 'status'
+      },
+      {
+        data: 'blacklist',
+        name: 'blacklist'
       },
       {
         data: 'actions',

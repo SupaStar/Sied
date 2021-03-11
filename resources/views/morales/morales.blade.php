@@ -25,13 +25,13 @@
       <table class="table data-list-view">
         <thead>
           <tr>
-            <th>ID</th>
             <th>Empresa</th>
             <th>No. socios</th>
             <th>Fecha de constitución</th>
             <th>Nacionalidad</th>
-            <th>Lista Negra</th>
             <th>Estado</th>
+            <th>Lista Negra</th>
+
             <th>Acciones</th>
           </tr>
         </thead>

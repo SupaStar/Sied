@@ -14,6 +14,7 @@ class Moral extends Model
    * @var array
    */
   protected $fillable = [
+    'id_moral',
     'nombre',
     'street',
     'exterior',

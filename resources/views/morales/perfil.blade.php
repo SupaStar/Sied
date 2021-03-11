@@ -11,7 +11,7 @@
       <div class="card">
         <div class="card-content">
           <div class="card-body">
-            <form action="/clientes/fisicas/eperfil" method="POST" class="steps-validation wizard-circle" id="formss"
+            <form action="/morales/morales/eperfil" method="POST" class="steps-validation wizard-circle" id="formss"
               name="formss">
               @csrf
               <input type="hidden" class="form-control required" id="id" name="id" value="{{ $id }}">
@@ -58,7 +58,7 @@
                         class="form-control required" id="tcredito" name="tcredito">
                     </div>
                   </div>
-                  
+
                   <div class="col-12">
                     <h4>Origen de Recursos</h4>
                   </div>
@@ -170,7 +170,7 @@
                   <div class="col-md-4">
                     <div class="form-group">
                       <div class="vs-radio-con vs-radio-primary">
-                        <input type="radio" name="disponibilidad" value="aceptable" 
+                        <input type="radio" name="disponibilidad" value="aceptable"
                           @if(isset($datos->aceptable)&&$datos->aceptable) checked @endif>
                         <span class="vs-radio vs-radio-lg">
                           <span class="vs-radio--border"></span>
@@ -221,8 +221,8 @@
                     <button type="submit" class="btn btn-primary float-right mr-1 mb-1">Guardar</button>
                   <a href="/clientes/fisica"> <button type="button"
                       class="btn btn-danger float-right mr-1 mb-1">Cancelar</button></a>
-                  </div>  
-                  
+                  </div>
+
 
                 </div>
               </div>
