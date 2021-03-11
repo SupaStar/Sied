@@ -11,7 +11,7 @@
       <div class="card">
         <div class="card-content">
           <div class="card-body">
-            <form action="/morales/morales/eperfil" method="POST" class="steps-validation wizard-circle" id="formss"
+            <form action="/morales/eperfil" method="POST" class="steps-validation wizard-circle" id="formss"
               name="formss">
               @csrf
               <input type="hidden" class="form-control required" id="id" name="id" value="{{ $id }}">

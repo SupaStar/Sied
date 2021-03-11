@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\ActividadGiro;
 use App\DestinoRecursos;
 use App\Divisa;
+use App\EFResidencia;
+use App\EntidadFederativa;
 use App\InstrumentoMonetario;
 use App\OrigenRecursos;
 use App\PerfilMoral;
 use App\Profesion;
+use App\Riesgos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
@@ -146,7 +149,7 @@ class Morales extends Controller
         return '
               <a href="/morales/info/' . $query->id . '" title="Información"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-eye"></i></button></a>
               <a href="/morales/perfil/' . $query->id . '" title="Perfil Transacional"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-file success"></i></button></a>
-              <a href="/clientes/fisicas/ebr/' . $query->id . '" title="Criterios de Riesgos"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-info info"></i></button></a>
+              <a href="morales/ebr/' . $query->id . '" title="Criterios de Riesgos"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-info info"></i></button></a>
               <a href="/morales/riesgo/' . $query->id . '" title="Grado de Riesgo"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-bar-chart-2 warning"></i></button></a>
               <button title="Descarga Archivos" onclick="files(' . $query->id . ');" style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-archive primary"></i></button>
               <a href="/morales/editar/' . $query->id . '" title="Editar"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
@@ -761,7 +764,6 @@ class Morales extends Controller
     $cid = $moral->id;
     $user = $request->user();
     $userid = $user->id;
-
     $this->agregarArchivo($request->file('entrevista'), $cid, $userid, 'Entrevista');
     $this->agregarArchivo($request->file('reporte'), $cid, $userid, 'Reporte');
     $this->agregarArchivo($request->file('autorizacion_reporte_circulo_credito'), $cid, $userid, 'Reporte Circulo');
@@ -1098,7 +1100,64 @@ class Morales extends Controller
 
     return view('/clients/continuar', ['pageConfigs' => $pageConfigs]);
   }
+  public function ebr($id)
+  {
+    $pageConfigs = [
+      'mainLayoutType' => 'vertical',
+      'pageName' => 'Criterios de Riesgos'
+    ];
+    $datos = PerfilMoral::where('id_moral', '=', $id)->first();
+    $origen = OrigenRecursos::get();
+    $destino = DestinoRecursos::get();
+    $instrumento = InstrumentoMonetario::get();
+    $divisa = Divisa::get();
+    $profesiones = Profesion::get();
+    $actividad = ActividadGiro::get();
+    $efresidencia = EFResidencia::get();
+    $gresidencia = Client::where('id', $id)->first()->ef;
+    $residencia = EntidadFederativa::where('code', $gresidencia)->first()->entity;
+    $profesions = DB::TABLE('morales')->where('id', $id)->first()->giro;
 
+    if (isset($datos)) {
+      return view('/morales/ebr', compact(
+        'pageConfigs',
+        'id',
+        'datos',
+        'origen',
+        'instrumento',
+        'divisa',
+        'destino',
+        'profesiones',
+        'profesions',
+        'efresidencia',
+        'residencia',
+        'actividad'
+      ));
+    } else {
+      return redirect()->route('perfil_web_ebr', ['id' => $id, 'redireccion' => true]);
+    }
+  }
+  public function eebr(Request $request)
+  {
+    $cid = $request->id;
+
+    $user = Auth::user();
+
+    $args = array(
+      'profesion' => $request->profesion ? $request->profesion : null,
+      'actividad_giro' => $request->actividad ? $request->actividad : null,
+      'efr' => $request->efr ? $request->efr : null
+    );
+
+    $fields = array(
+      'id_moral' => $cid
+    );
+
+    $update = PerfilMoral::updateOrCreate($fields, $args);
+    $riesgos = new Riesgos();
+    $riesgos->editarGrado($cid);
+    return redirect('/morales/morales')->with('ebr', 'OK');
+  }
   public function listaNegraPDF($id)
   {
     $cliente = Client::where('id', $id)->with('listasNegras')->first();

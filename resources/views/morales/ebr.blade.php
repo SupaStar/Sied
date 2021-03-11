@@ -11,7 +11,7 @@
       <div class="card">
         <div class="card-content">
           <div class="card-body">
-            <form action="/clientes/fisicas/eebr" method="POST" class="steps-validation wizard-circle" id="formss"
+            <form action="/morales/eebr" method="POST" class="steps-validation wizard-circle" id="formss"
               name="formss">
               @csrf
               <input type="hidden" class="form-control required" id="id" name="id" value="{{ $id }}">
@@ -115,7 +115,7 @@
                   </div>
                   <div class="col-md-6 text-left">
                     <button type="submit" hidden class="btn btn-primary float-right mr-1 mb-1">Guardar</button>
-                  <a href="/clientes/fisica"> <button type="button"
+                  <a href="/morales/morales"> <button type="button"
                       class="btn btn-primary float-right mr-1 mb-1">Ok</button></a>
                   </div>
                   </div>
