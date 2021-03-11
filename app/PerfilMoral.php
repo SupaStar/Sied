@@ -7,6 +7,31 @@ use Illuminate\Database\Eloquent\Model;
 class PerfilMoral extends Model
 {
   protected $table = 'perfil_transacional_moral';
+  protected $fillable =[
+    'id_moral',
+    'monto',
+    'tcredito',
+    'frecuencia',
+    'actividad',
+    'propietario',
+    'proovedor',
+    'dactividad',
+    'dpasivos',
+    'dotro',
+    'total',
+    'aceptable',
+    'dificil',
+    'conducta',
+    'comentario',
+    'cliente_id',
+    'destino_recursos',
+    'instrumento_monetario',
+    'divisa',
+    'profesion',
+    'actividad_giro',
+    'pld',
+    'efr',
+    'ingreso'];
   protected $attributes = [
     'actividad' => false,
     'propietario' => false,

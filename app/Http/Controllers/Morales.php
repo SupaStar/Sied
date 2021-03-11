@@ -2,6 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\ActividadGiro;
+use App\DestinoRecursos;
+use App\Divisa;
+use App\InstrumentoMonetario;
+use App\OrigenRecursos;
+use App\PerfilMoral;
+use App\Profesion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
@@ -106,17 +113,46 @@ class Morales extends Controller
       ->addColumn('socios', function ($query) {
         return count($query->personasMorales);
       })
+      ->addColumn('blacklist', function ($query) {
+        $result = '<button title="Listas Negras" onclick="noblacklist()" style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-check-circle success"></i></button>';
+
+        return $result;
+      })
+      ->addColumn('status', function ($query) {
+
+        $perfil = DB::TABLE('perfil_transacional_moral')->where('id_moral', $query->id)->first();
+        $credito = DB::TABLE('credito')->where('client_id', $query->id)->where('status', '<>', 'liquidado')->first();
+        $text = " - ";
+
+        if (isset($perfil)) {
+          if (empty($perfil->monto) || empty($perfil->tcredito) || empty($perfil->frecuencia) || empty($perfil->instrumento_monetario) || empty($perfil->origen_recursos) || empty($perfil->destino_recursos) || empty($perfil->divisa)) {
+            $text = 'Pendiente <br> <a href="/clientes/fisicas/perfil/' . $query->id . '" class="warning">Perfil Transacional</a>';
+          } else if (empty($perfil->profesion) || empty($perfil->actividad_giro) || empty($perfil->efr)) {
+            $text = 'Pendiente <br> <a href="/clientes/fisicas/ebr/' . $query->id . '" class="warning">Criterios de Riesgo</a>';
+          } else if (isset($credito)) {
+            $text = 'Aprobado <br> <a href="/clientes/fisicas/info/' . $query->id . '" class="warning">Información</a>';
+          } else {
+            $text = 'Pendiente <br> <a href="/clientes/continuar/' . $query->id . '" class="warning">Credito</a>';
+          }
+        } else {
+          $text = 'Pendiente <br> <a href="/clientes/fisicas/perfil/' . $query->id . '" class="warning">Perfil Transacional</a>';
+        }
+
+        return $text;
+
+      })
       ->addColumn('actions', function ($query) {
         $user = Auth::user();
         return '
-              <a href="/morales/info/' . $query->id . '" title="Información"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-eye"></i></button></a>                 <a href="/clientes/fisicas/perfil/' . $query->id . '" title="Perfil Transacional"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-file success"></i></button></a>
+              <a href="/morales/info/' . $query->id . '" title="Información"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-eye"></i></button></a>
+              <a href="/morales/perfil/' . $query->id . '" title="Perfil Transacional"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-file success"></i></button></a>
               <a href="/clientes/fisicas/ebr/' . $query->id . '" title="Criterios de Riesgos"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-info info"></i></button></a>
               <a href="/morales/riesgo/' . $query->id . '" title="Grado de Riesgo"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-bar-chart-2 warning"></i></button></a>
               <button title="Descarga Archivos" onclick="files(' . $query->id . ');" style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-archive primary"></i></button>
               <a href="/morales/editar/' . $query->id . '" title="Editar"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
               <button title="Archivar" onclick="del(' . $query->id . ');" style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-trash danger"></i></button>';
       })
-      ->rawColumns(['actions', 'socios'])
+      ->rawColumns(['actions', 'socios','status','blacklist'])
       ->toJson();
 
     // if ($request->filtro == 'Archivados') {
@@ -167,7 +203,7 @@ class Morales extends Controller
       'dotro' => false,
       'total' => false,
       'aceptable' => false,
-      'difisil' => false,
+      'dificil' => false,
       'conducta' => $request->conducta,
       'comentario' => $request->comentario,
     );
@@ -203,19 +239,19 @@ class Morales extends Controller
       case 'aceptable':
         $args['aceptable'] = true;
         break;
-      case 'difisil':
-        $args['difisil'] = true;
+      case 'dificil':
+        $args['dificil'] = true;
         break;
     }
 
 
     $fields = array(
-      'cliente_id' => $cid
+      'id_moral' => $cid
     );
 
-    $update = Perfil::updateOrCreate($fields, $args);
+    $update = PerfilMoral::updateOrCreate($fields, $args);
 
-    return redirect('/clientes/fisica')->with('message', 'OK');
+    return redirect('/morales/morales')->with('message', 'OK');
   }
 
   public function editado(Request $request)
@@ -1071,4 +1107,52 @@ class Morales extends Controller
     return PDF::loadView('/clients/listaNegraPDF', compact('cliente', 'documentos'))->stream();
     //return view('/clients/listaNegraPDF', compact('cliente', 'documentos'));
   }
+  public function getPerfil($id,$redireccion = 0)
+  {
+    $pageConfigs = [
+      'mainLayoutType' => 'vertical',
+      'pageName' => 'Personas Morales'
+    ];
+    $datos = PerfilMoral::where('id_moral', '=', $id)->first();
+    $origen = OrigenRecursos::get();
+    $destino = DestinoRecursos::get();
+    $instrumento = InstrumentoMonetario::get();
+    $divisa = Divisa::get();
+    $profesiones = Profesion::get();
+    $actividad = ActividadGiro::get();
+    $profesion = DB::TABLE('morales')->where('id', $id)->first();
+
+
+    if (isset($datos)) {
+      return view('/morales/perfil', compact(
+        'pageConfigs',
+        'id',
+        'datos',
+        'origen',
+        'instrumento',
+        'divisa',
+        'destino',
+        'profesiones',
+        'profesion',
+        'actividad',
+        'redireccion'
+      ));
+    } else {
+      return view('/morales/perfil', compact(
+        'pageConfigs',
+        'id',
+        'origen',
+        'instrumento',
+        'divisa',
+        'destino',
+        'profesiones',
+        'profesion',
+        'actividad',
+        'redireccion'
+      ));
+    }
+
+
+  }
+
 }
