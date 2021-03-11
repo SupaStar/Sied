@@ -58,24 +58,24 @@ class LoginController extends Controller
   }
 
 
-  public function login(Request $request)
-  {
-    $this->validate($request, [
-      'email' => 'required|max:255|email',
-      'password' => 'required',
-      'g-recaptcha-response' => 'required|captcha'
-    ]);
-    $pagomesGlobal = ConfigAlertas::find(1);
-    $pagomesGlobal->valorUID();
-    if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-      // Success
-      return redirect()->intended('/');
-    } else {
-      // Go back on error (or do what you want)
-      return redirect()->back();
+    public function login(Request $request)
+    {
+      $this->validate($request, [
+        'email' => 'required|max:255|email',
+        'password' => 'required',
+        //'g-recaptcha-response' => 'required|captcha'
+      ]);
+      $pagomesGlobal = ConfigAlertas::find(1);
+      $pagomesGlobal->valorUID();
+      if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        // Success
+        return redirect()->intended('/');
+      } else {
+        // Go back on error (or do what you want)
+        return redirect()->back();
+      }
     }
 
-  }
 
   /**
    * Log the user out of the application.
