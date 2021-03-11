@@ -15,20 +15,20 @@ class CreatePerfilTransacionalMoralTable extends Migration
     {
         Schema::create('perfil_transacional_moral', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('monto',191);
-            $table->string('tcredito',191);
-            $table->string('frecuencia',191);
-            $table->string('actividad',191);
-            $table->string('propietario',191);
-            $table->string('proovedor',191);
-            $table->string('dactividad',191);
-            $table->string('dpasivos',191);
-            $table->string('dotro',191);
-            $table->string('total',191);
-            $table->string('aceptable',191);
-            $table->string('dificil',191);
-            $table->string('conducta',191);
-            $table->string('comentario',191);
+            $table->string('monto',191)->nullable();
+            $table->string('tcredito',191)->nullable();
+            $table->string('frecuencia',191)->nullable();
+            $table->string('actividad',191)->nullable();
+            $table->string('propietario',191)->nullable();
+            $table->string('proovedor',191)->nullable();
+            $table->string('dactividad',191)->nullable();
+            $table->string('dpasivos',191)->nullable();
+            $table->string('dotro',191)->nullable();
+            $table->string('total',191)->nullable();
+            $table->string('aceptable',191)->nullable();
+            $table->string('dificil',191)->nullable();
+            $table->string('conducta',191)->nullable();
+            $table->string('comentario',191)->nullable();
             $table->unsignedBigInteger('id_moral');
             $table->unsignedBigInteger('origen_recursos');
             $table->unsignedBigInteger('destino_recursos');
