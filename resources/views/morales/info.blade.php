@@ -190,9 +190,9 @@
                                               <select disabled  class="form-control" :id="'pais_nacimiento'+index"
                                                       :name="'personasMorales['+index+'][country_birth]'">
                                                 @foreach($paises as $pais)
-                                                  @if($pais->code==$dato->country_birth){
+                                                  @if($pais->code==$dato->country_birth)
                                                   <option>{{ $pais->pais }}</option>
-                                                  }
+
                                                   @endif
                                                 @endforeach
 
@@ -459,8 +459,8 @@
                                             <h3>Croquis</h3>
                                             <hr>
                                             <div title="maps" id="map" style="position: initial !important; height: 400px" ></div>
-                                            <input aria-label="latitud" id="lat" name="lat" hidden>
-                                            <input aria-label="longitud" id="long" name="long" hidden>
+                                            <input value="{{$datos->lat}}" aria-label="latitud" id="lat" name="lat" hidden>
+                                            <input value="{{$datos->long}}" aria-label="longitud" id="long" name="long" hidden>
                                           </div>
                                         </div>
                                       </div>
@@ -738,7 +738,7 @@
   <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAC2KCt-r7yAiuktmaXWVtTaVjilIcCPFM&libraries=&v=weekly"
     async></script>
-  <script src="/js/scripts/maps.js"></script>
+  <script src="/js/scripts/mapsedit.js"></script>
   <script>
     $(document).ready(function ()
     {

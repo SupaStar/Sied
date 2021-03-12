@@ -153,7 +153,7 @@ class Morales extends Controller
               <a href="morales/ebr/' . $query->id . '" title="Criterios de Riesgos"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-info info"></i></button></a>
               <a href="/morales/riesgo/' . $query->id . '" title="Grado de Riesgo"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-bar-chart-2 warning"></i></button></a>
               <button title="Descarga Archivos" onclick="files(' . $query->id . ');" style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-archive primary"></i></button>
-              <a href="/morales/editar/' . $query->id . '" title="Editar"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
+              <a href="/morales/editarmoral/' . $query->id . '" title="Editar"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
               <button title="Archivar" onclick="del(' . $query->id . ');" style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-trash danger"></i></button>';
       })
       ->rawColumns(['actions', 'socios','status','blacklist'])
@@ -649,6 +649,56 @@ class Morales extends Controller
       'paises' => $paises,
       'entidad' => $entidad,
     ]);
+  }
+  public function editarmoral($id)
+  {
+    $pageConfigs = [
+      'mainLayoutType' => 'vertical',
+      'pageHeader' => true,
+      'pageName' => 'Editar Moral'
+    ];
+
+    $nacionalidades = db::table('nacionalidades')->get();
+    $paises = db::table('paises')->get();
+    $entidad = db::table('entidad_federativa')->get();
+
+    $datos2 = DB::TABLE('morales')->where('id', $id)->first();
+
+    $datos = Moral::where('id', '=', $id)->with('personasmorales')->first();
+    $origen = OrigenRecursos::get();
+    $destino = DestinoRecursos::get();
+    $instrumento = InstrumentoMonetario::get();
+    $divisa = Divisa::get();
+    $profesiones = Profesion::get();
+    $actividad = ActividadGiro::get();
+    $profesion = DB::TABLE('clientes')->where('id', $id)->first()->job;
+    $actividad = ActividadGiro::get();
+    $efresidencia = EFResidencia::get();
+    $gresidencia = Client::where('id', $id)->first()->ef;
+    $residencia = EntidadFederativa::where('code', $gresidencia)->first()->entity;
+
+    if (isset($datos)) {
+
+      return view('/morales/fisicas-editar', compact(
+        'pageConfigs',
+        'id',
+        'datos',
+        'datos2',
+        'origen',
+        'instrumento',
+        'divisa',
+        'destino',
+        'profesiones',
+        'profesion',
+        'actividad',
+        'nacionalidades',
+        'paises',
+        'entidad', 'profesion',
+        'efresidencia',
+        'residencia',
+        'actividad'
+      ));
+    }
   }
 
   /**
