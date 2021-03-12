@@ -672,6 +672,7 @@
           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAC2KCt-r7yAiuktmaXWVtTaVjilIcCPFM&libraries=&v=weekly"
           async></script>
         <script src="{{ asset('js/scripts/maps.js') }}?{{rand()}}"></script>
+        <script></script>
 <script>
 Vue.use(VueFormWizard);
 var app = new Vue({

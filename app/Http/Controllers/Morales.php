@@ -59,7 +59,8 @@ class Morales extends Controller
     $nacionalidades = db::table('nacionalidades')->get();
     $paises = db::table('paises')->get();
     $entidad = db::table('entidad_federativa')->get();
-    $datos = Moral::where('id',$id)->with('personasMorales')->first();
+    $datos = Moral::where('id', '=', $id)->with('personasmorales')->first();
+  //return json_encode($entidad);
     return view('/morales/info', [
       'pageConfigs' => $pageConfigs,
       'nacionalidades' => $nacionalidades,
@@ -614,7 +615,7 @@ class Morales extends Controller
     $entidad = db::table('entidad_federativa')->get();
     $datos = db::table('clientes')->where('id', $id)->first();
 
-    return view('/clients/fisicas-editar', [
+    return view('/morales/fisicas-editar', [
       'pageConfigs' => $pageConfigs,
       'nacionalidades' => $nacionalidades,
       'paises' => $paises,
