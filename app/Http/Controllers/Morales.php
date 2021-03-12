@@ -198,6 +198,8 @@ class Morales extends Controller
       'monto' => $request->monto,
       'tcredito' => $request->tcredito,
       'frecuencia' => $request->frecuencia,
+      'origen_recursos' => $request->actividad,
+      'destino_recursos' => $request->dactividad,
       'actividad' => false,
       'propietario' => false,
       'proovedor' => false,
