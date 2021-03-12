@@ -78,7 +78,7 @@ class Morales extends Controller
       'mainLayoutType' => 'vertical',
       'pageName' => 'Personas Fisicas'
     ];
-    $datos = Perfil::where('cliente_id', '=', $id)->first();
+    $datos = PerfilMoral::where('id_moral', '=', $id)->first();
 
     if (isset($datos)) {
       return view('/clients/perfil', compact(
