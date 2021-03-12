@@ -25,6 +25,7 @@ class PerfilMoral extends Model
     'comentario',
     'cliente_id',
     'destino_recursos',
+    'origen_recursos',
     'instrumento_monetario',
     'divisa',
     'profesion',
