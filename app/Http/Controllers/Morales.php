@@ -194,13 +194,14 @@ class Morales extends Controller
     $cid = $request->id;
 
     $user = Auth::user();
-
     $args = array(
+      'divisas' => $request->divisa,
       'monto' => $request->monto,
       'tcredito' => $request->tcredito,
       'frecuencia' => $request->frecuencia,
-      'origen_recursos' => $request->actividad,
-      'destino_recursos' => $request->dactividad,
+      'origen_recursos' => $request->orecursos,
+      'destino_recursos' => $request->drecursos,
+      'instrumento_monetario' => $request->imonetario,
       'actividad' => false,
       'propietario' => false,
       'proovedor' => false,
@@ -210,6 +211,7 @@ class Morales extends Controller
       'total' => false,
       'aceptable' => false,
       'dificil' => false,
+      'ingreso' => $request->ingreso ? $request->ingreso : null,
       'conducta' => $request->conducta,
       'comentario' => $request->comentario,
     );

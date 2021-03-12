@@ -27,7 +27,7 @@ class PerfilMoral extends Model
     'destino_recursos',
     'origen_recursos',
     'instrumento_monetario',
-    'divisa',
+    'divisas',
     'profesion',
     'actividad_giro',
     'pld',
