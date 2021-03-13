@@ -1169,7 +1169,7 @@ class Morales extends Controller
     $profesiones = Profesion::get();
     $actividad = ActividadGiro::get();
     $efresidencia = EFResidencia::get();
-    $gresidencia = Client::where('id', $id)->first()->ef;
+    $gresidencia = Moral::where('id', $id)->first()->ef;
     $residencia = EntidadFederativa::where('code', $gresidencia)->first()->entity;
     $profesions = DB::TABLE('morales')->where('id', $id)->first()->giro;
 
