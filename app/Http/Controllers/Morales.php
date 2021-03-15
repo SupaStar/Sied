@@ -101,7 +101,7 @@ class Morales extends Controller
       'pageName' => 'Personas Fisicas'
     ];
 
-    return view('/clients/riesgo', [
+    return view('/morales/riesgo', [
       'pageConfigs' => $pageConfigs
     ]);
   }
