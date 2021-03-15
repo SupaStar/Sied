@@ -60,7 +60,6 @@ class Morales extends Controller
     $paises = db::table('paises')->get();
     $entidad = db::table('entidad_federativa')->get();
     $datos = Moral::where('id', '=', $id)->with('personasmorales')->first();
-  //return json_encode($entidad);
     return view('/morales/info', [
       'pageConfigs' => $pageConfigs,
       'nacionalidades' => $nacionalidades,
@@ -156,7 +155,7 @@ class Morales extends Controller
               <a href="/morales/editarmoral/' . $query->id . '" title="Editar"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-edit primary"></i></button></a>
               <button title="Archivar" onclick="del(' . $query->id . ');" style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-trash danger"></i></button>';
       })
-      ->rawColumns(['actions', 'socios','status','blacklist'])
+      ->rawColumns(['actions', 'socios', 'status', 'blacklist'])
       ->toJson();
 
     // if ($request->filtro == 'Archivados') {
@@ -258,7 +257,8 @@ class Morales extends Controller
     );
 
     $update = PerfilMoral::updateOrCreate($fields, $args);
-
+    $riesgos = new Riesgos();
+    $a=$riesgos->gradoMorales($cid);
     return redirect('/morales/morales')->with('message', 'OK');
   }
 
@@ -652,6 +652,7 @@ class Morales extends Controller
       'entidad' => $entidad,
     ]);
   }
+
   public function editarmoral($id)
   {
     $pageConfigs = [
@@ -751,7 +752,7 @@ class Morales extends Controller
   public function agregarArchivo($archivo, $cid, $uid, $tipo)
   {
     if (isset($archivo)) {
-      $path = 'personas-morales/'.Str::slug($tipo);
+      $path = 'personas-morales/' . Str::slug($tipo);
       $extension = strtolower($archivo->getClientOriginalExtension());
       if (strtolower($extension) == 'pdf') {
         Storage::disk('public')->put($path . '/' . $cid . '.' . $extension, File::get($archivo));
@@ -1075,7 +1076,7 @@ class Morales extends Controller
   public function activar(Request $request)
   {
     $id = $request->id;
-    $user = Client::find($id);
+    $user = Moral::find($id);
     $user->status = 'Activo';
     $user->save();
 
@@ -1085,7 +1086,7 @@ class Morales extends Controller
   public function archivar(Request $request)
   {
     $id = $request->id;
-    $user = Client::find($id);
+    $user = Moral::find($id);
     $user->status = 'Archivado';
     $user->save();
 
@@ -1155,6 +1156,7 @@ class Morales extends Controller
 
     return view('/clients/continuar', ['pageConfigs' => $pageConfigs]);
   }
+
   public function ebr($id)
   {
     $pageConfigs = [
@@ -1192,6 +1194,7 @@ class Morales extends Controller
       return redirect()->route('perfil_web_ebr', ['id' => $id, 'redireccion' => true]);
     }
   }
+
   public function eebr(Request $request)
   {
     $cid = $request->id;
@@ -1210,9 +1213,10 @@ class Morales extends Controller
 
     $update = PerfilMoral::updateOrCreate($fields, $args);
     $riesgos = new Riesgos();
-    $riesgos->editarGrado($cid);
+    $riesgos->gradoMorales($cid);
     return redirect('/morales/morales')->with('ebr', 'OK');
   }
+
   public function listaNegraPDF($id)
   {
     $cliente = Client::where('id', $id)->with('listasNegras')->first();
@@ -1221,7 +1225,8 @@ class Morales extends Controller
     return PDF::loadView('/clients/listaNegraPDF', compact('cliente', 'documentos'))->stream();
     //return view('/clients/listaNegraPDF', compact('cliente', 'documentos'));
   }
-  public function getPerfil($id,$redireccion = 0)
+
+  public function getPerfil($id, $redireccion = 0)
   {
     $pageConfigs = [
       'mainLayoutType' => 'vertical',
