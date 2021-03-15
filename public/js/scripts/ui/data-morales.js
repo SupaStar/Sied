@@ -169,7 +169,7 @@ function del(id){
     buttonsStyling: false,
   }).then(function (result) {
     if (result.value) {
-      $.post('/clientes/archivar', {
+      $.post('/morales/archivar', {
         id: id,
         _token: token
     }, function(data) {
