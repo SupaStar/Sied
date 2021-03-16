@@ -80,7 +80,7 @@ class Clients extends Controller
     $datos = db::table('clientes')->where('id', $id)->first();
     $divisa = Divisa::get();
 
-    $images = db::table('files')->where('client_id', $id)->where('type', 'INE')->get();
+    $images = db::table('files')->where('client_id', $id)->where('type', 'INE')->where('tipo',0)->get();
 
     $ine1 = '';
     $ine2 = '';
@@ -1534,7 +1534,7 @@ class Clients extends Controller
       'images' => array()
     );
 
-    $images = DB::TABLE('files')->where('client_id', $id)->get();
+    $images = DB::TABLE('files')->where('client_id', $id)->where('tipo',0)->get();
 
     foreach ($images as $img) {
       array_push($data['images'], array('extension' => $img->extension, 'name' => $img->name, 'path' => $img->full));
@@ -1556,7 +1556,7 @@ class Clients extends Controller
   public function getfiles($id)
   {
 
-    $images = DB::TABLE('files')->where('client_id', $id)->get();
+    $images = DB::TABLE('files')->where('client_id', $id)->where('tipo',0)->get();
     $data = '';
     foreach ($images as $img) {
       $data .= '<tr><td>' . $img->type . '</td><td>' . $img->extension . '</td><td>' . $img->created_at . '</td><td><a href="/uploads/' . $img->full . '" target="popup" onclick="window.open(\'/uploads/' . $img->full . '\',\'popup\',\'width=600,height=600\'); return false;"><button  style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-eye primary"></i></button></a></td><td><a href="/storage/' . $img->full . '" target="_blank"><button  style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-download primary"></i></button></a></td></tr>';
@@ -3073,7 +3073,7 @@ class Clients extends Controller
   public function listaNegraPDF($id)
   {
     $cliente = Client::where('id', $id)->with('listasNegras')->first();
-    $documentos = Files::where('client_id', '=', $id)->get();
+    $documentos = Files::where('client_id', '=', $id)->where('tipo',0)->get();
 
     return PDF::loadView('/clients/listaNegraPDF', compact('cliente', 'documentos'))->stream();
     //return view('/clients/listaNegraPDF', compact('cliente', 'documentos'));

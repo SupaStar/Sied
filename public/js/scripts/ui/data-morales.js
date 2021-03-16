@@ -129,7 +129,7 @@ function edit(id){
 
 function files(id){
 
-  $.post('/clientes/fisicas/files/'+id, {
+  $.post('/morales/files/'+id, {
     id: id,
     _token: token
 }, function(data) {

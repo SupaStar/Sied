@@ -764,6 +764,7 @@ class Morales extends Controller
         $uploads->name = $cid . '.' . $extension;
         $uploads->full = $path . '/' . $cid . '.' . $extension;
         $uploads->user_id = $uid;
+        $uploads->tipo = 1;
         $uploads->save();
       }
     }
@@ -792,6 +793,7 @@ class Morales extends Controller
       $uploads->name = $filename;
       $uploads->full = $path . '/' . $filename;
       $uploads->user_id = $uid;
+      $uploads->tipo = 1;
       $uploads->save();
     }
     return;
@@ -885,6 +887,7 @@ class Morales extends Controller
           $uploads->name = $personaMoral->id . '-frontal.' . $extension;
           $uploads->full = $path . '/' . $personaMoral->id . '.' . $extension;
           $uploads->user_id = $user->id;
+          $uploads->tipo = 1;
           $uploads->save();
           Storage::disk('public')->put($path . '/' . $personaMoral->id . '.' . $extension, File::get($fileine));
         }
@@ -903,6 +906,7 @@ class Morales extends Controller
           $uploads->name = $filename;
           $uploads->full = $path . '/' . $filename;
           $uploads->user_id = $user->id;
+          $uploads->tipo = 1;
           $uploads->save();
 
           $image = Image::make(File::get($ineback));
@@ -922,6 +926,7 @@ class Morales extends Controller
           $uploads->name = $personaMoral->id . '-trasera.' . $extension;
           $uploads->full = $path . '/' . $personaMoral->id . '.' . $extension;
           $uploads->user_id = $user->id;
+          $uploads->tipo = 1;
           $uploads->save();
           Storage::disk('public')->put($path . '/' . $personaMoral->id . '.' . $extension, File::get($ineback));
         }
@@ -947,6 +952,7 @@ class Morales extends Controller
         $uploads->name = $filename;
         $uploads->full = $path . '/' . $filename;
         $uploads->user_id = $user->id;
+        $uploads->tipo = 1;
         $uploads->save();
 
         $image = Image::make(File::get($filecurp));
@@ -965,6 +971,7 @@ class Morales extends Controller
         $uploads->name = $cid . '.' . $extension;
         $uploads->full = $path . '/' . $cid . '.' . $extension;
         $uploads->user_id = $user->id;
+        $uploads->tipo = 1;
         $uploads->save();
         Storage::disk('public')->put($path . '/' . $cid . '.' . $extension, File::get($filecurp));
       }
@@ -983,6 +990,7 @@ class Morales extends Controller
         $uploads->name = $filename;
         $uploads->full = $path . '/' . $filename;
         $uploads->user_id = $user->id;
+        $uploads->tipo = 1;
         $uploads->save();
 
         $image = Image::make(File::get($filedom));
@@ -1001,6 +1009,7 @@ class Morales extends Controller
         $uploads->name = $cid . '.' . $extension;
         $uploads->full = $path . '/' . $cid . '.' . $extension;
         $uploads->user_id = $user->id;
+        $uploads->tipo = 1;
         $uploads->save();
         Storage::disk('public')->put($path . '/' . $cid . '.' . $extension, File::get($filedom));
       }
@@ -1020,6 +1029,7 @@ class Morales extends Controller
         $uploads->name = $filename;
         $uploads->full = $path . '/' . $filename;
         $uploads->user_id = $user->id;
+        $uploads->tipo = 1;
         $uploads->save();
 
         $image = Image::make(File::get($filerfc));
@@ -1038,6 +1048,7 @@ class Morales extends Controller
         $uploads->name = $cid . '.' . $extension;
         $uploads->full = $path . '/' . $cid . '.' . $extension;
         $uploads->user_id = $user->id;
+        $uploads->tipo = 1;
         $uploads->save();
         Storage::disk('public')->put($path . '/' . $cid . '.' . $extension, File::get($filerfc));
       }
@@ -1115,7 +1126,7 @@ class Morales extends Controller
       'images' => array()
     );
 
-    $images = DB::TABLE('files')->where('client_id', $id)->get();
+    $images = DB::TABLE('files')->where('client_id', $id)->where('tipo',1)->get();
 
     foreach ($images as $img) {
       array_push($data['images'], array('extension' => $img->extension, 'name' => $img->name, 'path' => $img->full));
@@ -1137,7 +1148,7 @@ class Morales extends Controller
   public function getfiles($id)
   {
 
-    $images = DB::TABLE('files')->where('client_id', $id)->get();
+    $images = DB::TABLE('files')->where('client_id', $id)->where('tipo',1)->get();
     $data = '';
     foreach ($images as $img) {
       $data .= '<tr><td>' . $img->type . '</td><td>' . $img->extension . '</td><td>' . $img->created_at . '</td><td><a href="/uploads/' . $img->full . '" target="_blank"><button  style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-eye primary"></i></button></a></td><td><a href="/storage/' . $img->full . '" target="_blank"><button  style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-download primary"></i></button></a></td></tr>';
