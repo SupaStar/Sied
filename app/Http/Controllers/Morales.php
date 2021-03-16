@@ -674,10 +674,11 @@ class Morales extends Controller
     $divisa = Divisa::get();
     $profesiones = Profesion::get();
     $actividad = ActividadGiro::get();
-    $profesion = DB::TABLE('clientes')->where('id', $id)->first()->job;
+    //TODO corroborar consultas
+    $profesion = Moral::where('id', $id)->first()->personasMorales[0]->job;
     $actividad = ActividadGiro::get();
     $efresidencia = EFResidencia::get();
-    $gresidencia = Client::where('id', $id)->first()->ef;
+    $gresidencia = Moral::where('id', $id)->first()->ef;
     $residencia = EntidadFederativa::where('code', $gresidencia)->first()->entity;
 
     if (isset($datos)) {
