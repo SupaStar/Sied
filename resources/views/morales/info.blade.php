@@ -736,15 +736,10 @@
 
   <script src="{{ asset('js/curp.js') }}?{{rand()}}"></script>
   <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAC2KCt-r7yAiuktmaXWVtTaVjilIcCPFM&libraries=&v=weekly"
-    async></script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAC2KCt-r7yAiuktmaXWVtTaVjilIcCPFM&callback=initMap&libraries=&v=weekly"
+    async
+  ></script>
   <script src="/js/scripts/mapsedit.js"></script>
-  <script>
-    $(document).ready(function ()
-    {
-      initMap();
-    })
-  </script>
 
 
 
