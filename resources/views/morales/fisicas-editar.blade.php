@@ -986,7 +986,7 @@
                       </div>
                       <div class="col-md-6 text-left">
                         <button type="submit" class="btn btn-primary float-right mr-1 mb-1">Guardar</button>
-                        <a href="/clientes/fisica"> <button  type="button"
+                        <a href="/morales/morales"> <button  type="button"
                                                              class="btn btn-primary float-right mr-1 mb-1">Cancelar</button></a>
                       </div>
 
