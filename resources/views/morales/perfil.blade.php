@@ -164,7 +164,7 @@
                         @endif
                         <option value="total" @if(isset($datos->total)) @if($datos->total == 1) selected @endif @endif>Total</option>
                         <option value="aceptable" @if(isset($datos->aceptable)) @if($datos->aceptable == 1) selected @endif @endif>Aceptable</option>
-                        <option value="difisil" @if(isset($datos->difisil)) @if($datos->difisil == 1) selected @endif @endif>Difícil</option>
+                        <option value="dificil" @if(isset($datos->dificil)) @if($datos->dificil == 1) selected @endif @endif>Difícil</option>
                       </select>
                     </div>
                   </div>

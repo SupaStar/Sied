@@ -459,7 +459,7 @@
                                             <a href="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
                                                target="_blank"> <img
                                                 src="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
-                                                alt="INE" height="100"></a></div>
+                                                alt="Acta Constitutiva" height="100"></a></div>
                                         </div>
                                       </div>
                                       <div class="row">
@@ -472,7 +472,7 @@
                                             <a href="{{ url('/uploads/morales/dom/'.$dato->id.'.jpeg') }}"
                                                target="_blank"> <img
                                                 src="{{ url('/uploads/morales/dom/'.$dato->id.'.jpeg') }}"
-                                                alt="INE" height="100"></a>
+                                                alt="Comprobante de Domicilio" height="100"></a>
                                           </div>
                                         </div>
                                       </div>
@@ -486,7 +486,7 @@
                                             <a href="{{ url('/uploads/morales/rfc/'.$dato->id.'.jpeg') }}"
                                                target="_blank"> <img
                                                 src="{{ url('/uploads/morales/rfc/'.$dato->id.'.jpeg') }}"
-                                                alt="INE" height="100"></a>
+                                                alt="RFC" height="100"></a>
                                             <br>
                                             <h3>Croquis</h3>
                                             <hr>
@@ -572,7 +572,7 @@
                                           <a href="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
                                              target="_blank"> <img
                                               src="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
-                                              alt="INE" height="100"></a></div>
+                                              alt="Fotografia 1" height="100"></a></div>
                                       </div>
                                     </div>
                                     <div class="row">
@@ -585,7 +585,7 @@
                                           <a href="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
                                              target="_blank"> <img
                                               src="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
-                                              alt="INE" height="100"></a></div>
+                                              alt="Fotografia 2" height="100"></a></div>
                                       </div>
                                     </div>
                                     <div class="row">
@@ -782,15 +782,8 @@
 
   <script src="{{ asset('js/curp.js') }}?{{rand()}}"></script>
   <script
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAC2KCt-r7yAiuktmaXWVtTaVjilIcCPFM&libraries=&v=weekly"
-    async></script>
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAC2KCt-r7yAiuktmaXWVtTaVjilIcCPFM&callback=initMap&libraries=&v=weekly"
+    async
+  ></script>
   <script src="/js/scripts/mapsedit.js"></script>
-  <script>
-    $(document).ready(function () {
-      initMap();
-    })
-  </script>
-
-
-
 @endsection
