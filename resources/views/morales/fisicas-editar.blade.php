@@ -685,8 +685,8 @@
                             Frecuencia de los pagos que realizará en el siguiente semestre
                           </label>
                           <select class="form-control" id="frecuencia" name="frecuencia" @if(isset($datos))@endif>
-                            @if(isset($datos->frecuencia))
-                              <option value="{{ $datos->frecuencia }}" selected>{{ $datos->frecuencia }}</option>
+                            @if(isset($datos->perfil->frecuencia))
+                              <option value="{{ $datos->perfil->frecuencia }}" selected>{{ $datos->perfil->frecuencia }}</option>
                             @else
                               <option selected disabled>Seleccionar</option>
                             @endif
@@ -705,7 +705,7 @@
                           <label for="firstName3">
                             Monto estimado de pagos a realizar en los próximos seis meses
                           </label>
-                          <input type="number" value="@if(isset($datos->monto)){{ $datos->monto }}@endif" @if(isset($datos)) @endif step="any"
+                          <input type="number" value="@if(isset($datos->perfil->monto)){{ $datos->perfil->monto }}@endif" @if(isset($datos)) @endif step="any"
                                  class="form-control required" id="monto" name="monto">
                         </div>
                       </div>
@@ -715,7 +715,7 @@
                           <label for="lastName3">
                             Tipo de crédito que pretende utilizar en el siguiente semestre
                           </label>
-                          <input type="text" value="@if(isset($datos->tcredito)){{ $datos->tcredito }}@endif"
+                          <input type="text" value="@if(isset($datos->perfil->tcredito)){{ $datos->perfil->tcredito }}@endif"
                                  @if(isset($datos)) @endif class="form-control required" id="tcredito" name="tcredito">
                         </div>
                       </div>
@@ -730,8 +730,8 @@
                           <select class="form-control required" id="orecursos" name="orecursos" required  @if(isset($datos)) @endif>
                             <option selected disabled>Seleccionar</option>
                             @foreach($origen as $data)
-                              @if(isset($datos->origen_recursos))
-                                @if($datos->origen_recursos == $data->id)
+                              @if(isset($datos->perfil->origen_recursos))
+                                @if($datos->perfil->origen_recursos == $data->id)
                                   <option value="{{$data->id}}" selected>{{$data->descripcion}}</option>
                                 @else
                                   <option value="{{$data->id}}">{{$data->descripcion}}</option>
@@ -755,8 +755,8 @@
 
                             <option selected disabled>Seleccionar</option>
                             @foreach($instrumento as $data)
-                              @if(isset($datos->instrumento_monetario))
-                                @if($datos->instrumento_monetario == $data->id)
+                              @if(isset($datos->perfil->instrumento_monetario))
+                                @if($datos->perfil->instrumento_monetario == $data->id)
                                   <option value="{{$data->id}}" selected>{{$data->descripcion}}</option>
                                 @else
                                   <option value="{{$data->id}}">{{$data->descripcion}}</option>
@@ -779,8 +779,8 @@
                           <select class="form-control required" id="divisa" name="divisa" @if(isset($datos)) @endif>
                             <option selected disabled>Seleccionar</option>
                             @foreach($divisa as $data)
-                              @if(isset($datos->divisas))
-                                @if($datos->divisas == $data->id)
+                              @if(isset($datos->perfil->divisas))
+                                @if($datos->perfil->divisas == $data->id)
                                   <option value="{{$data->id}}" selected>{{$data->descripcion}}</option>
                                 @else
                                   <option value="{{$data->id}}">{{$data->descripcion}}</option>
@@ -804,7 +804,15 @@
                           <select class="form-control required" id="drecursos" name="drecursos" @if(isset($datos)) @endif>
                             <option selected disabled>Seleccionar</option>
                             @foreach($destino as $data)
-                              <option value="{{$data->id}}">{{$data->descripcion}}</option>
+                              @if(isset($datos->perfil->destino_recursos))
+                                @if($datos->perfil->destino_recursos == $data->id)
+                                  <option value="{{$data->id}}" selected>{{$data->descripcion}}</option>
+                                @else
+                                  <option value="{{$data->id}}">{{$data->descripcion}}</option>
+                                @endif
+                              @else
+                                <option value="{{$data->id}}">{{$data->descripcion}}</option>
+                              @endif
                             @endforeach
 
                           </select>
@@ -823,9 +831,9 @@
                             @else
                               <option selected disabled>Seleccionar</option>
                             @endif
-                            <option value="total" @if(isset($datos->total)) @if($datos->total == 1) selected @endif @endif>Total</option>
-                            <option value="aceptable" @if(isset($datos->aceptable)) @if($datos->aceptable == 1) selected @endif @endif>Aceptable</option>
-                            <option value="difisil" @if(isset($datos->difisil)) @if($datos->difisil == 1) selected @endif @endif>Difícil</option>
+                            <option value="total" @if(isset($datos->perfil->total)) @if($datos->perfil->total == 1) selected @endif @endif>Total</option>
+                            <option value="aceptable" @if(isset($datos->perfil->aceptable)) @if($datos->perfil->aceptable == 1) selected @endif @endif>Aceptable</option>
+                            <option value="dificil" @if(isset($datos->perfil->dificil)) @if($datos->perfil->dificil == 1) selected @endif @endif>Difícil</option>
                           </select>
                         </div>
                       </div>
@@ -835,7 +843,7 @@
                           <label for="lastName3">
                             Ingreso Mensual Estimado
                           </label>
-                          <input type="number" value="@if(isset($datos->ingreso)){{ $datos->ingreso }}@endif" @if(isset($datos)) @endif step="any"
+                          <input type="number" value="@if(isset($datos->perfil->ingreso)){{ $datos->perfil->ingreso }}@endif" @if(isset($datos)) @endif step="any"
                                  class="form-control required" id="ingreso" name="ingreso">
                         </div>
                       </div>
@@ -850,7 +858,7 @@
                             Especifique si observo alguna conducta inapropiada del cliente
                           </label>
                           <input type="text" class="form-control required" id="conducta" @if(isset($datos)) @endif name="conducta"
-                                 value="@if(isset($datos->conducta)){{ $datos->conducta }}@endif">
+                                 value="@if(isset($datos->perfil->conducta)){{ $datos->perfil->conducta }}@endif">
                         </div>
                       </div>
                       <div class="col-md-12">
@@ -861,7 +869,7 @@
                             proyectos
                           </label>
                           <input type="text" class="form-control required" id="comentario" @if(isset($datos))@endif name="comentario"
-                                 value="@if(isset($datos->comentario)){{ $datos->comentario }}@endif">
+                                 value="@if(isset($datos->perfil->comentario)){{ $datos->perfil->comentario }}@endif">
                         </div>
                       </div>
                       <div class="col-md-6">

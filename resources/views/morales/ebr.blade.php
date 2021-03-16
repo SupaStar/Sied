@@ -24,7 +24,7 @@
                       <label for="lastName3">
                         Ocupación
                       </label>
-                      <input type="text" class="form-control required" value="@if(isset($profesion)){{ $profesion }}@endif" readonly>
+                      <input type="text" class="form-control required" value="@if(isset($profesions)){{ $profesions }}@endif" readonly>
                     </div>
                   </div>
                   <div class="col-md-4">
