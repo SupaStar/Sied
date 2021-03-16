@@ -52,4 +52,8 @@ class Moral extends Model
   {
     return $this->hasMany('App\PersonaMoral', 'morales_id', 'id');
   }
+  public function perfil()
+  {
+    return $this->hasOne('App\PerfilMoral', 'id_moral', 'id');
+  }
 }

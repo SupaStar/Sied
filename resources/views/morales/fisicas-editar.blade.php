@@ -908,7 +908,7 @@
                             <option  selected disabled>Seleccionar</option>
                             @foreach($profesiones as $data)
                               @if(isset($datos))
-                                @if($datos->profesion == $data->id)
+                                @if($datos->perfil->profesion == $data->id)
                                   <option value="{{$data->id}}" selected>{{$data->descripcion}}</option>
                                 @else
                                   <option value="{{$data->id}}">{{$data->descripcion}}</option>
@@ -930,7 +930,7 @@
                             <option selected disabled>Seleccionar</option>
                             @foreach($origen as $data)
                               @if(isset($datos))
-                                @if($datos->actividad_giro == $data->id)
+                                @if($datos->perfil->actividad_giro == $data->id)
                                   <option value="{{$data->id}}" selected>{{$data->descripcion}}</option>
                                 @else
                                   <option value="{{$data->id}}">{{$data->descripcion}}</option>
@@ -964,7 +964,7 @@
                             <option  selected disabled>Seleccionar</option>
                             @foreach($efresidencia as $data)
                               @if(isset($datos))
-                                @if($datos->efr == $data->id)
+                                @if($datos->perfil->efr == $data->id)
                                   <option value="{{$data->id}}" selected>{{$data->descripcion}}</option>
                                 @else
                                   <option value="{{$data->id}}">{{$data->descripcion}}</option>

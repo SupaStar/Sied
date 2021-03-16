@@ -667,7 +667,7 @@ class Morales extends Controller
 
     $datos2 = DB::TABLE('morales')->where('id', $id)->first();
 
-    $datos = Moral::where('id', '=', $id)->with('personasmorales')->first();
+    $datos = Moral::where('id', '=', $id)->with('personasmorales')->with('perfil')->first();
     $origen = OrigenRecursos::get();
     $destino = DestinoRecursos::get();
     $instrumento = InstrumentoMonetario::get();
