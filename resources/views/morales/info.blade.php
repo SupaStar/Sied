@@ -26,7 +26,8 @@
                      aria-controls="profile-just" aria-selected="true">CRÉDITO</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="profile-tab-amortizacion" data-toggle="tab" href="#profile-amortizacion" role="tab"
+                  <a class="nav-link" id="profile-tab-amortizacion" data-toggle="tab" href="#profile-amortizacion"
+                     role="tab"
                      aria-controls="profile-just" aria-selected="true">AMORTIZACÓN</a>
                 </li>
                 <li class="nav-item">
@@ -44,7 +45,9 @@
                       <fieldset class="col-12 col-md-5 mb-1 mb-md-0">
                       </fieldset>
                       <div class="col-12 col-md-7 d-flex flex-column flex-md-row justify-content-end">
-                        <button class="btn btn-primary btn-print mb-1 mb-md-0"> <i class="feather icon-file-text"></i> Imprimir</button>
+                        <button class="btn btn-primary btn-print mb-1 mb-md-0"><i class="feather icon-file-text"></i>
+                          Imprimir
+                        </button>
                         <!-- <button class="btn btn-outline-primary  ml-0 ml-md-1"> <i class="feather icon-download"></i> Descargar</button> -->
                       </div>
                     </div>
@@ -57,12 +60,15 @@
                             <div class="card-body">
                               <form action="/morales/crear" enctype="multipart/form-data" method="POST"
                                     class="steps-validation wizard-circle" id="formss" name="formss">
-                                <form-wizard color="#7367f0" title="" subtitle="" next-button-text="Siguiente" next-button-text="Siguiente"
-                                             back-button-text="Anterior" finish-button-text="Finalizar" @on-complete="onComplete" @on-error="handleErrorMessage">
+                                <form-wizard color="#7367f0" title="" subtitle="" next-button-text="Siguiente"
+                                             next-button-text="Siguiente"
+                                             back-button-text="Anterior" finish-button-text="Finalizar"
+                                             @on-complete="onComplete" @on-error="handleErrorMessage">
                                 @csrf
                                 <!-- Step 1 -->
 
-                                  <tab-content title="Sociedad" icon="step-icon feather icon-user" :before-change="()=>validateAsync('paso0')" >
+                                  <tab-content title="Sociedad" icon="step-icon feather icon-user"
+                                               :before-change="()=>validateAsync('paso0')">
                                     <div id="paso0">
                                       <div class="row">
                                         <h3>Empresa</h3>
@@ -74,15 +80,21 @@
                                             <label for="nombre">
                                               Nombre de la empresa
                                             </label>
-                                            <input type="text" class="form-control required" disabled name="nombre" id="nombreEmpresa" value="{{$datos->nombre}}">
+                                            <input type="text" class="form-control required" disabled name="nombre"
+                                                   id="nombreEmpresa" value="{{$datos->nombre}}">
                                           </div>
                                         </div>
                                         <div class="col-md-6">
                                           <div class="form-group" id="div-1">
                                             <label for="nombre_administrador">
-                                              Nombre (s) completo del administrador (es), Director, Gerente General o Apoderado Legal que, con su firma, puedan obligar a la persona moral para efectos de la celebración de un contrato o realización de la Operación que de trate
+                                              Nombre (s) completo del administrador (es), Director, Gerente General o
+                                              Apoderado Legal que, con su firma, puedan obligar a la persona moral para
+                                              efectos de la celebración de un contrato o realización de la Operación que
+                                              de trate
                                             </label>
-                                            <input type="text" class="form-control required" name="nombre_administrador" id="nombre_administrador" disabled value="{{$datos->nombre_administrador}}">
+                                            <input type="text" class="form-control required" name="nombre_administrador"
+                                                   id="nombre_administrador" disabled
+                                                   value="{{$datos->nombre_administrador}}">
                                           </div>
                                         </div>
                                       </div>
@@ -96,120 +108,127 @@
                                         <div>
                                           <h1> Socio: {{$dato->name}}</h1>
                                         </div>
-                                      <div id="integrantes" v-for="(integrante, index) in integrantes">
-                                        <div v-if="index > 0 ">
+                                        <div id="integrantes" v-for="(integrante, index) in integrantes">
+                                          <div v-if="index > 0 ">
+                                            <div class="row">
+                                              <div class="col-12 mt-1 mb-1">
+
+                                              </div>
+                                            </div>
+                                          </div>
+
                                           <div class="row">
-                                            <div class="col-12 mt-1 mb-1">
+                                            <div class="offset-6 col-3 text-center">
+                                              <a
+                                                href="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-frontal.png') }}"
+                                                target="_blank"> <img
+                                                  src="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-frontal.png') }}"
+                                                  alt="INE" height="100"></a>
+
+                                              <a
+                                                href="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-trasera.png') }}"
+                                                target="_blank"> <img
+                                                  src="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-trasera.png') }}"
+                                                  alt="INE" height="100"></a>
+                                            </div>
+
+                                          </div>
+                                          <div class="row">
+                                            <div class="col-md-4 offset-md-4">
 
                                             </div>
                                           </div>
-                                        </div>
-
-                                        <div class="row">
-                                          <div class="offset-6 col-3 text-center">
-                                            <a href="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-frontal.png') }}"
-                                               target="_blank"> <img
-                                                src="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-frontal.png') }}"
-                                                alt="INE" height="100"></a>
-
-                                            <a href="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-trasera.png') }}"
-                                               target="_blank"> <img
-                                                src="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-trasera.png') }}"
-                                                alt="INE" height="100"></a>
-                                          </div>
-
-                                        </div>
-                                        <div class="row">
-                                          <div class="col-md-4 offset-md-4">
-
-                                          </div>
-                                        </div>
-                                        <div class="row" id="firstRow">
-                                          <div class="col-md-4">
-                                            <div class="form-group">
-                                              <label for="firstName3">
-                                                Nombre(s)
-                                              </label>
-                                              <input disabled value="{{$dato->name}}" type="text" class="form-control required" :id="'nombre'+index"
-                                                     :name="'personasMorales['+index+'][name]'">
+                                          <div class="row" id="firstRow">
+                                            <div class="col-md-4">
+                                              <div class="form-group">
+                                                <label for="firstName3">
+                                                  Nombre(s)
+                                                </label>
+                                                <input disabled value="{{$dato->name}}" type="text"
+                                                       class="form-control required" :id="'nombre'+index"
+                                                       :name="'personasMorales['+index+'][name]'">
+                                              </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                              <div class="form-group">
+                                                <label for="lastName3">
+                                                  Apellido Paterno
+                                                </label>
+                                                <input disabled value="{{$dato->lastname}}" type="text"
+                                                       class="form-control required" :id="'apellidop'+index"
+                                                       :name="'personasMorales['+index+'][lastname]'">
+                                              </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                              <div class="form-group">
+                                                <label for="lastName3">
+                                                  Apellido Materno
+                                                </label>
+                                                <input disabled value="{{$dato->o_lastname}}" type="text"
+                                                       class="form-control required" :id="'apellidom'+index"
+                                                       :name="'personasMorales['+index+'][o_lastname]'">
+                                              </div>
                                             </div>
                                           </div>
-                                          <div class="col-md-4">
-                                            <div class="form-group">
-                                              <label for="lastName3">
-                                                Apellido Paterno
-                                              </label>
-                                              <input disabled value="{{$dato->lastname}}" type="text" class="form-control required" :id="'apellidop'+index"
-                                                     :name="'personasMorales['+index+'][lastname]'">
-                                            </div>
-                                          </div>
-                                          <div class="col-md-4">
-                                            <div class="form-group">
-                                              <label for="lastName3">
-                                                Apellido Materno
-                                              </label>
-                                              <input disabled value="{{$dato->o_lastname}}" type="text" class="form-control required" :id="'apellidom'+index"
-                                                     :name="'personasMorales['+index+'][o_lastname]'">
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div class="row">
-                                          <div class="col-md-4">
-                                            <div class="form-group">
-                                              <label for="firstName3">
-                                                Genero
-                                              </label>
-                                              <select disabled  class="form-control" :name="'personasMorales['+index+'][gender]'"
-                                                      :id="'genero'+index">
+                                          <div class="row">
+                                            <div class="col-md-4">
+                                              <div class="form-group">
+                                                <label for="firstName3">
+                                                  Genero
+                                                </label>
+                                                <select disabled class="form-control"
+                                                        :name="'personasMorales['+index+'][gender]'"
+                                                        :id="'genero'+index">
 
-                                                @if($dato->gender=="H")
-                                                  <option selected value="H">Masculino</option>
+                                                  @if($dato->gender=="H")
+                                                    <option selected value="H">Masculino</option>
                                                   @else
-                                                <option selected value="M">Femenino</option>
-                                                @endif
-                                              </select>
-                                            </div>
-                                          </div>
-
-                                          <div class="col-md-4">
-                                            <div class="form-group">
-                                              <label for="lastName3">
-                                                Fecha de Nacimiento
-                                              </label>
-                                              <input disabled value="{{$dato->date_birth}}" type='text' class="form-control" data-toggle="datepicker"
-                                                     :name="'personasMorales['+index+'][date_birth]'" :id="'nacimiento'+index">
-
-                                            </div>
-                                          </div>
-
-                                          <div class="col-md-4">
-                                            <div class="form-group">
-                                              <label for="firstName3">
-                                                País de Nacimiento
-                                              </label>
-                                              <select disabled  class="form-control" :id="'pais_nacimiento'+index"
-                                                      :name="'personasMorales['+index+'][country_birth]'">
-                                                @foreach($paises as $pais)
-                                                  @if($pais->code==$dato->country_birth)
-                                                  <option>{{ $pais->pais }}</option>
-
+                                                    <option selected value="M">Femenino</option>
                                                   @endif
-                                                @endforeach
+                                                </select>
+                                              </div>
+                                            </div>
 
-                                              </select>
+                                            <div class="col-md-4">
+                                              <div class="form-group">
+                                                <label for="lastName3">
+                                                  Fecha de Nacimiento
+                                                </label>
+                                                <input disabled value="{{$dato->date_birth}}" type='text'
+                                                       class="form-control" data-toggle="datepicker"
+                                                       :name="'personasMorales['+index+'][date_birth]'"
+                                                       :id="'nacimiento'+index">
+
+                                              </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                              <div class="form-group">
+                                                <label for="firstName3">
+                                                  País de Nacimiento
+                                                </label>
+                                                <select disabled class="form-control" :id="'pais_nacimiento'+index"
+                                                        :name="'personasMorales['+index+'][country_birth]'">
+                                                  @foreach($paises as $pais)
+                                                    @if($pais->code==$dato->country_birth)
+                                                      <option>{{ $pais->pais }}</option>
+
+                                                    @endif
+                                                  @endforeach
+
+                                                </select>
+                                              </div>
                                             </div>
                                           </div>
-                                        </div>
 
-                                        <div class="row">
-                                          <div class="col-md-4">
-                                            <div class="form-group">
-                                              <label for="firstName3">
-                                                Lugar de Nacimiento
-                                              </label>
-                                              <select disabled class="form-control" :id="'lnacimiento'+index"
-                                                      :name="'personasMorales['+index+'][place_birth]'">
-
+                                          <div class="row">
+                                            <div class="col-md-4">
+                                              <div class="form-group">
+                                                <label for="firstName3">
+                                                  Lugar de Nacimiento
+                                                </label>
+                                                <select disabled class="form-control" :id="'lnacimiento'+index"
+                                                        :name="'personasMorales['+index+'][place_birth]'">
 
 
                                                   @foreach($entidad as $entidades)
@@ -217,47 +236,49 @@
                                                       <option value="">{{ $entidades->entity }}</option>
                                                     @endif
                                                   @endforeach
-                                              </select>
+                                                </select>
+                                              </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                              <div class="form-group">
+                                                <label for="firstName3">
+                                                  Nacionalidad
+                                                </label>
+                                                <select disabled class="form-control" :id="'nacionalidad'+index"
+                                                        :name="'personasMorales['+index+'][nationality]'">
+
+                                                  @foreach($nacionalidades as $nacionalidad)
+                                                    @if($nacionalidad->code==$dato->nationality)
+                                                      <option value="">{{ $nacionalidad->country }}</option>
+                                                    @endif
+                                                  @endforeach
+                                                </select>
+                                              </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                              <div class="form-group">
+                                                <label for="lastName3">
+                                                  Ocupación
+                                                </label>
+                                                <input disabled value="{{$dato->job}}" type="text"
+                                                       class="form-control required"
+                                                       :name="'personasMorales['+index+'][job]'">
+                                              </div>
                                             </div>
                                           </div>
+                                          <div class="row">
 
-                                          <div class="col-md-4">
-                                            <div class="form-group">
-                                              <label for="firstName3">
-                                                Nacionalidad
-                                              </label>
-                                              <select disabled class="form-control" :id="'nacionalidad'+index"
-                                                      :name="'personasMorales['+index+'][nationality]'">
-
-                                                @foreach($nacionalidades as $nacionalidad)
-                                                  @if($nacionalidad->code==$dato->nationality)
-                                                    <option value="">{{ $nacionalidad->country }}</option>
-                                                  @endif
-                                                @endforeach
-                                              </select>
-                                            </div>
-                                          </div>
-                                          <div class="col-md-4">
-                                            <div class="form-group">
-                                              <label for="lastName3">
-                                                Ocupación
-                                              </label>
-                                              <input disabled value="{{$dato->job}}" type="text" class="form-control required"
-                                                     :name="'personasMorales['+index+'][job]'">
-                                            </div>
                                           </div>
                                         </div>
-                                        <div class="row">
-
-                                        </div>
-                                      </div>
                                       @endforeach
                                     </div>
 
                                   </tab-content>
 
                                   <!-- Step 2 -->
-                                  <tab-content title="Dirección" icon="step-icon feather icon-map-pin" :before-change="()=>validateAsync('paso1')">
+                                  <tab-content title="Dirección" icon="step-icon feather icon-map-pin"
+                                               :before-change="()=>validateAsync('paso1')">
                                     <div id="paso1">
                                       <div class="row">
                                         <div class="row">
@@ -265,102 +286,108 @@
                                           <div class="col-md-12">
                                             <hr>
                                           </div>
-                                        <div class="col-md-4">
-                                          <div class="form-group">
-                                            <label for="proposalTitle3">
-                                              Calle
-                                            </label>
-                                            <input disabled value="{{$datos->street}}" type="text" class="form-control required" id="street" name="street">
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="proposalTitle3">
+                                                Calle
+                                              </label>
+                                              <input disabled value="{{$datos->street}}" type="text"
+                                                     class="form-control required" id="street" name="street">
+                                            </div>
                                           </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                          <div class="form-group">
-                                            <label for="proposalTitle3">
-                                              # Exterior
-                                            </label>
-                                            <input disabled value="{{$datos->exterior}}" type="text" class="form-control required" name="exterior" id="exterior">
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="proposalTitle3">
+                                                # Exterior
+                                              </label>
+                                              <input disabled value="{{$datos->exterior}}" type="text"
+                                                     class="form-control required" name="exterior" id="exterior">
+                                            </div>
                                           </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                          <div class="form-group">
-                                            <label for="proposalTitle3">
-                                              # Interior
-                                            </label>
-                                            <input disabled value="{{$datos->intern}}" type="text" class="form-control " name="inside">
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="proposalTitle3">
+                                                # Interior
+                                              </label>
+                                              <input disabled value="{{$datos->intern}}" type="text"
+                                                     class="form-control " name="inside">
+                                            </div>
                                           </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                          <div class="form-group">
-                                            <label for="proposalTitle3">
-                                              Codigo Postal
-                                            </label>
-                                            <input disabled value="{{$datos->pc}}" type="text" class="form-control required" name="pc" id="cp" @change="sepomex">
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="proposalTitle3">
+                                                Codigo Postal
+                                              </label>
+                                              <input disabled value="{{$datos->pc}}" type="text"
+                                                     class="form-control required" name="pc" id="cp" @change="sepomex">
+                                            </div>
                                           </div>
-                                        </div>
 
-                                        <div class="col-md-4">
-                                          <div class="form-group">
-                                            <label for="firstName3">
-                                              Colonia
-                                            </label>
-                                            <select disabled class="form-control" name="colony" id="colonia">
-                                              <option selected disabled>{{$datos->colony}}</option>
-                                            </select>
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="firstName3">
+                                                Colonia
+                                              </label>
+                                              <select disabled class="form-control" name="colony" id="colonia">
+                                                <option selected disabled>{{$datos->colony}}</option>
+                                              </select>
+                                            </div>
                                           </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                          <div class="form-group">
-                                            <label for="firstName3">
-                                              Alcaldia o Municipio
-                                            </label>
-                                            <select disabled class="form-control" name="town" id="municipio">
-                                              <option selected disabled>{{$datos->town}}</option>
-                                            </select>
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="firstName3">
+                                                Alcaldia o Municipio
+                                              </label>
+                                              <select disabled class="form-control" name="town" id="municipio">
+                                                <option selected disabled>{{$datos->town}}</option>
+                                              </select>
+                                            </div>
                                           </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                          <div class="form-group">
-                                            <label for="firstName3">
-                                              Ciudad o Población
-                                            </label>
-                                            <select disabled class="form-control" name="city" id="ciudad">
-                                              <option selected disabled>{{$datos->city}}</option>
-                                            </select>
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="firstName3">
+                                                Ciudad o Población
+                                              </label>
+                                              <select disabled class="form-control" name="city" id="ciudad">
+                                                <option selected disabled>{{$datos->city}}</option>
+                                              </select>
+                                            </div>
                                           </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                          <div class="form-group">
-                                            <label for="firstName3">
-                                              Entidad Federativa
-                                            </label>
-                                            <select disabled class="form-control" id="entidad" name="ef" @change="initMap">
-                                              <option selected disabled>Seleccionar</option>
-                                              @foreach($entidad as $dd)
-                                                @if($dd->code==$datos->ef)
-                                                  <option selected value="">{{ $dd->entity }}</option>
-                                                @endif
-                                              @endforeach
-                                            </select>
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="firstName3">
+                                                Entidad Federativa
+                                              </label>
+                                              <select disabled class="form-control" id="entidad" name="ef"
+                                                      @change="initMap">
+                                                <option selected disabled>Seleccionar</option>
+                                                @foreach($entidad as $dd)
+                                                  @if($dd->code==$datos->ef)
+                                                    <option selected value="">{{ $dd->entity }}</option>
+                                                  @endif
+                                                @endforeach
+                                              </select>
+                                            </div>
                                           </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                          <div class="form-group">
-                                            <label for="firstName3">
-                                              País
-                                            </label>
-                                            <select disabled class="form-control" id="pais" name="country">
-                                              <option disabled>Seleccionar</option>
-                                              <option selected value="México">México</option>
-                                            </select>
+                                          <div class="col-md-4">
+                                            <div class="form-group">
+                                              <label for="firstName3">
+                                                País
+                                              </label>
+                                              <select disabled class="form-control" id="pais" name="country">
+                                                <option disabled>Seleccionar</option>
+                                                <option selected value="México">México</option>
+                                              </select>
+                                            </div>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
-                                    </div>
                                   </tab-content>
 
                                   <!-- Step 3 -->
-                                  <tab-content title="Datos Adicionales" icon="step-icon feather icon-file-plus" :before-change="()=>validateAsync('paso2')">
+                                  <tab-content title="Datos Adicionales" icon="step-icon feather icon-file-plus"
+                                               :before-change="()=>validateAsync('paso2')">
                                     <div id="paso2">
                                       <div class="row">
                                         <h3>Datos adicionales</h3>
@@ -372,7 +399,8 @@
                                             <label for="firstName3">
                                               Número Teléfonico 1
                                             </label>
-                                            <input disabled value="{{$datos->phone1}}" type="text" class="form-control" name="phone1">
+                                            <input disabled value="{{$datos->phone1}}" type="text" class="form-control"
+                                                   name="phone1">
                                           </div>
                                         </div>
 
@@ -381,7 +409,8 @@
                                             <label for="lastName3">
                                               Número Teléfonico 2
                                             </label>
-                                            <input disabled value="{{$datos->phone2}}" type="text" class="form-control " name="phone2">
+                                            <input disabled value="{{$datos->phone2}}" type="text" class="form-control "
+                                                   name="phone2">
                                           </div>
                                         </div>
                                         <div class="col-md-4">
@@ -389,7 +418,8 @@
                                             <label for="lastName3">
                                               Email
                                             </label>
-                                            <input disabled value="{{$datos->email}}" type="text" class="form-control required" id="memail" name="email"
+                                            <input disabled value="{{$datos->email}}" type="text"
+                                                   class="form-control required" id="memail" name="email"
                                                    @change="checkemail">
                                           </div>
                                         </div>
@@ -402,7 +432,8 @@
                                             <label for="lastName3">
                                               RFC
                                             </label>
-                                            <input disabled value="{{$datos->rfc}}" type="text" class="form-control required" name="rfc" id="rfc">
+                                            <input disabled value="{{$datos->rfc}}" type="text"
+                                                   class="form-control required" name="rfc" id="rfc">
                                           </div>
                                         </div>
                                       </div>
@@ -411,7 +442,8 @@
                                   </tab-content>
                                   <!-- Step 4 -->
 
-                                  <tab-content title="Documentos Requeridos" icon="step-icon feather icon-folder-plus" :before-change="()=>validateAsync('paso3')">
+                                  <tab-content title="Documentos Requeridos" icon="step-icon feather icon-folder-plus"
+                                               :before-change="()=>validateAsync('paso3')">
                                     <div id="paso3">
                                       <div class="row">
                                         <h3>Documentos requeridos</h3>
@@ -450,7 +482,7 @@
                                             <label for="eventName3">
                                               RFC
                                             </label>
-<br>
+                                            <br>
                                             <a href="{{ url('/uploads/morales/rfc/'.$dato->id.'.jpeg') }}"
                                                target="_blank"> <img
                                                 src="{{ url('/uploads/morales/rfc/'.$dato->id.'.jpeg') }}"
@@ -458,15 +490,19 @@
                                             <br>
                                             <h3>Croquis</h3>
                                             <hr>
-                                            <div title="maps" id="map" style="position: initial !important; height: 400px" ></div>
-                                            <input value="{{$datos->lat}}" aria-label="latitud" id="lat" name="lat" hidden>
-                                            <input value="{{$datos->long}}" aria-label="longitud" id="long" name="long" hidden>
+                                            <div title="maps" id="map"
+                                                 style="position: initial !important; height: 400px"></div>
+                                            <input value="{{$datos->lat}}" aria-label="latitud" id="lat" name="lat"
+                                                   hidden>
+                                            <input value="{{$datos->long}}" aria-label="longitud" id="long" name="long"
+                                                   hidden>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
                                   </tab-content>
-                                  <tab-content title="Croquis" icon="step-icon feather icon-folder-plus" :before-change="()=>validateAsync('paso4')">
+                                  <tab-content title="Croquis" icon="step-icon feather icon-folder-plus"
+                                               :before-change="()=>validateAsync('paso4')">
                                     <div id="paso4">
                                       <div class="row">
 
@@ -476,14 +512,17 @@
                                         <div class="col-md-4">
                                           <div class="form-group">
 
-                                            <input value="{{$datos->lat}}" aria-label="latitud" id="lat" name="lat" hidden>
-                                            <input value="{{$datos->long}}" aria-label="longitud" id="long" name="long" hidden>
+                                            <input value="{{$datos->lat}}" aria-label="latitud" id="lat" name="lat"
+                                                   hidden>
+                                            <input value="{{$datos->long}}" aria-label="longitud" id="long" name="long"
+                                                   hidden>
                                           </div>
                                         </div>
                                       </div>
                                     </div>
                                   </tab-content>
-                                  <tab-content title="Documentos" icon="step-icon feather icon-folder-plus" :before-change="()=>validateAsync('paso5')">
+                                  <tab-content title="Documentos" icon="step-icon feather icon-folder-plus"
+                                               :before-change="()=>validateAsync('paso5')">
                                     <div id="paso5"></div>
                                     <div class="row">
                                       <h3>Documentos</h3>
@@ -495,7 +534,8 @@
                                           <label for="giro">
                                             Giro
                                           </label>
-                                          <input disabled value="{{$datos->giro}}" id="giro" type="text" class="form-control required" name="giro">
+                                          <input disabled value="{{$datos->giro}}" id="giro" type="text"
+                                                 class="form-control required" name="giro">
                                         </div>
                                       </div>
                                     </div>
@@ -505,7 +545,8 @@
                                           <label for="fecha_constitucion">
                                             Fecha de constitucion
                                           </label>
-                                          <input value="{{$datos->fecha_constitucion}}" disabled id="fecha_constitucion" type="date" class="form-control required" name="fecha_constitucion">
+                                          <input value="{{$datos->fecha_constitucion}}" disabled id="fecha_constitucion"
+                                                 type="date" class="form-control required" name="fecha_constitucion">
                                         </div>
                                       </div>
                                     </div>
@@ -515,7 +556,8 @@
                                           <label for="garantias">
                                             Descripcion de las garantias
                                           </label>
-                                          <textarea disabled  id="garantias" type="text" class="form-control required" name="garantias">{{$datos->garantias}}
+                                          <textarea disabled id="garantias" type="text" class="form-control required"
+                                                    name="garantias">{{$datos->garantias}}
                         </textarea>
                                         </div>
                                       </div>
@@ -552,7 +594,8 @@
                                           <label for="numero_empleados">
                                             Numero de empleados
                                           </label>
-                                          <input disabled value="{{$datos->numero_empleados}}" id="numero_empleados" type="number" class="form-control required" name="numero_empleados">
+                                          <input disabled value="{{$datos->numero_empleados}}" id="numero_empleados"
+                                                 type="number" class="form-control required" name="numero_empleados">
                                         </div>
                                       </div>
                                     </div>
@@ -613,7 +656,7 @@
                       <fieldset class="col-12 col-md-5 mb-1 mb-md-0">
                       </fieldset>
                       <div class="col-12 col-md-7 d-flex flex-column flex-md-row justify-content-end">
-                        </div>
+                      </div>
                     </div>
                   </section>
                   <div class="row">
@@ -682,7 +725,9 @@
                       <fieldset class="col-12 col-md-5 mb-1 mb-md-0">
                       </fieldset>
                       <div class="col-12 col-md-7 d-flex flex-column flex-md-row justify-content-end">
-                        <button class="btn btn-success mb-1 mb-md-0"  data-toggle="modal" data-target="#inlineForm"> <i class="feather icon-dollar-sign"></i> Agregar Pago</button>
+                        <button class="btn btn-success mb-1 mb-md-0" data-toggle="modal" data-target="#inlineForm"><i
+                            class="feather icon-dollar-sign"></i> Agregar Pago
+                        </button>
                         <!-- <button class="btn btn-outline-primary  ml-0 ml-md-1"> <i class="feather icon-download"></i> Descargar</button> -->
                       </div>
                     </div>
@@ -719,10 +764,11 @@
 
               </div>
 
+            </div>
           </div>
         </div>
       </div>
-      </div></div>
+    </div>
   </section>
 
   <!-- invoice functionality end -->
@@ -740,8 +786,7 @@
     async></script>
   <script src="/js/scripts/mapsedit.js"></script>
   <script>
-    $(document).ready(function ()
-    {
+    $(document).ready(function () {
       initMap();
     })
   </script>

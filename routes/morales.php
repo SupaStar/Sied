@@ -12,6 +12,7 @@ Route::post('morales/eperfil', 'Morales@eperfil');
 Route::post('morales/eebr', 'Morales@eebr');
 Route::get('morales/ebr/{id}', 'Morales@ebr');
 Route::get('editarmoral/{id}', 'Morales@editarmoral');
+Route::get('editarmoral/{id}', 'Morales@editarmoral');
 
 
 Route::get('nuevo/empresa', 'Morales@NuevaEmpresa');

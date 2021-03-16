@@ -294,7 +294,7 @@
                                                        <label for="lastName3">
                                                          Ocupación
                                                        </label>
-                                                       <input type="text" class="form-control required"
+                                                       <input value="{{$dato->job}}" type="text" class="form-control required"
                                                               :name="'personasMorales['+index+'][job]'">
                                                      </div>
                                                    </div>

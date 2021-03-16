@@ -68,7 +68,7 @@
                           <input type="text" class="form-control required" name="nombre" id="nombreEmpresa" required data-validation-required-message="This First Name field is required">
                         </div>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-8">
                         <div class="form-group" id="div-1">
                           <label for="nombre_administrador">
                             Nombre (s) completo del administrador (es), Director, Gerente General o Apoderado Legal que, con su firma, puedan obligar a la persona moral para efectos de la celebración de un contrato o realización de la Operación que de trate
