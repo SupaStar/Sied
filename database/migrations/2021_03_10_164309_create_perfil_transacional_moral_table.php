@@ -34,8 +34,8 @@ class CreatePerfilTransacionalMoralTable extends Migration
             $table->unsignedBigInteger('destino_recursos')->nullable();
             $table->unsignedBigInteger('instrumento_monetario')->nullable();
             $table->unsignedBigInteger('divisas')->nullable();
-            $table->unsignedBigInteger('profesion');
-            $table->unsignedBigInteger('actividad_giro');
+            $table->unsignedBigInteger('profesion')->nullable();
+            $table->unsignedBigInteger('actividad_giro')->nullable();
             $table->unsignedBigInteger('pId')->default(2);
             $table->unsignedBigInteger('efr')->nullable();
             $table->float('ingreso',10,2)->nullable();
