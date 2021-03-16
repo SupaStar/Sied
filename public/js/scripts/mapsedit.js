@@ -5,7 +5,11 @@ function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: {lat: latitud, lng: longitud},
   //  center: {lat: -35.397, lng: 150.644},
-    zoom: 8,
+    zoom: 4,
+  });
+  const marker = new google.maps.Marker({
+    position: {lat: latitud, lng: longitud},
+    map: map,
   });
 }
 
