@@ -427,7 +427,7 @@
                                             <a href="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
                                                target="_blank"> <img
                                                 src="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
-                                                alt="INE" height="100"></a></div>
+                                                alt="Acta Constitutiva" height="100"></a></div>
                                         </div>
                                       </div>
                                       <div class="row">
@@ -440,7 +440,7 @@
                                             <a href="{{ url('/uploads/morales/dom/'.$dato->id.'.jpeg') }}"
                                                target="_blank"> <img
                                                 src="{{ url('/uploads/morales/dom/'.$dato->id.'.jpeg') }}"
-                                                alt="INE" height="100"></a>
+                                                alt="Comprobante de Domicilio" height="100"></a>
                                           </div>
                                         </div>
                                       </div>
@@ -454,7 +454,7 @@
                                             <a href="{{ url('/uploads/morales/rfc/'.$dato->id.'.jpeg') }}"
                                                target="_blank"> <img
                                                 src="{{ url('/uploads/morales/rfc/'.$dato->id.'.jpeg') }}"
-                                                alt="INE" height="100"></a>
+                                                alt="RFC" height="100"></a>
                                             <br>
                                             <h3>Croquis</h3>
                                             <hr>
@@ -530,7 +530,7 @@
                                           <a href="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
                                              target="_blank"> <img
                                               src="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
-                                              alt="INE" height="100"></a></div>
+                                              alt="Fotografia 1" height="100"></a></div>
                                       </div>
                                     </div>
                                     <div class="row">
@@ -543,7 +543,7 @@
                                           <a href="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
                                              target="_blank"> <img
                                               src="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
-                                              alt="INE" height="100"></a></div>
+                                              alt="Fotografia 2" height="100"></a></div>
                                       </div>
                                     </div>
                                     <div class="row">
