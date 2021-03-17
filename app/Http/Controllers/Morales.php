@@ -813,6 +813,7 @@ class Morales extends Controller
         'email' => 'required|string|email|unique:users'
       ]);*/
     $moral = new Moral($request->all());
+    $moral->id_nacionalidad_antecedente=$request->nacionalidad_ante;
 
     DB::beginTransaction();
     try {

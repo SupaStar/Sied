@@ -421,7 +421,7 @@
                                                      <select class="form-control" name="nacionalidad_ante" id="nacionalidad_ante">
                                                        <option selected disabled>Seleccionar</option>
                                                        @foreach($nacionantecedentes as $naciona)
-                                                         <option value="{{$naciona->descripcion}}">{{$naciona->descripcion}}</option>
+                                                         <option value="{{$naciona->id}}">{{$naciona->descripcion}}</option>
                                                        @endforeach
                                                      </select>
                                                    </div>

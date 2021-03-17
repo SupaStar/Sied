@@ -36,7 +36,8 @@ class Moral extends Model
     'garantias',
     'lat',
     'long',
-    'numero_empleados'
+    'numero_empleados',
+    'id_nacionalidad_antecedente'
   ];
 
 
@@ -55,5 +56,9 @@ class Moral extends Model
   public function perfil()
   {
     return $this->hasOne('App\PerfilMoral', 'id_moral', 'id');
+  }
+  public function nacionalidad_antecedente()
+  {
+    return $this->hasOne('App\NacionalidadAntecedentes', 'id', 'id_nacionalidad_antecedente');
   }
 }
