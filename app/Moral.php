@@ -129,6 +129,7 @@ class Moral extends Model
     array_push($antecedentes, $f4);
     array_push($antecedentes, $f5);
     array_push($antecedentes, $f6);
+    array_push($antecedentes, $f7);
     return $antecedentes;
   }
 
