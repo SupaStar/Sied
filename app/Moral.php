@@ -72,25 +72,18 @@ class Moral extends Model
     $currentDate = Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
     $diferencia = $currentDate->diffInYears($birthDate);
     $puntaje = [];
-    switch ($diferencia) {
-      case $diferencia < 2:
-        $puntaje = ['etiqueta' => 'MENOR A 2 AÑOS', 'puntaje' => 25];
-        break;
-      case $diferencia >= 2 && $diferencia <= 4:
-        $puntaje = ['etiqueta' => 'DE 2 A 4 AÑOS', 'puntaje' => 15];
-        break;
-      case $diferencia >= 4 && $diferencia <= 9:
-        $puntaje = ['etiqueta' => 'DE 4 A 9 AÑOS', 'puntaje' => 8];
-        break;
-      case $diferencia >= 10 && $diferencia <= 22:
-        $puntaje = ['etiqueta' => 'MAS DE 10 AÑOS menor a 22', 'puntaje' => 2];
-        break;
-      case $diferencia >= 23 && $diferencia <= 50:
-        $puntaje = ['etiqueta' => 'DE 23 A 50 AÑOS', 'puntaje' => 10];
-        break;
-      case $diferencia >= 51 && $diferencia <= 99:
-        $puntaje = ['etiqueta' => 'DE 51 A 99 AÑOS', 'puntaje' => 15];
-        break;
+    if ($diferencia >= 0 && $diferencia < 2){
+      $puntaje = ['etiqueta' => 'MENOR A 2 AÑOS', 'puntaje' => 25];
+    }elseif ($diferencia >= 2 && $diferencia <= 4){
+      $puntaje = ['etiqueta' => 'DE 2 A 4 AÑOS', 'puntaje' => 15];
+    }elseif ($diferencia >= 4 && $diferencia <= 9){
+      $puntaje = ['etiqueta' => 'DE 4 A 9 AÑOS', 'puntaje' => 8];
+    }elseif ($diferencia >= 10 && $diferencia <= 22){
+      $puntaje = ['etiqueta' => 'MAS DE 10 AÑOS menor a 22', 'puntaje' => 2];
+    }elseif ($diferencia >= 23 && $diferencia <= 50){
+      $puntaje = ['etiqueta' => 'DE 23 A 50 AÑOS', 'puntaje' => 10];
+    }elseif ($diferencia >= 51 && $diferencia <= 99){
+      $puntaje = ['etiqueta' => 'DE 51 A 99 AÑOS', 'puntaje' => 15];
     }
     return $puntaje;
   }
@@ -98,24 +91,24 @@ class Moral extends Model
   public function actividad_profesion()
   {
     $puntaje = [];
-    array_push($puntaje, ['criterio'=>$this->perfil->efrr->descripcion, 'factor' => 'Actividad Economica', 'ponderacion' => 40.00, 'puntaje' => $this->perfil->efrr->puntaje]);
-    array_push($puntaje, ['criterio'=>$this->perfil->profesionn->descripcion, 'factor' => 'Giro/ Profesion', 'ponderacion' => 60.00, 'puntaje' => $this->perfil->profesionn->puntaje]);
+    array_push($puntaje, ['criterio' => $this->perfil->efrr->descripcion, 'factor' => 'Actividad Economica', 'ponderacion' => 40.00, 'puntaje' => $this->perfil->efrr->puntaje]);
+    array_push($puntaje, ['criterio' => $this->perfil->profesionn->descripcion, 'factor' => 'Giro/ Profesion', 'ponderacion' => 60.00, 'puntaje' => $this->perfil->profesionn->puntaje]);
     return $puntaje;
   }
 
   public function origen_recursos()
   {
     $puntaje = [];
-    array_push($puntaje, ['criterio'=>$this->perfil->origenn->descripcion,'factor'=>'Origen de los Recursos','ponderacion'=>40.00,'puntaje'=>$this->perfil->origenn->puntaje]);
-    array_push($puntaje, ['criterio'=>$this->perfil->divisa->descripcion,'factor'=>'Divisas','ponderacion'=>20.00,'puntaje'=>$this->perfil->divisa->puntaje]);
-    array_push($puntaje, ['criterio'=>$this->perfil->instrumentoo->descripcion,'factor'=>'Instrumento Monetario','ponderacion'=>40.00,'puntaje'=>$this->perfil->instrumentoo->puntaje]);
+    array_push($puntaje, ['criterio' => $this->perfil->origenn->descripcion, 'factor' => 'Origen de los Recursos', 'ponderacion' => 40.00, 'puntaje' => $this->perfil->origenn->puntaje]);
+    array_push($puntaje, ['criterio' => $this->perfil->divisa->descripcion, 'factor' => 'Divisas', 'ponderacion' => 20.00, 'puntaje' => $this->perfil->divisa->puntaje]);
+    array_push($puntaje, ['criterio' => $this->perfil->instrumentoo->descripcion, 'factor' => 'Instrumento Monetario', 'ponderacion' => 40.00, 'puntaje' => $this->perfil->instrumentoo->puntaje]);
     return $puntaje;
   }
 
   public function destino_recursos()
   {
     $puntaje = [];
-    array_push($puntaje, ['criterio'=>$this->perfil->destinoo->descripcion,'factor'=>'Destino Recursos','ponderacion'=>100.00,'puntaje'=>$this->perfil->destinoo->puntaje]);
+    array_push($puntaje, ['criterio' => $this->perfil->destinoo->descripcion, 'factor' => 'Destino Recursos', 'ponderacion' => 100.00, 'puntaje' => $this->perfil->destinoo->puntaje]);
     return $puntaje;
   }
 
