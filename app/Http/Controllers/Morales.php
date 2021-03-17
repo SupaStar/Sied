@@ -141,14 +141,13 @@ class Morales extends Controller
           break;
       }
     }
-    $valorAntiguedad = $moral->llenarAntecedentes();
     $actEconomica = $moral->actividad_profesion();
     $origenR = $moral->origen_recursos();
     $destinoR = $moral->destino_recursos();
     $antecedentes = $moral->llenarAntecedentes();
     $valorAntecedentes = 0;
     $sumaAntecedentes = 0;
-    foreach ($valorAntiguedad as $item) {
+    foreach ($antecedentes as $item) {
       $valorAntecedentes += $item['puntaje'] * $item['ponderacion'] / 100;
       $sumaAntecedentes = $item['puntaje'];
     }
