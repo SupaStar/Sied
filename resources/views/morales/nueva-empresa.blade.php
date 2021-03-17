@@ -60,16 +60,16 @@
                       <div class="col-md-12">
                         <hr>
                       </div>
-                      <div class="col-md-4">
-                        <div class="form-group" id="div-1">
+                      <div class="row">
+                        <div class="form-group col" id="div-1">
                           <label for="nombre">
                             Nombre de la empresa
                           </label>
                           <input type="text" class="form-control required" name="nombre" id="nombreEmpresa" required data-validation-required-message="This First Name field is required">
                         </div>
                       </div>
-                      <div class="col-md-8">
-                        <div class="form-group" id="div-1">
+                      <div class="row">
+                        <div class="form-group col" id="div-1">
                           <label for="nombre_administrador">
                             Nombre (s) completo del administrador (es), Director, Gerente General o Apoderado Legal que, con su firma, puedan obligar a la persona moral para efectos de la celebración de un contrato o realización de la Operación que de trate
                           </label>
@@ -351,12 +351,13 @@
                       <div class="col-md-6">
                         <div class="form-group">
                           <label for="firstName3">
-                            Nacionalidad
+                            Nacionalidad Antecedente
                           </label>
-                          <select class="form-control" name="nacionalidad" id="nacionalidad">
+                          <select class="form-control" name="nacionalidad_ante" id="nacionalidad_ante">
                             <option selected disabled>Seleccionar</option>
-                            <option value="">Mexicana</option>
-                            <option value="">Extranjera</option>
+                           @foreach($nacionantecedentes as $naciona)
+                            <option value="{{$naciona->descripcion}}">{{$naciona->descripcion}}</option>
+                            @endforeach
                           </select>
                         </div>
                       </div>

@@ -60,13 +60,16 @@ class Morales extends Controller
     $paises = db::table('paises')->get();
     $entidad = db::table('entidad_federativa')->get();
     $datos = Moral::where('id', '=', $id)->with('personasmorales')->first();
+
+    $nacionalidadesantecedente = db::table('nacionalidad_antecedentes')->get();
     return view('/morales/info', [
       'pageConfigs' => $pageConfigs,
       'nacionalidades' => $nacionalidades,
       'paises' => $paises,
       'entidad' => $entidad,
       'datos' => $datos,
-      'miid' => $id
+      'miid' => $id,
+      'nacionantecedentes'=>$nacionalidadesantecedente
 
     ]);
   }
@@ -644,12 +647,14 @@ class Morales extends Controller
     $nacionalidades = db::table('nacionalidades')->get();
     $paises = db::table('paises')->get();
     $entidad = db::table('entidad_federativa')->get();
+    $nacionalidadesantecedente = db::table('nacionalidad_antecedentes')->get();
 
     return view('/morales/nueva-empresa', [
       'pageConfigs' => $pageConfigs,
       'nacionalidades' => $nacionalidades,
       'paises' => $paises,
       'entidad' => $entidad,
+      'nacionantecedentes'=>$nacionalidadesantecedente
     ]);
   }
 
@@ -662,6 +667,7 @@ class Morales extends Controller
     ];
 
     $nacionalidades = db::table('nacionalidades')->get();
+    $nacionantecedentes = db::table('nacionalidad_antecedentes')->get();
     $paises = db::table('paises')->get();
     $entidad = db::table('entidad_federativa')->get();
 
@@ -700,7 +706,8 @@ class Morales extends Controller
         'entidad', 'profesion',
         'efresidencia',
         'residencia',
-        'actividad'
+        'actividad',
+        'nacionantecedentes'
       ));
     }
   }

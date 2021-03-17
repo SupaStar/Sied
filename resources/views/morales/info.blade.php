@@ -344,7 +344,7 @@
                                               </select>
                                             </div>
                                           </div>
-                                          <div class="col-md-4">
+                                          <div class="col-md-6">
                                             <div class="form-group">
                                               <label for="firstName3">
                                                 Ciudad o Población
@@ -354,7 +354,7 @@
                                               </select>
                                             </div>
                                           </div>
-                                          <div class="col-md-4">
+                                          <div class="col-md-6">
                                             <div class="form-group">
                                               <label for="firstName3">
                                                 Entidad Federativa
@@ -370,7 +370,7 @@
                                               </select>
                                             </div>
                                           </div>
-                                          <div class="col-md-4">
+                                          <div class="col-md-6">
                                             <div class="form-group">
                                               <label for="firstName3">
                                                 País
@@ -378,6 +378,19 @@
                                               <select disabled class="form-control" id="pais" name="country">
                                                 <option disabled>Seleccionar</option>
                                                 <option selected value="México">México</option>
+                                              </select>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-6">
+                                            <div class="form-group">
+                                              <label for="firstName3">
+                                                Nacionalidad Antecedente
+                                              </label>
+                                              <select disabled class="form-control" name="nacionalidad_ante" id="nacionalidad_ante">
+                                                <option selected disabled>Seleccionar</option>
+                                                @foreach($nacionantecedentes as $naciona)
+                                                  <option value="{{$naciona->descripcion}}">{{$naciona->descripcion}}</option>
+                                                @endforeach
                                               </select>
                                             </div>
                                           </div>
