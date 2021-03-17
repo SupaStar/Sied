@@ -14,7 +14,7 @@ class AddIdnacionalidadantecedenteTableMorales extends Migration
     public function up()
     {
       Schema::table('morales', function (Blueprint $table) {
-        $table->unsignedBigInteger('id_nacionalidad_antecedente');
+        $table->unsignedBigInteger('id_nacionalidad_antecedente')->default(1);
       });
     }
 
