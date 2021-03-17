@@ -333,8 +333,8 @@ class Morales extends Controller
     );
 
     $update = PerfilMoral::updateOrCreate($fields, $args);
-    $riesgos = new Riesgos();
-    $a = $riesgos->gradoMorales($cid);
+//    $riesgos = new Riesgos();
+//    $a = $riesgos->gradoMorales($cid);
     return redirect('/morales/morales')->with('message', 'OK');
   }
 
