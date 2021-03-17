@@ -8,10 +8,18 @@ use App\Divisa;
 use App\EFResidencia;
 use App\EntidadFederativa;
 use App\InstrumentoMonetario;
+use App\NacionalidadAntecedentes;
 use App\OrigenRecursos;
+use App\PepExtranjeras;
+use App\PepMexicanas;
 use App\PerfilMoral;
+use App\PersonalidadJuridica;
+use App\Pld;
+use App\Ponderacion;
 use App\Profesion;
+use App\Riesgo;
 use App\Riesgos;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
@@ -103,10 +111,76 @@ class Morales extends Controller
       'mainLayoutType' => 'vertical',
       'pageName' => 'Personas Fisicas'
     ];
-
-    return view('/morales/riesgo', [
-      'pageConfigs' => $pageConfigs
-    ]);
+    $moral = Moral::find($id);
+    $riesgo = Riesgo::orderby('id', 'asc')->get();
+    $pld = Pld::orderby('id', 'asc')->get();
+    $pepmx = PepMexicanas::orderby('id', 'asc')->get();
+    $pepex = PepExtranjeras::orderby('id', 'asc')->get();
+    $personalidad = PersonalidadJuridica::orderby('id', 'asc')->get();
+    $anacionalidad = NacionalidadAntecedentes::orderby('id', 'asc')->get();
+    $entidad = EFResidencia::orderby('id', 'asc')->get();
+    $antiguedad = $moral->antiguedades();
+    $origen = OrigenRecursos::orderby('id', 'asc')->get();
+    $destino = DestinoRecursos::orderby('id', 'asc')->get();
+    $imonetario = InstrumentoMonetario::orderby('id', 'asc')->get();
+    $divisa = Divisa::orderby('id', 'asc')->get();
+    $ponderaciones = Ponderacion::orderby('id', 'asc')->get();
+    $actividad = ActividadGiro::orderby('id', 'asc')->get();
+    $profesion = Profesion::orderby('id', 'asc')->get();
+    $riesgos = array();
+    foreach ($riesgo as $value) {
+      switch ($value->riesgo) {
+        case 'BAJO':
+          $riesgos['BAJO'] = $value->maximo;
+          break;
+        case 'MEDIO':
+          $riesgos['MEDIO'] = $value->maximo;
+          break;
+        default:
+          // code...
+          break;
+      }
+    }
+    $valorAntiguedad = $moral->llenarAntecedentes();
+    $actEconomica = $moral->actividad_profesion();
+    $origenR = $moral->origen_recursos();
+    $destinoR = $moral->destino_recursos();
+    $antecedentes = $moral->llenarAntecedentes();
+    $valorAntecedentes = 0;
+    $sumaAntecedentes = 0;
+    foreach ($valorAntiguedad as $item) {
+      $valorAntecedentes += $item['puntaje'] * $item['ponderacion'] / 100;
+      $sumaAntecedentes = $item['puntaje'];
+    }
+    $valorActEconomica = 0;
+    $sumaActEconomica = 0;
+    foreach ($actEconomica as $item) {
+      $valorActEconomica += $item['puntaje'] * $item['ponderacion'] / 100;
+      $sumaActEconomica = $item['puntaje'];
+    }
+    $valorOrigenRecursos = 0;
+    $sumaOrigenRecursos = 0;
+    foreach ($origenR as $item) {
+      $valorOrigenRecursos += $item['puntaje'] * $item['ponderacion'] / 100;
+      $sumaOrigenRecursos = $item['puntaje'];
+    }
+    $valorDestino = $destinoR[0]['puntaje'] * 1;
+    $sumatoria = $valorAntecedentes + $valorActEconomica + $valorOrigenRecursos + $valorDestino;
+    $valorRes = ($valorAntecedentes * .5) + ($valorActEconomica * .17) + ($valorOrigenRecursos * .25) + ($valorDestino * .08);
+    if ($valorRes < $riesgos['BAJO']) {
+      $criesgo = 'BAJO';
+    } elseif ($valorRes < $riesgos['MEDIO']) {
+      $criesgo = 'MEDIO';
+    } else {
+      $criesgo = 'ALTO';
+    }
+    //return json_encode($valorP);
+    return view('/morales/riesgo', compact(
+      'pageConfigs', 'actEconomica', 'origenR', 'destinoR', 'valorRes', 'valorAntecedentes', 'valorActEconomica',
+      'valorOrigenRecursos', 'valorDestino', 'criesgo', 'riesgo', 'sumatoria', 'ponderaciones',
+      'sumaAntecedentes', 'antecedentes', 'pld', 'pepmx', 'pepex', 'anacionalidad', 'antiguedad', 'personalidad',
+      'entidad', 'sumaActEconomica', 'profesion', 'actividad', 'sumaOrigenRecursos', 'origen', 'imonetario', 'divisa', 'destino'
+    ));
   }
 
   public function getmorales(Request $request)
@@ -261,7 +335,7 @@ class Morales extends Controller
 
     $update = PerfilMoral::updateOrCreate($fields, $args);
     $riesgos = new Riesgos();
-    $a=$riesgos->gradoMorales($cid);
+    $a = $riesgos->gradoMorales($cid);
     return redirect('/morales/morales')->with('message', 'OK');
   }
 
@@ -1135,7 +1209,7 @@ class Morales extends Controller
       'images' => array()
     );
 
-    $images = DB::TABLE('files')->where('client_id', $id)->where('tipo',1)->get();
+    $images = DB::TABLE('files')->where('client_id', $id)->where('tipo', 1)->get();
 
     foreach ($images as $img) {
       array_push($data['images'], array('extension' => $img->extension, 'name' => $img->name, 'path' => $img->full));
@@ -1157,7 +1231,7 @@ class Morales extends Controller
   public function getfiles($id)
   {
 
-    $images = DB::TABLE('files')->where('client_id', $id)->where('tipo',1)->get();
+    $images = DB::TABLE('files')->where('client_id', $id)->where('tipo', 1)->get();
     $data = '';
     foreach ($images as $img) {
       $data .= '<tr><td>' . $img->type . '</td><td>' . $img->extension . '</td><td>' . $img->created_at . '</td><td><a href="/uploads/' . $img->full . '" target="_blank"><button  style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-eye primary"></i></button></a></td><td><a href="/storage/' . $img->full . '" target="_blank"><button  style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-download primary"></i></button></a></td></tr>';

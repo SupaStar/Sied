@@ -105,7 +105,7 @@
                             <tr @if($criesgo == 'BAJO') class="table-success" @elseif($criesgo == 'MEDIO') class="table-warning" @else class="table-danger" @endif>
                               <td><span class="font-weight-bold">GRADO DE RIESGO</span></td>
                               <td><span class="font-weight-bold">{{$totalres}}</span></td>
-                              <td><span class="font-weight-bold">{{$totalpon}}%</span></td>
+                              <td><span class="font-weight-bold">100%</span></td>
                               <td><span class="font-weight-bold">{{$totalrespon}}</span></td>
                             </tr>
 

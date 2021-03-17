@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PerfilMoral extends Model
 {
   protected $table = 'perfil_transacional_moral';
-  protected $fillable =[
+  protected $fillable = [
     'id_moral',
     'monto',
     'tcredito',
@@ -45,48 +45,48 @@ class PerfilMoral extends Model
     'dificil' => false,
   ];
 
-  public function moral()
+  public function morall()
   {
-    $this->hasOne('App\Moral', 'id', 'id_moral');
+    return $this->hasOne('App\Moral', 'id', 'id_moral');
   }
 
-  public function origen()
+  public function origenn()
   {
-    $this->hasOne('App\OrigenRecursos', 'id', 'origen_recursos');
+    return $this->hasOne('App\OrigenRecursos', 'id', 'origen_recursos');
   }
 
-  public function destino()
+  public function destinoo()
   {
-    $this->hasOne('App\DestinoRecursos', 'id', 'destino_recursos');
+    return $this->hasOne('App\DestinoRecursos', 'id', 'destino_recursos');
   }
 
-  public function instrumento()
+  public function instrumentoo()
   {
-    $this->hasOne('App\InstrumentoMonetario', 'id', 'instrumento_monetario');
+    return $this->hasOne('App\InstrumentoMonetario', 'id', 'instrumento_monetario');
   }
 
   public function divisa()
   {
-    $this->hasOne('App\Divisa', 'id', 'divisas');
+    return $this->hasOne('App\Divisa', 'id', 'divisas');
   }
 
-  public function profesion()
+  public function profesionn()
   {
-    $this->hasOne('App\Profesion', 'id', 'profesion');
+    return $this->hasOne('App\Profesion', 'id', 'profesion');
   }
 
-  public function actividad_giro()
+  public function actividad_giroo()
   {
-    $this->hasOne('App\ActividadGiro', 'id', 'actividad_giro');
+    return $this->hasOne('App\ActividadGiro', 'id', 'actividad_giro');
   }
 
-  public function pId()
+  public function pIdd()
   {
-    $this->hasOne('App\PId', 'id', 'pId');
+    return $this->hasOne('App\PId', 'id', 'pId');
   }
 
-  public function efr()
+  public function efrr()
   {
-    $this->hasOne('App\EFResidencia', 'id', 'efrs');
+    return $this->hasOne('App\EFResidencia', 'id', 'efr');
   }
 }
