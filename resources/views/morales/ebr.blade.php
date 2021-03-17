@@ -1,6 +1,6 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Criterios de Riesgos')
+@section('title', 'Criterio de Riesgo para Entidad')
 
 @section('content')
 
@@ -53,7 +53,7 @@
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="lastName3">
-                        Actividad ó Giro
+                        Actividad Economica/Criterio de riesgo.
                       </label>
                       <select readonly disabled class="form-control required" id="actividad" name="actividad" required>
                         <option selected disabled>Seleccionar</option>
@@ -87,7 +87,7 @@
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="lastName3">
-                        Criterio
+                        Nivel de Criterio de Riesgo
                       </label>
                       <select disabled readonly class="form-control required" id="efr" name="efr" required>
                         <option  selected disabled>Seleccionar</option>

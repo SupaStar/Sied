@@ -75,8 +75,8 @@
                                         <div class="col-md-12">
                                           <hr>
                                         </div>
-                                        <div class="col-md-4">
-                                          <div class="form-group" id="div-1">
+                                        <div class="row">
+                                          <div class="form-group col" id="div-1">
                                             <label for="nombre">
                                               Nombre de la empresa
                                             </label>
@@ -84,8 +84,9 @@
                                                    id="nombreEmpresa" value="{{$datos->nombre}}">
                                           </div>
                                         </div>
-                                        <div class="col-md-6">
-                                          <div class="form-group" id="div-1">
+
+                                        <div class="row">
+                                          <div class="form-group col-md-6" id="div-1">
                                             <label for="nombre_administrador">
                                               Nombre (s) completo del administrador (es), Director, Gerente General o
                                               Apoderado Legal que, con su firma, puedan obligar a la persona moral para

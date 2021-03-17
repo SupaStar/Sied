@@ -313,7 +313,7 @@
                           </select>
                         </div>
                       </div>
-                      <div class="col-md-4">
+                      <div class="col-md-6">
                         <div class="form-group">
                           <label for="firstName3">
                             Ciudad o Población
@@ -323,7 +323,7 @@
                           </select>
                         </div>
                       </div>
-                      <div class="col-md-4">
+                      <div class="col-md-6">
                         <div class="form-group">
                           <label for="firstName3">
                             Entidad Federativa
@@ -336,7 +336,7 @@
                           </select>
                         </div>
                       </div>
-                      <div class="col-md-4">
+                      <div class="col-md-6">
                         <div class="form-group">
                           <label for="firstName3">
                             País
@@ -346,9 +346,24 @@
                             <option value="México">México</option>
                           </select>
                         </div>
+
                       </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label for="firstName3">
+                            Nacionalidad
+                          </label>
+                          <select class="form-control" name="nacionalidad" id="nacionalidad">
+                            <option selected disabled>Seleccionar</option>
+                            <option value="">Mexicana</option>
+                            <option value="">Extranjera</option>
+                          </select>
+                        </div>
+                      </div>
+
                     </div>
-                  </div>
+                    </div>
+
                 </tab-content>
 
                 <!-- Step 3 -->
