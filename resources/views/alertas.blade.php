@@ -85,7 +85,7 @@
 
                         <input type="date" id="start" name="trip-start"
                                min="2020-01-01">
-                        <label for="start">Final:</label>
+                        <label disabled for="start">Final:</label>
 
                         <input disabled type="date" id="finish" name="trip-finish"
                                min="2020-01-01">

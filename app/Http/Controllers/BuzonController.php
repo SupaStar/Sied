@@ -163,7 +163,6 @@ class BuzonController extends Controller
     }elseif($request->filtro="Baja"){
       $result2 = \App\Buzon::where("prioridad","Baja")->get();
       foreach ($result2 as $r) {
-
         $r->estatus="Revisado";
         $r->operacion= "Operación interna preocupante";
         $r->usuario;
