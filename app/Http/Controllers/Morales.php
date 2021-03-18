@@ -173,7 +173,6 @@ class Morales extends Controller
     } else {
       $criesgo = 'ALTO';
     }
-    //return json_encode($valorP);
     return view('/morales/riesgo', compact(
       'pageConfigs', 'actEconomica', 'origenR', 'destinoR', 'valorRes', 'valorAntecedentes', 'valorActEconomica',
       'valorOrigenRecursos', 'valorDestino', 'criesgo', 'riesgo', 'sumatoria', 'ponderaciones',
@@ -204,17 +203,17 @@ class Morales extends Controller
         $text = " - ";
 
         if (isset($perfil)) {
-          if (empty($perfil->monto) || empty($perfil->tcredito) || empty($perfil->frecuencia) || empty($perfil->instrumento_monetario) || empty($perfil->origen_recursos) || empty($perfil->destino_recursos) || empty($perfil->divisa)) {
-            $text = 'Pendiente <br> <a href="/clientes/fisicas/perfil/' . $query->id . '" class="warning">Perfil Transacional</a>';
+          if (empty($perfil->monto) || empty($perfil->tcredito) || empty($perfil->frecuencia) || empty($perfil->instrumento_monetario) || empty($perfil->origen_recursos) || empty($perfil->destino_recursos) || empty($perfil->divisas)) {
+            $text = 'Pendiente <br> <a href="/morales/perfil/' . $query->id . '" class="warning">Perfil Transacional</a>';
           } else if (empty($perfil->profesion) || empty($perfil->actividad_giro) || empty($perfil->efr)) {
-            $text = 'Pendiente <br> <a href="/clientes/fisicas/ebr/' . $query->id . '" class="warning">Criterios de Riesgo</a>';
+            $text = 'Pendiente <br> <a href="/morales/morales/ebr/' . $query->id . '" class="warning">Criterios de Riesgo</a>';
           } else if (isset($credito)) {
-            $text = 'Aprobado <br> <a href="/clientes/fisicas/info/' . $query->id . '" class="warning">Información</a>';
+            $text = 'Aprobado <br> <a href="/morales/info/' . $query->id . '" class="warning">Información</a>';
           } else {
-            $text = 'Pendiente <br> <a href="/clientes/continuar/' . $query->id . '" class="warning">Credito</a>';
+            $text = 'Pendiente <br> <a href="/morales/continuar/' . $query->id . '" class="warning">Credito</a>';
           }
         } else {
-          $text = 'Pendiente <br> <a href="/clientes/fisicas/perfil/' . $query->id . '" class="warning">Perfil Transacional</a>';
+          $text = 'Pendiente <br> <a href="/morales/perfil/' . $query->id . '" class="warning">Perfil Transacional</a>';
         }
 
         return $text;
@@ -333,8 +332,8 @@ class Morales extends Controller
     );
 
     $update = PerfilMoral::updateOrCreate($fields, $args);
-//    $riesgos = new Riesgos();
-//    $a = $riesgos->gradoMorales($cid);
+    $riesgos = new Riesgos();
+    $a = $riesgos->gradoMorales($cid);
     return redirect('/morales/morales')->with('message', 'OK');
   }
 
@@ -747,7 +746,7 @@ class Morales extends Controller
     $datos2 = DB::TABLE('morales')->where('id', $id)->first();
 
     $datos = Moral::where('id', '=', $id)->with('personasmorales')->with('perfil')->first();
-    $origen = OrigenRecursos::get();
+    $origen = ActividadGiro::get();
     $destino = DestinoRecursos::get();
     $instrumento = InstrumentoMonetario::get();
     $divisa = Divisa::get();
