@@ -39,63 +39,28 @@
                             <h6>
                 <i class="step-icon feather icon-credit-card"></i> Identificación</h6>
               <fieldset>
-              <div class="row">
-                  <div class="col-md-4">
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="firstName3">
-                        Tipo de Identifiación
-                      </label>
-                      <select class="form-control required" id="identificacion" name="identificacion" onchange="tipoid()">
-                        <option selected disabled>Seleccionar</option>
-                        <option value="INE">INE</option>
-                        <option value="PASAPORTE">PASAPORTE</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                  </div>
-                </div>
 
-                <div  id="ines" style="display:none">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="lastName3">
-                        INE FRONTAL
-                      </label>
-                      <input type="file" onchange="validateine()" data-toggle="tooltip" data-placement="top"
-                        title="Solo se permiten imagenes JPG, JPEG, PNG orientadas horizontalmente"
-                        class="form-control " id="inefront" name="inefront" accept=".jpg, .jpeg, .png">
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="lastName3">
-                        INE TRASERA
-                      </label>
-                      <input type="file" onchange="validateine()" data-toggle="tooltip" data-placement="top"
-                        title="Solo se permiten imagenes JPG, JPEG, PNG orientadas horizontalmente"
-                        class="form-control " id="ineback" name="ineback" accept=".jpg, .jpeg, .png">
-                    </div>
-                  </div>
-                  </div>
+              <input type="hidden" class="form-control required" name="idc" value="{{$cliente->id}}">
+
+              <div class="container-fluid">
+                    <div class="row">
+                      @if($ine1)
+                      <div class="offset-4 col-4 text-center">
+                        <a href="{{url('/uploads/fisicas/ine/'.$ine1)}}" target="_blank"> <img src="{{url('/uploads/fisicas/ine/'.$ine1)}}" alt="INE" height="100"></a>
+                      </div>
+                      @endif
+                      @if($ine2)
+                      <div class="col-4 text-center">
+                        <a href="{{url('/uploads/fisicas/ine/'.$ine2)}}" target="_blank"> <img src="{{url('/uploads/fisicas/ine/'.$ine2)}}" alt="INE" height="100"></a>
+                      </div>
+                      @endif
+                      @if($pasaporte)
+                      <div class="offset-4 col-4 text-center">
+                        <a href="{{url('/uploads/fisicas/pasaporte/'.$pasaporte)}}" target="_blank"> <img src="{{url('/uploads/fisicas/pasaporte/'.$pasaporte)}}" alt="PASAPORTE" height="100"></a>
+                      </div>
+                      @endif
                 </div>
-                <div id="pasaporte" style="display:none">
-                <div class="row">
-                  <div class="col-md-4  offset-md-4">
-                    <div class="form-group">
-                      <label for="lastName3">
-                        PASAPORTE
-                      </label>
-                      <input type="file" onchange="validatepasaporte()" data-toggle="tooltip" data-placement="top"
-                        title="Solo se permiten imagenes JPG, JPEG, PNG orientadas horizontalmente"
-                        class="form-control " id="pasaportefront" name="pasaportefront" accept=".jpg, .jpeg, .png">
-                    </div>
-                  </div>
-                  </div>
-                  </div>
+                </div>
 
                   <div class="row">
                     <div class="col-md-4 offset-md-4">
@@ -581,6 +546,8 @@ var token = '{{csrf_token()}}';
 })));
 
 $(document).ready(function () {
+
+  continuaregistro('{{$cliente->suma_id}}');
 
   $('[data-toggle="datepicker"]').datepicker({format: 'mm-dd-yyyy', language: 'es-ES'});
 
@@ -1183,6 +1150,139 @@ var fpasaportefront = $('#pasaportefront').prop('files')[0];
 
 }
 }
+
+
+function continuaregistro(id){
+
+  jsShowWindowLoad();
+
+  var form_data = new FormData();
+  form_data.append('_token', token);
+
+  $.ajax({
+      url: '/util/ineresult/'+id,
+      dataType: 'text',
+      cache: false,
+      contentType: false,
+      processData: false,
+      data: form_data,
+      type: 'post',
+      success: function(res){
+        pars = JSON.parse(res);
+          if(pars.message == 'fail'){
+            jsRemoveWindowLoad();
+              Swal.fire({
+                       title: "Error!",
+                       text: "La informacion no se pudo obtyener!",
+                       type: "error",
+                       confirmButtonClass: 'btn btn-primary',
+                       buttonsStyling: false,
+                       animation: false,
+                       customClass: 'animated tada'
+                     });
+          } else {
+
+            for (i = 0; i < pars.documentData.length; i++) {
+              if(pars.documentData[i].type == 'Name'){
+                $('#nombre').val(pars.documentData[i].value);
+              }
+              if(pars.documentData[i].type == 'FatherSurname'){
+                $('#apellidop').val(pars.documentData[i].value);
+              }
+              if(pars.documentData[i].type == 'MotherSurname'){
+                $('#apellidom').val(pars.documentData[i].value);
+              }
+              if(pars.documentData[i].type == 'AddressStreet'){
+                $('#calle').val(pars.documentData[i].value);
+              }
+              if(pars.documentData[i].type == 'AddressStreetNumber'){
+                $('#exterior').val(pars.documentData[i].value);
+              }
+              if(pars.documentData[i].type == 'AddressPostalCode'){
+                $('#cp').val(pars.documentData[i].value);
+                sepomex();
+              }
+              if(pars.documentData[i].type == 'AddressArea'){
+                $("#colonia").append(new Option(pars.documentData[i].value, pars.documentData[i].value));
+                document.ready = document.getElementById("colonia").value = pars.documentData[i].value;
+              }
+              if(pars.documentData[i].type == 'AddressCity'){
+                $("#municipio").append(new Option(pars.documentData[i].value, pars.documentData[i].value));
+                document.ready = document.getElementById("municipio").value = pars.documentData[i].value;
+              }
+              if(pars.documentData[i].type == 'AddressCounty'){
+                $("#ciudad").append(new Option(pars.documentData[i].value, pars.documentData[i].value));
+                document.ready = document.getElementById("ciudad").value = pars.documentData[i].value;
+              }
+
+              if(pars.documentData[i].type == 'PersonalNumber'){
+                    var curp = pars.documentData[i].value;
+
+                    var rfc =  curp.substring(0, 10);
+                    $('#curp').val(curp);
+                    $('#rfc').val(rfc);
+              }
+
+              if(pars.documentData[i].type == 'Sex'){
+                document.ready = document.getElementById("genero").value = pars.documentData[i].value;
+              }
+
+              if(pars.documentData[i].type == 'Nationality'){
+                document.ready = document.getElementById("nacionalidad").value = pars.documentData[i].value;
+              }
+
+              if(pars.documentData[i].type == 'DateOfBirth'){
+
+                  var gdate = pars.documentData[i].value;
+                  var gdatearray = gdate.split("/");
+                  var gnewdate = gdatearray[1] + '/' + gdatearray[0] + '/' + gdatearray[2];
+
+                  var stringDate = gnewdate;
+                  var d = new Date(stringDate);
+                  var date = ("0" + d.getDate()).slice(-2);
+                  var month = ("0" + (d.getMonth() + 1)).slice(-2);
+                  var year = d.getFullYear();
+                  $('#nacimiento').val(month+'-'+date+'-'+year);
+                  $('[data-toggle="datepicker"]').datepicker( 'setDate', month+'-'+date+'-'+year );
+
+              }
+
+            }
+
+            var listIndex=0;
+            for (i = 0; i < pars.documentVerifications.length; i++) {
+              if(pars.documentVerifications[i].category=="ControlList" && pars.documentVerifications[i].inputFields!=null &&pars.documentVerifications[i].name!="Sin coincidencias"){
+                console.log(pars.documentVerifications[i].inputFields[0].value);
+                var html='<input name="listasNegras['+listIndex+'][name]" type="hidden" value="'+pars.documentVerifications[i].name+'">';
+                html +='<input name="listasNegras['+listIndex+'][value]" type="hidden" value="'+pars.documentVerifications[i].inputFields[0].value+'">';
+                $("#firstRow").append(html)
+                listIndex++;
+              }
+            }
+
+            document.ready = document.getElementById("pais").value = 'México';
+
+            document.ready = document.getElementById("pais_nacimiento").value = 303;
+
+
+            jsRemoveWindowLoad();
+            Swal.fire({
+                       title: "Excelente!",
+                       text: "Información Recolectada!",
+                       type: "success",
+                       confirmButtonClass: 'btn btn-primary',
+                       buttonsStyling: false,
+                       animation: false,
+                       customClass: 'animated tada'
+                     }).then((result) => {checkcurp()});
+                     console.log(pars);
+          }
+      }
+   });
+
+
+}
+
 
 function conyuge(){
   $("#conyuge").css("display", "block");

@@ -7,9 +7,6 @@ Route::prefix('morales')->group(base_path('routes/morales.php'));
 Route::prefix('cliente')->group(base_path('routes/cliente.php'));
 Route::prefix('creditos')->group(base_path('routes/creditos.php'));
 Route::prefix('grupos')->group(base_path('routes/grupos.php'));
-Route::prefix('buzon')->group(base_path('routes/buzon.php'));
-Route::prefix('alertas')->group(base_path('routes/alerta.php'));
-
 
 Route::view('/desactivado', 'not-authorized');
 
@@ -21,7 +18,9 @@ Auth::routes();
 
 Route::get('/logout', 'Auth\LoginController@logout');
 
-Route::post('/util/imgto64', 'Utilities@imgto64ine');
+Route::post('/util/imgto64/ine', 'Utilities@imgto64ine');
+
+Route::post('/util/imgto64/pasaporte', 'Utilities@imgto64pasaporte');
 
 Route::post('/util/checkemail/{email}', 'Utilities@checkemail');
 
@@ -30,6 +29,8 @@ Route::post('/util/checkcurp/{curp}', 'Utilities@checkcurp');
 Route::post('/util/checkstate/{state}', 'Utilities@checkstate');
 
 Route::post('/util/generateContract', 'Utilities@generateContract');
+
+Route::post('/util/ineresult/{id}', 'Utilities@ineresult');
 
 
 Route::get('storage/{clase}/{tipo}/{archivo}', function ($clase, $tipo, $archivo) {

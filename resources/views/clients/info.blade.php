@@ -65,12 +65,21 @@
 
                   <div class="container-fluid">
                     <div class="row justify-content-center mb-4">
+                      @if($ine1)
                       <div class="offset-6 col-3 text-center">
                         <a href="{{url('/uploads/fisicas/ine/'.$ine1)}}" target="_blank"> <img src="{{url('/uploads/fisicas/ine/'.$ine1)}}" alt="INE" height="100"></a>
                       </div>
+                      @endif
+                      @if($ine2)
                       <div class="col-3 text-center">
                         <a href="{{url('/uploads/fisicas/ine/'.$ine2)}}" target="_blank"> <img src="{{url('/uploads/fisicas/ine/'.$ine2)}}" alt="INE" height="100"></a>
                       </div>
+                      @endif
+                      @if($pasaporte)
+                      <div class="offset-6 col-3 text-center">
+                        <a href="{{url('/uploads/fisicas/pasaporte/'.$pasaporte)}}" target="_blank"> <img src="{{url('/uploads/fisicas/pasaporte/'.$pasaporte)}}" alt="PASAPORTE" height="100"></a>
+                      </div>
+                      @endif
                 </div>
                 </div>
 
@@ -469,7 +478,6 @@
                                                      <th>Comisión</th>
                                                      <th>Amortización</th>
                                                      <th>Intereses</th>
-                                                     <th>Moratorios</th>
                                                      <th>IVA</th>
                                                      <th>Flujo</th>
                                                      <th>Saldo Pendiente</th>
@@ -477,7 +485,9 @@
                                                      <th>Int Mora</th>
                                                      <th>Iva Mora</th>
                                                      <th>Gasto Cobranza</th>
+                                                     <th>Iva Cobranza</th>
                                                      <th>Pagos</th>
+                                                     <th>Condonar Pagos</th>
                                                      <th>Status</th>
                                                   </tr>
                                               </thead>
@@ -560,6 +570,8 @@
     </div>
   </div>
 </section>
+
+
 {{-- Nav Justified Ends --}}
 
 
@@ -658,7 +670,7 @@
                         </div>
 
                         <div style="display:none" id="cterceros">
-                          <label>Internacional </label>
+                          <label>Cuentas de terceros </label>
                           <div class="form-group">
                             <select class="form-control" id="ccterceros" name="cterceros" onchange="cccterceros()">
                                 <option selected disabled>Seleccionar</option>
@@ -669,7 +681,7 @@
                         </div>
 
                         <div style="display:none" id="coterceros">
-                          <label>Internacional </label>
+                          <label>Otros Cuentas de terceros </label>
                           <div class="form-group">
                             <select class="form-control" id="ccterceros" name="cterceros" >
                                 <option selected disabled>Seleccionar</option>
@@ -774,6 +786,40 @@
                 </div>
               </div>
 
+              <div class="modal fade text-left" id="vcondonar" tabindex="-1" role="dialog"
+                aria-labelledby="myModalLabel33" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel33">Historial de Flujo </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered" id="condonarflujos">
+                                <thead>
+                                    <tr>
+                                       <th>Intereses </th>
+                                       <th>Moratorios</th>
+                                       <th>Gastos Cobranza</th>
+                                       <th>Todo</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
+                      </div>
+                  </div>
+                </div>
+              </div>
+
+
 @endsection
 
 @section('vendor-script')
@@ -873,6 +919,13 @@ $(document).ready(function(){
           $('#vflujos').modal('toggle');
         }
 
+        function condonar(id)
+        {
+          condonarFlujo(id);
+          $('#vcondonar').modal('toggle');
+        }
+
+
         function cforma()
         {
           var forma = $('#forma').val();
@@ -927,7 +980,7 @@ $(document).ready(function(){
           }
         }
 
-
+        
 
 
 
@@ -945,7 +998,7 @@ $(document).ready(function(){
             responsive: true,
             columnDefs: [
               {
-                  targets: [ 17, 18 ],
+                  targets: [ 18, 19  ],
                   visible: false,
                   searchable: false
               },
@@ -1019,10 +1072,6 @@ $(document).ready(function(){
               name: 'intereses'
             },
             {
-              data: 'moratorios',
-              name: 'moratorios'
-            },
-            {
               data: 'iva',
               name: 'iva'
             },
@@ -1051,8 +1100,16 @@ $(document).ready(function(){
               name: 'gcobranza'
             },
             {
+              data: 'ivacobranza',
+              name: 'ivacobranza'
+            },
+            {
               data: 'pagos',
               name: 'pagos'
+            },
+            {
+              data: 'condonar',
+              name: 'condonar'
             },
             {
               data: 'cflujos',
@@ -1092,7 +1149,7 @@ $(document).ready(function(){
 
         }
 
-
+        
 
         function historialFlujo(id)
         {
@@ -1161,8 +1218,78 @@ $(document).ready(function(){
             url: "/clientes/info/historial/flujo/"+id
           }
         });
+      }
+
+      function condonarFlujo(id)
+        {
+          $('#condonarflujos').DataTable( {
+            dom: 'Bfrtip',
+            searching: false,
+            paging: false,
+            ordering: false,
+            destroy: true,
+            processing:true,
+            responsive: false,
+            buttons: [
+                {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    title: 'Amortización',
+                    text: 'Pdf'
+                },
+                {
+                    extend: 'print',
+                    text: 'Imprimir',
+                    pageSize: 'LEGAL',
+                    title: 'Amortización'
+                }
+            ],
+            language: {
+              "decimal": "",
+              "emptyTable": "No hay información",
+              "info": "",
+              "infoEmpty": "",
+              "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+              "infoPostFix": "",
+              "thousands": ",",
+              "lengthMenu": "Mostrar _MENU_ Entradas",
+              "loadingRecords": "Cargando...",
+              "processing": "Procesando...",
+              "search": "Buscar:",
+              "zeroRecords": "Sin resultados encontrados",
+              "paginate": {
+                  "first": "Primero",
+                  "last": "Ultimo",
+                  "next": "Siguiente",
+                  "previous": "Anterior"
+              }
+            },
+            columns: [
+            {
+                data: 'dintereses',
+                name: 'dintereses'
+            },
+            {
+                data: 'dmoratorios',
+                name: 'dmoratorios'
+            },
+            {
+                data: 'dcobranza',
+                name: 'dcobranza'
+            },
+            {
+                data: 'dtodo',
+                name: 'dtodo'
+            },
+          ],
+          ajax: {
+            url: "/clientes/info/condonar/flujo/"+id
+          }
+        });
 
       }
+
 
 
         function pagosAplicadoss(id)

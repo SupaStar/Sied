@@ -170,33 +170,7 @@
                                 <div class="col-md-4"></div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                      <input required type='text' class="form-control pickadate-disable" id="disposicion" onchange="calculate()" name="disposicion" />
-                                      <br>
-                                      <input required type="text" class="form-control required" name="titular" id="titular" placeholder="Nombre del titular de la cuenta" autocomplete="off" >
-                                      <br>
-                                      <select required class="form-control required"  name="tipo_cuenta" id="tipo_cuenta" >
-                                        <option selected disabled>Seleccione su tipo de cuenta</option>
-                                        <option value="1" >Numero de Tarjeta</option>
-                                        <option value="2" >Clabe Interbancaria</option>
-                                      </select>
-                                      <br>
-                                      <input minlength="15" required disabled type="number" class="form-control required" name="numero_cuenta_clabe" id="numero_cuenta_clabe" placeholder="Numero de cuenta o tarjeta" autocomplete="off" >
-                                      <br>
-                                      <select class="form-control required" id="recurso" name="recurso">
-                                        <option selected disabled>Seleccionar destino recursos</option>
-                                        @foreach($destino as $data)
-                                          @if(isset($datos->destino_recursos))
-                                            @if($datos->destino_recursos == $data->id)
-                                              <option value="{{$data->id}}" selected>{{$data->descripcion}}</option>
-                                            @else
-                                              <option value="{{$data->id}}">{{$data->descripcion}}</option>
-                                            @endif
-                                          @else
-                                            <option value="{{$data->id}}">{{$data->descripcion}}</option>
-                                          @endif
-                                        @endforeach
-
-                                      </select>
+                                      <input type='text' class="form-control pickadate-disable" id="disposicion" onchange="calculate()" name="disposicion" />
                                     </div>
                                 </div>
                             </div>
@@ -278,22 +252,6 @@
 var token = '{{csrf_token()}}';
 
 $(document).ready(function(){
-
-  var slcchange = document.getElementById("tipo_cuenta");
-  slcchange.addEventListener("change", function() {
-  if(slcchange.value==1)
-  {
-    var inputcuenta=document.getElementById("numero_cuenta_clabe")
-    inputcuenta.removeAttribute("disabled")
-    inputcuenta.setAttribute("maxlenght",18);
-  } else
-  {
-    var inputcuenta=document.getElementById("numero_cuenta_clabe")
-    inputcuenta.removeAttribute("disabled")
-    inputcuenta.setAttribute("maxlenght",16);
-  }
-
-  });
       table();
       $('.pickadate-disable').pickadate({
         disable: [
