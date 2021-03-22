@@ -77,5 +77,4 @@ class User extends Authenticatable
   {
     return $this->hasMany("App\Buzon", 'usuario_id', "id");
   }
-
 }
