@@ -18,11 +18,7 @@ class CreateAlertasPld extends Migration
             $table->bigInteger('cliente_id');
             $table->bigInteger('credito_id');
             $table->string('tipo_alerta')->nullable();
-//            $table->text('titulo');
-//            $table->text('descripcion');
-//            $table->integer('estatus');
-//            $table->text('observacion')->nullable();
-//            $table->text('prioridad');
+            $table->text('mensaje')->nullable();
 
             $table->timestamps();
         });

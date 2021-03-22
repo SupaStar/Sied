@@ -42,7 +42,10 @@ class Client extends Model
     'c_phone',
     'c_email',
     'status',
-    'grupo_id'
+    'grupo_id',
+    'consulta_id',
+    'suma_id',
+    'suma_estado'
   ];
 
   protected $appends = ['direccion', 'nombreCompleto'];
@@ -65,15 +68,5 @@ class Client extends Model
   public function grupo()
   {
     return $this->belongsTo('App\Grupo', 'grupo_id', 'id');
-  }
-
-  public function alertas()
-  {
-    return $this->hasOne('App\Alerta', 'cliente_id', 'id');
-  }
-
-  public function riesgo()
-  {
-    return $this->hasOne("App\Riesgos", "id_cliente", 'id');
   }
 }

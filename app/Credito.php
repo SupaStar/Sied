@@ -19,10 +19,5 @@ class Credito extends Model
     {
         return $this->belongsTo('App\Cliente', 'cliente_id', 'id');
     }
-  public function alertas()
-  {
-    return $this->hasOne('App\Alerta', 'credito_id','id');
-  }
-
     //
 }

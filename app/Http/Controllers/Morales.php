@@ -173,6 +173,7 @@ class Morales extends Controller
     } else {
       $criesgo = 'ALTO';
     }
+    //return json_encode($valorP);
     return view('/morales/riesgo', compact(
       'pageConfigs', 'actEconomica', 'origenR', 'destinoR', 'valorRes', 'valorAntecedentes', 'valorActEconomica',
       'valorOrigenRecursos', 'valorDestino', 'criesgo', 'riesgo', 'sumatoria', 'ponderaciones',
@@ -203,19 +204,17 @@ class Morales extends Controller
         $text = " - ";
 
         if (isset($perfil)) {
-
-          if (empty($perfil->monto) || empty($perfil->tcredito) || empty($perfil->frecuencia) || empty($perfil->instrumento_monetario) || empty($perfil->origen_recursos) || empty($perfil->destino_recursos) || empty($perfil->divisas)) {
-            $text = 'Pendiente <br> <a href="/morales/perfil/' . $query->id . '" class="warning">Perfil Transacional</a>';
+          if (empty($perfil->monto) || empty($perfil->tcredito) || empty($perfil->frecuencia) || empty($perfil->instrumento_monetario) || empty($perfil->origen_recursos) || empty($perfil->destino_recursos) || empty($perfil->divisa)) {
+            $text = 'Pendiente <br> <a href="/clientes/fisicas/perfil/' . $query->id . '" class="warning">Perfil Transacional</a>';
           } else if (empty($perfil->profesion) || empty($perfil->actividad_giro) || empty($perfil->efr)) {
-            $text = 'Pendiente <br> <a href="/morales/morales/ebr/' . $query->id . '" class="warning">Criterios de Riesgo</a>';
-
+            $text = 'Pendiente <br> <a href="/clientes/fisicas/ebr/' . $query->id . '" class="warning">Criterios de Riesgo</a>';
           } else if (isset($credito)) {
-            $text = 'Aprobado <br> <a href="/morales/info/' . $query->id . '" class="warning">Información</a>';
+            $text = 'Aprobado <br> <a href="/clientes/fisicas/info/' . $query->id . '" class="warning">Información</a>';
           } else {
-            $text = 'Pendiente <br> <a href="/morales/continuar/' . $query->id . '" class="warning">Credito</a>';
+            $text = 'Pendiente <br> <a href="/clientes/continuar/' . $query->id . '" class="warning">Credito</a>';
           }
         } else {
-          $text = 'Pendiente <br> <a href="/morales/perfil/' . $query->id . '" class="warning">Perfil Transacional</a>';
+          $text = 'Pendiente <br> <a href="/clientes/fisicas/perfil/' . $query->id . '" class="warning">Perfil Transacional</a>';
         }
 
         return $text;
@@ -748,7 +747,7 @@ class Morales extends Controller
     $datos2 = DB::TABLE('morales')->where('id', $id)->first();
 
     $datos = Moral::where('id', '=', $id)->with('personasmorales')->with('perfil')->first();
-    $origen = ActividadGiro::get();
+    $origen = OrigenRecursos::get();
     $destino = DestinoRecursos::get();
     $instrumento = InstrumentoMonetario::get();
     $divisa = Divisa::get();
@@ -763,7 +762,7 @@ class Morales extends Controller
 
     if (isset($datos)) {
 
-      return view('/morales/morales-editar', compact(
+      return view('/morales/fisicas-editar', compact(
         'pageConfigs',
         'id',
         'datos',
@@ -835,8 +834,7 @@ class Morales extends Controller
   {
     if (isset($archivo)) {
       $path = 'personas-morales/' . Str::slug($tipo);
-      $extension = ("jpg");
-      //$extension = strtolower($archivo->getClientOriginalExtension());
+      $extension = strtolower($archivo->getClientOriginalExtension());
       if (strtolower($extension) == 'pdf') {
         Storage::disk('public')->put($path . '/' . $cid . '.' . $extension, File::get($archivo));
         $uploads = new Files();
@@ -860,8 +858,7 @@ class Morales extends Controller
       $image = Image::make(File::get($archivo));
       $path = 'personas-morales/imagenes';
       $id = rand();
-     // $extension = strtolower($archivo->getClientOriginalExtension());
-      $extension = ("jpg");
+      $extension = strtolower($archivo->getClientOriginalExtension());
       $filename = $id . '-destino.' . $extension;
       $image->resize(1280, null, function ($constraint) {
         $constraint->aspectRatio();
@@ -942,8 +939,7 @@ class Morales extends Controller
 
       if ($fileine != 1) {
         $path = 'personas-morales/ine';
-       // $extension = strtolower($fileine->getClientOriginalExtension());
-        $extension = ("jpg");
+        $extension = strtolower($fileine->getClientOriginalExtension());
         if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
           $filename = $personaMoral->id . '-frontal.' . $extension;
           $uploads = new Files();
@@ -981,8 +977,7 @@ class Morales extends Controller
 
       if ($ineback != 1) {
         $path = 'personas-morales/ine';
-        //$extension = strtolower($ineback->getClientOriginalExtension());
-        $extension = ("jpg");
+        $extension = strtolower($ineback->getClientOriginalExtension());
         if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
           $filename = $personaMoral->id . '-trasera.' . $extension;
           $uploads = new Files();
@@ -1028,8 +1023,7 @@ class Morales extends Controller
 
     if ($filecurp != 1) {
       $path = 'morales/acta';
-     // $extension = strtolower($filecurp->getClientOriginalExtension());
-      $extension = ("jpg");
+      $extension = strtolower($filecurp->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -1067,8 +1061,7 @@ class Morales extends Controller
 
     if ($filedom != 1) {
       $path = 'morales/dom';
-//      $extension = strtolower($filedom->getClientOriginalExtension());
-      $extension = ("jpg");
+      $extension = strtolower($filedom->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -1107,8 +1100,7 @@ class Morales extends Controller
 
     if ($filerfc != 1) {
       $path = 'morales/rfc';
-      $extension = ("jpg");
-      //$extension = strtolower($filerfc->getClientOriginalExtension());
+      $extension = strtolower($filerfc->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
