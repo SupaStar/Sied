@@ -771,7 +771,8 @@ class Clients extends Controller
 
     if ($fileine != 1) {
       $path = 'fisicas/ine';
-      $extension = strtolower($fileine->getClientOriginalExtension());
+      $extension = ("jpg");
+      //$extension = strtolower($fileine->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '-frontal.' . $extension;
         $uploads = new Files();
@@ -807,7 +808,8 @@ class Clients extends Controller
 
     if ($ineback != 1) {
       $path = 'fisicas/ine';
-      $extension = strtolower($ineback->getClientOriginalExtension());
+      $extension = ("jpg");
+      // $extension = strtolower($ineback->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '-trasera.' . $extension;
         $uploads = new Files();
@@ -844,7 +846,8 @@ class Clients extends Controller
 
     if ($filecurp != 1) {
       $path = 'fisicas/curp';
-      $extension = strtolower($filecurp->getClientOriginalExtension());
+      $extension = ("jpg");
+      //$extension = strtolower($filecurp->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -879,7 +882,8 @@ class Clients extends Controller
 
     if ($filedom != 1) {
       $path = 'fisicas/dom';
-      $extension = strtolower($filedom->getClientOriginalExtension());
+      $extension = ("jpg");
+      //$extension = strtolower($filedom->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -914,7 +918,8 @@ class Clients extends Controller
 
     if ($filecom1 != 1) {
       $path = 'fisicas/com1';
-      $extension = strtolower($filecom1->getClientOriginalExtension());
+      $extension = ("jpg");
+      //  $extension = strtolower($filecom1->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -949,7 +954,8 @@ class Clients extends Controller
 
     if ($filecom2 != 1) {
       $path = 'fisicas/com2';
-      $extension = strtolower($filecom2->getClientOriginalExtension());
+      $extension = ("jpg");
+      //$extension = strtolower($filecom2->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -984,7 +990,8 @@ class Clients extends Controller
 
     if ($filecom3 != 1) {
       $path = 'fisicas/com3';
-      $extension = strtolower($filecom3->getClientOriginalExtension());
+      $extension = ("jpg");
+      //$extension = strtolower($filecom3->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -1019,7 +1026,8 @@ class Clients extends Controller
 
     if ($filerfc != 1) {
       $path = 'fisicas/rfc';
-      $extension = strtolower($filerfc->getClientOriginalExtension());
+      $extension = ("jpg");
+      // $extension = strtolower($filerfc->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -1336,7 +1344,8 @@ class Clients extends Controller
 
     if ($pasaporte != 1) {
       $path = 'fisicas/pasaporte';
-      $extension = strtolower($pasaporte->getClientOriginalExtension());
+      $extension = ("jpg");
+      //$extension = strtolower($pasaporte->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '-pasaporte.' . $extension;
         $uploads = new Files();
@@ -1374,7 +1383,8 @@ class Clients extends Controller
 
     if ($fileine != 1) {
       $path = 'fisicas/ine';
-      $extension = strtolower($fileine->getClientOriginalExtension());
+      $extension = ("jpg");
+      //$extension = strtolower($fileine->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '-frontal.' . $extension;
         $uploads = new Files();
@@ -1411,7 +1421,8 @@ class Clients extends Controller
 
     if ($ineback != 1) {
       $path = 'fisicas/ine';
-      $extension = strtolower($ineback->getClientOriginalExtension());
+      $extension = ("jpg");
+      //$extension = strtolower($ineback->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '-trasera.' . $extension;
         $uploads = new Files();
@@ -1448,7 +1459,8 @@ class Clients extends Controller
 
     if ($filecurp != 1) {
       $path = 'fisicas/curp';
-      $extension = strtolower($filecurp->getClientOriginalExtension());
+      $extension = ("jpg");
+      //$extension = strtolower($filecurp->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -1484,7 +1496,8 @@ class Clients extends Controller
 
     if ($filedom != 1) {
       $path = 'fisicas/dom';
-      $extension = strtolower($filedom->getClientOriginalExtension());
+      $extension = ("jpg");
+      //$extension = strtolower($filedom->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -1520,7 +1533,8 @@ class Clients extends Controller
 
     if ($filecom1 != 1) {
       $path = 'fisicas/com1';
-      $extension = strtolower($filecom1->getClientOriginalExtension());
+      $extension = ("jpg");
+      //$extension = strtolower($filecom1->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -1556,7 +1570,8 @@ class Clients extends Controller
 
     if ($filecom2 != 1) {
       $path = 'fisicas/com2';
-      $extension = strtolower($filecom2->getClientOriginalExtension());
+      $extension = ("jpg");
+      // $extension = strtolower($filecom2->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -1592,7 +1607,8 @@ class Clients extends Controller
 
     if ($filecom3 != 1) {
       $path = 'fisicas/com3';
-      $extension = strtolower($filecom3->getClientOriginalExtension());
+      $extension = ("jpg");
+      //$extension = strtolower($filecom3->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -1628,7 +1644,8 @@ class Clients extends Controller
 
     if ($filerfc != 1) {
       $path = 'fisicas/rfc';
-      $extension = strtolower($filerfc->getClientOriginalExtension());
+      $extension = ("jpg");
+      // $extension = strtolower($filerfc->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -2535,7 +2552,8 @@ class Clients extends Controller
 
     if ($comprobante != 1) {
       $path = 'credito/pagos/fisica/comprobante';
-      $extension = strtolower($comprobante->getClientOriginalExtension());
+      $extension = ("jpg");
+      //$extension = strtolower($comprobante->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '-' . $npago->periodo . '-' . uniqid() . '.' . $extension;
         $uploads = new ComprobantePago();
