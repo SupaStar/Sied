@@ -42,7 +42,10 @@ class Client extends Model
     'c_phone',
     'c_email',
     'status',
-    'grupo_id'
+    'grupo_id',
+    'consulta_id',
+    'suma_id',
+    'suma_estado'
   ];
 
   protected $appends = ['direccion', 'nombreCompleto'];
