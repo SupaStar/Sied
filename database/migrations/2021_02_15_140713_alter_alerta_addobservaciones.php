@@ -14,6 +14,10 @@ class AlterAlertaAddobservaciones extends Migration
     public function up()
     {
       Schema::table('alertas_pld', function (Blueprint $table) {
+        $table->text('descripcion');
+        $table->integer('estatus');
+        $table->text('observacion')->nullable();
+        $table->text('prioridad');
         $table->text('sustento')->nullable();
         $table->string('archivo_sustento',100)->nullable();
         $table->text('dictamen')->nullable();
