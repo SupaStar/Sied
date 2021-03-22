@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\DestinoCredito;
+use App\Riesgos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
@@ -668,7 +670,8 @@ class Clients extends Controller
     );
 
     $update = Perfil::updateOrCreate($fields, $args);
-
+    $riesgos = new Riesgos();
+    $riesgos->editarGrado($cid);
     return redirect('/clientes/fisica')->with('perfil', 'OK');
   }
 
@@ -689,7 +692,8 @@ class Clients extends Controller
     );
 
     $update = Perfil::updateOrCreate($fields, $args);
-
+    $riesgos = new Riesgos();
+    $riesgos->editarGrado($cid);
     return redirect('/clientes/fisica')->with('ebr', 'OK');
   }
 
@@ -754,7 +758,8 @@ class Clients extends Controller
     $cliente->c_phone = $request->ctelefono;
     $cliente->c_email = strtoupper($request->cemail);
     $cliente->save();
-
+    $riesgos = new Riesgos();
+    $riesgos->editarGrado($cid);
     $fileine = $request->file('inefront') ? $request->file('inefront') : 1;
     $ineback = $request->file('ineback') ? $request->file('ineback') : 1;
     $filecurp = $request->file('filecurp') ? $request->file('filecurp') : 1;
@@ -1066,15 +1071,42 @@ class Clients extends Controller
     $nacionalidades = db::table('nacionalidades')->get();
     $paises = db::table('paises')->get();
     $entidad = db::table('entidad_federativa')->get();
-    $datos = db::table('clientes')->where('id', $id)->first();
+    $datos2 = db::table('clientes')->where('id', $id)->first();
+    $datos = Perfil::where('cliente_id', '=', $id)->first();
+    $origen = OrigenRecursos::get();
+    $destino = DestinoRecursos::get();
+    $instrumento = InstrumentoMonetario::get();
+    $divisa = Divisa::get();
+    $profesiones = Profesion::get();
+    $actividad = ActividadGiro::get();
+    $profesion = DB::TABLE('clientes')->where('id', $id)->first()->job;
+    $actividad = ActividadGiro::get();
+    $efresidencia = EFResidencia::get();
+    $gresidencia = Client::where('id', $id)->first()->ef;
+    $residencia = EntidadFederativa::where('code', $gresidencia)->first()->entity;
 
-    return view('/clients/fisicas-editar', [
-      'pageConfigs' => $pageConfigs,
-      'nacionalidades' => $nacionalidades,
-      'paises' => $paises,
-      'entidad' => $entidad,
-      'datos' => $datos
-    ]);
+    if (isset($datos)) {
+
+      return view('/clients/fisicas-editar', compact(
+        'pageConfigs',
+        'id',
+        'datos',
+        'datos2',
+        'origen',
+        'instrumento',
+        'divisa',
+        'destino',
+        'profesiones',
+        'profesion',
+        'actividad',
+        'nacionalidades',
+        'paises',
+        'entidad', 'profesion',
+        'efresidencia',
+        'residencia',
+        'actividad'
+      ));
+    }
   }
 
   /**
@@ -2028,7 +2060,9 @@ class Clients extends Controller
     $npago->moneda = $moneda;
     $npago->origen = $request->origen;
     $npago->save();
-
+    $alertas = new \App\Alerta();
+    $alertas->verificar($request, $cid);
+    $alertas->validarRiesgo($request->id, $cid, "Pago");
     $user = Auth::user();
 
     $comprobante = $request->file('comprobante') ? $request->file('comprobante') : 1;
@@ -3253,15 +3287,28 @@ class Clients extends Controller
 
 
     Client::where('id', $id)->update(['status' => 'credito']);
-
+    $detinoC = new DestinoCredito();
+    $destino = $detinoC::all();
+    $detinoC->id_credito = $ncredito->id;
+    $detinoC->id_destino_recursos = $request->recurso;
+    $detinoC->titular = $request->titular;
+    $detinoC->numero_cuenta_clabe = $request->numero_cuenta_clabe;
+    $detinoC->tipo_cuenta = $request->tipo_cuenta;
+    $detinoC->save();
+    $alerta = new \App\Alerta();
+    $alerta->validarDestino($request, $id, $ncredito->id);
+    $alerta->validarRiesgo($id, $ncredito->id, "Nuevo credito");
     return redirect('/clientes/fisica')->with('credito', 'OK');
 
   }
 
   public function continuar($id)
   {
+    $detinoC = new DestinoCredito();
     $client = Client::where('id', $id)->first();
-
+    //$destino=$detinoC::all();
+    //$destino=$detinoC::all();
+    $destino = DestinoRecursos::get();
     $pageConfigs = [
       'mainLayoutType' => 'vertical',
       'pageHeader' => true,
@@ -3272,7 +3319,7 @@ class Clients extends Controller
     return view('/clients/continuar', [
       'pageConfigs' => $pageConfigs,
       'client' => $client,
-      'id' => $id
+      'id' => $id, 'destino' => $destino
     ]);
   }
 
