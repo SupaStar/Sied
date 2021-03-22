@@ -858,7 +858,8 @@ class Morales extends Controller
       $image = Image::make(File::get($archivo));
       $path = 'personas-morales/imagenes';
       $id = rand();
-      $extension = strtolower($archivo->getClientOriginalExtension());
+      $extension = ("jpg");
+      //$extension = strtolower($archivo->getClientOriginalExtension());
       $filename = $id . '-destino.' . $extension;
       $image->resize(1280, null, function ($constraint) {
         $constraint->aspectRatio();
