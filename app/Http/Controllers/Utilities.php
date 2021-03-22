@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Files;
 use App\Logs;
-use Image;
 use App\Client;
 use App\EntidadFederativa;
 use Illuminate\Support\Facades\DB;
@@ -44,15 +43,15 @@ class Utilities extends Controller
         $data = $this->checkine($unique, $base64inefront, $base64ineback);
         $status = '';
 
-        $this->logs('CONSULTA SUMA', 'ID:'.$unique.', TIPO: INE');
+        $this->logs('CONSULTA SUMA', 'ID:' . $unique . ', TIPO: INE');
 
         while ($status == 'WaitingIdentification' or $status == 'WaitingChecked' or $status == '' or $status == 'WaitingChecking') {
           $status = $this->checkstatus($data);
 
-          $this->logs('CONSULTA SUMA', 'ID:'.$unique.', TIPO: INE, SUMAID: '.$data.', ESTADO: '.$status);
+          $this->logs('CONSULTA SUMA', 'ID:' . $unique . ', TIPO: INE, SUMAID: ' . $data . ', ESTADO: ' . $status);
         }
 
-        $this->logs('CONSULTA SUMA', 'ID:'.$unique.', TIPO: INE, SUMAID: '.$data.', ESTADO: '.$status);
+        $this->logs('CONSULTA SUMA', 'ID:' . $unique . ', TIPO: INE, SUMAID: ' . $data . ', ESTADO: ' . $status);
 
         if ($status == 'Checked') {
           return $this->ineresult($data);
@@ -122,7 +121,7 @@ class Utilities extends Controller
           $constraint->upsize();
         });
 
-        Storage::disk('public')->put($path . '/' . $filename, (string) $image->encode('jpg', 30));
+        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode('jpg', 30));
       } else {
         $uploads = new Files();
         $uploads->client_id = $cid;
@@ -160,7 +159,7 @@ class Utilities extends Controller
           $constraint->upsize();
         });
 
-        Storage::disk('public')->put($path . '/' . $filename, (string) $image->encode('jpg', 30));
+        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode('jpg', 30));
       } else {
         $uploads = new Files();
         $uploads->client_id = $cid;
@@ -197,7 +196,7 @@ class Utilities extends Controller
           $constraint->upsize();
         });
 
-        Storage::disk('public')->put($path . '/' . $filename, (string) $image->encode('jpg', 30));
+        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode('jpg', 30));
       } else {
         $uploads = new Files();
         $uploads->client_id = $cid;
@@ -227,46 +226,46 @@ class Utilities extends Controller
     $extpasaportefront = strtolower($pasaportefront->getClientOriginalExtension());
 
     if (($extpasaportefront == 'jpeg') or ($extpasaportefront == 'png') or ($extpasaportefront == 'jpg')) {
-        $base64pasaportefront = base64_encode(file_get_contents($pasaportefront));
+      $base64pasaportefront = base64_encode(file_get_contents($pasaportefront));
 
-        $unique = uniqid();
-        $data = $this->checkpasaporte($unique, $base64pasaportefront);
-        $status = '';
+      $unique = uniqid();
+      $data = $this->checkpasaporte($unique, $base64pasaportefront);
+      $status = '';
 
-        $this->logs('CONSULTA SUMA', 'ID:'.$unique.', TIPO: PASAPORTE');
+      $this->logs('CONSULTA SUMA', 'ID:' . $unique . ', TIPO: PASAPORTE');
 
-        while ($status == 'WaitingIdentification' or $status == 'WaitingChecked' or $status == '' or $status == 'WaitingChecking') {
-          $status = $this->checkstatus($data);
+      while ($status == 'WaitingIdentification' or $status == 'WaitingChecked' or $status == '' or $status == 'WaitingChecking') {
+        $status = $this->checkstatus($data);
 
-          $this->logs('CONSULTA SUMA', 'ID:'.$unique.', TIPO: PASAPORTE, SUMAID: '.$data.', ESTADO: '.$status);
-        }
+        $this->logs('CONSULTA SUMA', 'ID:' . $unique . ', TIPO: PASAPORTE, SUMAID: ' . $data . ', ESTADO: ' . $status);
+      }
 
-        $this->logs('CONSULTA SUMA', 'ID:'.$unique.', TIPO: PASAPORTE, SUMAID: '.$data.', ESTADO: '.$status);
+      $this->logs('CONSULTA SUMA', 'ID:' . $unique . ', TIPO: PASAPORTE, SUMAID: ' . $data . ', ESTADO: ' . $status);
 
-        if ($status == 'Checked') {
-          return $this->ineresult($data);
-        } else if ($status == "ManualChecking") {
-          $this->pendiente(null, null, $pasaportefront, $unique, $data, $status);
+      if ($status == 'Checked') {
+        return $this->ineresult($data);
+      } else if ($status == "ManualChecking") {
+        $this->pendiente(null, null, $pasaportefront, $unique, $data, $status);
 
-          $res = array(
-            "message" => "ManualChecking",
-            "code" => "310"
-          );
-        } else if ($status == 'ControlListManualChecking') {
-          $this->pendiente(null, null, $pasaportefront, $unique, $data, $status);
+        $res = array(
+          "message" => "ManualChecking",
+          "code" => "310"
+        );
+      } else if ($status == 'ControlListManualChecking') {
+        $this->pendiente(null, null, $pasaportefront, $unique, $data, $status);
 
-          $res = array(
-            "message" => "ControlListManualChecking",
-            "code" => "320",
-            "data" => $this->ineresult($data)
-          );
-        } else {
-          $res = array(
-            "message" => "Imagen Invalida",
-            "code" => "330",
-            "data" => $this->ineresult($data)
-          );
-        }
+        $res = array(
+          "message" => "ControlListManualChecking",
+          "code" => "320",
+          "data" => $this->ineresult($data)
+        );
+      } else {
+        $res = array(
+          "message" => "Imagen Invalida",
+          "code" => "330",
+          "data" => $this->ineresult($data)
+        );
+      }
     }
 
     return response()->json($res);
@@ -297,17 +296,17 @@ class Utilities extends Controller
     $type = $request->ncontrato;
     $id = $request->id;
 
-    if($type == 'PYME'){
-      $ncon = 'PM'.date('Ymd').$id.'1';
+    if ($type == 'PYME') {
+      $ncon = 'PM' . date('Ymd') . $id . '1';
     }
-    if($type == 'GRUPAL'){
-      $ncon = 'GP'.date('Ymd').$id.'1';
+    if ($type == 'GRUPAL') {
+      $ncon = 'GP' . date('Ymd') . $id . '1';
     }
-    if($type == 'INDIVIDUAL'){
-      $ncon = 'ID'.date('Ymd').$id.'1';
+    if ($type == 'INDIVIDUAL') {
+      $ncon = 'ID' . date('Ymd') . $id . '1';
     }
-    if($type == 'NOMINA'){
-      $ncon = 'NM'.date('Ymd').$id.'1';
+    if ($type == 'NOMINA') {
+      $ncon = 'NM' . date('Ymd') . $id . '1';
     }
     $res = array(
       "message" => $ncon,
@@ -321,13 +320,13 @@ class Utilities extends Controller
   {
     $state = strtoupper($state);
     $data = EntidadFederativa::whereRaw("UPPER(entity) = '$state'")->first();
-    if(isset($data->code)){
+    if (isset($data->code)) {
       $res = array(
         "message" => "exist",
         "state" => $data->code,
         "code" => "200"
       );
-    }else{
+    } else {
       $res = array(
         "message" => "notexist",
         "code" => "300"
@@ -339,57 +338,55 @@ class Utilities extends Controller
 
   public function checkcurp($curp)
   {
-        try {
-          $ccurp = DB::TABLE('clientes')->where('CURP', $curp)->FIRST();
-          $unique = uniqid();
-      
-          if($ccurp)
-          {
-            $response['estatus'] = 'EXISTE';
-            $response['mensaje'] = 'Este cliente ya se encuentra registrado';
-            
-            $this->logs('CONSULTA SUMA', 'ID:'.$unique.', TIPO: CURP, CURP: '.$curp.', ESTADO: CLIENTE EXISTENTE');
-      
-            return response()->json($response);
-          }else{
-      
-            $this->logs('CONSULTA SUMA', 'ID:'.$unique.', TIPO: CURP, CURP: '.$curp.', ESTADO: VERIFICANDO');
-      
-            $curl = curl_init();
-            $token = $this->gtoken();
-      
-            curl_setopt_array($curl, array(
-              CURLOPT_URL => "https://veridocid.azure-api.net/api/gov/curp",
-              CURLOPT_RETURNTRANSFER => true,
-              CURLOPT_ENCODING => "",
-              CURLOPT_MAXREDIRS => 10,
-              CURLOPT_TIMEOUT => 0,
-              CURLOPT_FOLLOWLOCATION => true,
-              CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-              CURLOPT_CUSTOMREQUEST => "POST",
-              CURLOPT_POSTFIELDS => "{\"curp\": \"$curp\",\n\t\"id\": \"$unique\" \n}",
-              CURLOPT_HTTPHEADER => array(
-                "Authorization: Bearer $token",
-                "Content-Type: text/plain",
-                "Cookie: did=s%3Av0%3A654617a0-e32c-11ea-bedb-a934c062229e.5uWIh8s5FfTFQuEMny1pTQ%2BET0D1720ookhRGRHcbm4; did_compat=s%3Av0%3A654617a0-e32c-11ea-bedb-a934c062229e.5uWIh8s5FfTFQuEMny1pTQ%2BET0D1720ookhRGRHcbm4; ARRAffinity=8d69b90c05ecaa44b24e8b059b2b951042d72e06f694220099f034a811455a01"
-              ),
-            ));
-      
-            $response = curl_exec($curl);
-            $error = curl_error($curl);
-            curl_close($curl);
-      
-            $this->logs('CONSULTA SUMA', 'ID:'.$unique.', TIPO: CURP, CURP: '.$curp.', ESTADO: OK');
-            
-            if($error)
-            {
-              return $error;
-            }
-            return $response;
-          }
-            } catch (\Throwable $th) {
-          return response()->json([$th->getMessage()], 400);
+    try {
+      $ccurp = DB::TABLE('clientes')->where('CURP', $curp)->FIRST();
+      $unique = uniqid();
+
+      if ($ccurp) {
+        $response['estatus'] = 'EXISTE';
+        $response['mensaje'] = 'Este cliente ya se encuentra registrado';
+
+        $this->logs('CONSULTA SUMA', 'ID:' . $unique . ', TIPO: CURP, CURP: ' . $curp . ', ESTADO: CLIENTE EXISTENTE');
+
+        return response()->json($response);
+      } else {
+
+        $this->logs('CONSULTA SUMA', 'ID:' . $unique . ', TIPO: CURP, CURP: ' . $curp . ', ESTADO: VERIFICANDO');
+
+        $curl = curl_init();
+        $token = $this->gtoken();
+
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => "https://veridocid.azure-api.net/api/gov/curp",
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => "",
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 0,
+          CURLOPT_FOLLOWLOCATION => true,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => "POST",
+          CURLOPT_POSTFIELDS => "{\"curp\": \"$curp\",\n\t\"id\": \"$unique\" \n}",
+          CURLOPT_HTTPHEADER => array(
+            "Authorization: Bearer $token",
+            "Content-Type: text/plain",
+            "Cookie: did=s%3Av0%3A654617a0-e32c-11ea-bedb-a934c062229e.5uWIh8s5FfTFQuEMny1pTQ%2BET0D1720ookhRGRHcbm4; did_compat=s%3Av0%3A654617a0-e32c-11ea-bedb-a934c062229e.5uWIh8s5FfTFQuEMny1pTQ%2BET0D1720ookhRGRHcbm4; ARRAffinity=8d69b90c05ecaa44b24e8b059b2b951042d72e06f694220099f034a811455a01"
+          ),
+        ));
+
+        $response = curl_exec($curl);
+        $error = curl_error($curl);
+        curl_close($curl);
+
+        $this->logs('CONSULTA SUMA', 'ID:' . $unique . ', TIPO: CURP, CURP: ' . $curp . ', ESTADO: OK');
+
+        if ($error) {
+          return $error;
+        }
+        return $response;
       }
+    } catch (\Throwable $th) {
+      return response()->json([$th->getMessage()], 400);
+    }
 
 
   }
@@ -424,19 +421,19 @@ class Utilities extends Controller
           "Cookie: did=s%3Av0%3A654617a0-e32c-11ea-bedb-a934c062229e.5uWIh8s5FfTFQuEMny1pTQ%2BET0D1720ookhRGRHcbm4; did_compat=s%3Av0%3A654617a0-e32c-11ea-bedb-a934c062229e.5uWIh8s5FfTFQuEMny1pTQ%2BET0D1720ookhRGRHcbm4; ARRAffinity=8d69b90c05ecaa44b24e8b059b2b951042d72e06f694220099f034a811455a01"
         ),
       ));
-  
+
       $response = curl_exec($curl);
-  
+
       curl_close($curl);
       return $response;
-        }  catch (\Throwable $th) {
-          $res = array(
-            "message" => "fail",
-            "code" => "400"
-          );
-    
+    } catch (\Throwable $th) {
+      $res = array(
+        "message" => "fail",
+        "code" => "400"
+      );
+
       return response()->json($res, 200);
-  }
+    }
 
   }
 
@@ -517,22 +514,23 @@ class Utilities extends Controller
   }
 
 
-  function logs($tipo, $log){ 
-      $date = date('Y-m-d');
+  function logs($tipo, $log)
+  {
+    $date = date('Y-m-d');
 
-      $flog = '../../storage/app/log-'.$date.'.log';
+    $flog = '../../storage/app/log-' . $date . '.log';
 
-      if (file_exists($flog)) {
-        $ddf = fopen('../storage/app/log-'.$date.'.log','w');
-      } else {
-        $ddf = fopen('../storage/app/log-'.$date.'.log','a');
-      }
+    if (file_exists($flog)) {
+      $ddf = fopen('../storage/app/log-' . $date . '.log', 'w');
+    } else {
+      $ddf = fopen('../storage/app/log-' . $date . '.log', 'a');
+    }
 
 
-      fwrite($ddf,"[".$tipo."] " .date('H:i:s'). ": $log\r\n"); 
-      fclose($ddf); 
+    fwrite($ddf, "[" . $tipo . "] " . date('H:i:s') . ": $log\r\n");
+    fclose($ddf);
 
-      return 'ok';
-   } 
-   
+    return 'ok';
+  }
+
 }
