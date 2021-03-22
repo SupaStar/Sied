@@ -69,4 +69,14 @@ class Client extends Model
   {
     return $this->belongsTo('App\Grupo', 'grupo_id', 'id');
   }
+
+  public function alertas()
+  {
+    return $this->hasOne('App\Alerta', 'cliente_id', 'id');
+  }
+
+  public function riesgo()
+  {
+    return $this->hasOne("App\Riesgos", "id_cliente", 'id');
+  }
 }
