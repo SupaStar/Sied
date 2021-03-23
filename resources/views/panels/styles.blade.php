@@ -29,6 +29,7 @@ $configData = Helper::applClasses();
 @endif
         <link rel="stylesheet" href="{{ asset(mix('css/core/menu/menu-types/vertical-menu.css')) }}">
         <link rel="stylesheet" href="{{ asset(mix('css/core/colors/palette-gradient.css')) }}">
+        <link rel="stylesheet" href="{{ asset('css/feather.css')}}">
 {{-- Page Styles --}}
         @yield('page-style')
 {{-- Laravel Style --}}
