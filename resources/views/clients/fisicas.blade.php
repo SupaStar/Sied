@@ -1,4 +1,3 @@
-
 @extends('layouts/contentLayoutMaster')
 
 @section('title', $pageConfigs['pageName'] )
