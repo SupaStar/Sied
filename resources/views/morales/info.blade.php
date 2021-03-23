@@ -121,15 +121,15 @@
                                           <div class="row">
                                             <div class="offset-6 col-3 text-center">
                                               <a
-                                                href="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-frontal.jpg') }}"
+                                                href="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-frontal.png') }}"
                                                 target="_blank"> <img
-                                                  src="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-frontal.jpg') }}"
+                                                  src="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-frontal.png') }}"
                                                   alt="INE" height="100"></a>
 
                                               <a
-                                                href="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-trasera.jpg') }}"
+                                                href="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-trasera.png') }}"
                                                 target="_blank"> <img
-                                                  src="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-trasera.jpg') }}"
+                                                  src="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-trasera.png') }}"
                                                   alt="INE" height="100"></a>
                                             </div>
 
@@ -470,9 +470,9 @@
                                               Acta Constitutiva
                                             </label>
                                             <br>
-                                            <a href="{{ url('/uploads/morales/acta/'.$datos->id.'.jpg') }}"
+                                            <a href="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
                                                target="_blank"> <img
-                                                src="{{ url('/uploads/morales/acta/'.$datos->id.'.jpg') }}"
+                                                src="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
                                                 alt="Acta Constitutiva" height="100"></a></div>
                                         </div>
                                       </div>
@@ -483,9 +483,9 @@
                                               Comprobante de Domicilio
                                             </label>
                                             <br>
-                                            <a href="{{ url('/uploads/morales/dom/'.$datos->id.'.jpg') }}"
+                                            <a href="{{ url('/uploads/morales/dom/'.$dato->id.'.jpeg') }}"
                                                target="_blank"> <img
-                                                src="{{ url('/uploads/morales/dom/'.$datos->id.'.jpg') }}"
+                                                src="{{ url('/uploads/morales/dom/'.$dato->id.'.jpeg') }}"
                                                 alt="Comprobante de Domicilio" height="100"></a>
                                           </div>
                                         </div>
@@ -497,9 +497,9 @@
                                               RFC
                                             </label>
                                             <br>
-                                            <a href="{{ url('/uploads/morales/rfc/'.$datos->id.'.jpg') }}"
+                                            <a href="{{ url('/uploads/morales/rfc/'.$dato->id.'.jpeg') }}"
                                                target="_blank"> <img
-                                                src="{{ url('/uploads/morales/rfc/'.$datos->id.'.jpg') }}"
+                                                src="{{ url('/uploads/morales/rfc/'.$dato->id.'.jpeg') }}"
                                                 alt="RFC" height="100"></a>
                                             <br>
                                             <h3>Croquis</h3>
@@ -583,9 +583,9 @@
                                             Fotografia 1
                                           </label>
                                           <br>
-                                          <a href="{{ url('/uploads/morales/acta/'.$datos->id.'.jpg') }}"
+                                          <a href="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
                                              target="_blank"> <img
-                                              src="{{ url('/uploads/morales/acta/'.$datos->id.'.jpg') }}"
+                                              src="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
                                               alt="Fotografia 1" height="100"></a></div>
                                       </div>
                                     </div>
@@ -596,9 +596,9 @@
                                             Fotografia 2
                                           </label>
                                           <br>
-                                          <a href="{{ url('/uploads/morales/acta/'.$datos->id.'.jpg') }}"
+                                          <a href="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
                                              target="_blank"> <img
-                                              src="{{ url('/uploads/morales/acta/'.$datos->id.'.jpg') }}"
+                                              src="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
                                               alt="Fotografia 2" height="100"></a></div>
                                       </div>
                                     </div>

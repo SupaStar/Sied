@@ -31,7 +31,7 @@
             <div class="card">
                 <div class="card-content">
                     <div class="card-body">
-                        <form action="/morales/morales" enctype="multipart/form-data" method="POST" class="steps-validation wizard-circle" id="formss" name="formss">
+                        <form action="/clientes/fisica" enctype="multipart/form-data" method="POST" class="steps-validation wizard-circle" id="formss" name="formss">
                             @csrf
                             <H6>Monto del Crédito</H6>
                             <fieldset>

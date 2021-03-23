@@ -682,7 +682,7 @@
       form_data.append('_token', token);
 
       $.ajax({
-          url: '/util/imgto64',
+          url: '/util/imgto64/ine',
           dataType: 'text',
           cache: false,
           contentType: false,

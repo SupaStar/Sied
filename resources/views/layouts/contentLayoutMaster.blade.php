@@ -120,11 +120,4 @@ $configData = Helper::applClasses();
         })
       })
     }
-
-
-
-
 </script>
-
-
-
