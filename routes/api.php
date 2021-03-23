@@ -62,28 +62,33 @@ Route::group([
   });
 
 
-  Route::group([
-    'prefix' => 'data'
-  ], function () {
+Route::group([
+  'prefix' => 'data'
+], function () {
+  Route::post("editarAlerta", "ApiController@editarAPI")->name("editar_alerta_api");
+  Route::get("encontrarAlerta/{id?}", "ApiController@encontrarApi")->name("encontrar_alerta_api");
+  Route::get("alertarTermin", "ApiController@alertasTerminadas")->name("alertas_terminadas_api");
+  Route::get("monedas", "ApiController@cambiarValoresMonedas")->name("valores_monedas_api");
+  Route::get("riesgos", "ApiController@llenarRiesgos")->name("llenar_riesgos");
+  Route::post('alertaf','ApiController@alertasfecha');
+  Route::get('categories', 'DataController@categories');
 
-    Route::get('categories', 'DataController@categories');
+  Route::get('questions', 'DataController@questions');
+  Route::get('categorys/{type}', 'DataController@categorys');
+  Route::get('subcategorys/{type}/{id}', 'DataController@subcategorys');
 
-    Route::get('questions', 'DataController@questions');
-    Route::get('categorys/{type}', 'DataController@categorys');
-    Route::get('subcategorys/{type}/{id}', 'DataController@subcategorys');
+  Route::get('categoriesBusiness', 'DataController@categoriesBusiness');
+  Route::get('subcategoriesBusiness/{id}', 'DataController@subcategoriesBusiness');
 
-    Route::get('categoriesBusiness', 'DataController@categoriesBusiness');
-    Route::get('subcategoriesBusiness/{id}', 'DataController@subcategoriesBusiness');
+  Route::get('categoriesAds', 'DataController@categoriesAds');
+  Route::get('subcategoriesAds/{id}', 'DataController@subcategoriesAds');
 
-    Route::get('categoriesAds', 'DataController@categoriesAds');
-    Route::get('subcategoriesAds/{id}', 'DataController@subcategoriesAds');
+  Route::get('categoriesEvents', 'DataController@categoriesEvents');
+  Route::get('subcategoriesEvents/{id}', 'DataController@subcategoriesEvents');
 
-    Route::get('categoriesEvents', 'DataController@categoriesEvents');
-    Route::get('subcategoriesEvents/{id}', 'DataController@subcategoriesEvents');
+  Route::get('categoriesProducts', 'DataController@categoriesProducts');
+  Route::get('subcategoriesProducts/{id}', 'DataController@subcategoriesProducts');
 
-    Route::get('categoriesProducts', 'DataController@categoriesProducts');
-    Route::get('subcategoriesProducts/{id}', 'DataController@subcategoriesProducts');
-
-  });
+});
 
 

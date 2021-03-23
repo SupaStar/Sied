@@ -303,10 +303,11 @@
       });
       @endif
 
-    });
+  });
 
 
-    function edit(id) {
-    }
-  </script>
+
+  function edit(id){
+  }
+        </script>
 @endsection
