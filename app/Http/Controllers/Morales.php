@@ -3,13 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\ActividadGiro;
+use App\Amortizacion_Morales;
+use App\Credito_Moral;
+use App\Creditos;
+use App\DestinoCredito;
 use App\DestinoRecursos;
 use App\Divisa;
 use App\EFResidencia;
 use App\EntidadFederativa;
+use App\HistorialFlujos_Morales;
 use App\InstrumentoMonetario;
 use App\NacionalidadAntecedentes;
 use App\OrigenRecursos;
+use App\Pago_Moral;
 use App\PepExtranjeras;
 use App\PepMexicanas;
 use App\PerfilMoral;
@@ -17,6 +23,7 @@ use App\PersonalidadJuridica;
 use App\Pld;
 use App\Ponderacion;
 use App\Profesion;
+use App\RelacionPago_Morales;
 use App\Riesgo;
 use App\Riesgos;
 use Carbon\Carbon;
@@ -77,7 +84,7 @@ class Morales extends Controller
       'entidad' => $entidad,
       'datos' => $datos,
       'miid' => $id,
-      'nacionantecedentes'=>$nacionalidadesantecedente
+      'nacionantecedentes' => $nacionalidadesantecedente
 
     ]);
   }
@@ -727,7 +734,7 @@ class Morales extends Controller
       'nacionalidades' => $nacionalidades,
       'paises' => $paises,
       'entidad' => $entidad,
-      'nacionantecedentes'=>$nacionalidadesantecedente
+      'nacionantecedentes' => $nacionalidadesantecedente
     ]);
   }
 
@@ -887,7 +894,7 @@ class Morales extends Controller
         'email' => 'required|string|email|unique:users'
       ]);*/
     $moral = new Moral($request->all());
-    $moral->id_nacionalidad_antecedente=$request->nacionalidad_ante;
+    $moral->id_nacionalidad_antecedente = $request->nacionalidad_ante;
 
     DB::beginTransaction();
     try {
@@ -1368,4 +1375,1082 @@ class Morales extends Controller
 
   }
 
+  public function pago(Request $request)
+  {
+    $cid = Credito_Moral::where('moral_id', $request->id)->where('status', 'Aprobado')->first()->id;
+    if ($request->moneda == 0) {
+      $moneda = $request->nmoneda;
+    } else {
+      $moneda = $request->moneda;
+    }
+    if ($request->forma == 0) {
+      $forma = $request->nforma;
+    } else {
+      $forma = $request->forma;
+    }
+    $npago = new Pago_Moral();
+    $npago->moral_id = $request->id;
+    $npago->credito_id = $cid;
+    $npago->pago = $request->monto;
+    $npago->fpago = $request->fecha;
+    $npago->forma = $forma;
+    $npago->moneda = $moneda;
+    $npago->origen = $request->origen;
+    $npago->save();
+    $amortizaciones = Amortizacion_Morales::where('moral_id', $request->id)->where('credito_id', $cid)->where('liquidado', 0)->where('flujo', '>', 0)->orderBy('periodo', 'asc')->orderBy('id', 'asc')->get();
+    $pago = $request->monto;
+    $gcobranza = $request->gcobranza ? $request->gcobranza : 0;
+    if ($gcobranza > 0) {
+      $gc = Amortizacion_Morales::where('moral_id', $request->id)->where('credito_id', $cid)->where('liquidado', 0)->where('flujo', '>', 0)->orderBy('periodo', 'asc')->orderBy('id', 'asc')->first();
+      $flujoc = $gc->flujo + $gcobranza;
+      $lcob = $gc->gcobranza ? $gc->gcobranza : 0;
+      $ncobranza = $gcobranza + $lcob;
+      Amortizacion_Morales::where('id', $gc->id)->update(['gcobranza' => $gcobranza, 'flujo' => $flujoc]);
+      $amortizaciones = Amortizacion_Morales::where('moral_id', $request->id)->where('credito_id', $cid)->where('liquidado', 0)->where('flujo', '>', 0)->orderBy('periodo', 'asc')->orderBy('id', 'asc')->get();
+    }
+    $cc = 0;
+    $pagoid = $npago->id;
+    $rfecha = $request->fecha;
+    $rmonto = $request->monto;
+    $rperiodo = 0;
+    foreach ($amortizaciones as $amoritzacion) {
+
+      if ($pago > 0) {
+        $fecha1 = date_create(date('d-m-Y', strtotime($amoritzacion->fin)));
+        $fecha2 = date_create(date('d-m-Y', strtotime($request->fecha)));
+
+        $dias = str_replace('+', '', date_diff($fecha1, $fecha2)->format('%R%a'));
+
+        $fecha11 = date_create(date('d-m-Y', strtotime($request->fecha)));
+        $fecha22 = date_create(date('d-m-Y', strtotime($amoritzacion->inicio)));
+
+        $dias2 = str_replace('+', '', date_diff($fecha11, $fecha22)->format('%R%a'));
+
+        if ($dias <= 0) {
+          if ($dias2 > 0) {
+            $amortizaciones2 = Amortizacion_Morales::where('moral_id', $request->id)->where('credito_id', $cid)->where('liquidado', 0)->orderBy('periodo', 'desc')->orderBy('id', 'asc')->get();
+            foreach ($amortizaciones2 as $amoritzacion2) {
+              if ($pago > 0) {
+                if ($amoritzacion2->pagos != 0) {
+                  $flujo = $amoritzacion2->flujo - $amoritzacion2->pagos;
+
+                  if ($flujo > $pago) {
+                    $lam = Amortizacion_Morales::where('id', $amoritzacion2->id)->first();
+                    $lpagos = $lam->pagos ? $lam->pagos : 0;
+                    $restante = ($lam->flujo - $lpagos) - $pago;
+
+                    $rpagos = new RelacionPago_Morales();
+                    $rpagos->amortizacion_moral_id = $amoritzacion2->id;
+                    $rpagos->pago_id = $pagoid;
+                    $rpagos->fecha_pago = $rfecha;
+                    $rpagos->monto = $pago;
+                    $rpagos->monto_total = $rmonto;
+                    $rpagos->restante = $restante;
+                    $rpagos->pago_restante = 0;
+                    $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
+                    $rpagos->save();
+                    $rmonto = 0;
+                    Amortizacion_Morales::where('id', $amoritzacion2->id)->update(['pagos' => $pago]);
+                    $pago = 0;
+                  } else {
+                    if ($flujo == $pago) {
+                      $lam = Amortizacion_Morales::where('id', $amoritzacion2->id)->first();
+                      $lpagos = $lam->pagos ? $lam->pagos : 0;
+                      $restante = ($lam->flujo - $lpagos) - $pago;
+
+                      $rpagos = new RelacionPago_Morales();
+                      $rpagos->amortizacion_moral_id = $amoritzacion2->id;
+                      $rpagos->pago_id = $pagoid;
+                      $rpagos->fecha_pago = $rfecha;
+                      $rpagos->monto = $pago;
+                      $rpagos->monto_total = $rmonto;
+                      $rpagos->restante = $restante;
+                      $rpagos->pago_restante = 0;
+                      $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
+                      $rpagos->save();
+                      $rmonto = 0;
+
+                      Amortizacion_Morales::where('id', $amoritzacion2->id)->update(['pagos' => $pago, 'liquidado' => 1]);
+                      $pago = 0;
+                    } else {
+                      $lam = Amortizacion_Morales::where('id', $amoritzacion2->id)->first();
+
+                      $pagos = $lam->pagos ? $lam->pagos : 0;
+
+                      $apago = $lam->flujo - $pagos;
+
+                      $prest = $pago - $apago;
+
+                      $rpagos = new RelacionPago_Morales();
+                      $rpagos->amortizacion_moral_id = $amoritzacion2->id;
+                      $rpagos->pago_id = $pagoid;
+                      $rpagos->fecha_pago = $rfecha;
+                      $rpagos->monto = $apago;
+                      $rpagos->monto_total = $rmonto;
+                      $rpagos->restante = 0;
+                      $rpagos->pago_restante = $prest;
+                      $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
+                      $rpagos->save();
+                      $rmonto = $prest;
+
+                      Amortizacion_Morales::where('id', $amoritzacion2->id)->update(['pagos' => $lam->flujo, 'liquidado' => 1]);
+
+                      $pago = $pago - $flujo;
+                    }
+                  }
+                } else {
+                  if ($amoritzacion2->flujo > $pago) {
+                    $lam = Amortizacion_Morales::where('id', $amoritzacion2->id)->first();
+                    $lpagos = $lam->pagos ? $lam->pagos : 0;
+                    $restante = ($lam->flujo - $lpagos) - $pago;
+
+
+                    $rpagos = new RelacionPago_Morales();
+                    $rpagos->amortizacion_moral_id = $amoritzacion2->id;
+                    $rpagos->pago_id = $pagoid;
+                    $rpagos->fecha_pago = $rfecha;
+                    $rpagos->monto = $pago;
+                    $rpagos->monto_total = $rmonto;
+                    $rpagos->restante = $restante;
+                    $rpagos->pago_restante = 0;
+                    $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
+                    $rpagos->save();
+                    $rmonto = 0;
+
+                    Amortizacion_Morales::where('id', $amoritzacion2->id)->update(['pagos' => $pago]);
+                    $pago = 0;
+                  } else {
+                    if ($amoritzacion2->flujo == $pago) {
+
+                      $lam = Amortizacion_Morales::where('id', $amoritzacion2->id)->first();
+                      $lpagos = $lam->pagos ? $lam->pagos : 0;
+                      $restante = ($lam->flujo - $lpagos) - $pago;
+
+
+                      $rpagos = new RelacionPago_Morales();
+                      $rpagos->amortizacion_moral_id = $amoritzacion2->id;
+                      $rpagos->pago_id = $pagoid;
+                      $rpagos->fecha_pago = $rfecha;
+                      $rpagos->monto = $pago;
+                      $rpagos->monto_total = $rmonto;
+                      $rpagos->restante = $restante;
+                      $rpagos->pago_restante = 0;
+                      $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
+                      $rpagos->save();
+                      $rmonto = 0;
+
+                      Amortizacion_Morales::where('id', $amoritzacion2->id)->update(['pagos' => $pago, 'liquidado' => 1]);
+                      $pago = 0;
+                    } else {
+                      $lam = Amortizacion_Morales::where('id', $amoritzacion2->id)->first();
+
+                      $pagos = $lam->pagos ? $lam->pagos : 0;
+
+                      $apago = $lam->flujo - $pagos;
+
+                      $prest = $pago - $apago;
+
+                      $rpagos = new RelacionPago_Morales();
+                      $rpagos->amortizacion_moral_id = $amoritzacion2->id;
+                      $rpagos->pago_id = $pagoid;
+                      $rpagos->fecha_pago = $rfecha;
+                      $rpagos->monto = $apago;
+                      $rpagos->monto_total = $rmonto;
+                      $rpagos->restante = 0;
+                      $rpagos->pago_restante = $prest;
+                      $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
+                      $rpagos->save();
+                      $rmonto = $prest;
+
+                      Amortizacion_Morales::where('id', $amoritzacion2->id)->update(['pagos' => $lam->flujo, 'liquidado' => 1]);
+                      $pago = $pago - $lam->flujo;
+                    }
+                  }
+                }
+              }
+              $rperiodo = $amoritzacion2->periodo;
+            }
+          } else {
+            if ($amoritzacion->pagos != 0) {
+              $flujo = $amoritzacion->flujo - $amoritzacion->pagos;
+              $pagos = $amoritzacion->pagos;
+              if ($flujo > $pago) {
+
+                $lam = Amortizacion_Morales::where('id', $amoritzacion->id)->first();
+                $lpagos = $lam->pagos ? $lam->pagos : 0;
+                $restante = ($lam->flujo - $lpagos) - $pago;
+
+
+                $rpagos = new RelacionPago_Morales();
+                $rpagos->amortizacion_moral_id = $amoritzacion->id;
+                $rpagos->pago_id = $pagoid;
+                $rpagos->fecha_pago = $rfecha;
+                $rpagos->monto = $pago;
+                $rpagos->monto_total = $rmonto;
+                $rpagos->restante = $restante;
+                $rpagos->pago_restante = 0;
+                $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
+                $rpagos->save();
+                $rmonto = 0;
+
+                Amortizacion_Morales::where('id', $amoritzacion->id)->update(['pagos' => ($pagos + $pago)]);
+                $pago = 0;
+              } else {
+                if ($flujo == $pago) {
+
+                  $lam = Amortizacion_Morales::where('id', $amoritzacion->id)->first();
+                  $lpagos = $lam->pagos ? $lam->pagos : 0;
+                  $restante = ($lam->flujo - $lpagos) - $pago;
+
+
+                  $rpagos = new RelacionPago_Morales();
+                  $rpagos->amortizacion_moral_id = $amoritzacion->id;
+                  $rpagos->pago_id = $pagoid;
+                  $rpagos->fecha_pago = $rfecha;
+                  $rpagos->monto = $pago;
+                  $rpagos->monto_total = $rmonto;
+                  $rpagos->restante = $restante;
+                  $rpagos->pago_restante = 0;
+                  $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
+                  $rpagos->save();
+                  $rmonto = 0;
+
+                  Amortizacion_Morales::where('id', $amoritzacion->id)->update(['pagos' => ($pagos + $pago), 'liquidado' => 1]);
+                  $pago = 0;
+                } else {
+                  $lam = Amortizacion_Morales::where('id', $amoritzacion->id)->first();
+
+                  $pagos = $lam->pagos ? $lam->pagos : 0;
+
+                  $apago = $lam->flujo - $pagos;
+
+                  $prest = $pago - $apago;
+
+                  $rpagos = new RelacionPago_Morales();
+                  $rpagos->amortizacion_moral_id = $amoritzacion->id;
+                  $rpagos->pago_id = $pagoid;
+                  $rpagos->fecha_pago = $rfecha;
+                  $rpagos->monto = $apago;
+                  $rpagos->monto_total = $rmonto;
+                  $rpagos->restante = 0;
+                  $rpagos->pago_restante = $prest;
+                  $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
+                  $rpagos->save();
+                  $rmonto = $prest;
+
+                  Amortizacion_Morales::where('id', $amoritzacion->id)->update(['pagos' => $lam->flujo, 'liquidado' => 1]);
+                  $pago = $pago - $flujo;
+                }
+              }
+            } else {
+              if ($amoritzacion->flujo > $pago) {
+                $lam = Amortizacion_Morales::where('id', $amoritzacion->id)->first();
+                $lpagos = $lam->pagos ? $lam->pagos : 0;
+                $restante = ($lam->flujo - $lpagos) - $pago;
+
+
+                $rpagos = new RelacionPago_Morales();
+                $rpagos->amortizacion_moral_id = $amoritzacion->id;
+                $rpagos->pago_id = $pagoid;
+                $rpagos->fecha_pago = $rfecha;
+                $rpagos->monto = $pago;
+                $rpagos->monto_total = $rmonto;
+                $rpagos->restante = $restante;
+                $rpagos->pago_restante = 0;
+                $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
+                $rpagos->save();
+                $rmonto = 0;
+
+                Amortizacion_Morales::where('id', $amoritzacion->id)->update(['pagos' => $pago]);
+                $pago = 0;
+              } else {
+                if ($amoritzacion->flujo == $pago) {
+                  $lam = Amortizacion_Morales::where('id', $amoritzacion->id)->first();
+                  $lpagos = $lam->pagos ? $lam->pagos : 0;
+                  $restante = ($lam->flujo - $lpagos) - $pago;
+
+                  $rpagos = new RelacionPago_Morales();
+                  $rpagos->amortizacion_moral_id = $amoritzacion->id;
+                  $rpagos->pago_id = $pagoid;
+                  $rpagos->fecha_pago = $rfecha;
+                  $rpagos->monto = $pago;
+                  $rpagos->monto_total = $rmonto;
+                  $rpagos->restante = $restante;
+                  $rpagos->pago_restante = 0;
+                  $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
+                  $rpagos->save();
+                  $rmonto = 0;
+
+
+                  Amortizacion_Morales::where('id', $amoritzacion->id)->update(['pagos' => $pago, 'liquidado' => 1]);
+                  $pago = 0;
+                } else {
+                  $lam = Amortizacion_Morales::where('id', $amoritzacion->id)->first();
+
+                  $pagos = $lam->pagos ? $lam->pagos : 0;
+
+                  $apago = $lam->flujo - $pagos;
+
+                  $prest = $pago - $apago;
+
+                  $rpagos = new RelacionPago_Morales();
+                  $rpagos->amortizacion_moral_id = $amoritzacion->id;
+                  $rpagos->pago_id = $pagoid;
+                  $rpagos->fecha_pago = $rfecha;
+                  $rpagos->monto = $apago;
+                  $rpagos->monto_total = $rmonto;
+                  $rpagos->restante = 0;
+                  $rpagos->pago_restante = $prest;
+                  $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
+                  $rpagos->save();
+                  $rmonto = $prest;
+
+                  Amortizacion_Morales::where('id', $amoritzacion->id)->update(['pagos' => $lam->flujo, 'liquidado' => 1]);
+                  $pago = $pago - $lam->flujo;
+                }
+              }
+            }
+          }
+
+
+        } else {
+          if ($amoritzacion->pagos != 0) {
+            $flujo = $amoritzacion->flujo - $amoritzacion->pagos;
+            $pagos = $amoritzacion->pagos;
+            if ($flujo > $pago) {
+              $lam = Amortizacion_Morales::where('id', $amoritzacion->id)->first();
+              $lpagos = $lam->pagos ? $lam->pagos : 0;
+              $restante = ($lam->flujo - $lpagos) - $pago;
+
+
+              $rpagos = new RelacionPago_Morales();
+              $rpagos->amortizacion_moral_id = $amoritzacion->id;
+              $rpagos->pago_id = $pagoid;
+              $rpagos->fecha_pago = $rfecha;
+              $rpagos->monto = $pago;
+              $rpagos->monto_total = $rmonto;
+              $rpagos->restante = $restante;
+              $rpagos->pago_restante = 0;
+              $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
+              $rpagos->save();
+              $rmonto = 0;
+
+              Amortizacion_Morales::where('id', $amoritzacion->id)->update(['pagos' => ($pagos + $pago)]);
+              $pago = 0;
+            } else {
+              if ($flujo == $pago) {
+                $lam = Amortizacion_Morales::where('id', $amoritzacion->id)->first();
+                $lpagos = $lam->pagos ? $lam->pagos : 0;
+                $restante = ($lam->flujo - $lpagos) - $pago;
+
+
+                $rpagos = new RelacionPago_Morales();
+                $rpagos->amortizacion_moral_id = $amoritzacion->id;
+                $rpagos->pago_id = $pagoid;
+                $rpagos->fecha_pago = $rfecha;
+                $rpagos->monto = $pago;
+                $rpagos->monto_total = $rmonto;
+                $rpagos->restante = $restante;
+                $rpagos->pago_restante = 0;
+                $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
+                $rpagos->save();
+                $rmonto = 0;
+
+                Amortizacion_Morales::where('id', $amoritzacion->id)->update(['pagos' => ($pagos + $pago), 'liquidado' => 1]);
+                $pago = 0;
+              } else {
+
+
+                $lam = Amortizacion_Morales::where('id', $amoritzacion->id)->first();
+
+                $pagos = $lam->pagos ? $lam->pagos : 0;
+
+                $apago = $lam->flujo - $pagos;
+
+                $prest = $pago - $apago;
+
+                $rpagos = new RelacionPago_Morales();
+                $rpagos->amortizacion_moral_id = $amoritzacion->id;
+                $rpagos->pago_id = $pagoid;
+                $rpagos->fecha_pago = $rfecha;
+                $rpagos->monto = $apago;
+                $rpagos->restante = 0;
+                $rpagos->monto_total = $rmonto;
+                $rpagos->pago_restante = $prest;
+                $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
+                $rpagos->save();
+                $rmonto = $prest;
+
+                Amortizacion_Morales::where('id', $amoritzacion->id)->update(['pagos' => $lam->flujo, 'liquidado' => 1]);
+                $pago = $pago - $flujo;
+              }
+            }
+          } else {
+            if ($amoritzacion->flujo > $pago) {
+              $lam = Amortizacion_Morales::where('id', $amoritzacion->id)->first();
+              $lpagos = $lam->pagos ? $lam->pagos : 0;
+              $restante = ($lam->flujo - $lpagos) - $pago;
+
+
+              $rpagos = new RelacionPago_Morales();
+              $rpagos->amortizacion_moral_id = $amoritzacion->id;
+              $rpagos->pago_id = $pagoid;
+              $rpagos->fecha_pago = $rfecha;
+              $rpagos->monto = $pago;
+              $rpagos->monto_total = $rmonto;
+              $rpagos->restante = $restante;
+              $rpagos->pago_restante = 0;
+              $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
+              $rpagos->save();
+              $rmonto = 0;
+
+              Amortizacion_Morales::where('id', $amoritzacion->id)->update(['pagos' => $pago]);
+              $pago = 0;
+            } else {
+              if ($amoritzacion->flujo == $pago) {
+                $lam = Amortizacion_Morales::where('id', $amoritzacion->id)->first();
+                $lpagos = $lam->pagos ? $lam->pagos : 0;
+                $restante = ($lam->flujo - $lpagos) - $pago;
+
+
+                $rpagos = new RelacionPago_Morales();
+                $rpagos->amortizacion_moral_id = $amoritzacion->id;
+                $rpagos->pago_id = $pagoid;
+                $rpagos->fecha_pago = $rfecha;
+                $rpagos->monto = $pago;
+                $rpagos->monto_total = $rmonto;
+                $rpagos->restante = $restante;
+                $rpagos->pago_restante = 0;
+                $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
+                $rpagos->save();
+                $rmonto = 0;
+
+                Amortizacion_Morales::where('id', $amoritzacion->id)->update(['pagos' => $pago, 'liquidado' => 1]);
+                $pago = 0;
+              } else {
+                $lam = Amortizacion_Morales::where('id', $amoritzacion->id)->first();
+
+                $pagos = $lam->pagos ? $lam->pagos : 0;
+
+                $apago = $lam->flujo - $pagos;
+
+                $prest = $pago - $apago;
+
+                $rpagos = new RelacionPago_Morales();
+                $rpagos->amortizacion_moral_id = $amoritzacion->id;
+                $rpagos->pago_id = $pagoid;
+                $rpagos->fecha_pago = $rfecha;
+                $rpagos->monto = $apago;
+                $rpagos->restante = 0;
+                $rpagos->monto_total = $rmonto;
+                $rpagos->pago_restante = $prest;
+                $rpagos->descripcion = 'Monto pagado por el cliente';
+                $rpagos->save();
+                $rmonto = $prest;
+
+                Amortizacion_Morales::where('id', $amoritzacion->id)->update(['pagos' => $lam->flujo, 'liquidado' => 1]);
+                $pago = $pago - $lam->flujo;
+              }
+            }
+          }
+
+        }
+      }
+      $rperiodo = $amoritzacion->periodo;
+    }
+    return redirect('/morales/info/' . $request->id)->with('pago', 'OK');
+  }
+  public function credito(Request $request, $id)
+  {
+    $ncredito = new Credito_Moral();
+    $ncredito->moral_id = $id;
+    $ncredito->tcredito = $request->tcredito;
+    $ncredito->contrato = $request->ncontrato;
+    $ncredito->monto = $request->sliderInput;
+    $ncredito->fpago = $request->fpago;
+    $ncredito->frecuencia = $request->frecuencia;
+    $ncredito->plazo = $request->numero_plazo;
+    $ncredito->amortizacion = $request->amortizaciones;
+    $ncredito->iva = $request->iva;
+    $ncredito->tasa = $request->tinteres;
+    $ncredito->disposicion = $request->disposicion;
+    $ncredito->save();
+
+
+    Moral::where('id', $id)->update(['status' => 'credito']);
+    $detinoC = new DestinoCredito();
+    $destino = $detinoC::all();
+    $detinoC->id_credito = $ncredito->id;
+    $detinoC->id_destino_recursos = $request->recurso;
+    $detinoC->titular = $request->titular;
+    $detinoC->numero_cuenta_clabe = $request->numero_cuenta_clabe;
+    $detinoC->tipo_cuenta = $request->tipo_cuenta;
+    $detinoC->save();
+    return redirect('/morales/morales')->with('credito', 'OK');
+
+  }
+  public function infoamortizacion($id)
+  {
+    $result = array();
+
+    $data = Credito_Moral::where('moral_id', $id)->first();
+    $hoy = date('Y-m-d');
+
+    if (!empty($data)) {
+
+      $amortizacion = Amortizacion_Morales::where('moral_id', $id)->where('credito_id', $data->id)->orderBy('id', 'asc')->get();
+
+      if (!empty(count($amortizacion))) {
+        foreach ($amortizacion as $gdata) {
+          if ($gdata->liquidado == 0) {
+            $fecha1 = date_create(date('Y-m-d'));
+            $fecha2 = date_create($gdata->fin);
+            $dias = str_replace('+', '', date_diff($fecha1, $fecha2)->format('%R%a'));
+            $tasa = (Credito_Moral::where('id', $gdata->credito_id)->first()->tasa) / 100;
+
+            if ($dias < 0 && $gdata->dia_mora != $hoy) {
+              $dias = abs($dias);
+              $intmora = ((($gdata->amortizacion * $tasa) * 2) / 360) * $dias;
+              $ivamora = $intmora * 0.16;
+              $moratorios = number_format($intmora, 2) + number_format($ivamora, 2);
+              $lgcobranza = $gdata->gcobranza ? $gdata->gcobranza : 0;
+              $gcobranza = 200;
+              $ivacobranza = number_format($gcobranza * 0.16, 2);
+              if (empty($lgcobranza)) {
+                $nflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $moratorios + $gcobranza + $ivacobranza;
+
+                $mflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $gcobranza + $ivacobranza;
+
+                $nhistorialflujo = new HistorialFlujos_Morales();
+                $nhistorialflujo->amortizacion_id = $gdata->id;
+                $nhistorialflujo->monto = $mflujo;
+                $nhistorialflujo->cambio = $gcobranza + $ivacobranza;
+                $nhistorialflujo->descripcion = 'Gastos De Cobranza';
+                $nhistorialflujo->save();
+
+              } else {
+                $nflujo = $gdata->flujo + $moratorios;
+              }
+
+              Amortizacion_Morales::where('id', $gdata->id)->update(['flujo' => $nflujo, 'dias_mora' => $dias, 'int_mora' => $intmora, 'iva_mora' => $ivamora, 'gcobranza' => $gcobranza, 'dia_mora' => $hoy, 'iva_cobranza' => $ivacobranza]);
+
+              HistorialFlujos_Morales::where('amortizacion_id', $gdata->id)->where('descripcion', 'Gastos Moratorios')->delete();
+              $nhistorialflujo = new HistorialFlujos_Morales();
+              $nhistorialflujo->amortizacion_id = $gdata->id;
+              $nhistorialflujo->monto = $nflujo;
+              $nhistorialflujo->cambio = $moratorios;
+              $nhistorialflujo->descripcion = 'Gastos Moratorios (Interes mora: $' . number_format($intmora, 2) . ' + Iva mora: $' . number_format($ivamora, 2) . ')';
+              $nhistorialflujo->save();
+            }
+          }
+        }
+
+        $amortizacion = Amortizacion_Morales::selectRaw("
+              id,
+              moral_id,
+              credito_id,
+              periodo,
+              fechas,
+              inicio,
+              fin,
+              dias,
+              format(disposicion,2) as disposicion,
+              format(saldo_insoluto,2) as saldo_insoluto,
+              format(comision,2) as comision,
+              format(amortizacion,2) as amortizacion,
+              format(intereses,2) as intereses,
+              format(moratorios,2) as moratorios,
+              format(iva,2) as iva,
+              format(gcobranza,2) as gcobranza,
+              format(iva_cobranza,2) as ivacobranza,
+              format(int_mora,2) as int_mora,
+              format(iva_mora,2) as iva_mora,
+              pagos,
+              liquidado,
+              flujo,
+              dias_mora"
+        )->where('moral_id', $id)->where('credito_id', $data->id)->orderBy('id', 'asc')->get();
+        $result = $amortizacion;
+      } else {
+
+        $plazo = $data->plazo;
+        $tinteres = $data->tasa;
+        $monto = $data->monto;
+        $frecuencia = $data->frecuencia;
+        $amortizaciones = $data->amortizacion;
+        $forma = $data->fpago;
+        $disposicion = $data->disposicion;
+        $nuevafecha = '';
+        $dias = '';
+        $mdis = number_format($monto * -1, 2);
+        $saldo = $monto;
+        $comision = number_format($monto * 0.01, 2);
+        $civa = $data->iva;
+        $intereses = 0;
+        $amortizacion = 0;
+        $iva = '';
+        $flujo = 0;
+        $addt = '';
+        $add = 1;
+        $sumintereses = 0;
+        $sumiva = 0;
+        $sumflujo = 0;
+        $cid = $data->id;
+
+        if ($frecuencia == 'semanales') {
+          $rplazo = round(abs($plazo * 4));
+          $addt = 'week';
+        }
+
+        if ($frecuencia == 'quincenales') {
+          $rplazo = round(abs($plazo * 2));
+          $add = 15;
+          $addt = 'days';
+        }
+
+        if ($frecuencia == 'menusales') {
+          $rplazo = round(abs($plazo * 1));
+          $addt = 'month';
+        }
+
+        if ($frecuencia == 'trimestrales') {
+          $rplazo = round(abs($plazo / 3));
+          $add = 3;
+          $addt = 'month';
+        }
+
+        if ($frecuencia == 'semestrales') {
+          $rplazo = round(abs($plazo / 3));
+          $add = 6;
+          $addt = 'month';
+        }
+
+        if ($frecuencia == 'anuales') {
+          $rplazo = round(abs($plazo / 12));
+          $addt = 'year';
+        }
+
+        $tp = ($tinteres / 100) / 12;
+        $pp = ($tp * pow((1 + $tp), $rplazo)) * $monto / ((pow((1 + $tp), $rplazo)) - 1);
+        $pp = ($tp * pow((1 + $tp), $rplazo)) * $monto / ((pow((1 + $tp), $rplazo)) - 1);
+
+        for ($i = 0; $i <= $rplazo; $i++) {
+          if ($forma == 'VENCIMIENTO') {
+            if ($i == 0) {
+              $fecha = date('d/m/Y', strtotime($disposicion));
+              if ($civa == 'SI') {
+                $iva = ($intereses + $comision) * 0.16;
+              }
+
+              $flujo = ($monto * -1) + $comision + $amortizacion + $intereses + $iva;
+
+            } else {
+              $fecha1 = date_create($disposicion);
+
+              $fecha = date('d/m/Y', strtotime($disposicion));
+
+              $nuevafecha = strtotime('+' . $add . ' ' . $addt, strtotime($disposicion));
+              $disposicion = date('Y-m-d', $nuevafecha);
+              $nuevafecha = date('d/m/Y', $nuevafecha);
+
+              $fecha2 = date_create($disposicion);
+
+              $dias = str_replace('+', '', date_diff($fecha1, $fecha2)->format('%R%a'));
+
+              $intereses = ($saldo * ($tinteres / 100) / 360) * $dias;
+
+              if ($rplazo == $i) {
+                $amortizacion = $saldo;
+
+                $saldo = 0;
+
+              } else {
+                $saldo = $saldo;
+                $amortizacion = 0;
+              }
+
+              $mdis = '';
+              $comision = '';
+
+
+              if ($civa == 'SI') {
+                $iva = $intereses * 0.16;
+              }
+
+
+              $flujo = $amortizacion + $intereses + $iva;
+
+            }
+
+            $sumintereses = $sumintereses + round($intereses);
+            $sumiva = $sumiva + round($iva);
+            if ($i > 1) {
+              $sumflujo = $sumflujo + round($flujo);
+            }
+
+
+            $arr = array(
+              'periodo' => $i,
+              'fecha' => $fecha . ' - ' . $nuevafecha,
+              'inicio' => $fecha,
+              'fin' => $nuevafecha,
+              'dias' => $dias,
+              'disposicion' => $mdis,
+              'saldo' => number_format(round($saldo), 0),
+              'comision' => $comision,
+              'amortizacion' => number_format(round($amortizacion), 0),
+              'intereses' => number_format(round($intereses), 0),
+              'moratorios' => '',
+              'iva' => number_format(round($iva), 0),
+              'flujo' => number_format(round($flujo), 0)
+            );
+            array_push($result, (object)$arr);
+
+          } else {
+            if ($amortizaciones == 'Pagos iguales') {
+              $npp = 0;
+
+              if ($i == 0) {
+                $fecha = date('d/m/Y', strtotime($disposicion));
+                if ($civa == 'SI') {
+                  $iva = ($intereses + $comision) * 0.16;
+                }
+
+                $flujo = ($monto * -1) + $comision + $amortizacion + $intereses + $iva;
+
+                $arr = array(
+                  'periodo' => $i,
+                  'fecha' => $fecha . ' - ' . $nuevafecha,
+                  'inicio' => $fecha,
+                  'fin' => $nuevafecha,
+                  'dias' => $dias,
+                  'disposicion' => $mdis,
+                  'saldo' => number_format(round($saldo), 0),
+                  'comision' => $comision,
+                  'amortizacion' => number_format(round($amortizacion), 0),
+                  'intereses' => number_format(round($intereses), 0),
+                  'moratorios' => '',
+                  'iva' => number_format(round($iva), 0),
+                  'flujo' => number_format(round($flujo), 0)
+                );
+                array_push($result, (object)$arr);
+
+              } else {
+                $fecha1 = date_create($disposicion);
+
+                $fecha = date('d/m/Y', strtotime($disposicion));
+                $d1 = date('Y-m-d', strtotime($disposicion));
+
+                $nuevafecha = strtotime('+' . $add . ' ' . $addt, strtotime($disposicion));
+                $disposicion = date('Y-m-d', $nuevafecha);
+                $d2 = date('Y-m-d', $nuevafecha);
+                $nuevafecha = date('d/m/Y', $nuevafecha);
+
+                $fecha2 = date_create($disposicion);
+                $dias = str_replace('+', '', date_diff($fecha1, $fecha2)->format('%R%a'));
+                $mdis = '';
+                $comision = '';
+
+                $intereses = (($saldo * ($tinteres / 100)) / 360) * 30;
+
+                if ($civa == 'SI') {
+                  $iva = $intereses * 0.16;
+                }
+
+                $amortizacion = $pp - $intereses;
+
+                $saldo = $saldo - $amortizacion;
+                $flujo = $pp + $iva;
+
+                if (round($npp) < round($flujo)) {
+                  $flujo = ($pp - $npp) + $iva;
+
+                  $arr = array(
+                    'periodo' => $i,
+                    'fecha' => $fecha . ' - ' . $nuevafecha,
+                    'inicio' => $fecha,
+                    'fin' => $nuevafecha,
+                    'dias' => $dias,
+                    'disposicion' => $mdis,
+                    'saldo' => number_format(round($saldo), 0),
+                    'comision' => $comision,
+                    'amortizacion' => number_format(round($amortizacion), 0),
+                    'intereses' => number_format(round($intereses), 0),
+                    'moratorios' => '',
+                    'iva' => number_format(round($iva), 0),
+                    'flujo' => number_format(round($flujo), 0)
+                  );
+                  array_push($result, (object)$arr);
+
+                }
+
+              }
+
+
+            } elseif ($amortizaciones == 'Amortizaciones iguales') {
+              if ($i == 0) {
+                $fecha = date('d/m/Y', strtotime($disposicion));
+                if ($civa == 'SI') {
+                  $iva = ($intereses + $comision) * 0.16;
+                }
+
+                $flujo = ($monto * -1) + $comision + $amortizacion + $intereses + $iva;
+
+              } else {
+                $fecha1 = date_create($disposicion);
+
+                $fecha = date('d/m/Y', strtotime($disposicion));
+
+                $nuevafecha = strtotime('+' . $add . ' ' . $addt, strtotime($disposicion));
+                $disposicion = date('Y-m-d', $nuevafecha);
+                $nuevafecha = date('d/m/Y', $nuevafecha);
+
+                $fecha2 = date_create($disposicion);
+                $dias = str_replace('+', '', date_diff($fecha1, $fecha2)->format('%R%a'));
+                $mdis = '';
+                $comision = '';
+
+                $intereses = $saldo * ($tinteres / 100) / 360 * $dias;
+
+                if ($civa == 'SI') {
+                  $iva = $intereses * 0.16;
+                }
+
+                $amortizacion = ($monto / $rplazo);
+
+
+                $saldo = $saldo - $amortizacion;
+                $flujo = $amortizacion + $intereses + $iva;
+
+              }
+
+              $arr = array(
+                'periodo' => $i,
+                'fecha' => $fecha . ' - ' . $nuevafecha,
+                'inicio' => $fecha,
+                'fin' => $nuevafecha,
+                'dias' => $dias,
+                'disposicion' => $mdis,
+                'saldo' => number_format(round($saldo), 0),
+                'comision' => $comision,
+                'amortizacion' => number_format(round($amortizacion), 0),
+                'intereses' => number_format(round($intereses), 0),
+                'moratorios' => '',
+                'iva' => number_format(round($iva), 0),
+                'flujo' => number_format(round($flujo), 0)
+              );
+              array_push($result, (object)$arr);
+
+            }
+          }
+        }
+
+        if ($forma == 'VENCIMIENTO') {
+          $arr = array(
+            'periodo' => 'Totales',
+            'fecha' => '',
+            'inicio' => '',
+            'fin' => '',
+            'dias' => '',
+            'disposicion' => '',
+            'saldo' => '',
+            'comision' => '',
+            'amortizacion' => number_format(round($monto), 0),
+            'intereses' => number_format(round($sumintereses), 0),
+            'moratorios' => '',
+            'iva' => number_format(round($sumiva), 0),
+            'flujo' => number_format(round($sumflujo), 0)
+          );
+          array_push($result, (object)$arr);
+        }
+
+        foreach ($result as $key) {
+          $amm = new Amortizacion_Morales();
+          $amm->moral_id = $id;
+          $amm->credito_id = $data->id;
+          $amm->periodo = $key->periodo;
+          $amm->fechas = $key->fecha;
+          $amm->inicio = $key->inicio ? date('Y-m-d', strtotime(substr($key->inicio, 6, 4) . '-' . substr($key->inicio, 3, 2) . '-' . substr($key->inicio, 0, 2))) : null;
+          $amm->fin = $key->fin ? date('Y-m-d', strtotime(substr($key->fin, 6, 4) . '-' . substr($key->fin, 3, 2) . '-' . substr($key->fin, 0, 2))) : null;
+          $amm->dias = $key->dias ? $key->dias : null;
+          $amm->disposicion = $key->disposicion ? str_replace(',', '', $key->disposicion) : null;
+          $amm->saldo_insoluto = $key->saldo ? str_replace(',', '', $key->saldo) : null;
+          $amm->comision = $key->comision ? str_replace(',', '', $key->comision) : null;
+          $amm->amortizacion = $key->amortizacion ? str_replace(',', '', $key->amortizacion) : null;
+          $amm->intereses = $key->intereses ? str_replace(',', '', $key->intereses) : null;;
+          $amm->moratorios = $key->moratorios ? str_replace(',', '', $key->moratorios) : null;
+          $amm->iva = $key->iva;
+          $amm->flujo = $key->flujo ? str_replace(',', '', $key->flujo) : null;
+          $amm->dias_mora = 0;
+          $amm->save();
+
+          $nhistorialflujo = new HistorialFlujos_Morales();
+          $nhistorialflujo->amortizacion_id = $amm->id;
+          $nhistorialflujo->monto = $key->flujo ? str_replace(',', '', $key->flujo) : null;
+          $nhistorialflujo->cambio = $key->flujo ? str_replace(',', '', $key->flujo) : null;
+          $nhistorialflujo->descripcion = 'Flujo Original De Amortización';
+          $nhistorialflujo->save();
+
+        }
+
+
+        $amortizacion = Amortizacion_Morales::where('moral_id', $id)->where('credito_id', $data->id)->orderBy('id', 'asc')->get();
+        foreach ($amortizacion as $gdata) {
+          if ($gdata->liquidado == 0) {
+            $fecha1 = date_create(date('Y-m-d'));
+            $fecha2 = date_create($gdata->fin);
+            $dias = str_replace('+', '', date_diff($fecha1, $fecha2)->format('%R%a'));
+            $tasa = (creditos::where('id', $gdata->credito_id)->first()->tasa) / 100;
+
+            if ($dias < 0 && $gdata->dia_mora != $hoy) {
+              $dias = abs($dias);
+              $intmora = ((($gdata->amortizacion * $tasa) * 2) / 360) * $dias;
+              $ivamora = $intmora * 0.16;
+              $moratorios = number_format($intmora, 2) + number_format($ivamora, 2);
+              $lgcobranza = $gdata->gcobranza ? $gdata->gcobranza : 0;
+              $gcobranza = 200;
+              $ivacobranza = number_format($gcobranza * 0.16, 2);
+              if (empty($lgcobranza)) {
+                $nflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $moratorios + $gcobranza + $ivacobranza;
+
+                $mflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $gcobranza + $ivacobranza;
+
+                $nhistorialflujo = new HistorialFlujos;
+                $nhistorialflujo->amortizacion_id = $gdata->id;
+                $nhistorialflujo->monto = $mflujo;
+                $nhistorialflujo->cambio = $gcobranza + $ivacobranza;
+                $nhistorialflujo->descripcion = 'Gastos De Cobranza';
+                $nhistorialflujo->save();
+
+
+              } else {
+                $nflujo = $gdata->flujo + $moratorios;
+              }
+              Amortizacion_Morales::where('id', $gdata->id)->update(['flujo' => $nflujo, 'dias_mora' => $dias, 'int_mora' => $intmora, 'iva_mora' => $ivamora, 'gcobranza' => $gcobranza, 'dia_mora' => $hoy, 'iva_cobranza' => $ivacobranza]);
+
+              HistorialFlujos_Morales::where('amortizacion_id', $gdata->id)->where('descripcion', 'Gastos Moratorios')->delete();
+              $nhistorialflujo = new HistorialFlujos_Morales();
+              $nhistorialflujo->amortizacion_id = $gdata->id;
+              $nhistorialflujo->monto = $nflujo;
+              $nhistorialflujo->cambio = $moratorios;
+              $nhistorialflujo->descripcion = 'Gastos Moratorios (Interes mora: $' . number_format($intmora, 2) . ' + Iva mora: $' . number_format($ivamora, 2) . ')';
+              $nhistorialflujo->save();
+
+            }
+          }
+        }
+        $amortizacion = Amortizacion_Morales::selectRaw("
+              id,
+              moral_id,
+              credito_id,
+              periodo,
+              fechas,
+              inicio,
+              fin,
+              dias,
+              format(disposicion,2) as disposicion,
+              format(saldo_insoluto,2) as saldo_insoluto,
+              format(comision,2) as comision,
+              format(amortizacion,2) as amortizacion,
+              format(intereses,2) as intereses,
+              format(moratorios,2) as moratorios,
+              format(iva,2) as iva,
+              format(gcobranza,2) as gcobranza,
+              format(iva_cobranza,2) as ivacobranza,
+              format(int_mora,2) as int_mora,
+              format(iva_mora,2) as iva_mora,
+              pagos,
+              liquidado,
+              flujo,
+              dias_mora"
+        )->where('moral_id', $id)->where('credito_id', $data->id)->orderBy('id', 'asc')->get();
+        $result = $amortizacion;
+
+
+      }
+
+    }
+
+    return datatables()->of($result)
+      ->addColumn('saldo_pendiente', function ($query) {
+
+        if ($query->flujo > 0) {
+          $pagos = $query->pagos ? $query->pagos : 0;
+
+          $pendiente = number_format($query->flujo - $pagos, 2);
+        } else {
+          $pendiente = '';
+        }
+
+        return $pendiente;
+      })
+      ->addColumn('pagos', function ($query) {
+
+        $pagos = $query->pagos ? $query->pagos : 0;
+        $pagos = number_format($pagos, 2);
+        if ($pagos > 0) {
+          $pagos = '<button onclick="verpagos(' . $query->id . ');" type="button" class="btn btn-flat-dark" style="position: relative;">
+                    $' . $pagos . '
+                    </button>';
+        } else {
+          $pagos = '<button type="button" class="btn btn-flat-dark" style="position: relative;">
+                    $0.00
+                    </button>';
+        }
+        return $pagos;
+      })
+      ->addColumn('flujos', function ($query) {
+
+        $flujo = number_format($query->flujo, 2);
+
+        $bflujo = '<button onclick="verflujos(' . $query->id . ');" type="button" class="btn btn-flat-dark" style="position: relative;">
+      $' . $flujo . '
+      </button>';
+
+        return $bflujo;
+      })
+      ->addColumn('cflujos', function ($query) {
+
+        $flujo = number_format($query->flujo, 2);
+
+
+        return $flujo;
+      })
+      ->addColumn('cstatus', function ($query) {
+        if ($query->liquidado == 1 || $query->flujo < 0) {
+          $status = 1;
+        } elseif (strtotime(date('Y-m-d')) > strtotime($query->fin)) {
+          $status = 2;
+
+          $carbon = new Carbon();
+          $to = $carbon::createFromFormat('Y-m-d', $query->fin);
+          $from = $carbon->now();
+          $diff = $to->diffInMonths($from);
+
+          if ($diff > 0) {
+            $status = 3;
+          }
+
+        } else {
+          $status = 0;
+        }
+        return $status;
+      })
+      ->addColumn('condonar', function ($query) {
+        $bflujo = '';
+        if ($query->flujo > 0) {
+          if ($query->liquidado == 0) {
+            $bflujo = '<button onclick="condonar(' . $query->id . ');" type="button" class="btn btn-primary" style="position: relative;">
+          Condonar
+          </button>';
+          }
+        }
+
+
+        return $bflujo;
+      })
+      ->rawColumns(['pagos', 'cstatus', 'saldo_pendiente', 'flujos', 'cflujos', 'condonar'])
+      ->toJson();
+
+  }
 }
