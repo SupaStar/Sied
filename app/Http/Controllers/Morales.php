@@ -1410,6 +1410,9 @@ class Morales extends Controller
     $npago->moneda = $moneda;
     $npago->origen = $request->origen;
     $npago->save();
+    $moral=Moral::where('id',$request->id)->first();
+    $moral->limite_credito=$moral->limite_credito+$request->monto;
+    $moral->save();
     $amortizaciones = Amortizacion_Morales::where('moral_id', $request->id)->where('credito_id', $cid)->where('liquidado', 0)->where('flujo', '>', 0)->orderBy('periodo', 'asc')->orderBy('id', 'asc')->get();
     $pago = $request->monto;
     $gcobranza = $request->gcobranza ? $request->gcobranza : 0;
@@ -1881,6 +1884,14 @@ class Morales extends Controller
   }
   public function credito(Request $request, $id)
   {
+    $moral=Moral::where('id',$id)->first();
+    if(isset($request->limite)){
+      $moral->limite_credito=$request->limite;
+      $moral->save();
+    }
+    if($moral->limite_credito<$request->sliderInput){
+      return redirect('/morales/continuar')->with('limite', 'OK');
+    }
     $ncredito = new Credito_Moral();
     $ncredito->moral_id = $id;
     $ncredito->tcredito = $request->tcredito;
@@ -1896,8 +1907,11 @@ class Morales extends Controller
 
     $ncredito->save();
 
-
-    Moral::where('id', $id)->update(['status' => 'credito']);
+    $moral=Moral::where('id', $id)->update(['status' => 'credito']);
+    if(isset($request->limite)){
+      $moral->limite_credito=$request->limite;
+      $moral->save();
+    }
     $detinoC = new DestinoCredito();
     $destino = $detinoC::all();
     $detinoC->id_credito = $ncredito->id;
@@ -1907,8 +1921,8 @@ class Morales extends Controller
     $detinoC->tipo_cuenta = $request->tipo_cuenta;
     $detinoC->save();
     return redirect('/morales/morales')->with('credito', 'OK');
-
   }
+
   public function infoamortizacion($id)
   {
     $result = array();
