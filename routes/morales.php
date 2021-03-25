@@ -30,3 +30,7 @@ Route::post('files/{id}', 'Morales@getfiles');
 Route::post('editado', 'Morales@editado');
 Route::post('eperfil', 'Morales@eperfil');
 Route::post('continuar/credito/{id}', 'Morales@credito');
+
+Route::post('credito/pago', 'Morales@pago');
+Route::get('info/amortizacion/{id}', 'Morales@infoamortizacion');
+Route::get('info/pagos/{id}', 'Morales@infopagos');

@@ -2462,4 +2462,24 @@ class Morales extends Controller
       ->toJson();
 
   }
+  public function infopagos($id)
+  {
+    $data = Credito_Moral::where('moral_id', $id)->first();
+    $creditoid = 0;
+    if (isset($data)) {
+      $creditoid = $data->id;
+    }
+
+    $result = DB::SELECT("SELECT periodo,fpago,0 as mora,0 as imora,0 as condonacion, 0 as iva,pago, `full`
+                          FROM `pago_morales`
+                          LEFT JOIN comprobantes_pago on pago_moral_id=pagos.id
+                          WHERE credito_id=$creditoid");
+
+    return datatables()->of($result)
+      ->addColumn('comprobante', function ($query) {
+        return '<a href="/uploads/' . $query->full . '" target="popup" onclick="window.open(\'/uploads/' . $query->full . '\',\'popup\',\'width=600,height=600\'); return false;"><button  style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-eye primary"></i></button></a>  <a href="/storage/' . $query->full . '" target="_blank"><button  style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-download primary"></i></button></a>';
+      })
+      ->rawColumns(['comprobante'])
+      ->toJson();
+  }
 }
