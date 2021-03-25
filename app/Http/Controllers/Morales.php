@@ -1450,7 +1450,7 @@ class Morales extends Controller
 
                     $rpagos = new RelacionPago_Morales();
                     $rpagos->amortizacion_moral_id = $amoritzacion2->id;
-                    $rpagos->pago_id = $pagoid;
+                    $rpagos->pago_moral_id = $pagoid;
                     $rpagos->fecha_pago = $rfecha;
                     $rpagos->monto = $pago;
                     $rpagos->monto_total = $rmonto;
@@ -1469,7 +1469,7 @@ class Morales extends Controller
 
                       $rpagos = new RelacionPago_Morales();
                       $rpagos->amortizacion_moral_id = $amoritzacion2->id;
-                      $rpagos->pago_id = $pagoid;
+                      $rpagos->pago_moral_id = $pagoid;
                       $rpagos->fecha_pago = $rfecha;
                       $rpagos->monto = $pago;
                       $rpagos->monto_total = $rmonto;
@@ -1492,7 +1492,7 @@ class Morales extends Controller
 
                       $rpagos = new RelacionPago_Morales();
                       $rpagos->amortizacion_moral_id = $amoritzacion2->id;
-                      $rpagos->pago_id = $pagoid;
+                      $rpagos->pago_moral_id = $pagoid;
                       $rpagos->fecha_pago = $rfecha;
                       $rpagos->monto = $apago;
                       $rpagos->monto_total = $rmonto;
@@ -1516,7 +1516,7 @@ class Morales extends Controller
 
                     $rpagos = new RelacionPago_Morales();
                     $rpagos->amortizacion_moral_id = $amoritzacion2->id;
-                    $rpagos->pago_id = $pagoid;
+                    $rpagos->pago_moral_id = $pagoid;
                     $rpagos->fecha_pago = $rfecha;
                     $rpagos->monto = $pago;
                     $rpagos->monto_total = $rmonto;
@@ -1538,7 +1538,7 @@ class Morales extends Controller
 
                       $rpagos = new RelacionPago_Morales();
                       $rpagos->amortizacion_moral_id = $amoritzacion2->id;
-                      $rpagos->pago_id = $pagoid;
+                      $rpagos->pago_moral_id = $pagoid;
                       $rpagos->fecha_pago = $rfecha;
                       $rpagos->monto = $pago;
                       $rpagos->monto_total = $rmonto;
@@ -1561,7 +1561,7 @@ class Morales extends Controller
 
                       $rpagos = new RelacionPago_Morales();
                       $rpagos->amortizacion_moral_id = $amoritzacion2->id;
-                      $rpagos->pago_id = $pagoid;
+                      $rpagos->pago_moral_id = $pagoid;
                       $rpagos->fecha_pago = $rfecha;
                       $rpagos->monto = $apago;
                       $rpagos->monto_total = $rmonto;
@@ -1592,7 +1592,7 @@ class Morales extends Controller
 
                 $rpagos = new RelacionPago_Morales();
                 $rpagos->amortizacion_moral_id = $amoritzacion->id;
-                $rpagos->pago_id = $pagoid;
+                $rpagos->pago_moral_id = $pagoid;
                 $rpagos->fecha_pago = $rfecha;
                 $rpagos->monto = $pago;
                 $rpagos->monto_total = $rmonto;
@@ -1614,7 +1614,7 @@ class Morales extends Controller
 
                   $rpagos = new RelacionPago_Morales();
                   $rpagos->amortizacion_moral_id = $amoritzacion->id;
-                  $rpagos->pago_id = $pagoid;
+                  $rpagos->pago_moral_id = $pagoid;
                   $rpagos->fecha_pago = $rfecha;
                   $rpagos->monto = $pago;
                   $rpagos->monto_total = $rmonto;
@@ -1637,7 +1637,7 @@ class Morales extends Controller
 
                   $rpagos = new RelacionPago_Morales();
                   $rpagos->amortizacion_moral_id = $amoritzacion->id;
-                  $rpagos->pago_id = $pagoid;
+                  $rpagos->pago_moral_id = $pagoid;
                   $rpagos->fecha_pago = $rfecha;
                   $rpagos->monto = $apago;
                   $rpagos->monto_total = $rmonto;
@@ -1660,7 +1660,7 @@ class Morales extends Controller
 
                 $rpagos = new RelacionPago_Morales();
                 $rpagos->amortizacion_moral_id = $amoritzacion->id;
-                $rpagos->pago_id = $pagoid;
+                $rpagos->pago_moral_id = $pagoid;
                 $rpagos->fecha_pago = $rfecha;
                 $rpagos->monto = $pago;
                 $rpagos->monto_total = $rmonto;
@@ -1680,7 +1680,7 @@ class Morales extends Controller
 
                   $rpagos = new RelacionPago_Morales();
                   $rpagos->amortizacion_moral_id = $amoritzacion->id;
-                  $rpagos->pago_id = $pagoid;
+                  $rpagos->pago_moral_id = $pagoid;
                   $rpagos->fecha_pago = $rfecha;
                   $rpagos->monto = $pago;
                   $rpagos->monto_total = $rmonto;
@@ -1704,7 +1704,7 @@ class Morales extends Controller
 
                   $rpagos = new RelacionPago_Morales();
                   $rpagos->amortizacion_moral_id = $amoritzacion->id;
-                  $rpagos->pago_id = $pagoid;
+                  $rpagos->pago_moral_id = $pagoid;
                   $rpagos->fecha_pago = $rfecha;
                   $rpagos->monto = $apago;
                   $rpagos->monto_total = $rmonto;
@@ -1734,7 +1734,7 @@ class Morales extends Controller
 
               $rpagos = new RelacionPago_Morales();
               $rpagos->amortizacion_moral_id = $amoritzacion->id;
-              $rpagos->pago_id = $pagoid;
+              $rpagos->pago_moral_id = $pagoid;
               $rpagos->fecha_pago = $rfecha;
               $rpagos->monto = $pago;
               $rpagos->monto_total = $rmonto;
@@ -1755,7 +1755,7 @@ class Morales extends Controller
 
                 $rpagos = new RelacionPago_Morales();
                 $rpagos->amortizacion_moral_id = $amoritzacion->id;
-                $rpagos->pago_id = $pagoid;
+                $rpagos->pago_moral_id = $pagoid;
                 $rpagos->fecha_pago = $rfecha;
                 $rpagos->monto = $pago;
                 $rpagos->monto_total = $rmonto;
@@ -1780,7 +1780,7 @@ class Morales extends Controller
 
                 $rpagos = new RelacionPago_Morales();
                 $rpagos->amortizacion_moral_id = $amoritzacion->id;
-                $rpagos->pago_id = $pagoid;
+                $rpagos->pago_moral_id = $pagoid;
                 $rpagos->fecha_pago = $rfecha;
                 $rpagos->monto = $apago;
                 $rpagos->restante = 0;
@@ -1803,7 +1803,7 @@ class Morales extends Controller
 
               $rpagos = new RelacionPago_Morales();
               $rpagos->amortizacion_moral_id = $amoritzacion->id;
-              $rpagos->pago_id = $pagoid;
+              $rpagos->pago_moral_id = $pagoid;
               $rpagos->fecha_pago = $rfecha;
               $rpagos->monto = $pago;
               $rpagos->monto_total = $rmonto;
@@ -1824,7 +1824,7 @@ class Morales extends Controller
 
                 $rpagos = new RelacionPago_Morales();
                 $rpagos->amortizacion_moral_id = $amoritzacion->id;
-                $rpagos->pago_id = $pagoid;
+                $rpagos->pago_moral_id = $pagoid;
                 $rpagos->fecha_pago = $rfecha;
                 $rpagos->monto = $pago;
                 $rpagos->monto_total = $rmonto;
@@ -1847,7 +1847,7 @@ class Morales extends Controller
 
                 $rpagos = new RelacionPago_Morales();
                 $rpagos->amortizacion_moral_id = $amoritzacion->id;
-                $rpagos->pago_id = $pagoid;
+                $rpagos->pago_moral_id = $pagoid;
                 $rpagos->fecha_pago = $rfecha;
                 $rpagos->monto = $apago;
                 $rpagos->restante = 0;
