@@ -26,6 +26,7 @@ Route::get('editar/{id}', 'Morales@editar');
 Route::get('perfil/{id}', 'Morales@fperfil');
 Route::get('riesgo/{id}', 'Morales@friesgo');
 
+
 Route::post('files/{id}', 'Morales@getfiles');
 Route::post('editado', 'Morales@editado');
 Route::post('eperfil', 'Morales@eperfil');
@@ -34,3 +35,6 @@ Route::post('continuar/credito/{id}', 'Morales@credito');
 Route::post('credito/pago', 'Morales@pago');
 Route::get('info/amortizacion/{id}', 'Morales@infoamortizacion');
 Route::get('info/pagos/{id}', 'Morales@infopagos');
+Route::get('info/pagos/aplicados/{id}', 'Morales@infopagosaplicados');
+
+Route::get('info/historial/flujo/{id}', 'Clients@infohistorialflujo');

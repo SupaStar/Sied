@@ -11,6 +11,7 @@ use App\DestinoRecursos;
 use App\Divisa;
 use App\EFResidencia;
 use App\EntidadFederativa;
+use App\HistorialFlujos;
 use App\HistorialFlujos_Morales;
 use App\InstrumentoMonetario;
 use App\NacionalidadAntecedentes;
@@ -24,6 +25,7 @@ use App\Pld;
 use App\Ponderacion;
 use App\Profesion;
 use App\RelacionPago_Morales;
+use App\RelacionPagos;
 use App\Riesgo;
 use App\Riesgos;
 use Carbon\Carbon;
@@ -2461,6 +2463,59 @@ class Morales extends Controller
       ->toJson();
 
   }
+  public function infohistorialflujo(Request $request)
+  {
+    $id = $request->id;
+
+    $result = HistorialFlujos_Morales::where('periodo_id', $id)->get();
+
+    return datatables()->of($result)
+      ->addColumn('fecha', function ($query) {
+        $fecha = date('d-m-Y', strtotime($query->created_at));
+        return $fecha;
+      })
+      ->addColumn('vmonto', function ($query) {
+        $monto = '$' . number_format($query->monto, 2);
+        return $monto;
+      })
+      ->addColumn('vcambio', function ($query) {
+        $monto = '$' . number_format($query->cambio, 2);
+        return $monto;
+      })
+      ->rawColumns(['fecha', 'vmonto', 'vcambio'])
+      ->toJson();
+  }
+  public function infopagosaplicados(Request $request)
+  {
+    $id = $request->id;
+
+    $result = RelacionPago_Morales::where('periodo_id', $id)->get();
+
+    return datatables()->of($result)
+      ->addColumn('fecha', function ($query) {
+        $fecha = date('d-m-Y', strtotime($query->fecha_pago));
+        return $fecha;
+      })
+      ->addColumn('vmonto', function ($query) {
+        $monto = '$' . number_format($query->monto, 2);
+        return $monto;
+      })
+      ->addColumn('vmonto_total', function ($query) {
+        $monto = '$' . number_format($query->monto_total, 2);
+        return $monto;
+      })
+      ->addColumn('monto_restante', function ($query) {
+        $monto = '$' . number_format($query->restante, 2);
+        return $monto;
+      })
+      ->addColumn('vpago_restante', function ($query) {
+        $monto = '$' . number_format($query->pago_restante, 2);
+        return $monto;
+      })
+      ->rawColumns(['fecha', 'vmonto', 'vmonto_total', 'monto_restante', 'vpago_restante'])
+      ->toJson();
+  }
+
   public function infopagos($id)
   {
     $data = Credito_Moral::where('moral_id', $id)->first();
