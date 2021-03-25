@@ -50,7 +50,7 @@
                           <option value="NOMINA" >NOMINA</option>
                         </select>
                         <hr>
-                       <input id="limite" name="limite" class="form-control required">
+                       <input id="limite" name="limite" class="form-control required" placeholder="Escribe tu limite de credito">
                       </div>
                     </div>
                   </div>
