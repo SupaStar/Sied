@@ -2526,7 +2526,7 @@ class Morales extends Controller
 
     $result = DB::SELECT("SELECT periodo,fpago,0 as mora,0 as imora,0 as condonacion, 0 as iva,pago, `full`
                           FROM `pago_morales`
-                          LEFT JOIN comprobantes_pago on pago_moral_id=pagos.id
+                          LEFT JOIN comprobantes_pago_morales on pago_moral_id=pagos.id
                           WHERE credito_id=$creditoid");
 
     return datatables()->of($result)

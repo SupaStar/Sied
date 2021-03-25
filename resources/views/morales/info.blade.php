@@ -1663,7 +1663,7 @@
           }
         ],
         ajax: {
-          url: "/clientes/info/pagos/{{$id}}",
+          url: "/morales/info/pagos/{{$id}}",
           data: {
             "data": data
           }
