@@ -31,7 +31,7 @@ $configAlertas=\App\ConfigAlertas::find(1)->first();
     padding-top: 8px;
     margin-right: 9px;
     margin-bottom: 0px;" id="btnactualizamoneda" class="btn btn-primary">Actualizar Valores</button><strong>Valor
-              UID: <label id="lbluid" style="color: green;">{{round($configAlertas->valor,6)}}</label>, TIIE28: <label id="lbltiie28"
+              UDI: <label id="lbluid" style="color: green;">{{round($configAlertas->valor,6)}}</label>, TIIE28: <label id="lbltiie28"
                 style="color: green;">{{round($configAlertas->tiie28,6)}}</label>, USD: <label
                id="lblfix" style="color: green;">{{round($configAlertas->fix,6)}}</label>,
               Cetes28: <label id="lblcetes28" style="color: green;">{{round($configAlertas->cetes28,6)}}</label></strong>
