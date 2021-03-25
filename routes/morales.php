@@ -16,7 +16,7 @@ Route::get('editarmoral/{id}', 'Morales@editarmoral');
 
 
 Route::get('nuevo/empresa', 'Morales@NuevaEmpresa');
-Route::get('continuar/{id}', 'Morales@continuar');
+Route::get('continuar/{id}', 'Morales@continuar')->name("Morales.Registro.Credito");
 Route::get('listaNegraPDF/{id}', 'Morales@listaNegraPDF');
 Route::get('editar/fisica/{id}', 'Morales@editarfisica');
 
