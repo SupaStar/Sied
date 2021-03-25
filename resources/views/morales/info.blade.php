@@ -121,15 +121,15 @@
                                           <div class="row">
                                             <div class="offset-6 col-3 text-center">
                                               <a
-                                                href="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-frontal.png') }}"
+                                                href="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-frontal.jpg') }}"
                                                 target="_blank"> <img
-                                                  src="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-frontal.png') }}"
+                                                  src="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-frontal.jpg') }}"
                                                   alt="INE" height="100"></a>
 
                                               <a
-                                                href="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-trasera.png') }}"
+                                                href="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-trasera.jpg') }}"
                                                 target="_blank"> <img
-                                                  src="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-trasera.png') }}"
+                                                  src="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-trasera.jpg') }}"
                                                   alt="INE" height="100"></a>
                                             </div>
 
@@ -1427,7 +1427,7 @@
           },
         ],
         ajax: {
-          url: "/clientes/info/historial/flujo/"+id
+          url: "/morales/info/historial/flujo/"+id
         }
       });
     }
@@ -1576,7 +1576,7 @@
           }
         ],
         ajax: {
-          url: "/clientes/info/pagos/aplicados/"+id
+          url: "/morales/info/pagos/aplicados/"+id
         }
       });
 
