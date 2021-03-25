@@ -504,7 +504,7 @@
           }
         ],
         ajax: {
-          url: "/morales/amortizacion",
+          url: "/clientes/amortizacion",
           data: {
             "data": data
           }
