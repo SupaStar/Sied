@@ -1905,11 +1905,9 @@ class Morales extends Controller
 
     $data = Credito_Moral::where('moral_id', $id)->first();
     $hoy = date('Y-m-d');
-
     if (!empty($data)) {
 
       $amortizacion = Amortizacion_Morales::where('moral_id', $id)->where('credito_id', $data->id)->orderBy('id', 'asc')->get();
-
       if (!empty(count($amortizacion))) {
         foreach ($amortizacion as $gdata) {
           if ($gdata->liquidado == 0) {
