@@ -83,8 +83,9 @@ class Morales extends Controller
       'paises' => $paises,
       'entidad' => $entidad,
       'datos' => $datos,
-      'miid' => $id,
-      'nacionantecedentes' => $nacionalidadesantecedente
+      'id' => $id,
+      'nacionantecedentes' => $nacionalidadesantecedente,
+
 
     ]);
   }

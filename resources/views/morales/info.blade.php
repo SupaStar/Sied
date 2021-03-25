@@ -785,6 +785,245 @@
     </div>
   </section>
 
+  <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog"
+       aria-labelledby="myModalLabel33" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel33">Agregar Pago </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <form action="/clientes/credito/pago"  enctype="multipart/form-data"  method="POST" class="steps-validation wizard-circle" id="formss" name="formss">
+          @csrf
+          <input type="hidden" name="id" value="{{$id}}">
+
+          <div class="modal-body">
+            <label>Monto: </label>
+            <div class="form-group">
+              <input type="number" name="monto" step="any" min="0" placeholder="$" class="form-control required" required>
+            </div>
+
+            <label>Moneda </label>
+            <div class="form-group">
+              <select class="form-control" id="moneda" name="moneda" onchange="cmoneda()">
+                <option selected disabled>Seleccionar</option>
+                <option value="Nacional">Nacional</option>
+                <option value="0">Extranjera</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="display:none" id="cssmoneda">
+              <input type='text' class="form-control " placeholder="Moneda" id="nmoneda"  name="nmoneda" />
+            </div>
+
+            <label>Forma de Pago </label>
+            <div class="form-group">
+              <select class="form-control" id="forma" name="forma" onchange="cforma()">
+                <option selected disabled>Seleccionar</option>
+                <option value="Efectivo">Efectivo</option>
+                <option value="Transferencia">Transferencia</option>
+                <option value="Cheques">Cheques</option>
+                <option value="0">Otro</option>
+              </select>
+            </div>
+
+            <div class="form-group" style="display:none" id="cssforma">
+              <input type='text' class="form-control " placeholder="Forma de Pago" id="nforma"  name="nforma" />
+            </div>
+
+            <div  style="display:none" id="trforma">
+              <label>Lugar de Pago </label>
+              <div class="form-group">
+                <select class="form-control" id="clforma" name="forma" onchange="lforma()">
+                  <option selected disabled>Seleccionar</option>
+                  <option value="Internacional">Internacional</option>
+                  <option value="Nacional">Nacional</option>
+                </select>
+              </div>
+            </div>
+
+            <div  style="display:none" id="lnacional">
+              <label>Nacional </label>
+              <div class="form-group">
+                <select class="form-control" id="clnacional" name="lnacional" >
+                  <option selected disabled>Seleccionar</option>
+                  <option value="En la plaza">En la plaza</option>
+                  <option value="En otros estados de la república">En otros estados de la república</option>
+                  <option value="En zona fronteriza">En zona fronteriza</option>
+                </select>
+              </div>
+            </div>
+
+            <div  style="display:none" id="linternacional">
+              <label>Internacional </label>
+              <div class="form-group">
+                <select class="form-control" id="clinternacional" name="linternacional" >
+                  <option selected disabled>Seleccionar</option>
+                  <option value="Países no cooperantes">Países no cooperantes</option>
+                  <option value="Paraísos fiscales">Paraísos fiscales</option>
+                  <option value="Otros">Otros</option>
+                </select>
+              </div>
+            </div>
+
+            <label>Origen </label>
+            <div class="form-group">
+              <select class="form-control" id="origen" name="origen" onchange="corigen()">
+                <option selected disabled>Seleccionar</option>
+                <option value="Cuentas propias">Cuentas propias</option>
+                <option value="En el caso de créditos de nómina, del empleador">En el caso de créditos de nómina, del empleador</option>
+                <option value="Cuentas de terceros">Cuentas de terceros</option>
+                <option value="No identificado">No identificado</option>
+              </select>
+            </div>
+
+            <div style="display:none" id="cterceros">
+              <label>Cuentas de terceros </label>
+              <div class="form-group">
+                <select class="form-control" id="ccterceros" name="cterceros" onchange="cccterceros()">
+                  <option selected disabled>Seleccionar</option>
+                  <option value="Relacionados en listas negras">Relacionados en listas negras</option>
+                  <option value="Otros">Otros</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="display:none" id="coterceros">
+              <label>Otros Cuentas de terceros </label>
+              <div class="form-group">
+                <select class="form-control" id="ccterceros" name="cterceros" >
+                  <option selected disabled>Seleccionar</option>
+                  <option value="Identificados">Identificados</option>
+                  <option value="No identificados">No identificados</option>
+                </select>
+              </div>
+            </div>
+
+
+            <label>Comprobante </label>
+            <div class="form-group">
+              <input type="file"
+                     placeholder=".jpg, .jpeg, .png"
+                     class="form-control required" id="comprobante" name="comprobante" accept=".jpg, .jpeg, .png">
+            </div>
+
+            <label>Fecha de Pago </label>
+            <div class="form-group">
+              <input type='text' class="form-control pickadate-disable required" id="fecha" value="{{date('Y-m-d')}}"  name="fecha" required />
+            </div>
+
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+            <button type="submit" class="btn btn-success" >Aplicar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade text-left" id="vpagos" tabindex="-1" role="dialog"
+       aria-labelledby="myModalLabel33" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel33">Pagos Aplicados </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered" id="pagosAplicados">
+              <thead>
+              <tr>
+                <th>Fecha de pago</th>
+                <th>Monto aplicado</th>
+                <th>Saldo restante</th>
+                <th>Monto pagado</th>
+                <th>Descripción</th>
+                <th>Saldo a aplicarse en otro periodo</th>
+              </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade text-left" id="vflujos" tabindex="-1" role="dialog"
+       aria-labelledby="myModalLabel33" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel33">Historial de Flujo </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered" id="historialdeflujo">
+              <thead>
+              <tr>
+                <th>Fecha </th>
+                <th>Monto</th>
+                <th>Monto Cambiado</th>
+                <th>Descripción</th>
+              </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade text-left" id="vcondonar" tabindex="-1" role="dialog"
+       aria-labelledby="myModalLabel33" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel33">Historial de Flujo </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered" id="condonarflujos">
+              <thead>
+              <tr>
+                <th>Intereses </th>
+                <th>Moratorios</th>
+                <th>Gastos Cobranza</th>
+                <th>Todo</th>
+              </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- invoice functionality end -->
 
 
@@ -800,4 +1039,813 @@
     async
   ></script>
   <script src="/js/scripts/mapsedit.js"></script>
+  <script>
+
+    $(document).ready(function(){
+
+      @if (session('pago'))
+      Swal.fire({
+        title: "Bien!",
+        text: "Pago aplicado correctamente!",
+        type: "success",
+        confirmButtonClass: 'btn btn-primary',
+        buttonsStyling: false,
+        animation: false,
+        customClass: 'animated tada'
+      });
+      @endif
+
+      table();
+      pagos();
+      credito();
+      tasas();
+
+      $('.pickadate-disable').pickadate({
+        disable: [
+          1,
+          [2019,3,6],
+          [2019,3,20]
+        ],
+        format: 'yyyy-mm-dd',
+        formatSubmit: 'yyyy-mm-dd',
+        monthsFull: [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ],
+        monthsShort: [ 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
+        weekdaysShort: [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab' ],
+        today: 'Hoy',
+        clear: 'Limpiar',
+        close: 'Cerrar'
+
+      });
+
+    });
+
+    function  restaurar(id){
+      $.post('/clientes/amortizacion/restaurar', {
+        id: id,
+        _token: token
+      }, function(data) {
+        location.reload();
+
+      });
+
+    }
+
+    function cmoneda()
+    {
+      var moneda = $('#moneda').val();
+      if(moneda == 0)
+      {
+        $("#cssmoneda").css("display", "block");
+      }else{
+        $("#cssmoneda").css("display", "none");
+      }
+    }
+
+    function verpagos(id)
+    {
+      pagosAplicadoss(id);
+      $('#vpagos').modal('toggle');
+    }
+
+    function verflujos(id)
+    {
+      historialFlujo(id);
+      $('#vflujos').modal('toggle');
+    }
+
+    function condonar(id)
+    {
+      condonarFlujo(id);
+      $('#vcondonar').modal('toggle');
+    }
+
+
+    function cforma()
+    {
+      var forma = $('#forma').val();
+      if(forma == 0)
+      {
+        $("#cssforma").css("display", "block");
+      }else if(forma == 'Transferencia'){
+        $("#trforma").css("display", "block");
+        $("#cssforma").css("display", "none");
+      } else {
+        $("#trforma").css("display", "none");
+        $("#cssforma").css("display", "none");
+      }
+    }
+
+    function lforma()
+    {
+      var forma = $('#clforma').val();
+      if(forma == 'Nacional')
+      {
+        $("#lnacional").css("display", "block");
+        $("#linternacional").css("display", "none");
+      }else if(forma == 'Internacional'){
+        $("#linternacional").css("display", "block");
+        $("#lnacional").css("display", "none");
+      } else {
+        $("#lnacional").css("display", "none");
+        $("#linternacional").css("display", "none");
+      }
+    }
+
+    function corigen()
+    {
+      var forma = $('#origen').val();
+      if(forma == 'Cuentas de terceros')
+      {
+        $("#cterceros").css("display", "block");
+      }  else {
+        $("#cterceros").css("display", "none");
+        $("#coterceros").css("display", "none");
+      }
+    }
+
+    function cccterceros()
+    {
+      var forma = $('#ccterceros').val();
+      if(forma == 'Otros')
+      {
+        $("#coterceros").css("display", "block");
+      }  else {
+        $("#coterceros").css("display", "none");
+      }
+    }
+
+
+
+
+
+
+
+    function table(data=null)
+    {
+      $('#amortizacion').DataTable( {
+        dom: 'Bfrtip',
+        searching: false,
+        paging: false,
+        ordering: false,
+        destroy: true,
+        processing:true,
+        responsive: true,
+        columnDefs: [
+          {
+            targets: [ 18, 19  ],
+            visible: false,
+            searchable: false
+          },
+        ],
+        buttons: [
+          {
+            extend: 'pdfHtml5',
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            title: 'Amortización',
+            text: 'Pdf'
+          },
+          {
+            extend: 'print',
+            text: 'Imprimir',
+            pageSize: 'LEGAL',
+            title: 'Amortización'
+          }
+        ],
+        language: {
+          "decimal": "",
+          "emptyTable": "No hay información",
+          "info": "",
+          "infoEmpty": "",
+          "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+          "infoPostFix": "",
+          "thousands": ",",
+          "lengthMenu": "Mostrar _MENU_ Entradas",
+          "loadingRecords": "Cargando...",
+          "processing": "Procesando...",
+          "search": "Buscar:",
+          "zeroRecords": "Sin resultados encontrados",
+          "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+          }
+        },
+        columns: [
+          {
+            data: 'periodo',
+            name: 'periodo'
+          },
+          {
+            data: 'fechas',
+            name: 'fechas'
+          },
+          {
+            data: 'dias',
+            name: 'dias'
+          },
+          {
+            data: 'disposicion',
+            name: 'disposicion'
+          },
+          {
+            data: 'saldo_insoluto',
+            name: 'saldo_insoluto'
+          },
+          {
+            data: 'comision',
+            name: 'comision'
+          },
+          {
+            data: 'amortizacion',
+            name: 'amortizacion'
+          },
+          {
+            data: 'intereses',
+            name: 'intereses'
+          },
+          {
+            data: 'iva',
+            name: 'iva'
+          },
+          {
+            data: 'flujos',
+            name: 'flujo'
+          },
+          {
+            data: 'saldo_pendiente',
+            name: 'saldo_pendiente'
+          },
+          {
+            data: 'dias_mora',
+            name: 'dias_mora'
+          },
+          {
+            data: 'int_mora',
+            name: 'int_mora'
+          },
+          {
+            data: 'iva_mora',
+            name: 'iva_mora'
+          },
+          {
+            data: 'gcobranza',
+            name: 'gcobranza'
+          },
+          {
+            data: 'ivacobranza',
+            name: 'ivacobranza'
+          },
+          {
+            data: 'pagos',
+            name: 'pagos'
+          },
+          {
+            data: 'condonar',
+            name: 'condonar'
+          },
+          {
+            data: 'cflujos',
+            name: 'cflujos'
+          },
+          {
+            data: 'cstatus',
+            name: 'cstatus'
+          }
+        ],
+        ajax: {
+          url: "/morales/info/amortizacion/{{$id}}",
+          data: {
+            "data": data
+          }
+        },
+        fnRowCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull){
+          if( aData['saldo_pendiente'] != 0.00 && aData['saldo_pendiente'] != aData['cflujos'] ) {
+            $('td', nRow).css('background-color', '#FFFC8E' );
+            $('td', nRow).css('color', 'black' );
+          } else if ( aData['cstatus'] == 1 )
+          {
+            $('td', nRow).css('background-color', '#7EAD74' );
+            $('td', nRow).css('color', 'white' );
+          } else if( aData['cstatus'] == 2 ) {
+            $('td', nRow).css('background-color', '#DA8742' );
+            $('td', nRow).css('color', 'white' );
+          } else if( aData['cstatus'] == 3 ) {
+            $('td', nRow).css('background-color', '#C1705E' );
+            $('td', nRow).css('color', 'white' );
+          }
+
+
+          return nRow;
+        }
+      });
+
+    }
+
+
+
+    function historialFlujo(id)
+    {
+      $('#historialdeflujo').DataTable( {
+        dom: 'Bfrtip',
+        searching: false,
+        paging: false,
+        ordering: false,
+        destroy: true,
+        processing:true,
+        responsive: true,
+        buttons: [
+          {
+            extend: 'pdfHtml5',
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            title: 'Amortización',
+            text: 'Pdf'
+          },
+          {
+            extend: 'print',
+            text: 'Imprimir',
+            pageSize: 'LEGAL',
+            title: 'Amortización'
+          }
+        ],
+        language: {
+          "decimal": "",
+          "emptyTable": "No hay información",
+          "info": "",
+          "infoEmpty": "",
+          "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+          "infoPostFix": "",
+          "thousands": ",",
+          "lengthMenu": "Mostrar _MENU_ Entradas",
+          "loadingRecords": "Cargando...",
+          "processing": "Procesando...",
+          "search": "Buscar:",
+          "zeroRecords": "Sin resultados encontrados",
+          "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+          }
+        },
+        columns: [
+          {
+            data: 'fecha',
+            name: 'created_at'
+          },
+          {
+            data: 'vmonto',
+            name: 'monto'
+          },
+          {
+            data: 'vcambio',
+            name: 'cambio'
+          },
+          {
+            data: 'descripcion',
+            name: 'descripcion'
+          },
+        ],
+        ajax: {
+          url: "/clientes/info/historial/flujo/"+id
+        }
+      });
+    }
+
+    function condonarFlujo(id)
+    {
+      $('#condonarflujos').DataTable( {
+        dom: 'Bfrtip',
+        searching: false,
+        paging: false,
+        ordering: false,
+        destroy: true,
+        processing:true,
+        responsive: false,
+        buttons: [
+          {
+            extend: 'pdfHtml5',
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            title: 'Amortización',
+            text: 'Pdf'
+          },
+          {
+            extend: 'print',
+            text: 'Imprimir',
+            pageSize: 'LEGAL',
+            title: 'Amortización'
+          }
+        ],
+        language: {
+          "decimal": "",
+          "emptyTable": "No hay información",
+          "info": "",
+          "infoEmpty": "",
+          "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+          "infoPostFix": "",
+          "thousands": ",",
+          "lengthMenu": "Mostrar _MENU_ Entradas",
+          "loadingRecords": "Cargando...",
+          "processing": "Procesando...",
+          "search": "Buscar:",
+          "zeroRecords": "Sin resultados encontrados",
+          "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+          }
+        },
+        columns: [
+          {
+            data: 'dintereses',
+            name: 'dintereses'
+          },
+          {
+            data: 'dmoratorios',
+            name: 'dmoratorios'
+          },
+          {
+            data: 'dcobranza',
+            name: 'dcobranza'
+          },
+          {
+            data: 'dtodo',
+            name: 'dtodo'
+          },
+        ],
+        ajax: {
+          url: "/clientes/info/condonar/flujo/"+id
+        }
+      });
+
+    }
+
+
+
+    function pagosAplicadoss(id)
+    {
+      $('#pagosAplicados').DataTable( {
+        dom: 'Bfrtip',
+        searching: false,
+        paging: false,
+        ordering: false,
+        destroy: true,
+        processing:true,
+        responsive: true,
+        buttons: [
+          {
+            extend: 'pdfHtml5',
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            title: 'Amortización',
+            text: 'Pdf'
+          },
+          {
+            extend: 'print',
+            text: 'Imprimir',
+            pageSize: 'LEGAL',
+            title: 'Amortización'
+          }
+        ],
+        language: {
+          "decimal": "",
+          "emptyTable": "No hay información",
+          "info": "",
+          "infoEmpty": "",
+          "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+          "infoPostFix": "",
+          "thousands": ",",
+          "lengthMenu": "Mostrar _MENU_ Entradas",
+          "loadingRecords": "Cargando...",
+          "processing": "Procesando...",
+          "search": "Buscar:",
+          "zeroRecords": "Sin resultados encontrados",
+          "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+          }
+        },
+        columns: [
+          {
+            data: 'fecha',
+            name: 'fecha_pago'
+          },
+          {
+            data: 'vmonto',
+            name: 'monto'
+          },
+          {
+            data: 'monto_restante',
+            name: 'restante'
+          },
+          {
+            data: 'vmonto_total',
+            name: 'monto_total'
+          },
+          {
+            data: 'descripcion',
+            name: 'descripcion'
+          },
+          {
+            data: 'vpago_restante',
+            name: 'pago_restante'
+          }
+        ],
+        ajax: {
+          url: "/clientes/info/pagos/aplicados/"+id
+        }
+      });
+
+    }
+
+
+    function pagos(data=null)
+    {
+      $('#pagos').DataTable( {
+        dom: 'Bfrtip',
+        searching: false,
+        paging: false,
+        ordering: false,
+        destroy: true,
+        processing:true,
+        responsive: true,
+        buttons: [
+          {
+            extend: 'pdfHtml5',
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            title: 'Amortización',
+            text: 'Pdf'
+          },
+          {
+            extend: 'print',
+            text: 'Imprimir',
+            pageSize: 'LEGAL',
+            title: 'Amortización'
+          }
+        ],
+        language: {
+          "decimal": "",
+          "emptyTable": "No hay información",
+          "info": "",
+          "infoEmpty": "",
+          "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+          "infoPostFix": "",
+          "thousands": ",",
+          "lengthMenu": "Mostrar _MENU_ Entradas",
+          "loadingRecords": "Cargando...",
+          "processing": "Procesando...",
+          "search": "Buscar:",
+          "zeroRecords": "Sin resultados encontrados",
+          "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+          }
+        },
+        columns: [
+          {
+            data: 'periodo',
+            name: 'periodo'
+          },
+          {
+            data: 'fpago',
+            name: 'fpago'
+          },
+          {
+            data: 'mora',
+            name: 'mora'
+          },
+          {
+            data: 'imora',
+            name: 'imora'
+          },
+          {
+            data: 'condonacion',
+            name: 'condonacion'
+          },
+          {
+            data: 'iva',
+            name: 'iva'
+          },
+          {
+            data: 'pago',
+            name: 'pago'
+          },
+          {
+            data: 'comprobante',
+            name: 'comprobante'
+          }
+        ],
+        ajax: {
+          url: "/clientes/info/pagos/{{$id}}",
+          data: {
+            "data": data
+          }
+        }
+      });
+
+    }
+
+    function tasas(data=null)
+    {
+      $('#ttasas').DataTable( {
+        dom: 'Bfrtip',
+        searching: false,
+        paging: false,
+        ordering: false,
+        destroy: true,
+        processing:true,
+        responsive: true,
+        buttons: [
+          {
+            extend: 'pdfHtml5',
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            title: 'Amortización',
+            text: 'Pdf'
+          },
+          {
+            extend: 'print',
+            text: 'Imprimir',
+            pageSize: 'LEGAL',
+            title: 'Amortización'
+          }
+        ],
+        language: {
+          "decimal": "",
+          "emptyTable": "No hay información",
+          "info": "",
+          "infoEmpty": "",
+          "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+          "infoPostFix": "",
+          "thousands": ",",
+          "lengthMenu": "Mostrar _MENU_ Entradas",
+          "loadingRecords": "Cargando...",
+          "processing": "Procesando...",
+          "search": "Buscar:",
+          "zeroRecords": "Sin resultados encontrados",
+          "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+          }
+        },
+
+        columns: [
+          {
+            data: 'tcredito',
+            name: 'tcredito'
+          },
+          {
+            data: 'fpago',
+            name: 'fpago'
+          },
+          {
+            data: 'frecuencia',
+            name: 'frecuencia'
+          },
+          {
+            data: 'plazo',
+            name: 'plazo'
+          },
+          {
+            data: 'amortizacion',
+            name: 'amortizacion'
+          },
+          {
+            data: 'iva',
+            name: 'iva'
+          },
+          {
+            data: 'tasa',
+            name: 'tasa'
+          },
+          {
+            data: 'moratorio',
+            name: 'moratorio'
+          }
+        ],
+        ajax: {
+          url: "/clientes/info/tasas/{{$id}}",
+          data: {
+            "data": data
+          }
+        }
+      });
+
+    }
+
+
+    function credito(data=null)
+    {
+      $('#credito').DataTable( {
+        dom: 'Bfrtip',
+        searching: false,
+        paging: false,
+        ordering: false,
+        destroy: true,
+        processing:true,
+        responsive: true,
+        buttons: [
+          {
+            extend: 'pdfHtml5',
+            orientation: 'landscape',
+            pageSize: 'LEGAL',
+            title: 'Amortización',
+            text: 'Pdf'
+          },
+          {
+            extend: 'print',
+            text: 'Imprimir',
+            pageSize: 'LEGAL',
+            title: 'Amortización'
+          }
+        ],
+        language: {
+          "decimal": "",
+          "emptyTable": "No hay información",
+          "info": "",
+          "infoEmpty": "",
+          "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+          "infoPostFix": "",
+          "thousands": ",",
+          "lengthMenu": "Mostrar _MENU_ Entradas",
+          "loadingRecords": "Cargando...",
+          "processing": "Procesando...",
+          "search": "Buscar:",
+          "zeroRecords": "Sin resultados encontrados",
+          "paginate": {
+            "first": "Primero",
+            "last": "Ultimo",
+            "next": "Siguiente",
+            "previous": "Anterior"
+          }
+        },
+        columns: [
+          {
+            data: 'tcredito',
+            name: 'tcredito'
+          },
+          {
+            data: 'contrato',
+            name: 'contrato'
+          },
+
+          {
+            data: 'monto',
+            name: 'monto'
+          },
+          {
+            data: 'fpago',
+            name: 'fpago'
+          },
+          {
+            data: 'frecuencia',
+            name: 'frecuencia'
+          },
+          {
+            data: 'plazo',
+            name: 'plazo'
+          },
+          {
+            data: 'amortizacion',
+            name: 'amortizacion'
+          },
+          {
+            data: 'iva',
+            name: 'iva'
+          },
+          {
+            data: 'tasa',
+            name: 'tasa'
+          },
+          {
+            data: 'disposicion',
+            name: 'disposicion'
+          },
+          {
+            data: 'status',
+            name: 'status'
+          }
+        ],
+        ajax: {
+          url: "/clientes/info/credito/{{$id}}",
+          data: {
+            "data": data
+          }
+        }
+      });
+
+    }
+
+  </script>
 @endsection
