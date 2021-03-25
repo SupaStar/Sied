@@ -24,7 +24,7 @@
                       <label for="lastName3">
                         Ocupación
                       </label>
-                      <input type="text" class="form-control required" value="@if(isset($profesions)){{ $profesions }}@endif" readonly>
+                      <input type="text" class="form-control required" value="@if(isset($profesions)){{ $profesions }}@endif">
                     </div>
                   </div>
                   <div class="col-md-4">
@@ -32,7 +32,7 @@
                       <label for="lastName3">
                         Profesión
                       </label>
-                      <select readonly disabled class="form-control required" id="profesion" name="profesion" required>
+                      <select class="form-control required" id="profesion" name="profesion" required>
 
                         <option  selected disabled>Seleccionar</option>
                         @foreach($profesiones as $data)
@@ -55,7 +55,7 @@
                       <label for="lastName3">
                         Actividad Economica/Criterio de riesgo.
                       </label>
-                      <select readonly disabled class="form-control required" id="actividad" name="actividad" required>
+                      <select class="form-control required" id="actividad" name="actividad" required>
                         <option selected disabled>Seleccionar</option>
                         @foreach($origen as $data)
                           @if(isset($datos))
@@ -81,7 +81,7 @@
                       <label for="lastName3">
                         Entidad Federativa
                       </label>
-                      <input type="text" class="form-control required" value="@if(isset($residencia)){{ $residencia }}@endif" readonly>
+                      <input type="text" class="form-control required" value="@if(isset($residencia)){{ $residencia }}@endif">
                     </div>
                   </div>
                   <div class="col-md-4">
@@ -89,7 +89,7 @@
                       <label for="lastName3">
                         Nivel de Criterio de Riesgo
                       </label>
-                      <select disabled readonly class="form-control required" id="efr" name="efr" required>
+                      <select class="form-control required" id="efr" name="efr" required>
                         <option  selected disabled>Seleccionar</option>
                         @foreach($efresidencia as $data)
                           @if(isset($datos))
@@ -114,7 +114,7 @@
                     <button type="reset" hidden class="btn btn-secondary mr-1 mb-1">Limpiar</button>
                   </div>
                   <div class="col-md-6 text-left">
-                    <button type="submit" hidden class="btn btn-primary float-right mr-1 mb-1">Guardar</button>
+                    <button type="submit" class="btn btn-primary float-right mr-1 mb-1">Guardar</button>
                     <a href="/morales/morales"> <button type="button"
                                                         class="btn btn-primary float-right mr-1 mb-1">Ok</button></a>
                   </div>
