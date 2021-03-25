@@ -795,7 +795,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="/clientes/credito/pago"  enctype="multipart/form-data"  method="POST" class="steps-validation wizard-circle" id="formss" name="formss">
+        <form action="/morales/credito/pago"  enctype="multipart/form-data"  method="POST" class="steps-validation wizard-circle" id="formss" name="formss">
           @csrf
           <input type="hidden" name="id" value="{{$id}}">
 
