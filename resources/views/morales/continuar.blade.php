@@ -49,6 +49,8 @@
                           <option value="INDIVIDUAL" >INDIVIDUAL</option>
                           <option value="NOMINA" >NOMINA</option>
                         </select>
+                        <hr>
+                       <input id="limite" name="limite" class="form-control required">
                       </div>
                     </div>
                   </div>
