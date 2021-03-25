@@ -218,7 +218,7 @@ function pendientes(){
       {
         data: 'acciones',
         name: 'acciones'
-      }      
+      }
     ],
     ajax: {
       url: "/clientes/pendientes"
@@ -242,7 +242,6 @@ function files(id){
     _token: token
 }, function(data) {
   $('#seemyfiles').html(data);
-
   console.log(data);
 });
 

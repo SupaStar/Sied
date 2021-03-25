@@ -1753,7 +1753,7 @@
           }
         ],
         ajax: {
-          url: "/clientes/info/tasas/{{$id}}",
+          url: "/morales/info/tasas/{{$id}}",
           data: {
             "data": data
           }
