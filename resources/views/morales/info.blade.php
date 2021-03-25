@@ -470,9 +470,9 @@
                                               Acta Constitutiva
                                             </label>
                                             <br>
-                                            <a href="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
+                                            <a href="{{ url('/uploads/morales/acta/'.$dato->id.'.jpg') }}"
                                                target="_blank"> <img
-                                                src="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
+                                                src="{{ url('/uploads/morales/acta/'.$dato->id.'.jpg') }}"
                                                 alt="Acta Constitutiva" height="100"></a></div>
                                         </div>
                                       </div>
@@ -483,9 +483,9 @@
                                               Comprobante de Domicilio
                                             </label>
                                             <br>
-                                            <a href="{{ url('/uploads/morales/dom/'.$dato->id.'.jpeg') }}"
+                                            <a href="{{ url('/uploads/morales/dom/'.$dato->id.'.jpg') }}"
                                                target="_blank"> <img
-                                                src="{{ url('/uploads/morales/dom/'.$dato->id.'.jpeg') }}"
+                                                src="{{ url('/uploads/morales/dom/'.$dato->id.'.jpg') }}"
                                                 alt="Comprobante de Domicilio" height="100"></a>
                                           </div>
                                         </div>
@@ -497,9 +497,9 @@
                                               RFC
                                             </label>
                                             <br>
-                                            <a href="{{ url('/uploads/morales/rfc/'.$dato->id.'.jpeg') }}"
+                                            <a href="{{ url('/uploads/morales/rfc/'.$dato->id.'.jpg') }}"
                                                target="_blank"> <img
-                                                src="{{ url('/uploads/morales/rfc/'.$dato->id.'.jpeg') }}"
+                                                src="{{ url('/uploads/morales/rfc/'.$dato->id.'.jpg') }}"
                                                 alt="RFC" height="100"></a>
                                             <br>
                                             <h3>Croquis</h3>
@@ -583,9 +583,9 @@
                                             Fotografia 1
                                           </label>
                                           <br>
-                                          <a href="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
+                                          <a href="{{ url('/uploads/morales/acta/'.$dato->id.'.jpg') }}"
                                              target="_blank"> <img
-                                              src="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
+                                              src="{{ url('/uploads/morales/acta/'.$dato->id.'.jpgg') }}"
                                               alt="Fotografia 1" height="100"></a></div>
                                       </div>
                                     </div>
@@ -596,9 +596,9 @@
                                             Fotografia 2
                                           </label>
                                           <br>
-                                          <a href="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
+                                          <a href="{{ url('/uploads/morales/acta/'.$dato->id.'.jpg') }}"
                                              target="_blank"> <img
-                                              src="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
+                                              src="{{ url('/uploads/morales/acta/'.$dato->id.'.jpg') }}"
                                               alt="Fotografia 2" height="100"></a></div>
                                       </div>
                                     </div>
@@ -1496,7 +1496,7 @@
           },
         ],
         ajax: {
-          url: "/clientes/info/condonar/flujo/"+id
+          url: "/morales/info/condonar/flujo/"+id
         }
       });
 
@@ -1856,7 +1856,7 @@
           }
         ],
         ajax: {
-          url: "/clientes/info/credito/{{$id}}",
+          url: "/morales/info/credito/{{$id}}",
           data: {
             "data": data
           }

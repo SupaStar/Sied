@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ActividadGiro;
+use App\Amortizacion;
 use App\Amortizacion_Morales;
 use App\Credito_Moral;
 use App\Creditos;
@@ -404,7 +405,7 @@ class Morales extends Controller
 
     if ($fileine != 1) {
       $path = 'fisicas/ine';
-      $extension = strtolower($fileine->getClientOriginalExtension());
+      $extension="jpg";
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '-frontal.' . $extension;
         $uploads = new Files();
@@ -440,7 +441,7 @@ class Morales extends Controller
 
     if ($ineback != 1) {
       $path = 'fisicas/ine';
-      $extension = strtolower($ineback->getClientOriginalExtension());
+      $extension="jpg";
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '-trasera.' . $extension;
         $uploads = new Files();
@@ -477,7 +478,7 @@ class Morales extends Controller
 
     if ($filecurp != 1) {
       $path = 'fisicas/curp';
-      $extension = strtolower($filecurp->getClientOriginalExtension());
+      $extension="jpg";
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -512,7 +513,7 @@ class Morales extends Controller
 
     if ($filedom != 1) {
       $path = 'fisicas/dom';
-      $extension = strtolower($filedom->getClientOriginalExtension());
+      $extension="jpg";
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -547,7 +548,7 @@ class Morales extends Controller
 
     if ($filecom1 != 1) {
       $path = 'fisicas/com1';
-      $extension = strtolower($filecom1->getClientOriginalExtension());
+      $extension="jpg";
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -582,7 +583,7 @@ class Morales extends Controller
 
     if ($filecom2 != 1) {
       $path = 'fisicas/com2';
-      $extension = strtolower($filecom2->getClientOriginalExtension());
+      $extension="jpg";
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -617,7 +618,7 @@ class Morales extends Controller
 
     if ($filecom3 != 1) {
       $path = 'fisicas/com3';
-      $extension = strtolower($filecom3->getClientOriginalExtension());
+      $extension="jpg";
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -652,7 +653,7 @@ class Morales extends Controller
 
     if ($filerfc != 1) {
       $path = 'fisicas/rfc';
-      $extension = strtolower($filerfc->getClientOriginalExtension());
+      $extension="jpg";
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -951,7 +952,7 @@ class Morales extends Controller
 
       if ($fileine != 1) {
         $path = 'personas-morales/ine';
-        $extension = strtolower($fileine->getClientOriginalExtension());
+        $extension="jpg";
         if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
           $filename = $personaMoral->id . '-frontal.' . $extension;
           $uploads = new Files();
@@ -989,7 +990,7 @@ class Morales extends Controller
 
       if ($ineback != 1) {
         $path = 'personas-morales/ine';
-        $extension = strtolower($ineback->getClientOriginalExtension());
+        $extension="jpg";
         if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
           $filename = $personaMoral->id . '-trasera.' . $extension;
           $uploads = new Files();
@@ -1035,7 +1036,7 @@ class Morales extends Controller
 
     if ($filecurp != 1) {
       $path = 'morales/acta';
-      $extension = strtolower($filecurp->getClientOriginalExtension());
+      $extension="jpg";
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -1073,7 +1074,7 @@ class Morales extends Controller
 
     if ($filedom != 1) {
       $path = 'morales/dom';
-      $extension = strtolower($filedom->getClientOriginalExtension());
+      $extension="jpg";
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -1112,7 +1113,8 @@ class Morales extends Controller
 
     if ($filerfc != 1) {
       $path = 'morales/rfc';
-      $extension = strtolower($filerfc->getClientOriginalExtension());
+      $extension="jpg";
+      //$extension = strtolower($filerfc->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -1871,6 +1873,12 @@ class Morales extends Controller
     }
     return redirect('/morales/info/' . $request->id)->with('pago', 'OK');
   }
+  public function infocredito($id)
+  {
+    $result = Credito_Moral::where('moral_id', $id)->get();
+    return datatables()->of($result)
+      ->toJson();
+  }
   public function credito(Request $request, $id)
   {
     $ncredito = new Credito_Moral();
@@ -2483,6 +2491,40 @@ class Morales extends Controller
         return $monto;
       })
       ->rawColumns(['fecha', 'vmonto', 'vcambio'])
+      ->toJson();
+  }
+  public function condonarFlujo(Request $request)
+  {
+    $id = $request->id;
+
+    $result = Amortizacion_Morales::where('id', $id)->get();
+
+    return datatables()->of($result)
+      ->addColumn('dintereses', function ($query) {
+        $bflujo = '$' . ($query->intereses + $query->iva) . '<button onclick="cintereses(' . $query->id . ');" type="button" class="btn btn-primary" style="position: relative;">
+      Condonar
+      </button>';
+        return $bflujo;
+      })
+      ->addColumn('dmoratorios', function ($query) {
+        $bflujo = '$' . ($query->int_mora + $query->iva_mora) . '<button onclick="cintereses(' . $query->id . ');" type="button" class="btn btn-primary" style="position: relative;">
+      Condonar
+      </button>';
+        return $bflujo;
+      })
+      ->addColumn('dcobranza', function ($query) {
+        $bflujo = '$' . ($query->gcobranza + $query->iva_cobranza) . '<button onclick="cintereses(' . $query->id . ');" type="button" class="btn btn-primary" style="position: relative;">
+      Condonar
+      </button>';
+        return $bflujo;
+      })
+      ->addColumn('dtodo', function ($query) {
+        $bflujo = '$' . ($query->intereses + $query->iva + $query->int_mora + $query->iva_mora + $query->gcobranza + $query->iva_cobranza) . '<button onclick="cintereses(' . $query->id . ');" type="button" class="btn btn-primary" style="position: relative;">
+      Condonar
+      </button>';
+        return $bflujo;
+      })
+      ->rawColumns(['dintereses', 'dmoratorios', 'dcobranza', 'dtodo'])
       ->toJson();
   }
   public function infopagosaplicados(Request $request)
