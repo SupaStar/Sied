@@ -1252,7 +1252,7 @@ class Morales extends Controller
     return $data;
   }
 
-  public function continuar($id)
+  public function continuar($id, $limite = false)
   {
     $detinoC = new DestinoCredito();
     $Moral = Moral::where('id', $id)->first();
@@ -1264,7 +1264,12 @@ class Morales extends Controller
       'pageHeader' => true,
       'pageName' => 'Continuar Registro'
     ];
-
+    if ($limite) {
+      return view('/morales/continuar', ['pageConfigs' => $pageConfigs,
+        'moral' => $Moral,
+        'limite' => $limite,
+        'id' => $id, 'destino' => $destino]);
+    }
     return view('/morales/continuar', ['pageConfigs' => $pageConfigs,
       'moral' => $Moral,
       'id' => $id, 'destino' => $destino]);
@@ -1883,6 +1888,18 @@ class Morales extends Controller
       ->toJson();
   }
 
+  public function infotasas($id)
+  {
+    $result = Credito_Moral::where('moral_id', $id)->get();
+    return datatables()->of($result)
+      ->addColumn('moratorio', function ($query) {
+        $monto = '(((Flujo Inicial * Tasa) / 2)/360) * dias de mora ';
+        return $monto;
+      })
+      ->rawColumns(['moratorio'])
+      ->toJson();
+  }
+
   public function credito(Request $request, $id)
   {
     $moral = Moral::where('id', $id)->first();
@@ -1891,7 +1908,10 @@ class Morales extends Controller
       $moral->save();
     }
     if ($moral->limite_credito < $request->sliderInput) {
-      return redirect()->route('Morales.Registro.Credito', ['id' => $id]);
+      return redirect()->action([Morales::class, 'continuar'], ['id' => $id, 'limite' => true]);
+    } else {
+      $moral->limite_credito = $moral->limite_credito - $request->sliderInput;
+      $moral->save();
     }
     $ncredito = new Credito_Moral();
     $ncredito->moral_id = $id;

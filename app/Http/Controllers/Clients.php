@@ -1974,6 +1974,7 @@ class Clients extends Controller
               $fecha = date('d/m/Y', strtotime($disposicion));
               if ($civa == 'SI') {
                 $iva = ($intereses + $comision) * 0.16;
+
               }
 
               $flujo = ($monto * -1) + $comision + $amortizacion + $intereses + $iva;

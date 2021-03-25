@@ -285,7 +285,17 @@
     var token = '{{csrf_token()}}';
 
     $(document).ready(function(){
-
+      @if (isset($_GET['limite']))
+      Swal.fire({
+        title: "Error!",
+        text: "Monto de prestamo mayor al limite!",
+        type: "error",
+        confirmButtonClass: 'btn btn-primary',
+        buttonsStyling: false,
+        animation: false,
+        customClass: 'animated tada'
+      });
+      @endif
       var slcchange = document.getElementById("tipo_cuenta");
       slcchange.addEventListener("change", function() {
         if(slcchange.value==1)

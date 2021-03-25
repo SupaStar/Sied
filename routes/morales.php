@@ -39,3 +39,4 @@ Route::get('info/pagos/aplicados/{id}', 'Morales@infopagosaplicados');
 Route::get('info/condonar/flujo/{id}', 'Morales@condonarFlujo');
 Route::get('info/historial/flujo/{id}', 'Morales@infohistorialflujo');
 Route::get('info/credito/{id}', 'Morales@infocredito');
+Route::get('info/tasas/{id}', 'Morales@infotasas');
