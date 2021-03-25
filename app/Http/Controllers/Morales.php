@@ -1891,7 +1891,7 @@ class Morales extends Controller
       $moral->save();
     }
     if ($moral->limite_credito < $request->sliderInput) {
-      return redirect('/morales/continuar', ['id' => $id])->with('limite', 'OK');
+      return redirect('/morales/continuar', ['id' => $id,'limite' => 'OK']);
     }
     $ncredito = new Credito_Moral();
     $ncredito->moral_id = $id;
