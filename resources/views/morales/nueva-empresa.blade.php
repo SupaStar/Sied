@@ -964,7 +964,7 @@ var app = new Vue({
           form_data.append('_token', this.token);
 
           $.ajax({
-            url: '/util/imgto64',
+            url: '/util/imgto64/ine',
             dataType: 'text',
             cache: false,
             contentType: false,

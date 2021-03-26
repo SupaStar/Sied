@@ -2036,7 +2036,7 @@ class Morales extends Controller
         $civa = $data->iva;
         $intereses = 0;
         $amortizacion = 0;
-        $iva = '';
+        $iva = 0;
         $flujo = 0;
         $addt = '';
         $add = 1;
@@ -2348,7 +2348,7 @@ class Morales extends Controller
             $fecha1 = date_create(date('Y-m-d'));
             $fecha2 = date_create($gdata->fin);
             $dias = str_replace('+', '', date_diff($fecha1, $fecha2)->format('%R%a'));
-            $tasa = (creditos::where('id', $gdata->credito_id)->first()->tasa) / 100;
+            $tasa = (Credito_Moral::where('id', $gdata->credito_id)->first()->tasa) / 100;
 
             if ($dias < 0 && $gdata->dia_mora != $hoy) {
               $dias = abs($dias);
