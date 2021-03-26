@@ -631,31 +631,23 @@
                   <section class="invoice-print mb-1">
                   </section>
                   <div class="row">
-                    <div class="col-12">
+                    <div style="height: 420px;" class="col-12">
                       <div class="card">
                         <div class="card-content">
-                          <div class="card-body card-dashboard">
-                            <div class="table-responsive">
-                              <table class="table table-striped table-bordered" id="credito">
-                                <thead>
-                                <tr>
-                                  <th>Tipo</th>
-                                  <th>Contrato</th>
-                                  <th>Monto</th>
-                                  <th>Forma de Pago</th>
-                                  <th>Frecencia</th>
-                                  <th>Plazo</th>
-                                  <th>Amortización</th>
-                                  <th>Iva</th>
-                                  <th>Tasa</th>
-                                  <th>Disposición</th>
-                                  <th>Estado</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                              </table>
+                          <div class="row card-body card-dashboard">
+                            <div class="col-8">
+                            <div class="btn-group dropright">
+                              <button id="btnContrato" type="button" class="btn btn-outline-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                              </button>
+                              <div id="divCredito" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                              </div>
                             </div>
+                          </div>
+                            <div class="col-4">
+                              <button class="btn btn-primary" href="">Nuevo Crédito</button>
+                          </div>
                           </div>
                         </div>
                       </div>
@@ -1060,6 +1052,127 @@
   <script>
 
     $(document).ready(function(){
+      $.ajax({
+        method:"get",
+        url: "/morales/info/credito/{{$id}}",
+        success:function (response)
+        {
+          $('#btnContrato').text("Contrato: "+response.data[0].contrato)
+          $('#divCredito').append('<a class="dropdown-item">Tipo de Credito:'+response.data[0].tcredito+'</a>')
+          $('#divCredito').append('<a class="dropdown-item">Monto:'+response.data[0].monto+'</a>')
+          $('#divCredito').append('<a class="dropdown-item">Forma de pago:'+response.data[0].fpago+'</a>')
+          $('#divCredito').append('<a class="dropdown-item">Frecuencia:'+response.data[0].frecuencia+'</a>')
+          $('#divCredito').append('<a class="dropdown-item">Plazo:'+response.data[0].plazo+'</a>')
+          $('#divCredito').append('<a class="dropdown-item">Amortización:'+response.data[0].amortizacion+'</a>')
+          $('#divCredito').append('<a class="dropdown-item">IVA:'+response.data[0].iva+'</a>')
+          $('#divCredito').append('<a class="dropdown-item">Tasa:'+response.data[0].tasa+'</a>')
+          $('#divCredito').append('<a class="dropdown-item">Disposición:'+response.data[0].disposicion+'</a>')
+          $('#divCredito').append('<a class="dropdown-item">Estado:'+response.data[0].status+'</a>')
+
+        }
+
+      })
+      function credito(data=null)
+      {
+        $('#credito').DataTable( {
+          dom: 'Bfrtip',
+          searching: false,
+          paging: false,
+          ordering: false,
+          destroy: true,
+          processing:true,
+          responsive: true,
+          buttons: [
+            {
+              extend: 'pdfHtml5',
+              orientation: 'landscape',
+              pageSize: 'LEGAL',
+              title: 'Amortización',
+              text: 'Pdf'
+            },
+            {
+              extend: 'print',
+              text: 'Imprimir',
+              pageSize: 'LEGAL',
+              title: 'Amortización'
+            }
+          ],
+          language: {
+            "decimal": "",
+            "emptyTable": "No hay información",
+            "info": "",
+            "infoEmpty": "",
+            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+            "infoPostFix": "",
+            "thousands": ",",
+            "lengthMenu": "Mostrar _MENU_ Entradas",
+            "loadingRecords": "Cargando...",
+            "processing": "Procesando...",
+            "search": "Buscar:",
+            "zeroRecords": "Sin resultados encontrados",
+            "paginate": {
+              "first": "Primero",
+              "last": "Ultimo",
+              "next": "Siguiente",
+              "previous": "Anterior"
+            }
+          },
+          columns: [
+            {
+              data: 'tcredito',
+              name: 'tcredito'
+            },
+            {
+              data: 'contrato',
+              name: 'contrato'
+            },
+
+            {
+              data: 'monto',
+              name: 'monto'
+            },
+            {
+              data: 'fpago',
+              name: 'fpago'
+            },
+            {
+              data: 'frecuencia',
+              name: 'frecuencia'
+            },
+            {
+              data: 'plazo',
+              name: 'plazo'
+            },
+            {
+              data: 'amortizacion',
+              name: 'amortizacion'
+            },
+            {
+              data: 'iva',
+              name: 'iva'
+            },
+            {
+              data: 'tasa',
+              name: 'tasa'
+            },
+            {
+              data: 'disposicion',
+              name: 'disposicion'
+            },
+            {
+              data: 'status',
+              name: 'status'
+            }
+          ],
+          ajax: {
+            url: "/morales/info/credito/{{$id}}",
+            data: {
+              "data": data
+            }
+          }
+        });
+
+      }
 
       @if (session('pago'))
       Swal.fire({
@@ -1763,107 +1876,7 @@
     }
 
 
-    function credito(data=null)
-    {
-      $('#credito').DataTable( {
-        dom: 'Bfrtip',
-        searching: false,
-        paging: false,
-        ordering: false,
-        destroy: true,
-        processing:true,
-        responsive: true,
-        buttons: [
-          {
-            extend: 'pdfHtml5',
-            orientation: 'landscape',
-            pageSize: 'LEGAL',
-            title: 'Amortización',
-            text: 'Pdf'
-          },
-          {
-            extend: 'print',
-            text: 'Imprimir',
-            pageSize: 'LEGAL',
-            title: 'Amortización'
-          }
-        ],
-        language: {
-          "decimal": "",
-          "emptyTable": "No hay información",
-          "info": "",
-          "infoEmpty": "",
-          "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-          "infoPostFix": "",
-          "thousands": ",",
-          "lengthMenu": "Mostrar _MENU_ Entradas",
-          "loadingRecords": "Cargando...",
-          "processing": "Procesando...",
-          "search": "Buscar:",
-          "zeroRecords": "Sin resultados encontrados",
-          "paginate": {
-            "first": "Primero",
-            "last": "Ultimo",
-            "next": "Siguiente",
-            "previous": "Anterior"
-          }
-        },
-        columns: [
-          {
-            data: 'tcredito',
-            name: 'tcredito'
-          },
-          {
-            data: 'contrato',
-            name: 'contrato'
-          },
 
-          {
-            data: 'monto',
-            name: 'monto'
-          },
-          {
-            data: 'fpago',
-            name: 'fpago'
-          },
-          {
-            data: 'frecuencia',
-            name: 'frecuencia'
-          },
-          {
-            data: 'plazo',
-            name: 'plazo'
-          },
-          {
-            data: 'amortizacion',
-            name: 'amortizacion'
-          },
-          {
-            data: 'iva',
-            name: 'iva'
-          },
-          {
-            data: 'tasa',
-            name: 'tasa'
-          },
-          {
-            data: 'disposicion',
-            name: 'disposicion'
-          },
-          {
-            data: 'status',
-            name: 'status'
-          }
-        ],
-        ajax: {
-          url: "/morales/info/credito/{{$id}}",
-          data: {
-            "data": data
-          }
-        }
-      });
-
-    }
 
   </script>
 @endsection
