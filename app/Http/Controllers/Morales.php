@@ -8,6 +8,7 @@ use App\Amortizacion_Morales;
 use App\Credito_Moral;
 use App\Creditos;
 use App\DestinoCredito;
+use App\DestinoCreditoMorales;
 use App\DestinoRecursos;
 use App\Divisa;
 use App\EFResidencia;
@@ -1925,7 +1926,6 @@ class Morales extends Controller
     $ncredito->iva = $request->iva;
     $ncredito->tasa = $request->tinteres;
     $ncredito->disposicion = $request->disposicion;
-
     $ncredito->save();
 
     $moral = Moral::where('id', $id)->update(['status' => 'credito']);
@@ -1933,9 +1933,9 @@ class Morales extends Controller
       $moral->limite_credito = $request->limite;
       $moral->save();
     }
-    $detinoC = new DestinoCredito();
+    $detinoC = new DestinoCreditoMorales();
     $destino = $detinoC::all();
-    $detinoC->id_credito = $ncredito->id;
+    $detinoC->id_credito_moral = $ncredito->id;
     $detinoC->id_destino_recursos = $request->recurso;
     $detinoC->titular = $request->titular;
     $detinoC->numero_cuenta_clabe = $request->numero_cuenta_clabe;
