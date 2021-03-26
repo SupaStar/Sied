@@ -1904,7 +1904,7 @@ class Morales extends Controller
   public function credito(Request $request, $id)
   {
     if (isset($request->limite)) {
-      Moral::where('id', $id)->update(['limite_credito' => $request->limite]);
+      Moral::where('id', $id)->update(['limite_credito' => $request->limite, 'credito_disponible' => $request->limite]);
     }
     $moral = Moral::where('id', $id)->first();
     if ($moral->limite_credito < $request->sliderInput) {
