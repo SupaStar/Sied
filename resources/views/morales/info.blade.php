@@ -386,10 +386,12 @@
                                               <label for="firstName3">
                                                 Nacionalidad Antecedente
                                               </label>
-                                              <select disabled class="form-control" name="nacionalidad_ante" id="nacionalidad_ante">
+                                              <select disabled class="form-control" name="nacionalidad_ante"
+                                                      id="nacionalidad_ante">
                                                 <option selected disabled>Seleccionar</option>
                                                 @foreach($nacionantecedentes as $naciona)
-                                                  <option value="{{$naciona->descripcion}}">{{$naciona->descripcion}}</option>
+                                                  <option
+                                                    value="{{$naciona->descripcion}}">{{$naciona->descripcion}}</option>
                                                 @endforeach
                                               </select>
                                             </div>
@@ -636,18 +638,19 @@
                         <div class="card-content">
                           <div class="row card-body card-dashboard">
                             <div class="col-8">
-                            <div class="btn-group dropright">
-                              <button id="btnContrato" type="button" class="btn btn-outline-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <div class="btn-group dropright">
+                                <button id="btnContrato" type="button" class="btn btn-outline-warning dropdown-toggle"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-                              </button>
-                              <div id="divCredito" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                </button>
+                                <div id="divCredito" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 
+                                </div>
                               </div>
                             </div>
-                          </div>
                             <div class="col-4">
                               <a class="btn btn-primary" href="/morales/continuar/{{$id}}">Nuevo Crédito</a>
-                          </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -670,6 +673,7 @@
                         <div class="card-content">
                           <div class="card-body card-dashboard">
                             <div class="table-responsive">
+                              <h1 id="limite_c">Crédito Disponible: {{$datos->limite_credito}}</h1>
                               <table class="table table-striped table-bordered" id="amortizacion">
                                 <thead>
                                 <tr>
@@ -786,14 +790,16 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action="/morales/credito/pago"  enctype="multipart/form-data"  method="POST" class="steps-validation wizard-circle" id="formss" name="formss">
+        <form action="/morales/credito/pago" enctype="multipart/form-data" method="POST"
+              class="steps-validation wizard-circle" id="formss" name="formss">
           @csrf
           <input type="hidden" name="id" value="{{$id}}">
 
           <div class="modal-body">
             <label>Monto: </label>
             <div class="form-group">
-              <input type="number" name="monto" step="any" min="0" placeholder="$" class="form-control required" required>
+              <input type="number" name="monto" step="any" min="0" placeholder="$" class="form-control required"
+                     required>
             </div>
 
             <label>Moneda </label>
@@ -806,7 +812,7 @@
             </div>
 
             <div class="form-group" style="display:none" id="cssmoneda">
-              <input type='text' class="form-control " placeholder="Moneda" id="nmoneda"  name="nmoneda" />
+              <input type='text' class="form-control " placeholder="Moneda" id="nmoneda" name="nmoneda"/>
             </div>
 
             <label>Forma de Pago </label>
@@ -821,10 +827,10 @@
             </div>
 
             <div class="form-group" style="display:none" id="cssforma">
-              <input type='text' class="form-control " placeholder="Forma de Pago" id="nforma"  name="nforma" />
+              <input type='text' class="form-control " placeholder="Forma de Pago" id="nforma" name="nforma"/>
             </div>
 
-            <div  style="display:none" id="trforma">
+            <div style="display:none" id="trforma">
               <label>Lugar de Pago </label>
               <div class="form-group">
                 <select class="form-control" id="clforma" name="forma" onchange="lforma()">
@@ -835,10 +841,10 @@
               </div>
             </div>
 
-            <div  style="display:none" id="lnacional">
+            <div style="display:none" id="lnacional">
               <label>Nacional </label>
               <div class="form-group">
-                <select class="form-control" id="clnacional" name="lnacional" >
+                <select class="form-control" id="clnacional" name="lnacional">
                   <option selected disabled>Seleccionar</option>
                   <option value="En la plaza">En la plaza</option>
                   <option value="En otros estados de la república">En otros estados de la república</option>
@@ -847,10 +853,10 @@
               </div>
             </div>
 
-            <div  style="display:none" id="linternacional">
+            <div style="display:none" id="linternacional">
               <label>Internacional </label>
               <div class="form-group">
-                <select class="form-control" id="clinternacional" name="linternacional" >
+                <select class="form-control" id="clinternacional" name="linternacional">
                   <option selected disabled>Seleccionar</option>
                   <option value="Países no cooperantes">Países no cooperantes</option>
                   <option value="Paraísos fiscales">Paraísos fiscales</option>
@@ -864,7 +870,9 @@
               <select class="form-control" id="origen" name="origen" onchange="corigen()">
                 <option selected disabled>Seleccionar</option>
                 <option value="Cuentas propias">Cuentas propias</option>
-                <option value="En el caso de créditos de nómina, del empleador">En el caso de créditos de nómina, del empleador</option>
+                <option value="En el caso de créditos de nómina, del empleador">En el caso de créditos de nómina, del
+                  empleador
+                </option>
                 <option value="Cuentas de terceros">Cuentas de terceros</option>
                 <option value="No identificado">No identificado</option>
               </select>
@@ -884,7 +892,7 @@
             <div style="display:none" id="coterceros">
               <label>Otros Cuentas de terceros </label>
               <div class="form-group">
-                <select class="form-control" id="ccterceros" name="cterceros" >
+                <select class="form-control" id="ccterceros" name="cterceros">
                   <option selected disabled>Seleccionar</option>
                   <option value="Identificados">Identificados</option>
                   <option value="No identificados">No identificados</option>
@@ -902,14 +910,15 @@
 
             <label>Fecha de Pago </label>
             <div class="form-group">
-              <input type='text' class="form-control pickadate-disable required" id="fecha" value="{{date('Y-m-d')}}"  name="fecha" required />
+              <input type='text' class="form-control pickadate-disable required" id="fecha" value="{{date('Y-m-d')}}"
+                     name="fecha" required/>
             </div>
 
 
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-            <button type="submit" class="btn btn-success" >Aplicar</button>
+            <button type="submit" class="btn btn-success">Aplicar</button>
           </div>
         </form>
       </div>
@@ -965,7 +974,7 @@
             <table class="table table-striped table-bordered" id="historialdeflujo">
               <thead>
               <tr>
-                <th>Fecha </th>
+                <th>Fecha</th>
                 <th>Monto</th>
                 <th>Monto Cambiado</th>
                 <th>Descripción</th>
@@ -998,7 +1007,7 @@
             <table class="table table-striped table-bordered" id="condonarflujos">
               <thead>
               <tr>
-                <th>Intereses </th>
+                <th>Intereses</th>
                 <th>Moratorios</th>
                 <th>Gastos Cobranza</th>
                 <th>Todo</th>
@@ -1050,36 +1059,45 @@
   <script src="/js/scripts/mapsedit.js"></script>
   <script>
 
-    $(document).ready(function(){
-      $.ajax({
-        method:"get",
-        url: "/morales/info/credito/{{$id}}",
-        success:function (response)
+    $(document).ready(function () {
+      $.ajax(
         {
-          $('#btnContrato').text("Contrato: "+response.data[0].contrato)
-          $('#divCredito').append('<a class="dropdown-item">Tipo de Credito:'+response.data[0].tcredito+'</a>')
-          $('#divCredito').append('<a class="dropdown-item">Monto:'+response.data[0].monto+'</a>')
-          $('#divCredito').append('<a class="dropdown-item">Forma de pago:'+response.data[0].fpago+'</a>')
-          $('#divCredito').append('<a class="dropdown-item">Frecuencia:'+response.data[0].frecuencia+'</a>')
-          $('#divCredito').append('<a class="dropdown-item">Plazo:'+response.data[0].plazo+'</a>')
-          $('#divCredito').append('<a class="dropdown-item">Amortización:'+response.data[0].amortizacion+'</a>')
-          $('#divCredito').append('<a class="dropdown-item">IVA:'+response.data[0].iva+'</a>')
-          $('#divCredito').append('<a class="dropdown-item">Tasa:'+response.data[0].tasa+'</a>')
-          $('#divCredito').append('<a class="dropdown-item">Disposición:'+response.data[0].disposicion+'</a>')
-          $('#divCredito').append('<a class="dropdown-item">Estado:'+response.data[0].status+'</a>')
+          method:"get",
+          url: "/morales/info/credito/{{$id}}",
+          success:function (response)
+          {
+
+          }
+        }
+      )
+      $.ajax({
+        method: "get",
+        url: "/morales/info/credito/{{$id}}",
+        success: function (response) {
+          $('#btnContrato').text("Contrato: " + response.data[0].contrato)
+          $('#divCredito').append('<a class="dropdown-item">Tipo de Credito:' + response.data[0].tcredito + '</a>')
+          $('#divCredito').append('<a class="dropdown-item">Monto:' + response.data[0].monto + '</a>')
+          $('#divCredito').append('<a class="dropdown-item">Forma de pago:' + response.data[0].fpago + '</a>')
+          $('#divCredito').append('<a class="dropdown-item">Frecuencia:' + response.data[0].frecuencia + '</a>')
+          $('#divCredito').append('<a class="dropdown-item">Plazo:' + response.data[0].plazo + '</a>')
+          $('#divCredito').append('<a class="dropdown-item">Amortización:' + response.data[0].amortizacion + '</a>')
+          $('#divCredito').append('<a class="dropdown-item">IVA:' + response.data[0].iva + '</a>')
+          $('#divCredito').append('<a class="dropdown-item">Tasa:' + response.data[0].tasa + '</a>')
+          $('#divCredito').append('<a class="dropdown-item">Disposición:' + response.data[0].disposicion + '</a>')
+          $('#divCredito').append('<a class="dropdown-item">Estado:' + response.data[0].status + '</a>')
 
         }
 
       })
-      function credito(data=null)
-      {
-        $('#credito').DataTable( {
+
+      function credito(data = null) {
+        $('#credito').DataTable({
           dom: 'Bfrtip',
           searching: false,
           paging: false,
           ordering: false,
           destroy: true,
-          processing:true,
+          processing: true,
           responsive: true,
           buttons: [
             {
@@ -1193,14 +1211,14 @@
       $('.pickadate-disable').pickadate({
         disable: [
           1,
-          [2019,3,6],
-          [2019,3,20]
+          [2019, 3, 6],
+          [2019, 3, 20]
         ],
         format: 'yyyy-mm-dd',
         formatSubmit: 'yyyy-mm-dd',
-        monthsFull: [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ],
-        monthsShort: [ 'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic' ],
-        weekdaysShort: [ 'Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab' ],
+        monthsFull: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+        weekdaysShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
         today: 'Hoy',
         clear: 'Limpiar',
         close: 'Cerrar'
@@ -1209,54 +1227,47 @@
 
     });
 
-    function  restaurar(id){
+    function restaurar(id) {
       $.post('/morales/amortizacion/restaurar', {
         id: id,
         _token: token
-      }, function(data) {
+      }, function (data) {
         location.reload();
 
       });
 
     }
 
-    function cmoneda()
-    {
+    function cmoneda() {
       var moneda = $('#moneda').val();
-      if(moneda == 0)
-      {
+      if (moneda == 0) {
         $("#cssmoneda").css("display", "block");
-      }else{
+      } else {
         $("#cssmoneda").css("display", "none");
       }
     }
 
-    function verpagos(id)
-    {
+    function verpagos(id) {
       pagosAplicadoss(id);
       $('#vpagos').modal('toggle');
     }
 
-    function verflujos(id)
-    {
+    function verflujos(id) {
       historialFlujo(id);
       $('#vflujos').modal('toggle');
     }
 
-    function condonar(id)
-    {
+    function condonar(id) {
       condonarFlujo(id);
       $('#vcondonar').modal('toggle');
     }
 
 
-    function cforma()
-    {
+    function cforma() {
       var forma = $('#forma').val();
-      if(forma == 0)
-      {
+      if (forma == 0) {
         $("#cssforma").css("display", "block");
-      }else if(forma == 'Transferencia'){
+      } else if (forma == 'Transferencia') {
         $("#trforma").css("display", "block");
         $("#cssforma").css("display", "none");
       } else {
@@ -1265,14 +1276,12 @@
       }
     }
 
-    function lforma()
-    {
+    function lforma() {
       var forma = $('#clforma').val();
-      if(forma == 'Nacional')
-      {
+      if (forma == 'Nacional') {
         $("#lnacional").css("display", "block");
         $("#linternacional").css("display", "none");
-      }else if(forma == 'Internacional'){
+      } else if (forma == 'Internacional') {
         $("#linternacional").css("display", "block");
         $("#lnacional").css("display", "none");
       } else {
@@ -1281,48 +1290,38 @@
       }
     }
 
-    function corigen()
-    {
+    function corigen() {
       var forma = $('#origen').val();
-      if(forma == 'Cuentas de terceros')
-      {
+      if (forma == 'Cuentas de terceros') {
         $("#cterceros").css("display", "block");
-      }  else {
+      } else {
         $("#cterceros").css("display", "none");
         $("#coterceros").css("display", "none");
       }
     }
 
-    function cccterceros()
-    {
+    function cccterceros() {
       var forma = $('#ccterceros').val();
-      if(forma == 'Otros')
-      {
+      if (forma == 'Otros') {
         $("#coterceros").css("display", "block");
-      }  else {
+      } else {
         $("#coterceros").css("display", "none");
       }
     }
 
 
-
-
-
-
-
-    function table(data=null)
-    {
-      $('#amortizacion').DataTable( {
+    function table(data = null) {
+      $('#amortizacion').DataTable({
         dom: 'Bfrtip',
         searching: false,
         paging: false,
         ordering: false,
         destroy: true,
-        processing:true,
+        processing: true,
         responsive: true,
         columnDefs: [
           {
-            targets: [ 18, 19  ],
+            targets: [18, 19],
             visible: false,
             searchable: false
           },
@@ -1450,20 +1449,19 @@
             "data": data
           }
         },
-        fnRowCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull){
-          if( aData['saldo_pendiente'] != 0.00 && aData['saldo_pendiente'] != aData['cflujos'] ) {
-            $('td', nRow).css('background-color', '#FFFC8E' );
-            $('td', nRow).css('color', 'black' );
-          } else if ( aData['cstatus'] == 1 )
-          {
-            $('td', nRow).css('background-color', '#7EAD74' );
-            $('td', nRow).css('color', 'white' );
-          } else if( aData['cstatus'] == 2 ) {
-            $('td', nRow).css('background-color', '#DA8742' );
-            $('td', nRow).css('color', 'white' );
-          } else if( aData['cstatus'] == 3 ) {
-            $('td', nRow).css('background-color', '#C1705E' );
-            $('td', nRow).css('color', 'white' );
+        fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+          if (aData['saldo_pendiente'] != 0.00 && aData['saldo_pendiente'] != aData['cflujos']) {
+            $('td', nRow).css('background-color', '#FFFC8E');
+            $('td', nRow).css('color', 'black');
+          } else if (aData['cstatus'] == 1) {
+            $('td', nRow).css('background-color', '#7EAD74');
+            $('td', nRow).css('color', 'white');
+          } else if (aData['cstatus'] == 2) {
+            $('td', nRow).css('background-color', '#DA8742');
+            $('td', nRow).css('color', 'white');
+          } else if (aData['cstatus'] == 3) {
+            $('td', nRow).css('background-color', '#C1705E');
+            $('td', nRow).css('color', 'white');
           }
 
 
@@ -1474,16 +1472,14 @@
     }
 
 
-
-    function historialFlujo(id)
-    {
-      $('#historialdeflujo').DataTable( {
+    function historialFlujo(id) {
+      $('#historialdeflujo').DataTable({
         dom: 'Bfrtip',
         searching: false,
         paging: false,
         ordering: false,
         destroy: true,
-        processing:true,
+        processing: true,
         responsive: true,
         buttons: [
           {
@@ -1539,20 +1535,19 @@
           },
         ],
         ajax: {
-          url: "/morales/info/historial/flujo/"+id
+          url: "/morales/info/historial/flujo/" + id
         }
       });
     }
 
-    function condonarFlujo(id)
-    {
-      $('#condonarflujos').DataTable( {
+    function condonarFlujo(id) {
+      $('#condonarflujos').DataTable({
         dom: 'Bfrtip',
         searching: false,
         paging: false,
         ordering: false,
         destroy: true,
-        processing:true,
+        processing: true,
         responsive: false,
         buttons: [
           {
@@ -1608,23 +1603,21 @@
           },
         ],
         ajax: {
-          url: "/morales/info/condonar/flujo/"+id
+          url: "/morales/info/condonar/flujo/" + id
         }
       });
 
     }
 
 
-
-    function pagosAplicadoss(id)
-    {
-      $('#pagosAplicados').DataTable( {
+    function pagosAplicadoss(id) {
+      $('#pagosAplicados').DataTable({
         dom: 'Bfrtip',
         searching: false,
         paging: false,
         ordering: false,
         destroy: true,
-        processing:true,
+        processing: true,
         responsive: true,
         buttons: [
           {
@@ -1688,22 +1681,21 @@
           }
         ],
         ajax: {
-          url: "/morales/info/pagos/aplicados/"+id
+          url: "/morales/info/pagos/aplicados/" + id
         }
       });
 
     }
 
 
-    function pagos(data=null)
-    {
-      $('#pagos').DataTable( {
+    function pagos(data = null) {
+      $('#pagos').DataTable({
         dom: 'Bfrtip',
         searching: false,
         paging: false,
         ordering: false,
         destroy: true,
-        processing:true,
+        processing: true,
         responsive: true,
         buttons: [
           {
@@ -1784,15 +1776,14 @@
 
     }
 
-    function tasas(data=null)
-    {
-      $('#ttasas').DataTable( {
+    function tasas(data = null) {
+      $('#ttasas').DataTable({
         dom: 'Bfrtip',
         searching: false,
         paging: false,
         ordering: false,
         destroy: true,
-        processing:true,
+        processing: true,
         responsive: true,
         buttons: [
           {
@@ -1873,8 +1864,6 @@
       });
 
     }
-
-
 
 
   </script>
