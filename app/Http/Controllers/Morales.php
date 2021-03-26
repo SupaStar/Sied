@@ -1903,11 +1903,10 @@ class Morales extends Controller
 
   public function credito(Request $request, $id)
   {
-    $moral = Moral::where('id', $id)->first();
     if (isset($request->limite)) {
-      $moral->limite_credito = $request->limite;
-      $moral->save();
+      Moral::where('id', $id)->update(['limite_credito' => $request->limite]);
     }
+    $moral = Moral::where('id', $id)->first();
     if ($moral->limite_credito < $request->sliderInput) {
       return redirect()->action([Morales::class, 'continuar'], ['id' => $id, 'limite' => true]);
     } else {
@@ -1929,10 +1928,6 @@ class Morales extends Controller
     $ncredito->save();
 
     $moral = Moral::where('id', $id)->update(['status' => 'credito']);
-    if (isset($request->limite)) {
-      $moral->limite_credito = $request->limite;
-      $moral->save();
-    }
     $detinoC = new DestinoCreditoMorales();
     $destino = $detinoC::all();
     $detinoC->id_credito_moral = $ncredito->id;
