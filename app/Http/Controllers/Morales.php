@@ -1960,10 +1960,10 @@ class Morales extends Controller
               $dias = abs($dias);
               $intmora = ((($gdata->amortizacion * $tasa) * 2) / 360) * $dias;
               $ivamora = $intmora * 0.16;
-              $moratorios = number_format($intmora, 2) + number_format($ivamora, 2);
+              $moratorios = doubleval(number_format($intmora, 2)) + doubleval(number_format($ivamora, 2));
               $lgcobranza = $gdata->gcobranza ? $gdata->gcobranza : 0;
               $gcobranza = 200;
-              $ivacobranza = number_format($gcobranza * 0.16, 2);
+              $ivacobranza = doubleval(number_format($gcobranza * 0.16, 2));
               if (empty($lgcobranza)) {
                 $nflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $moratorios + $gcobranza + $ivacobranza;
 
@@ -2354,10 +2354,10 @@ class Morales extends Controller
               $dias = abs($dias);
               $intmora = ((($gdata->amortizacion * $tasa) * 2) / 360) * $dias;
               $ivamora = $intmora * 0.16;
-              $moratorios = number_format($intmora, 2) + number_format($ivamora, 2);
+              $moratorios = doubleval(number_format($intmora, 2)) + doubleval(number_format($ivamora, 2));
               $lgcobranza = $gdata->gcobranza ? $gdata->gcobranza : 0;
               $gcobranza = 200;
-              $ivacobranza = number_format($gcobranza * 0.16, 2);
+              $ivacobranza = doubleval(number_format($gcobranza * 0.16, 2));
               if (empty($lgcobranza)) {
                 $nflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $moratorios + $gcobranza + $ivacobranza;
 
