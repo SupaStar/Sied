@@ -1799,11 +1799,16 @@ class Clients extends Controller
       $dias = '';
       $mdis = number_format($monto * -1, 2);
       $saldo = $monto;
-      $comision = doubleval(number_format($monto * 0.01, 2));
+      if(isset($data['tipoPersona'])){
+        $comision = 0;
+      }else{
+        $comision = doubleval(number_format($monto * 0.01, 2));
+      }
+
       $civa = $data['iva'];
       $intereses = 0;
       $amortizacion = 0;
-      $iva = '';
+      $iva = 0;
       $flujo = 0;
       $addt = '';
       $add = 1;
@@ -1968,6 +1973,7 @@ class Clients extends Controller
               'iva' => number_format(round($iva), 0),
               'flujo' => number_format(round($flujo), 0)
             );
+
             array_push($result, (object)$arr);
           } elseif ($amortizaciones == 'Amortizaciones iguales') {
             if ($i == 0) {
@@ -1976,7 +1982,6 @@ class Clients extends Controller
                 $iva = ($intereses + $comision) * 0.16;
 
               }
-
               $flujo = ($monto * -1) + $comision + $amortizacion + $intereses + $iva;
 
             } else {

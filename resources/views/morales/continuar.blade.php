@@ -248,6 +248,7 @@
         </div>
       </div>
     </div>
+    <input type="hidden" id="tipo-persona" value="moral">
   </section>
   <!-- Form wizard with step validation section end -->
 @endsection
@@ -416,7 +417,8 @@
         amortizaciones: $('#amortizaciones').val(),
         iva: $('#iva').val(),
         tinteres: $('#tinteres').val(),
-        disposicion: $('#disposicion').val()
+        disposicion: $('#disposicion').val(),
+        tipoPersona: $('#tipo-persona').val()
       };
 
       table(midata);
