@@ -2032,7 +2032,7 @@ class Morales extends Controller
         $dias = '';
         $mdis = number_format($monto * -1, 2);
         $saldo = $monto;
-        $comision = number_format($monto * 0.01, 2);
+        $comision = doubleval(number_format($monto * 0.01, 2));
         $civa = $data->iva;
         $intereses = 0;
         $amortizacion = 0;
