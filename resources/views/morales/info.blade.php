@@ -646,14 +646,13 @@
                             </div>
                           </div>
                             <div class="col-4">
-                              <button class="btn btn-primary" href="">Nuevo Crédito</button>
+                              <a class="btn btn-primary" href="/morales/continuar/{{$id}}">Nuevo Crédito</a>
                           </div>
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-
                 </div>
 
                 <div class="tab-pane" id="profile-amortizacion" role="tabpanel" aria-labelledby="profile-tab-justified">
