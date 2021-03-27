@@ -634,9 +634,13 @@
                   </section>
                   <div class="row">
                     <div style="height: 420px;" class="col-12">
-                      <h1 id="limite_c">Limite de Crédito : {{$datos->limite_credito}}</h1>
-
-                      <div class="card">
+                      <h1 id="limite_c">Limite de Crédito : ${{$datos->limite_credito}}</h1>
+                      @if($datos->credito_disponible==null)
+                      <h1 id="disponible">Crédito Disponible:$0</h1>
+                      @else
+                        <h1 id="disponible">Crédito Disponible: ${{$datos->credito_disponible}}</h1>
+                      @endif
+                        <div class="card">
                         <div class="card-content">
                           <div class="row card-body card-dashboard">
                             <div class="col-8">
