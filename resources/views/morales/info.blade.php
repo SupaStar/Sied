@@ -634,19 +634,42 @@
                   </section>
                   <div class="row">
                     <div style="height: 420px;" class="col-12">
-                      <div class="card">
+                      <h1 id="limite_c">Limite de Crédito : ${{$datos->limite_credito}}</h1>
+                      @if($datos->credito_disponible==null)
+                      <h1 id="disponible">Crédito Disponible:$0</h1>
+                      @else
+                        <h1 id="disponible">Crédito Disponible: ${{$datos->credito_disponible}}</h1>
+                      @endif
+                        <div class="card">
                         <div class="card-content">
                           <div class="row card-body card-dashboard">
                             <div class="col-8">
-                              <div class="btn-group dropright">
-                                <button id="btnContrato" type="button" class="btn btn-outline-warning dropdown-toggle"
-                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <button id="btnContrato" type="button" class="btn btn-outline-warning" data-toggle="collapse" data-target="#demo"></button>
 
-                                </button>
-                                <div id="divCredito" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-
+                              <div id="demo" class="collapse">
+                                <div class="table-responsive">
+                                  <table class="table table-striped table-bordered" id="credito">
+                                    <thead>
+                                    <tr>
+                                      <th>Tipo</th>
+                                      <th>Contrato</th>
+                                      <th>Monto</th>
+                                      <th>Forma de Pago</th>
+                                      <th>Frecencia</th>
+                                      <th>Plazo</th>
+                                      <th>Amortización</th>
+                                      <th>Iva</th>
+                                      <th>Tasa</th>
+                                      <th>Disposición</th>
+                                      <th>Estado</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                  </table>
                                 </div>
                               </div>
+
                             </div>
                             <div class="col-4">
                               <a class="btn btn-primary" href="/morales/continuar/{{$id}}">Nuevo Crédito</a>
@@ -673,7 +696,6 @@
                         <div class="card-content">
                           <div class="card-body card-dashboard">
                             <div class="table-responsive">
-                              <h1 id="limite_c">Crédito Disponible: {{$datos->limite_credito}}</h1>
                               <table class="table table-striped table-bordered" id="amortizacion">
                                 <thead>
                                 <tr>
@@ -1075,17 +1097,6 @@
         url: "/morales/info/credito/{{$id}}",
         success: function (response) {
           $('#btnContrato').text("Contrato: " + response.data[0].contrato)
-          $('#divCredito').append('<a class="dropdown-item">Tipo de Credito:' + response.data[0].tcredito + '</a>')
-          $('#divCredito').append('<a class="dropdown-item">Monto:' + response.data[0].monto + '</a>')
-          $('#divCredito').append('<a class="dropdown-item">Forma de pago:' + response.data[0].fpago + '</a>')
-          $('#divCredito').append('<a class="dropdown-item">Frecuencia:' + response.data[0].frecuencia + '</a>')
-          $('#divCredito').append('<a class="dropdown-item">Plazo:' + response.data[0].plazo + '</a>')
-          $('#divCredito').append('<a class="dropdown-item">Amortización:' + response.data[0].amortizacion + '</a>')
-          $('#divCredito').append('<a class="dropdown-item">IVA:' + response.data[0].iva + '</a>')
-          $('#divCredito').append('<a class="dropdown-item">Tasa:' + response.data[0].tasa + '</a>')
-          $('#divCredito').append('<a class="dropdown-item">Disposición:' + response.data[0].disposicion + '</a>')
-          $('#divCredito').append('<a class="dropdown-item">Estado:' + response.data[0].status + '</a>')
-
         }
 
       })
