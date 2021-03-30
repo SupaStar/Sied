@@ -1420,7 +1420,7 @@ class Morales extends Controller
     $alertas->verificarMoral($request, $cid);
     $alertas->validarRiesgoMorales($request->id, $cid, "Pago");
     $moral = Moral::where('id', $request->id)->first();
-    $moral->limite_credito = $moral->limite_credito + $request->monto;
+    $moral->credito_disponible = $moral->credito_disponible + $request->monto;
     $moral->save();
     $amortizaciones = Amortizacion_Morales::where('moral_id', $request->id)->where('credito_id', $cid)->where('liquidado', 0)->where('flujo', '>', 0)->orderBy('periodo', 'asc')->orderBy('id', 'asc')->get();
     $pago = $request->monto;
@@ -1914,7 +1914,7 @@ class Morales extends Controller
     if ($moral->limite_credito < $request->sliderInput) {
       return redirect()->action([Morales::class, 'continuar'], ['id' => $id, 'limite' => true]);
     } else {
-      $moral->limite_credito = $moral->limite_credito - $request->sliderInput;
+      $moral->credito_disponible = $moral->credito_disponible - $request->sliderInput;
       $moral->save();
     }
     $ncredito = new Credito_Moral();
