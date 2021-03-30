@@ -1322,17 +1322,17 @@
 
 
     function table(data = null) {
-      $('#amortizacion').DataTable({
+      $('#amortizacion').DataTable( {
         dom: 'Bfrtip',
         searching: false,
         paging: false,
         ordering: false,
         destroy: true,
-        processing: true,
+        processing:true,
         responsive: true,
         columnDefs: [
           {
-            targets: [18, 19],
+            targets: [ 17, 18 ],
             visible: false,
             searchable: false
           },
@@ -1406,6 +1406,10 @@
             name: 'intereses'
           },
           {
+            data: 'moratorios',
+            name: 'moratorios'
+          },
+          {
             data: 'iva',
             name: 'iva'
           },
@@ -1434,16 +1438,8 @@
             name: 'gcobranza'
           },
           {
-            data: 'ivacobranza',
-            name: 'ivacobranza'
-          },
-          {
             data: 'pagos',
             name: 'pagos'
-          },
-          {
-            data: 'condonar',
-            name: 'condonar'
           },
           {
             data: 'cflujos',
@@ -1460,19 +1456,20 @@
             "data": data
           }
         },
-        fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-          if (aData['saldo_pendiente'] != 0.00 && aData['saldo_pendiente'] != aData['cflujos']) {
-            $('td', nRow).css('background-color', '#FFFC8E');
-            $('td', nRow).css('color', 'black');
-          } else if (aData['cstatus'] == 1) {
-            $('td', nRow).css('background-color', '#7EAD74');
-            $('td', nRow).css('color', 'white');
-          } else if (aData['cstatus'] == 2) {
-            $('td', nRow).css('background-color', '#DA8742');
-            $('td', nRow).css('color', 'white');
-          } else if (aData['cstatus'] == 3) {
-            $('td', nRow).css('background-color', '#C1705E');
-            $('td', nRow).css('color', 'white');
+        fnRowCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull){
+          if( aData['saldo_pendiente'] != 0.00 && aData['saldo_pendiente'] != aData['cflujos'] ) {
+            $('td', nRow).css('background-color', '#FFFC8E' );
+            $('td', nRow).css('color', 'black' );
+          } else if ( aData['cstatus'] == 1 )
+          {
+            $('td', nRow).css('background-color', '#7EAD74' );
+            $('td', nRow).css('color', 'white' );
+          } else if( aData['cstatus'] == 2 ) {
+            $('td', nRow).css('background-color', '#DA8742' );
+            $('td', nRow).css('color', 'white' );
+          } else if( aData['cstatus'] == 3 ) {
+            $('td', nRow).css('background-color', '#C1705E' );
+            $('td', nRow).css('color', 'white' );
           }
 
 

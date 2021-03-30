@@ -2060,7 +2060,6 @@ class Clients extends Controller
 
   public function pago(Request $request)
   {
-
     $cid = creditos::where('client_id', $request->id)->where('status', 'Aprobado')->first()->id;
 
     if ($request->moneda == 0) {
@@ -2558,8 +2557,7 @@ class Clients extends Controller
 
     if ($comprobante != 1) {
       $path = 'credito/pagos/fisica/comprobante';
-      $extension = ("jpg");
-      //$extension = strtolower($comprobante->getClientOriginalExtension());
+      $extension = strtolower($comprobante->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '-' . $npago->periodo . '-' . uniqid() . '.' . $extension;
         $uploads = new ComprobantePago();
@@ -2620,10 +2618,10 @@ class Clients extends Controller
               $dias = abs($dias);
               $intmora = ((($gdata->amortizacion * $tasa) * 2) / 360) * $dias;
               $ivamora = $intmora * 0.16;
-              $moratorios = number_format($intmora, 2) + number_format($ivamora, 2);
+              $moratorios = doubleval(number_format($intmora, 2)) + doubleval(number_format($ivamora, 2));
               $lgcobranza = $gdata->gcobranza ? $gdata->gcobranza : 0;
               $gcobranza = 200;
-              $ivacobranza = number_format($gcobranza * 0.16, 2);
+              $ivacobranza = doubleval(number_format($gcobranza * 0.16, 2));
               if (empty($lgcobranza)) {
                 $nflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $moratorios + $gcobranza + $ivacobranza;
 
@@ -2692,11 +2690,11 @@ class Clients extends Controller
         $dias = '';
         $mdis = number_format($monto * -1, 2);
         $saldo = $monto;
-        $comision = number_format($monto * 0.01, 2);
+        $comision = doubleval(number_format($monto * 0.01, 2));
         $civa = $data->iva;
         $intereses = 0;
         $amortizacion = 0;
-        $iva = '';
+        $iva = 0;
         $flujo = 0;
         $addt = '';
         $add = 1;
@@ -3014,10 +3012,10 @@ class Clients extends Controller
               $dias = abs($dias);
               $intmora = ((($gdata->amortizacion * $tasa) * 2) / 360) * $dias;
               $ivamora = $intmora * 0.16;
-              $moratorios = number_format($intmora, 2) + number_format($ivamora, 2);
+              $moratorios = doubleval(number_format($intmora, 2)) + doubleval(number_format($ivamora, 2));
               $lgcobranza = $gdata->gcobranza ? $gdata->gcobranza : 0;
               $gcobranza = 200;
-              $ivacobranza = number_format($gcobranza * 0.16, 2);
+              $ivacobranza = doubleval(number_format($gcobranza * 0.16, 2));
               if (empty($lgcobranza)) {
                 $nflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $moratorios + $gcobranza + $ivacobranza;
 
@@ -3081,7 +3079,6 @@ class Clients extends Controller
 
     return datatables()->of($result)
       ->addColumn('saldo_pendiente', function ($query) {
-
         if ($query->flujo > 0) {
           $pagos = $query->pagos ? $query->pagos : 0;
 
