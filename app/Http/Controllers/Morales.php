@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ActividadGiro;
+use App\AlertasMorales;
 use App\Amortizacion;
 use App\Amortizacion_Morales;
 use App\Credito_Moral;
@@ -1415,8 +1416,11 @@ class Morales extends Controller
     $npago->moneda = $moneda;
     $npago->origen = $request->origen;
     $npago->save();
+    $alertas = new AlertasMorales();
+    $alertas->verificarMoral($request, $cid);
+    $alertas->validarRiesgoMorales($request->id, $cid, "Pago");
     $moral = Moral::where('id', $request->id)->first();
-    $moral->limite_credito = $moral->limite_credito + $request->monto;
+    $moral->credito_disponible = $moral->credito_disponible + $request->monto;
     $moral->save();
     $amortizaciones = Amortizacion_Morales::where('moral_id', $request->id)->where('credito_id', $cid)->where('liquidado', 0)->where('flujo', '>', 0)->orderBy('periodo', 'asc')->orderBy('id', 'asc')->get();
     $pago = $request->monto;
@@ -1910,7 +1914,7 @@ class Morales extends Controller
     if ($moral->limite_credito < $request->sliderInput) {
       return redirect()->action([Morales::class, 'continuar'], ['id' => $id, 'limite' => true]);
     } else {
-      $moral->limite_credito = $moral->limite_credito - $request->sliderInput;
+      $moral->credito_disponible = $moral->credito_disponible - $request->sliderInput;
       $moral->save();
     }
     $ncredito = new Credito_Moral();
@@ -1936,6 +1940,9 @@ class Morales extends Controller
     $detinoC->numero_cuenta_clabe = $request->numero_cuenta_clabe;
     $detinoC->tipo_cuenta = $request->tipo_cuenta;
     $detinoC->save();
+    $alerta = new AlertasMorales();
+    $alerta->validarDestinoMoral($request, $id, $ncredito->id);
+    $alerta->validarRiesgoMorales($id, $ncredito->id, "Nuevo credito");
     return redirect('/morales/morales')->with('credito', 'OK');
   }
 

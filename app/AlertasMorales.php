@@ -3,36 +3,45 @@
 namespace App;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
-class Alerta extends Model
+class AlertasMorales extends Model
 {
-  protected $table = "alertas_pld";
+  protected $table = 'alertas_morales';
 
-  public function verificar(Request $request, $creditoId)
+  public function credito()
   {
-    $perfil = Perfil::where('cliente_id', $request->id)->first();
+    return $this->hasOne('App\Credito_Moral', 'id', 'credito_moral_id');
+  }
+
+  public function moral()
+  {
+    return $this->hasOne('App\Moral', 'id', 'moral_id');
+  }
+
+  public function verificarMoral(Request $request, $creditoId)
+  {
+    $perfil = PerfilMoral::where('id_moral', $request->id)->first();
     $divisaP = $request->moneda == "Nacional" ? 1 : 0;
     if ($perfil->divisa !== $divisaP) {
-      $alerta = new Alerta();
-      $alerta->cliente_id = $request->id;
-      $alerta->credito_id = $creditoId;
+      $alerta = new AlertasMorales();
+      $alerta->moral_id = $request->id;
+      $alerta->credito_moral_id = $creditoId;
       $alerta->estatus = 1;
       $alerta->observacion = "";
       $alerta->prioridad = "Alta";
       $alerta->tipo_alerta = "Moneda";
       $alerta->titulo = "Moneda seleccionada diferente";
-      $registrado = Divisa::find($perfil->divisa);
+      $registrado = Divisa::find($perfil->divisas);
       $divisaP = $divisaP == 0 ? "Otro" : "Moneda nacional";
       $alerta->descripcion = "Moneda de pago registrada: " . $registrado->descripcion . "|Se uso: " . $divisaP . " con nombre: " . $request->nmoneda;
       $alerta->save();
     }
     if ($request->origen == "No identificado") {
-      $alerta = new Alerta();
-      $alerta->cliente_id = $request->id;
-      $alerta->credito_id = $creditoId;
+      $alerta = new AlertasMorales();
+      $alerta->moral_id = $request->id;
+      $alerta->credito_moral_id = $creditoId;
       $alerta->estatus = 1;
       $alerta->observacion = "";
       $alerta->prioridad = "Alta";
@@ -43,9 +52,9 @@ class Alerta extends Model
     } else {
       if ($request->origen == "Cuentas de terceros") {
         if ($request->cterceros == "Relacionados en listas negras") {
-          $alerta = new Alerta();
-          $alerta->cliente_id = $request->id;
-          $alerta->credito_id = $creditoId;
+          $alerta = new AlertasMorales();
+          $alerta->moral_id = $request->id;
+          $alerta->credito_moral_id = $creditoId;
           $alerta->estatus = 1;
           $alerta->observacion = "";
           $alerta->prioridad = "Alta";
@@ -54,9 +63,9 @@ class Alerta extends Model
           $alerta->descripcion = "Se registro un origen de recursos: " . $request->origen . "|De tipo: " . $request->cterceros;
           $alerta->save();
         } else {
-          $alerta = new Alerta();
-          $alerta->cliente_id = $request->id;
-          $alerta->credito_id = $creditoId;
+          $alerta = new AlertasMorales();
+          $alerta->moral_id = $request->id;
+          $alerta->credito_moral_id = $creditoId;
           $alerta->estatus = 1;
           $alerta->observacion = "";
           $alerta->prioridad = "Alta";
@@ -72,11 +81,11 @@ class Alerta extends Model
     $numeroPagoMes = $perfil->nPagosMes + $pagomesGlobal->pagosMes;
     $carbon = Carbon::now()->addMonth(-1);
     $mesAnterior = $carbon->format('d-m-Y');
-    $nPagosMes = count(Pago::where("client_id", $request->id)->where("fpago", ">", $mesAnterior)->get());
+    $nPagosMes = count(Pago_Moral::where("moral_id", $request->id)->where("fpago", ">", $mesAnterior)->get());
     if ($nPagosMes > $numeroPagoMes) {
-      $alerta = new Alerta();
-      $alerta->cliente_id = $request->id;
-      $alerta->credito_id = $creditoId;
+      $alerta = new AlertasMorales();
+      $alerta->moral_id = $request->id;
+      $alerta->credito_moral_id = $creditoId;
       $alerta->estatus = 1;
       $alerta->observacion = "";
       $alerta->prioridad = "Alta";
@@ -88,9 +97,9 @@ class Alerta extends Model
     $pagomesGlobal = ConfigAlertas::find(1);
     $montoMax = $pagomesGlobal->valor * 7500;
     if ($request->monto > $montoMax) {
-      $alerta = new Alerta();
-      $alerta->cliente_id = $request->id;
-      $alerta->credito_id = $creditoId;
+      $alerta = new AlertasMorales();
+      $alerta->moral_id = $request->id;
+      $alerta->credito_moral_id = $creditoId;
       $alerta->estatus = 1;
       $alerta->observacion = "";
       $alerta->prioridad = "Alta";
@@ -100,9 +109,9 @@ class Alerta extends Model
       $alerta->save();
     }
     if ($pagomesGlobal->monto > $request->monto) {
-      $alerta = new Alerta();
-      $alerta->cliente_id = $request->id;
-      $alerta->credito_id = $creditoId;
+      $alerta = new AlertasMorales();
+      $alerta->moral_id = $request->id;
+      $alerta->credito_moral_id = $creditoId;
       $alerta->estatus = 1;
       $alerta->observacion = "";
       $alerta->prioridad = "Alta";
@@ -113,9 +122,9 @@ class Alerta extends Model
     }
     $formita = $request->forma == "0" ? 0 : $request->forma;
     if ($formita === 0) {
-      $alerta = new Alerta();
-      $alerta->cliente_id = $request->id;
-      $alerta->credito_id = $creditoId;
+      $alerta = new AlertasMorales();
+      $alerta->moral_id = $request->id;
+      $alerta->credito_moral_id = $creditoId;
       $alerta->estatus = 1;
       $alerta->observacion = "";
       $alerta->prioridad = "Alta";
@@ -128,9 +137,9 @@ class Alerta extends Model
       $forma = $request->forma == "Nacional" || $request->forma == "Internacional" ? "Transferencia" : $request->forma;
       $formaPago = InstrumentoMonetario::where("descripcion", $forma)->first();
       if ($formaPago->id == 2) {
-        $alerta = new Alerta();
-        $alerta->cliente_id = $request->id;
-        $alerta->credito_id = $creditoId;
+        $alerta = new AlertasMorales();
+        $alerta->moral_id = $request->id;
+        $alerta->credito_moral_id = $creditoId;
         $alerta->estatus = 1;
         $alerta->observacion = "";
         $alerta->prioridad = "Alta";
@@ -152,9 +161,9 @@ class Alerta extends Model
         }
       } else {
         if ($perfil->instrumento_monetario !== $formaPago->id) {
-          $alerta = new Alerta();
-          $alerta->cliente_id = $request->id;
-          $alerta->credito_id = $creditoId;
+          $alerta = new AlertasMorales();
+          $alerta->moral_id = $request->id;
+          $alerta->credito_moral_id = $creditoId;
           $alerta->estatus = 1;
           $alerta->observacion = "";
           $alerta->prioridad = "Alta";
@@ -168,13 +177,13 @@ class Alerta extends Model
     }
   }
 
-  public function validarDestino(Request $request, $idC, $creditoId)
+  public function validarDestinoMoral(Request $request, $idC, $creditoId)
   {
-    $perfil = Perfil::where("cliente_id", $idC)->first();
+    $perfil = PerfilMoral::where("id_moral", $idC)->first();
     if ($perfil->destino_recursos !== $request->recurso) {
-      $alerta = new Alerta();
-      $alerta->cliente_id = $idC;
-      $alerta->credito_id = $creditoId;
+      $alerta = new AlertasMorales();
+      $alerta->moral_id = $idC;
+      $alerta->credito_moral_id = $creditoId;
       $alerta->estatus = 1;
       $alerta->observacion = "";
       $alerta->prioridad = "Alta";
@@ -187,19 +196,9 @@ class Alerta extends Model
     }
   }
 
-  public function cliente()
+  public function validarRiesgoMorales($id, $creditoId, $operacion)
   {
-    return $this->hasOne('\App\Client', 'id', 'cliente_id');
-  }
-
-  public function credito()
-  {
-    return $this->hasOne('\App\Creditos', 'id', 'credito_id');
-  }
-
-  public function validarRiesgo($id, $creditoId, $operacion)
-  {
-    $riesgoBD = Riesgos::where('id_cliente', $id)->where('tipo', 0)->first();
+    $riesgoBD = Riesgos::where('id_cliente', $id)->where('tipo', 1)->first();
     if ($riesgoBD != null) {
       $riesgos = array();
       $riesgo = Riesgo::orderby('id', 'asc')->get();
@@ -229,5 +228,6 @@ class Alerta extends Model
         $alerta->save();
       }
     }
+
   }
 }
