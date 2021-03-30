@@ -50,11 +50,17 @@
                           <option value="NOMINA" >NOMINA</option>
                         </select>
                         <hr>
-                        <label class="form-control">Limite de crédito:</label>
+                        <label>Limite de crédito:</label>
                         @if($moral->limite_credito == "" || $moral->limite_credito == null)
                           <input id="limite" name="limite" class="form-control required" placeholder="Escribe el limite de crédito">
                         @else
                           <input id="limite" name="" class="form-control required" value="{{$moral->limite_credito}}" readonly>
+                        @endif
+                        <label>Crédito Disponible:</label>
+                        @if($moral->credito_disponible == "" || $moral->credito_disponible == null)
+                          <input readonly id="disponible" name="disponible" class="form-control required" value="0" placeholder="Escribe el crédito disponible">
+                        @else
+                          <input readonly id="disponible" name="disponible" value="{{$moral->credito_disponible}}" class="form-control required" placeholder="Escribe el crédito disponible">
                         @endif
                       </div>
                     </div>
