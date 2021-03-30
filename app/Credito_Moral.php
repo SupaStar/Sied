@@ -21,4 +21,7 @@ class Credito_Moral extends Model
   {
     $this->hasMany('App\DestinoCreditoMorales', 'id_credito_moral', 'id');
   }
+  public function alertas(){
+    return $this->hasMany('App\AlertasMorales','credito_moral_id','id');
+  }
 }

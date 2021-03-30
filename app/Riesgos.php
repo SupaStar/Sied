@@ -18,8 +18,8 @@ class Riesgos extends Model
   public function gradoMorales($id)
   {
     $moral = Moral::find($id);
-    $profesion=$moral->perfil->profesionn;
-    if($profesion!=null){
+    $profesion = $moral->perfil->profesionn;
+    if ($profesion != null) {
       $riesgo = Riesgo::orderby('id', 'asc')->get();
       $riesgos = array();
       foreach ($riesgo as $value) {

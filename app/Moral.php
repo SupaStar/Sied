@@ -144,4 +144,9 @@ class Moral extends Model
     array_push($puntaje, ['descripcion' => 'DE 51 A 99 AÑOS', 'puntaje' => 15]);
     return $puntaje;
   }
+
+  public function alertas()
+  {
+    return $this->hasMany('App\AlertasMorales', 'moral_id', 'id');
+  }
 }
