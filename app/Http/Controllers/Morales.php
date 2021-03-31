@@ -2513,7 +2513,7 @@ class Morales extends Controller
   {
     $id = $request->id;
 
-    $result = HistorialFlujos_Morales::where('periodo_id', $id)->get();
+    $result = HistorialFlujos_Morales::where('amortizacion_id', $id)->get();
 
     return datatables()->of($result)
       ->addColumn('fecha', function ($query) {
@@ -2571,7 +2571,7 @@ class Morales extends Controller
   {
     $id = $request->id;
 
-    $result = RelacionPago_Morales::where('periodo_id', $id)->get();
+    $result = RelacionPago_Morales::where('amortizacion_moral_id', $id)->get();
 
     return datatables()->of($result)
       ->addColumn('fecha', function ($query) {
