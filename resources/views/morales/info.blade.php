@@ -3,6 +3,8 @@
 @section('page-style')
   {{-- Page Css files --}}
   <link rel="stylesheet" href="{{ asset(mix('css/pages/invoice.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/datatables.min.css')) }}">
+  <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/pickadate/pickadate.css')) }}">
 
 @endsection
 @section('content')
@@ -634,11 +636,11 @@
                   </section>
                   <div class="row">
                     <div style="height: 420px;" class="col-12">
-                      <h1 id="limite_c">Limite de Crédito : ${{$datos->limite_credito}}</h1>
+                      <label style="font-size: 18px" id="limite_c">Limite de Crédito : <label style="color: green;font-size: 18px">${{number_format($datos->limite_credito,2,'.',',')}}</label></label><br>
                       @if($datos->credito_disponible==null)
-                      <h1 id="disponible">Crédito Disponible:$0</h1>
+                      <label style="font-size: 18px" id="disponible">Crédito Disponible: <label style="color: #ecec00;font-size: 18px" >$0</label></label>
                       @else
-                        <h1 id="disponible">Crédito Disponible: ${{$datos->credito_disponible}}</h1>
+                        <label style="font-size: 18px" id="disponible">Crédito Disponible: <label style="color: #ecec00;font-size: 18px">${{number_format($datos->credito_disponible,2,'.',',')}}</label></label>
                       @endif
                         <div class="card">
                         <div class="card-content">
@@ -813,7 +815,7 @@
           </button>
         </div>
         <form action="/morales/credito/pago" enctype="multipart/form-data" method="POST"
-              class="steps-validation wizard-circle" id="formss" name="formss">
+              class="steps-validation wizard-circle" id="formssp" name="formss">
           @csrf
           <input type="hidden" name="id" value="{{$id}}">
 
@@ -1082,6 +1084,9 @@
   <script>
 
     $(document).ready(function () {
+      $('#inlineForm').on('hidden.bs.modal', function () {
+        $('#formssp')[0].reset()
+      });
       $.ajax(
         {
           method:"get",
