@@ -33,7 +33,7 @@ function alertas(chn){
       {
         text: "Generar pdf",
         action: function() {
-          window.location.href = "/alertas/pdf";
+          window.location.href = '/alertas/pdf/'+"inicio"+"/"+$('#finish').val();
         },
         className: "btn bg-gradient-danger waves-effect waves-light mx-2",
         style:"border-top-right-radius: 5px;" +
@@ -41,7 +41,7 @@ function alertas(chn){
       },{
         text: "Generar excel",
         action: function() {
-          window.location.href = "/alertas/excel";
+          window.location.href = "/alertas/excel/"+"inicio"+"/"+$('#finish').val();
         },
         className: "btn bg-gradient-success waves-effect waves-light"
       }
@@ -353,7 +353,7 @@ function alertas2(chn){
            {
              text: "Generar pdf",
              action: function() {
-               window.location.href = "/alertas/pdf";
+               window.location.href = '/alertas/pdf/'+$('#start').val()+"/"+$('#finish').val();
              },
              className: "btn bg-gradient-danger waves-effect waves-light mx-2",
              style:"border-top-right-radius: 5px;" +
@@ -361,7 +361,7 @@ function alertas2(chn){
            },{
              text: "Generar excel",
              action: function() {
-               window.location.href = "/alertas/excel";
+               window.location.href = "/alertas/excel/"+$('#start').val()+"/"+$('#finish').val();
              },
              className: "btn bg-gradient-success waves-effect waves-light"
            }

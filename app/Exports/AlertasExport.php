@@ -15,6 +15,8 @@ class AlertasExport implements FromCollection, WithHeadings, WithMapping
    */
   public function collection()
   {
+
+
     $alertas = Alerta::where('created_at', '>', $this->fechaInicio)->where('created_at', '<', $this->fechaTermino)->get();
     foreach ($alertas as $alerta) {
       if ($alerta->estatus == 1) {
