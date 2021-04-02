@@ -1,5 +1,4 @@
 <?php
-
 Route::get("configuraciones", "ConfigAlertas@todos");
 Route::get("buscarConfigurtacion/{id}", "ConfigAlertas@encontrar");
 Route::post("nuevaConfiguracion", "ConfigAlertas@nueva");

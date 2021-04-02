@@ -648,7 +648,7 @@
                             <div class="col-8">
                               <button id="btnContrato" type="button" class="btn btn-outline-warning" data-toggle="collapse" data-target="#demo"></button>
 
-                              <div id="demo" class="collapse">
+                              <div id="demo" style="position: relative" class="collapse">
                                 <div class="table-responsive">
                                   <table class="table table-striped table-bordered" id="credito">
                                     <thead>
