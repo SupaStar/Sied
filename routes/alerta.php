@@ -11,5 +11,5 @@ Route::get('alerta2','Alerta@getAlertas2');
 
 Route::get('alertaf','Alerta@getAlertasfecha');
 
-Route::get('excel','Alerta@generarExcel')->name('generar_excel');
-Route::get('pdf','Alerta@generarPDF')->name('generar_pdf');
+Route::get('excel/{fecha1}/{fecha2}','Alerta@generarExcel')->name('generar_excel');
+Route::get('pdf/{fecha1}/{fecha2}','Alerta@generarPDF')->name('generar_pdf');

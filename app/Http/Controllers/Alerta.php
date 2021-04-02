@@ -18,13 +18,13 @@ class Alerta extends Controller
     $this->middleware('checkStatus');
   }
 
-  public function generarExcel()
+  public function generarExcel($fecha1,$fecha2)
   {
-    return Excel::download((new AlertasExport)->fechaInicio('2021-02-20',''), 'alertas.xlsx');
+    return Excel::download((new AlertasExport)->fechaInicio($fecha1,$fecha2), 'alertas.xlsx');
   }
-  public function generarPDF()
+  public function generarPDF($fecha1,$fecha2)
   {
-    return Excel::download((new AlertasExport)->fechaInicio('2021-02-20',''), 'alertas.pdf',\Maatwebsite\Excel\Excel::MPDF,['Content-Type' => 'application/pdf']);
+    return Excel::download((new AlertasExport)->fechaInicio($fecha1,$fecha2), 'alertas.pdf',\Maatwebsite\Excel\Excel::MPDF,['Content-Type' => 'application/pdf']);
   }
 
   public function nueva(Request $request)
