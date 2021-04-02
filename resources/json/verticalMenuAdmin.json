@@ -85,7 +85,7 @@
       "name": "Configuraciones",
       "slug": "configuraciones",
       "badgeClass": "badge badge-warning badge-pill float-right mr-2",
-      "icon": "feather icon-alert-circle",
+      "icon": "feather icon-settings",
       "submenu": [
         {
           "url": "/alertas/alertas",
