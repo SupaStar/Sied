@@ -13,7 +13,6 @@ $(document).ready(function() {
   "use strict"
   // init list view datatable
   clients('');
-  pendientes();
   // Scrollbar
   if ($(".data-items").length > 0) {
     new PerfectScrollbar(".data-items", { wheelPropagation: false })
@@ -146,91 +145,6 @@ function clients(chn){
 
 }
 
-function pendientes(){
-  var dataListView = $(".data-list-view2").DataTable({
-    responsive: true,
-    columnDefs: [
-      {
-        orderable: true,
-      //  targets: 0,
-      //  checkboxes: { selectRow: true }
-      },
-    ],
-    aLengthMenu: [[4, 10, 15, 20], [4, 10, 15, 20]],
-    order: [[1, "asc"]],
-    bInfo: false,
-    destroy: true,
-    processing: true,
-    serverSide: true,
-    pageLength: 10,
-    oLanguage: {
-      "sProcessing":     "Procesando...",
-      "sLengthMenu":     "_MENU_",
-      "sZeroRecords":    "No se encontraron resultados",
-      "sEmptyTable":     "Ningún dato disponible en esta tabla",
-      "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
-      "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0 registros",
-      "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-      "sInfoPostFix":    "",
-      "sSearch":         "",
-      "sUrl":            "",
-      "sInfoThousands":  ",",
-      "sLoadingRecords": "Cargando...",
-      "oPaginate": {
-          "sFirst":    "Primero",
-          "sLast":     "Último",
-          "sNext":     "Siguiente",
-          "sPrevious": "Anterior"
-      },
-      "oAria": {
-          "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-      },
-      "buttons": {
-          "copy": "Copiar",
-          "colvis": "Visibilidad"
-      }
-  },
-    initComplete: function(settings, json) {
-      $(".dt-buttons .btn").removeClass("btn-secondary")
-    },
-    columns: [
-      {
-          data: 'identificacion',
-          name: 'identificacion'
-      },
-      {
-          data: 'consulta_id',
-          name: 'consulta_id'
-      },
-      {
-          data: 'suma_id',
-          name: 'suma_id'
-      },
-      {
-        data: 'suma_estado',
-        name: 'suma_estado'
-      },
-      {
-        data: 'created_at',
-        name: 'created_at'
-      },
-      {
-        data: 'acciones',
-        name: 'acciones'
-      }      
-    ],
-    ajax: {
-      url: "/clientes/pendientes"
-    }
-
-  });
-
-  actionDropdown.insertBefore($(".top .actions .dt-buttons"))
-
-}
-
-
 function edit(id){
   alert('edit '+id);
 }
@@ -283,7 +197,6 @@ function del(id){
     }, function(data) {
       if(data == 'OK'){
         clients(filtro);
-        pendientes();
         Swal.fire(
           {
             type: "success",
@@ -360,6 +273,7 @@ function descmodal(id){
     id: id,
     _token: token
 }, function(data) {
+
   $('#nombre').html(data['nombre']);
   $('#genero').html(data['genero']);
   $('#fnac').html(data['fnac']);

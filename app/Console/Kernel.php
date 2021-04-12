@@ -13,8 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        'App\Console\Commands\UpdatesTokens',
-        'App\Console\Commands\UpdateClientes',
+      'App\Console\Commands\UpdatesTokens',
+      'App\Console\Commands\ActualizarValorUID',
     ];
 
     /**

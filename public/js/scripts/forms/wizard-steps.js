@@ -16,7 +16,7 @@ $(".number-tab-steps").steps({
   labels: {
     finish: "Guardar"
   },
-  onFinished: function (event, currentIndex) {
+  onFinished: function(event, currentIndex) {
     document.formss.submit();
   }
 });
@@ -30,7 +30,7 @@ $(".icons-tab-steps").steps({
   labels: {
     finish: "Guardar"
   },
-  onFinished: function (event, currentIndex) {
+  onFinished: function(event, currentIndex) {
     jsShowWindowLoad();
     document.formss.submit();
   }
@@ -40,7 +40,7 @@ $(".icons-tab-steps").steps({
 
 // Show form
 var form = $(".steps-validation").show();
-$.fn.steps.setStep = function (step) {
+$.fn.steps.setStep = function(step) {
   var currentIndex = $(this).steps("getCurrentIndex");
   for (var i = 0; i < Math.abs(step - currentIndex); i++) {
     if (step > currentIndex) {
@@ -58,10 +58,10 @@ $(".steps-validation").steps({
   titleTemplate: '<span class="step">#index#</span> #title#',
   labels: {
     finish: "Guardar"
-  }, onInit: function (event, currentIndex) {
+  },onInit: function (event, currentIndex) {
     $('.actions > ul > li:first-child').attr('style', 'display:none');
   },
-  onStepChanging: function (event, currentIndex, newIndex) {
+  onStepChanging: function(event, currentIndex, newIndex) {
     if (currentIndex > 0) {
       $('.actions > ul > li:first-child').removeAttr('style', '');
     } else {
@@ -71,6 +71,7 @@ $(".steps-validation").steps({
     if (currentIndex > newIndex) {
       return true;
     }
+
     // Needed in some cases if the user went back (clean up)
     if (currentIndex < newIndex) {
       // To remove error styles
@@ -80,15 +81,15 @@ $(".steps-validation").steps({
     form.validate().settings.ignore = ":disabled,:hidden";
     return form.valid();
   },
-  onFinishing: function (event, currentIndex) {
+  onFinishing: function(event, currentIndex) {
     form.validate().settings.ignore = ":disabled";
     return form.valid();
   },
-  onFinished: function (event, currentIndex) {
+  onFinished: function(event, currentIndex) {
     jsShowWindowLoad();
     document.getElementById('formss').submit();
   },
-  onCanceled: function (event) {
+  onCanceled: function(event) {
     $("#formss").steps("setStep", 0);
     document.getElementById("formss").reset();
   }
@@ -99,13 +100,13 @@ $(".steps-validation").validate({
   ignore: "input[type=hidden]", // ignore hidden fields
   errorClass: "danger",
   successClass: "success",
-  highlight: function (element, errorClass) {
+  highlight: function(element, errorClass) {
     $(element).removeClass(errorClass);
   },
-  unhighlight: function (element, errorClass) {
+  unhighlight: function(element, errorClass) {
     $(element).removeClass(errorClass);
   },
-  errorPlacement: function (error, element) {
+  errorPlacement: function(error, element) {
     error.insertAfter(element);
   },
   rules: {

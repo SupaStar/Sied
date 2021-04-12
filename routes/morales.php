@@ -14,9 +14,14 @@ Route::get('morales/ebr/{id}', 'Morales@ebr');
 Route::get('editarmoral/{id}', 'Morales@editarmoral');
 Route::get('editarmoral/{id}', 'Morales@editarmoral');
 
+Route::get('amortizacion', 'Morales@amortizacion');
+
+Route::get('info/credito/{id}', 'Morales@infocredito');
+Route::get('info/amortizacion/{id}', 'Morales@infoamortizacion');
+
 
 Route::get('nuevo/empresa', 'Morales@NuevaEmpresa');
-Route::get('continuar', 'Morales@continuar');
+Route::get('continuar/{id}', 'Morales@continuar');
 Route::get('listaNegraPDF/{id}', 'Morales@listaNegraPDF');
 Route::get('editar/fisica/{id}', 'Morales@editarfisica');
 
@@ -29,3 +34,6 @@ Route::get('riesgo/{id}', 'Morales@friesgo');
 Route::post('files/{id}', 'Morales@getfiles');
 Route::post('editado', 'Morales@editado');
 Route::post('eperfil', 'Morales@eperfil');
+
+
+Route::post('continuar/credito/{id}', 'Morales@credito');

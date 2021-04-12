@@ -28,7 +28,10 @@
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/sweetalert2.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/select/select2.min.css')) }}">
     <link rel="stylesheet" href="{{asset('vendors/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}" />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 </head>
 
@@ -40,6 +43,7 @@ $configData = Helper::applClasses();
 @extends((( $configData["mainLayoutType"] === 'horizontal') ? 'layouts.horizontalLayoutMaster' :
 'layouts.verticalLayoutMaster' ))
 @endisset
+
 <script>
     window.onload = function(){
         var timeout;
@@ -93,5 +97,34 @@ $configData = Helper::applClasses();
             mireloj.innerHTML=mihora; //incluir hora en elemento
          	 }
          setInterval(actualizar,1000);
+      $(function() {
+        $(document).on('click', 'button[id="btnactualizamoneda"]', function(event) {
+          $.ajax(
+            {
+              type:"get",
+              url:"/api/data/monedas",
+              datatype:"json",
+              success:function (response)
+              {
+                $("#lbluid").empty()
+                $("#lbluid").append(response.valor)
+                $("#lbltiie28").empty()
+                $("#lbltiie28").append(response.tiie28)
+                $("#lblfix").empty()
+                $("#lblfix").append(response.fix)
+                $("#lblcetes28").empty()
+                $("#lblcetes28").append(response.cetes28)
+              }
+            }
+          )
+        })
+      })
     }
+
+
+
+
 </script>
+
+
+

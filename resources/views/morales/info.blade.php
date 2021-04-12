@@ -1,8 +1,10 @@
 @extends('layouts/contentLayoutMaster')
 @section('title', 'Información')
 @section('page-style')
-  {{-- Page Css files --}}
-  <link rel="stylesheet" href="{{ asset(mix('css/pages/invoice.css')) }}">
+        {{-- Page Css files --}}
+        <link rel="stylesheet" href="{{ asset(mix('css/pages/invoice.css')) }}">
+        <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/datatables.min.css')) }}">
+        <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/pickadate/pickadate.css')) }}">
 
 @endsection
 @section('content')
@@ -22,13 +24,9 @@
                      aria-controls="home-just" aria-selected="true">DATOS PERSONALES</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="profile-tab-credito" data-toggle="tab" href="#profile-credito" role="tab"
-                     aria-controls="profile-just" aria-selected="true">CRÉDITO</a>
-                </li>
-                <li class="nav-item">
                   <a class="nav-link" id="profile-tab-amortizacion" data-toggle="tab" href="#profile-amortizacion"
                      role="tab"
-                     aria-controls="profile-just" aria-selected="true">AMORTIZACÓN</a>
+                     aria-controls="profile-just" aria-selected="true">CRÉDITOS /AMORTIZACIONES</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" id="profile-tab-pagos" data-toggle="tab" href="#profile-pagos" role="tab"
@@ -121,15 +119,15 @@
                                           <div class="row">
                                             <div class="offset-6 col-3 text-center">
                                               <a
-                                                href="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-frontal.png') }}"
+                                                href="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-frontal.jpg') }}"
                                                 target="_blank"> <img
-                                                  src="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-frontal.png') }}"
+                                                  src="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-frontal.jpg') }}"
                                                   alt="INE" height="100"></a>
 
                                               <a
-                                                href="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-trasera.png') }}"
+                                                href="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-trasera.jpg') }}"
                                                 target="_blank"> <img
-                                                  src="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-trasera.png') }}"
+                                                  src="{{ url('/uploads/personas-morales/ine/'.$dato->id.'-trasera.jpg') }}"
                                                   alt="INE" height="100"></a>
                                             </div>
 
@@ -470,9 +468,9 @@
                                               Acta Constitutiva
                                             </label>
                                             <br>
-                                            <a href="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
+                                            <a href="{{ url('/uploads/morales/acta/'.$datos->id.'.jpg') }}"
                                                target="_blank"> <img
-                                                src="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
+                                                src="{{ url('/uploads/morales/acta/'.$datos->id.'.jpg') }}"
                                                 alt="Acta Constitutiva" height="100"></a></div>
                                         </div>
                                       </div>
@@ -483,9 +481,9 @@
                                               Comprobante de Domicilio
                                             </label>
                                             <br>
-                                            <a href="{{ url('/uploads/morales/dom/'.$dato->id.'.jpeg') }}"
+                                            <a href="{{ url('/uploads/morales/dom/'.$datos->id.'.jpg') }}"
                                                target="_blank"> <img
-                                                src="{{ url('/uploads/morales/dom/'.$dato->id.'.jpeg') }}"
+                                                src="{{ url('/uploads/morales/dom/'.$datos->id.'.jpg') }}"
                                                 alt="Comprobante de Domicilio" height="100"></a>
                                           </div>
                                         </div>
@@ -497,9 +495,9 @@
                                               RFC
                                             </label>
                                             <br>
-                                            <a href="{{ url('/uploads/morales/rfc/'.$dato->id.'.jpeg') }}"
+                                            <a href="{{ url('/uploads/morales/rfc/'.$datos->id.'.jpg') }}"
                                                target="_blank"> <img
-                                                src="{{ url('/uploads/morales/rfc/'.$dato->id.'.jpeg') }}"
+                                                src="{{ url('/uploads/morales/rfc/'.$datos->id.'.jpg') }}"
                                                 alt="RFC" height="100"></a>
                                             <br>
                                             <h3>Croquis</h3>
@@ -583,9 +581,9 @@
                                             Fotografia 1
                                           </label>
                                           <br>
-                                          <a href="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
+                                          <a href="{{ url('/uploads/morales/acta/'.$datos->id.'.jpg') }}"
                                              target="_blank"> <img
-                                              src="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
+                                              src="{{ url('/uploads/morales/acta/'.$datos->id.'.jpg') }}"
                                               alt="Fotografia 1" height="100"></a></div>
                                       </div>
                                     </div>
@@ -596,9 +594,9 @@
                                             Fotografia 2
                                           </label>
                                           <br>
-                                          <a href="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
+                                          <a href="{{ url('/uploads/morales/acta/'.$datos->id.'.jpg') }}"
                                              target="_blank"> <img
-                                              src="{{ url('/uploads/morales/acta/'.$dato->id.'.jpeg') }}"
+                                              src="{{ url('/uploads/morales/acta/'.$datos->id.'.jpg') }}"
                                               alt="Fotografia 2" height="100"></a></div>
                                       </div>
                                     </div>
@@ -627,154 +625,141 @@
                   <!-- invoice functionality end -->
 
                 </div>
-                <div class="tab-pane" id="profile-credito" role="tabpanel" aria-labelledby="profile-tab-justified">
-                  <section class="invoice-print mb-1">
-                  </section>
+                
+
+                
+
+              <div class="tab-pane" id="profile-amortizacion" role="tabpanel" aria-labelledby="profile-tab-justified">
+              <section class="invoice-print mb-1">
                   <div class="row">
-                    <div class="col-12">
-                      <div class="card">
-                        <div class="card-content">
-                          <div class="card-body card-dashboard">
-                            <div class="table-responsive">
-                              <table class="table table-striped table-bordered" id="credito">
-                                <thead>
-                                <tr>
-                                  <th>Tipo</th>
-                                  <th>Contrato</th>
-                                  <th>Monto</th>
-                                  <th>Forma de Pago</th>
-                                  <th>Frecencia</th>
-                                  <th>Plazo</th>
-                                  <th>Amortización</th>
-                                  <th>Iva</th>
-                                  <th>Tasa</th>
-                                  <th>Disposición</th>
-                                  <th>Estado</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    <fieldset class="col-12 col-md-5 mb-1 mb-md-0">
+                    </fieldset>
                   </div>
-
-                </div>
-
-                <div class="tab-pane" id="profile-amortizacion" role="tabpanel" aria-labelledby="profile-tab-justified">
-                  <section class="invoice-print mb-1">
+                </section>
                     <div class="row">
-                      <fieldset class="col-12 col-md-5 mb-1 mb-md-0">
-                      </fieldset>
-                      <div class="col-12 col-md-7 d-flex flex-column flex-md-row justify-content-end">
-                      </div>
-                    </div>
-                  </section>
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="card">
-                        <div class="card-content">
-                          <div class="card-body card-dashboard">
-                            <div class="table-responsive">
-                              <table class="table table-striped table-bordered" id="amortizacion">
-                                <thead>
-                                <tr>
-                                  <th>Periodo</th>
-                                  <th>Fechas</th>
-                                  <th>Días</th>
-                                  <th>Disposición</th>
-                                  <th>Saldo Insoluto</th>
-                                  <th>Comisión</th>
-                                  <th>Amortización</th>
-                                  <th>Intereses</th>
-                                  <th>Moratorios</th>
-                                  <th>IVA</th>
-                                  <th>Flujo</th>
-                                  <th>Saldo Pendiente</th>
-                                  <th>Días de Mora</th>
-                                  <th>Int Mora</th>
-                                  <th>Iva Mora</th>
-                                  <th>Gasto Cobranza</th>
-                                  <th>Pagos</th>
-                                  <th>Status</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                              </table>
-                            </div>
+                      <div class="col-12">
+                          <div class="card">
+                              <div class="card-content">
+                                  <div class="card-body card-dashboard">
+                                  <div class="table-responsive">
+                                      <table class="table table-striped table-bordered" id="credito">
+                                          <thead>
+                                              <tr>
+                                                 <th>Tipo</th>
+                                                 <th>Contrato</th>
+                                                 <th>Monto</th>
+                                                 <th>Forma de Pago</th>
+                                                 <th>Frecencia</th>
+                                                 <th>Plazo</th>
+                                                 <th>Amortización</th>
+                                                 <th>Iva</th>
+                                                 <th>Tasa</th>
+                                                 <th>Disposición</th>
+                                                 <th>Estado</th>
+                                                 <th>Amortización</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                        </tbody>
+                                      </table>
+                                  </div>
+                                <br>
+                                      <div class="table-responsive">
+                                          <table class="table table-striped table-bordered" id="amortizacion">
+                                              <thead>
+                                                  <tr>
+                                                     <th>Periodo</th>
+                                                     <th>Fechas</th>
+                                                     <th>Días</th>
+                                                     <th>Disposición</th>
+                                                     <th>Saldo Insoluto</th>
+                                                     <th>Comisión</th>
+                                                     <th>Amortización</th>
+                                                     <th>Intereses</th>
+                                                     <th>Moratorios</th>
+                                                     <th>IVA</th>
+                                                     <th>Flujo</th>
+                                                     <th>Saldo Pendiente</th>
+                                                     <th>Días de Mora</th>
+                                                     <th>Int Mora</th>
+                                                     <th>Iva Mora</th>
+                                                     <th>Gasto Cobranza</th>
+                                                     <th>Pagos</th>
+                                                     <th>Status</th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                            </tbody>
+                                          </table>
+                                      </div>
 
-                            <div class="table-responsive">
-                              <table class="table table-striped table-bordered" id="ttasas">
-                                <thead>
-                                <tr>
-                                  <th>Tipo</th>
-                                  <th>Forma de Pago</th>
-                                  <th>Frecencia</th>
-                                  <th>Plazo</th>
-                                  <th>Amortización</th>
-                                  <th>Iva</th>
-                                  <th>Tasa</th>
-                                  <th>Moratorio</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                              </table>
-                            </div>
+                                      <div class="table-responsive">
+                                      <table class="table table-striped table-bordered" id="ttasas">
+                                          <thead>
+                                              <tr>
+                                                 <th>Tipo</th>
+                                                 <th>Forma de Pago</th>
+                                                 <th>Frecencia</th>
+                                                 <th>Plazo</th>
+                                                 <th>Amortización</th>
+                                                 <th>Iva</th>
+                                                 <th>Tasa</th>
+                                                 <th>Moratorio</th>
+                                              </tr>
+                                          </thead>
+                                          <tbody>
+                                        </tbody>
+                                      </table>
+                                  </div>
 
+                                  </div>
+                              </div>
                           </div>
-                        </div>
                       </div>
+                  </div>
+              </div>
+
+              <div class="tab-pane" id="profile-pagos" role="tabpanel" aria-labelledby="profile-tab-justified">
+                <section class="invoice-print mb-1">
+                  <div class="row">
+                    <fieldset class="col-12 col-md-5 mb-1 mb-md-0">
+                    </fieldset>
+                    <div class="col-12 col-md-7 d-flex flex-column flex-md-row justify-content-end">
+                      <button class="btn btn-success mb-1 mb-md-0"  data-toggle="modal" data-target="#inlineForm"> <i class="feather icon-dollar-sign"></i> Agregar Pago</button>
+                    <!-- <button class="btn btn-outline-primary  ml-0 ml-md-1"> <i class="feather icon-download"></i> Descargar</button> -->
                     </div>
                   </div>
-                </div>
-
-                <div class="tab-pane" id="profile-pagos" role="tabpanel" aria-labelledby="profile-tab-justified">
-                  <section class="invoice-print mb-1">
+                </section>
                     <div class="row">
-                      <fieldset class="col-12 col-md-5 mb-1 mb-md-0">
-                      </fieldset>
-                      <div class="col-12 col-md-7 d-flex flex-column flex-md-row justify-content-end">
-                        <button class="btn btn-success mb-1 mb-md-0" data-toggle="modal" data-target="#inlineForm"><i
-                            class="feather icon-dollar-sign"></i> Agregar Pago
-                        </button>
-                        <!-- <button class="btn btn-outline-primary  ml-0 ml-md-1"> <i class="feather icon-download"></i> Descargar</button> -->
-                      </div>
-                    </div>
-                  </section>
-                  <div class="row">
-                    <div class="col-12">
-                      <div class="card">
-                        <div class="card-content">
-                          <div class="card-body card-dashboard">
-                            <div class="table-responsive">
-                              <table class="table table-striped table-bordered" id="pagos">
-                                <thead>
-                                <tr>
-                                  <th>Periodo</th>
-                                  <th>Fecha de Pago</th>
-                                  <th>Dias de Mora</th>
-                                  <th>Interes Mora</th>
-                                  <th>Condonación</th>
-                                  <th>Iva</th>
-                                  <th>Pago</th>
-                                  <th>Comprobante</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                              </table>
-                            </div>
+                      <div class="col-12">
+                          <div class="card">
+                              <div class="card-content">
+                                  <div class="card-body card-dashboard">
+                                      <div class="table-responsive">
+                                          <table class="table table-striped table-bordered" id="pagos">
+                                              <thead>
+                                                  <tr>
+                                                     <th>Periodo</th>
+                                                     <th>Fecha de Pago</th>
+                                                     <th>Dias de Mora</th>
+                                                     <th>Interes Mora</th>
+                                                     <th>Condonación</th>
+                                                     <th>Iva</th>
+                                                     <th>Pago</th>
+                                                     <th>Comprobante</th>
+                                                  </tr>
+                                              </thead>
+                                              <tbody>
+                                            </tbody>
+                                          </table>
+                                      </div>
+                                  </div>
+                              </div>
                           </div>
-                        </div>
                       </div>
-                    </div>
                   </div>
-                </div>
+              </div>
+
 
               </div>
 
@@ -789,6 +774,25 @@
 
 
 @endsection
+@section('vendor-script')
+<script src="{{ asset(mix('vendors/js/tables/datatable/pdfmake.min.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/tables/datatable/vfs_fonts.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/tables/datatable/datatables.min.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/tables/datatable/datatables.buttons.min.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/tables/datatable/buttons.html5.min.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/tables/datatable/buttons.print.min.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/tables/datatable/buttons.bootstrap.min.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/tables/datatable/datatables.bootstrap4.min.js')) }}"></script>
+
+
+<script src="{{ asset(mix('vendors/js/pickers/pickadate/picker.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/pickers/pickadate/picker.date.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/pickers/pickadate/picker.time.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/pickers/pickadate/legacy.js')) }}"></script>
+<script src="{{ asset(mix('vendors/js/extensions/nouislider.min.js')) }}"></script>
+
+@endsection
+
 @section('page-script')
   <!-- Page js files -->
   <script src="{{ asset(mix('js/scripts/pages/invoice.js')) }}"></script>
@@ -800,4 +804,281 @@
     async
   ></script>
   <script src="/js/scripts/mapsedit.js"></script>
+<script>
+
+$(document).ready(function(){
+
+credito();
+//table(null);
+
+});
+
+
+  function credito(data=null)
+        {
+          $('#credito').DataTable( {
+            dom: 'Bfrtip',
+            searching: false,
+            paging: false,
+            ordering: false,
+            destroy: true,
+            processing:true,
+            responsive: true,
+            buttons: [
+                {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    title: 'Amortización',
+                    text: 'Pdf'
+                },
+                {
+                    extend: 'print',
+                    text: 'Imprimir',
+                    pageSize: 'LEGAL',
+                    title: 'Amortización'
+                }
+            ],
+            language: {
+              "decimal": "",
+              "emptyTable": "No hay información",
+              "info": "",
+              "infoEmpty": "",
+              "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+              "infoPostFix": "",
+              "thousands": ",",
+              "lengthMenu": "Mostrar _MENU_ Entradas",
+              "loadingRecords": "Cargando...",
+              "processing": "Procesando...",
+              "search": "Buscar:",
+              "zeroRecords": "Sin resultados encontrados",
+              "paginate": {
+                  "first": "Primero",
+                  "last": "Ultimo",
+                  "next": "Siguiente",
+                  "previous": "Anterior"
+              }
+            },
+            columns: [
+            {
+                data: 'tcredito',
+                name: 'tcredito'
+            },
+            {
+              data: 'contrato',
+              name: 'contrato'
+            },
+
+            {
+              data: 'monto',
+              name: 'monto'
+            },
+            {
+              data: 'fpago',
+              name: 'fpago'
+            },
+            {
+              data: 'frecuencia',
+              name: 'frecuencia'
+            },
+            {
+              data: 'plazo',
+              name: 'plazo'
+            },
+            {
+              data: 'amortizacion',
+              name: 'amortizacion'
+            },
+            {
+              data: 'iva',
+              name: 'iva'
+            },
+            {
+              data: 'tasa',
+              name: 'tasa'
+            },
+            {
+              data: 'disposicion',
+              name: 'disposicion'
+            },
+            {
+              data: 'status',
+              name: 'status'
+            },
+            {
+              data: 'vamortizacion',
+              name: 'vamortizacion'
+            }
+          ],
+          ajax: {
+            url: "/morales/info/credito/{{$id}}",
+            data: {
+              "data": data
+            }
+          }
+        });
+
+        }
+
+
+        function table(id)
+        {
+          $('#amortizacion').DataTable( {
+            dom: 'Bfrtip',
+            searching: false,
+            paging: false,
+            ordering: false,
+            destroy: true,
+            processing:true,
+            responsive: true,
+            columnDefs: [
+              {
+                  targets: [ 17, 18 ],
+                  visible: false,
+                  searchable: false
+              },
+            ],
+            buttons: [
+                {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    title: 'Amortización',
+                    text: 'Pdf'
+                },
+                {
+                    extend: 'print',
+                    text: 'Imprimir',
+                    pageSize: 'LEGAL',
+                    title: 'Amortización'
+                }
+            ],
+            language: {
+              "decimal": "",
+              "emptyTable": "No hay información",
+              "info": "",
+              "infoEmpty": "",
+              "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+              "infoPostFix": "",
+              "thousands": ",",
+              "lengthMenu": "Mostrar _MENU_ Entradas",
+              "loadingRecords": "Cargando...",
+              "processing": "Procesando...",
+              "search": "Buscar:",
+              "zeroRecords": "Sin resultados encontrados",
+              "paginate": {
+                  "first": "Primero",
+                  "last": "Ultimo",
+                  "next": "Siguiente",
+                  "previous": "Anterior"
+              }
+            },
+            columns: [
+            {
+                data: 'periodo',
+                name: 'periodo'
+            },
+            {
+                data: 'fechas',
+                name: 'fechas'
+            },
+            {
+                data: 'dias',
+                name: 'dias'
+            },
+            {
+              data: 'disposicion',
+              name: 'disposicion'
+            },
+            {
+              data: 'saldo_insoluto',
+              name: 'saldo_insoluto'
+            },
+            {
+              data: 'comision',
+              name: 'comision'
+            },
+            {
+              data: 'amortizacion',
+              name: 'amortizacion'
+            },
+            {
+              data: 'intereses',
+              name: 'intereses'
+            },
+            {
+              data: 'moratorios',
+              name: 'moratorios'
+            },
+            {
+              data: 'iva',
+              name: 'iva'
+            },
+            {
+              data: 'flujos',
+              name: 'flujo'
+            },
+            {
+              data: 'saldo_pendiente',
+              name: 'saldo_pendiente'
+            },
+            {
+              data: 'dias_mora',
+              name: 'dias_mora'
+            },
+            {
+              data: 'int_mora',
+              name: 'int_mora'
+            },
+            {
+              data: 'iva_mora',
+              name: 'iva_mora'
+            },
+            {
+              data: 'gcobranza',
+              name: 'gcobranza'
+            },
+            {
+              data: 'pagos',
+              name: 'pagos'
+            },
+            {
+              data: 'cflujos',
+              name: 'cflujos'
+            },
+            {
+              data: 'cstatus',
+              name: 'cstatus'
+            }
+          ],
+          ajax: {
+            url: "/morales/info/amortizacion/{{$id}}",
+            data: {
+              "id": id
+            }
+          },
+          fnRowCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull){
+              if( aData['saldo_pendiente'] != 0.00 && aData['saldo_pendiente'] != aData['cflujos'] ) {
+                $('td', nRow).css('background-color', '#FFFC8E' );
+                $('td', nRow).css('color', 'black' );
+              } else if ( aData['cstatus'] == 1 )
+              {
+                $('td', nRow).css('background-color', '#7EAD74' );
+                $('td', nRow).css('color', 'white' );
+              } else if( aData['cstatus'] == 2 ) {
+                $('td', nRow).css('background-color', '#DA8742' );
+                $('td', nRow).css('color', 'white' );
+              } else if( aData['cstatus'] == 3 ) {
+                $('td', nRow).css('background-color', '#C1705E' );
+                $('td', nRow).css('color', 'white' );
+              }
+
+
+              return nRow;
+          }
+        });
+
+        }
+
+</script>
 @endsection

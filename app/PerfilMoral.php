@@ -32,7 +32,8 @@ class PerfilMoral extends Model
     'actividad_giro',
     'pld',
     'efr',
-    'ingreso'];
+    'ingreso',
+    'limite_credito'];
   protected $attributes = [
     'actividad' => false,
     'propietario' => false,

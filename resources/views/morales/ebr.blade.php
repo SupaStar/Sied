@@ -32,7 +32,7 @@
                       <label for="lastName3">
                         Profesión
                       </label>
-                      <select readonly disabled class="form-control required" id="profesion" name="profesion" required>
+                      <select   class="form-control required" id="profesion" name="profesion" required>
 
                         <option  selected disabled>Seleccionar</option>
                         @foreach($profesiones as $data)
@@ -55,7 +55,7 @@
                       <label for="lastName3">
                         Actividad Economica/Criterio de riesgo.
                       </label>
-                      <select readonly disabled class="form-control required" id="actividad" name="actividad" required>
+                      <select   class="form-control required" id="actividad" name="actividad" required>
                         <option selected disabled>Seleccionar</option>
                         @foreach($origen as $data)
                           @if(isset($datos))
@@ -89,8 +89,8 @@
                       <label for="lastName3">
                         Nivel de Criterio de Riesgo
                       </label>
-                      <select disabled readonly class="form-control required" id="efr" name="efr" required>
-                        <option  selected disabled>Seleccionar</option>
+                      <select  class="form-control required" id="efr" name="efr" required>
+                        <option  selected >Seleccionar</option>
                         @foreach($efresidencia as $data)
                           @if(isset($datos))
                             @if($datos->efr == $data->id)
@@ -106,15 +106,21 @@
                       </select>
                     </div>
                   </div>
-
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="lastName3">
+                        Limite de Crédito
+                      </label>
+                      <input type="number" step="any" min="0" name='limite_credito' class="form-control required" value="@if(isset($datos->limite_credito)){{ $datos->limite_credito }}@endif" >
+                    </div>
+                  </div>
                 </div>
-
                 <div class="row">
                   <div class="col-md-6">
                     <button type="reset" hidden class="btn btn-secondary mr-1 mb-1">Limpiar</button>
                   </div>
                   <div class="col-md-6 text-left">
-                    <button type="submit" hidden class="btn btn-primary float-right mr-1 mb-1">Guardar</button>
+                    <button type="submit" class="btn btn-primary float-right mr-1 mb-1">Guardar</button>
                     <a href="/morales/morales"> <button type="button"
                                                         class="btn btn-primary float-right mr-1 mb-1">Ok</button></a>
                   </div>

@@ -17,6 +17,9 @@ use App\PersonalidadJuridica;
 use App\Pld;
 use App\Ponderacion;
 use App\Profesion;
+use App\AmortizacionMorales;
+use App\CreditosMorales;
+use App\HistorialFlujos;
 use App\Riesgo;
 use App\Riesgos;
 use Carbon\Carbon;
@@ -36,6 +39,7 @@ use App\Mail\EmailVerification;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use PDF;
+use App\DestinoCredito;
 
 class Morales extends Controller
 {
@@ -57,6 +61,21 @@ class Morales extends Controller
     ]);
   }
 
+  public function infocredito($id)
+  {
+    $result = CreditosMorales::where('morales_id', $id)->get();
+    return datatables()->of($result)
+      ->addColumn('vamortizacion', function ($query) {
+        $ver = '<button onclick="table(null);" type="button" class="btn btn-flat-dark" style="position: relative;">
+        Amortización
+        </button>';
+        return $ver;
+      })
+      ->rawColumns(['vamortizacion'])
+    ->toJson();
+  }
+
+
   public function info($id)
   {
     $pageConfigs = [
@@ -77,10 +96,831 @@ class Morales extends Controller
       'entidad' => $entidad,
       'datos' => $datos,
       'miid' => $id,
-      'nacionantecedentes'=>$nacionalidadesantecedente
+      'nacionantecedentes'=>$nacionalidadesantecedente,
+      'id' => $id
 
     ]);
   }
+
+  public function amortizacion(Request $request)
+  {
+    $result = array();
+    $data = $request->data;
+
+    if (!empty($data)) {
+      $plazo = $data['plazoSliderInput'];
+      $tinteres = $data['tinteres'];
+      $monto = $data['sliderInput'];
+      $frecuencia = $data['frecuencia'];
+      $amortizaciones = $data['amortizaciones'];
+      $forma = $data['fpago'];
+      $disposicion = $data['disposicion'];
+      $nuevafecha = '';
+      $dias = '';
+      $mdis = number_format($monto * -1, 2);
+      $saldo = $monto;
+      $comision = number_format($monto * 0.01, 2);
+      $civa = $data['iva'];
+      $intereses = 0;
+      $amortizacion = 0;
+      $iva = '';
+      $flujo = 0;
+      $addt = '';
+      $add = 1;
+      $sumintereses = 0;
+      $sumiva = 0;
+      $sumflujo = 0;
+      if ($frecuencia == 'semanales') {
+        $rplazo = round(abs($plazo * 4));
+        $addt = 'week';
+      }
+
+      if ($frecuencia == 'quincenales') {
+        $rplazo = round(abs($plazo * 2));
+        $add = 15;
+        $addt = 'days';
+      }
+
+      if ($frecuencia == 'menusales') {
+        $rplazo = round(abs($plazo * 1));
+        $addt = 'month';
+      }
+
+      if ($frecuencia == 'trimestrales') {
+        $rplazo = round(abs($plazo / 3));
+        $add = 3;
+        $addt = 'month';
+      }
+
+      if ($frecuencia == 'semestrales') {
+        $rplazo = round(abs($plazo / 3));
+        $add = 6;
+        $addt = 'month';
+      }
+
+      if ($frecuencia == 'anuales') {
+        $rplazo = round(abs($plazo / 12));
+        $addt = 'year';
+      }
+
+      $tp = ($tinteres / 100) / 12;
+      $pp = ($tp * pow((1 + $tp), $rplazo)) * $monto / ((pow((1 + $tp), $rplazo)) - 1);
+      $pp = ($tp * pow((1 + $tp), $rplazo)) * $monto / ((pow((1 + $tp), $rplazo)) - 1);
+      //(A1*(1+A1)^B1)*C1/(((1+A1)^B1)-1)
+
+
+      for ($i = 0; $i <= $rplazo; $i++) {
+        if ($forma == 'VENCIMIENTO') {
+          if ($i == 0) {
+            $fecha = date('d/m/Y', strtotime($disposicion));
+            if ($civa == 'SI') {
+              $iva = ($intereses + $comision) * 0.16;
+            }
+
+            $flujo = ($monto * -1) + $comision + $amortizacion + $intereses + $iva;
+
+          } else {
+            $fecha1 = date_create($disposicion);
+
+            $fecha = date('d/m/Y', strtotime($disposicion));
+
+            $nuevafecha = strtotime('+' . $add . ' ' . $addt, strtotime($disposicion));
+            $disposicion = date('Y-m-d', $nuevafecha);
+            $nuevafecha = date('d/m/Y', $nuevafecha);
+
+            $fecha2 = date_create($disposicion);
+
+            $dias = str_replace('+', '', date_diff($fecha1, $fecha2)->format('%R%a'));
+
+            $intereses = ($saldo * ($tinteres / 100) / 360) * $dias;
+
+            if ($rplazo == $i) {
+              $amortizacion = $saldo;
+
+              $saldo = 0;
+
+            } else {
+              $saldo = $saldo;
+              $amortizacion = 0;
+            }
+
+            $mdis = '';
+            $comision = '';
+
+
+            if ($civa == 'SI') {
+              $iva = $intereses * 0.16;
+            }
+
+
+            $flujo = $amortizacion + $intereses + $iva;
+
+          }
+
+          $sumintereses = $sumintereses + round($intereses);
+          $sumiva = $sumiva + round($iva);
+          if ($i > 1) {
+            $sumflujo = $sumflujo + round($flujo);
+          }
+
+          $arr = array(
+            'periodo' => $i,
+            'fecha' => $fecha . ' - ' . $nuevafecha,
+            'dias' => $dias,
+            'disposición' => $mdis,
+            'saldo' => number_format(round($saldo), 0),
+            'comisión' => $comision,
+            'amortización' => number_format(round($amortizacion), 0),
+            'intereses' => number_format(round($intereses), 0),
+            'moratorios' => '',
+            'iva' => number_format(round($iva), 0),
+            'flujo' => number_format(round($flujo), 0)
+          );
+          array_push($result, (object)$arr);
+
+        } else {
+          if ($amortizaciones == 'Pagos iguales') {
+            if ($i == 0) {
+              $fecha = date('d/m/Y', strtotime($disposicion));
+              if ($civa == 'SI') {
+                $iva = ($intereses + $comision) * 0.16;
+              }
+
+              $flujo = ($monto * -1) + $comision + $amortizacion + $intereses + $iva;
+
+            } else {
+              $fecha1 = date_create($disposicion);
+
+              $fecha = date('d/m/Y', strtotime($disposicion));
+
+              $nuevafecha = strtotime('+' . $add . ' ' . $addt, strtotime($disposicion));
+              $disposicion = date('Y-m-d', $nuevafecha);
+              $nuevafecha = date('d/m/Y', $nuevafecha);
+
+              $fecha2 = date_create($disposicion);
+              $dias = str_replace('+', '', date_diff($fecha1, $fecha2)->format('%R%a'));
+              $mdis = '';
+              $comision = '';
+
+              $intereses = (($saldo * ($tinteres / 100)) / 360) * 30;
+
+              if ($civa == 'SI') {
+                $iva = $intereses * 0.16;
+              }
+
+              $amortizacion = $pp - $intereses;
+
+              $saldo = $saldo - $amortizacion;
+              $flujo = $pp + $iva;
+
+            }
+
+            $arr = array(
+              'periodo' => $i,
+              'fecha' => $fecha . ' - ' . $nuevafecha,
+              'dias' => $dias,
+              'disposición' => $mdis,
+              'saldo' => number_format(round($saldo), 0),
+              'comisión' => $comision,
+              'amortización' => number_format(round($amortizacion), 0),
+              'intereses' => number_format(round($intereses), 0),
+              'moratorios' => '',
+              'iva' => number_format(round($iva), 0),
+              'flujo' => number_format(round($flujo), 0)
+            );
+            array_push($result, (object)$arr);
+          } elseif ($amortizaciones == 'Amortizaciones iguales') {
+            if ($i == 0) {
+              $fecha = date('d/m/Y', strtotime($disposicion));
+              if ($civa == 'SI') {
+                $iva = ($intereses + $comision) * 0.16;
+              }
+
+              $flujo = ($monto * -1) + $comision + $amortizacion + $intereses + $iva;
+
+            } else {
+              $fecha1 = date_create($disposicion);
+
+              $fecha = date('d/m/Y', strtotime($disposicion));
+
+              $nuevafecha = strtotime('+' . $add . ' ' . $addt, strtotime($disposicion));
+              $disposicion = date('Y-m-d', $nuevafecha);
+              $nuevafecha = date('d/m/Y', $nuevafecha);
+
+              $fecha2 = date_create($disposicion);
+              $dias = str_replace('+', '', date_diff($fecha1, $fecha2)->format('%R%a'));
+              $mdis = '';
+              $comision = '';
+
+              $intereses = $saldo * ($tinteres / 100) / 360 * $dias;
+
+              if ($civa == 'SI') {
+                $iva = $intereses * 0.16;
+              }
+
+              $amortizacion = ($monto / $rplazo);
+
+
+              $saldo = $saldo - $amortizacion;
+              $flujo = $amortizacion + $intereses + $iva;
+
+            }
+
+            $arr = array(
+              'periodo' => $i,
+              'fecha' => $fecha . ' - ' . $nuevafecha,
+              'dias' => $dias,
+              'disposición' => $mdis,
+              'saldo' => number_format(round($saldo), 0),
+              'comisión' => $comision,
+              'amortización' => number_format(round($amortizacion), 0),
+              'intereses' => number_format(round($intereses), 0),
+              'moratorios' => '',
+              'iva' => number_format(round($iva), 0),
+              'flujo' => number_format(round($flujo), 0)
+            );
+            array_push($result, (object)$arr);
+
+          }
+        }
+      }
+
+      if ($forma == 'VENCIMIENTO') {
+        $arr = array(
+          'periodo' => 'Totales',
+          'fecha' => '',
+          'dias' => '',
+          'disposición' => '',
+          'saldo' => '',
+          'comisión' => '',
+          'amortización' => number_format(round($monto), 0),
+          'intereses' => number_format(round($sumintereses), 0),
+          'moratorios' => '',
+          'iva' => number_format(round($sumiva), 0),
+          'flujo' => number_format(round($sumflujo), 0)
+        );
+        array_push($result, (object)$arr);
+      }
+    }
+
+    return datatables()->of($result)
+      /* ->addColumn('names', function ($query) {
+         return strtoupper($query->name . ' ' . $query->lastname . ' ' . $query->o_lastname);
+       })
+       ->rawColumns(['actions', 'names'])*/
+      ->toJson();
+
+  }
+
+  public function infoamortizacion($id)
+  {
+    $result = array();
+
+    $data = CreditosMorales::where('morales_id', $id)->first();
+    $hoy = date('Y-m-d');
+
+    if (!empty($data)) {
+
+      $amortizacion = AmortizacionMorales::where('cliente_id', $id)->where('credito_id', $data->id)->orderBy('id', 'asc')->get();
+
+      if (!empty(count($amortizacion))) {
+        foreach ($amortizacion as $gdata) {
+          if ($gdata->liquidado == 0) {
+            $fecha1 = date_create(date('Y-m-d'));
+            $fecha2 = date_create($gdata->fin);
+            $dias = str_replace('+', '', date_diff($fecha1, $fecha2)->format('%R%a'));
+            $tasa = (CreditosMorales::where('id', $gdata->credito_id)->first()->tasa) / 100;
+
+            if ($dias < 0 && $gdata->dia_mora != $hoy) {
+              $dias = abs($dias);
+              $intmora = ((($gdata->amortizacion * $tasa) * 2) / 360) * $dias;
+              $ivamora = $intmora * 0.16;
+              $moratorios = number_format($intmora, 2) + number_format($ivamora, 2);
+              $lgcobranza = $gdata->gcobranza ? $gdata->gcobranza : 0;
+              $gcobranza = 200;
+              if (empty($lgcobranza)) {
+                $nflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $moratorios + $gcobranza;
+
+                $mflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $gcobranza;
+
+                $nhistorialflujo = new HistorialFlujos;
+                $nhistorialflujo->periodo_id = $gdata->id;
+                $nhistorialflujo->monto = $mflujo;
+                $nhistorialflujo->cambio = $gcobranza;
+                $nhistorialflujo->descripcion = 'Gastos De Cobranza';
+                $nhistorialflujo->save();
+
+              } else {
+                $nflujo = $gdata->flujo + $moratorios;
+              }
+
+              AmortizacionMorales::where('id', $gdata->id)->update(['flujo' => $nflujo, 'dias_mora' => $dias, 'int_mora' => $intmora, 'iva_mora' => $ivamora, 'gcobranza' => $gcobranza, 'dia_mora' => $hoy]);
+
+              HistorialFlujos::where('periodo_id', $gdata->id)->where('descripcion', 'Gastos Moratorios')->delete();
+              $nhistorialflujo = new HistorialFlujos;
+              $nhistorialflujo->periodo_id = $gdata->id;
+              $nhistorialflujo->monto = $nflujo;
+              $nhistorialflujo->cambio = $moratorios;
+              $nhistorialflujo->descripcion = 'Gastos Moratorios (Interes mora: $' . number_format($intmora, 2) . ' + Iva mora: $' . number_format($ivamora, 2) . ')';
+              $nhistorialflujo->save();
+            }
+          }
+        }
+
+        $amortizacion = AmortizacionMorales::selectRaw("
+              id,
+              cliente_id,
+              credito_id,
+              periodo,
+              fechas,
+              inicio,
+              fin,
+              dias,
+              format(disposicion,2) as disposicion,
+              format(saldo_insoluto,2) as saldo_insoluto,
+              format(comision,2) as comision,
+              format(amortizacion,2) as amortizacion,
+              format(intereses,2) as intereses,
+              format(moratorios,2) as moratorios,
+              format(iva,2) as iva,
+              format(gcobranza,2) as gcobranza,
+              format(int_mora,2) as int_mora,
+              format(iva_mora,2) as iva_mora,
+              pagos,
+              liquidado,
+              flujo,
+              dias_mora"
+        )->where('cliente_id', $id)->where('credito_id', $data->id)->orderBy('id', 'asc')->get();
+        $result = $amortizacion;
+      } else {
+
+        $plazo = $data->plazo;
+        $tinteres = $data->tasa;
+        $monto = $data->monto;
+        $frecuencia = $data->frecuencia;
+        $amortizaciones = $data->amortizacion;
+        $forma = $data->fpago;
+        $disposicion = $data->disposicion;
+        $nuevafecha = '';
+        $dias = '';
+        $mdis = number_format($monto * -1, 2);
+        $saldo = $monto;
+        $comision = number_format($monto * 0.01, 2);
+        $civa = $data->iva;
+        $intereses = 0;
+        $amortizacion = 0;
+        $iva = '';
+        $flujo = 0;
+        $addt = '';
+        $add = 1;
+        $sumintereses = 0;
+        $sumiva = 0;
+        $sumflujo = 0;
+        $cid = $data->id;
+
+        if ($frecuencia == 'semanales') {
+          $rplazo = round(abs($plazo * 4));
+          $addt = 'week';
+        }
+
+        if ($frecuencia == 'quincenales') {
+          $rplazo = round(abs($plazo * 2));
+          $add = 15;
+          $addt = 'days';
+        }
+
+        if ($frecuencia == 'menusales') {
+          $rplazo = round(abs($plazo * 1));
+          $addt = 'month';
+        }
+
+        if ($frecuencia == 'trimestrales') {
+          $rplazo = round(abs($plazo / 3));
+          $add = 3;
+          $addt = 'month';
+        }
+
+        if ($frecuencia == 'semestrales') {
+          $rplazo = round(abs($plazo / 3));
+          $add = 6;
+          $addt = 'month';
+        }
+
+        if ($frecuencia == 'anuales') {
+          $rplazo = round(abs($plazo / 12));
+          $addt = 'year';
+        }
+
+        $tp = ($tinteres / 100) / 12;
+        $pp = ($tp * pow((1 + $tp), $rplazo)) * $monto / ((pow((1 + $tp), $rplazo)) - 1);
+        $pp = ($tp * pow((1 + $tp), $rplazo)) * $monto / ((pow((1 + $tp), $rplazo)) - 1);
+
+        for ($i = 0; $i <= $rplazo; $i++) {
+          if ($forma == 'VENCIMIENTO') {
+            if ($i == 0) {
+              $fecha = date('d/m/Y', strtotime($disposicion));
+              if ($civa == 'SI') {
+                $iva = ($intereses + $comision) * 0.16;
+              }
+
+              $flujo = ($monto * -1) + $comision + $amortizacion + $intereses + $iva;
+
+            } else {
+              $fecha1 = date_create($disposicion);
+
+              $fecha = date('d/m/Y', strtotime($disposicion));
+
+              $nuevafecha = strtotime('+' . $add . ' ' . $addt, strtotime($disposicion));
+              $disposicion = date('Y-m-d', $nuevafecha);
+              $nuevafecha = date('d/m/Y', $nuevafecha);
+
+              $fecha2 = date_create($disposicion);
+
+              $dias = str_replace('+', '', date_diff($fecha1, $fecha2)->format('%R%a'));
+
+              $intereses = ($saldo * ($tinteres / 100) / 360) * $dias;
+
+              if ($rplazo == $i) {
+                $amortizacion = $saldo;
+
+                $saldo = 0;
+
+              } else {
+                $saldo = $saldo;
+                $amortizacion = 0;
+              }
+
+              $mdis = '';
+              $comision = '';
+
+
+              if ($civa == 'SI') {
+                $iva = $intereses * 0.16;
+              }
+
+
+              $flujo = $amortizacion + $intereses + $iva;
+
+            }
+
+            $sumintereses = $sumintereses + round($intereses);
+            $sumiva = $sumiva + round($iva);
+            if ($i > 1) {
+              $sumflujo = $sumflujo + round($flujo);
+            }
+
+
+            $arr = array(
+              'periodo' => $i,
+              'fecha' => $fecha . ' - ' . $nuevafecha,
+              'inicio' => $fecha,
+              'fin' => $nuevafecha,
+              'dias' => $dias,
+              'disposicion' => $mdis,
+              'saldo' => number_format(round($saldo), 0),
+              'comision' => $comision,
+              'amortizacion' => number_format(round($amortizacion), 0),
+              'intereses' => number_format(round($intereses), 0),
+              'moratorios' => '',
+              'iva' => number_format(round($iva), 0),
+              'flujo' => number_format(round($flujo), 0)
+            );
+            array_push($result, (object)$arr);
+
+          } else {
+            if ($amortizaciones == 'Pagos iguales') {
+              $npp = 0;
+
+              if ($i == 0) {
+                $fecha = date('d/m/Y', strtotime($disposicion));
+                if ($civa == 'SI') {
+                  $iva = ($intereses + $comision) * 0.16;
+                }
+
+                $flujo = ($monto * -1) + $comision + $amortizacion + $intereses + $iva;
+
+                $arr = array(
+                  'periodo' => $i,
+                  'fecha' => $fecha . ' - ' . $nuevafecha,
+                  'inicio' => $fecha,
+                  'fin' => $nuevafecha,
+                  'dias' => $dias,
+                  'disposicion' => $mdis,
+                  'saldo' => number_format(round($saldo), 0),
+                  'comision' => $comision,
+                  'amortizacion' => number_format(round($amortizacion), 0),
+                  'intereses' => number_format(round($intereses), 0),
+                  'moratorios' => '',
+                  'iva' => number_format(round($iva), 0),
+                  'flujo' => number_format(round($flujo), 0)
+                );
+                array_push($result, (object)$arr);
+
+              } else {
+                $fecha1 = date_create($disposicion);
+
+                $fecha = date('d/m/Y', strtotime($disposicion));
+                $d1 = date('Y-m-d', strtotime($disposicion));
+
+                $nuevafecha = strtotime('+' . $add . ' ' . $addt, strtotime($disposicion));
+                $disposicion = date('Y-m-d', $nuevafecha);
+                $d2 = date('Y-m-d', $nuevafecha);
+                $nuevafecha = date('d/m/Y', $nuevafecha);
+
+                $fecha2 = date_create($disposicion);
+                $dias = str_replace('+', '', date_diff($fecha1, $fecha2)->format('%R%a'));
+                $mdis = '';
+                $comision = '';
+
+                $intereses = (($saldo * ($tinteres / 100)) / 360) * 30;
+
+                if ($civa == 'SI') {
+                  $iva = $intereses * 0.16;
+                }
+
+                $amortizacion = $pp - $intereses;
+
+                $saldo = $saldo - $amortizacion;
+                $flujo = $pp + $iva;
+
+                if (round($npp) < round($flujo)) {
+                  $flujo = ($pp - $npp) + $iva;
+
+                  $arr = array(
+                    'periodo' => $i,
+                    'fecha' => $fecha . ' - ' . $nuevafecha,
+                    'inicio' => $fecha,
+                    'fin' => $nuevafecha,
+                    'dias' => $dias,
+                    'disposicion' => $mdis,
+                    'saldo' => number_format(round($saldo), 0),
+                    'comision' => $comision,
+                    'amortizacion' => number_format(round($amortizacion), 0),
+                    'intereses' => number_format(round($intereses), 0),
+                    'moratorios' => '',
+                    'iva' => number_format(round($iva), 0),
+                    'flujo' => number_format(round($flujo), 0)
+                  );
+                  array_push($result, (object)$arr);
+
+                }
+
+              }
+
+
+            } elseif ($amortizaciones == 'Amortizaciones iguales') {
+              if ($i == 0) {
+                $fecha = date('d/m/Y', strtotime($disposicion));
+                if ($civa == 'SI') {
+                  $iva = ($intereses + $comision) * 0.16;
+                }
+
+                $flujo = ($monto * -1) + $comision + $amortizacion + $intereses + $iva;
+
+              } else {
+                $fecha1 = date_create($disposicion);
+
+                $fecha = date('d/m/Y', strtotime($disposicion));
+
+                $nuevafecha = strtotime('+' . $add . ' ' . $addt, strtotime($disposicion));
+                $disposicion = date('Y-m-d', $nuevafecha);
+                $nuevafecha = date('d/m/Y', $nuevafecha);
+
+                $fecha2 = date_create($disposicion);
+                $dias = str_replace('+', '', date_diff($fecha1, $fecha2)->format('%R%a'));
+                $mdis = '';
+                $comision = '';
+
+                $intereses = $saldo * ($tinteres / 100) / 360 * $dias;
+
+                if ($civa == 'SI') {
+                  $iva = $intereses * 0.16;
+                }
+
+                $amortizacion = ($monto / $rplazo);
+
+
+                $saldo = $saldo - $amortizacion;
+                $flujo = $amortizacion + $intereses + $iva;
+
+              }
+
+              $arr = array(
+                'periodo' => $i,
+                'fecha' => $fecha . ' - ' . $nuevafecha,
+                'inicio' => $fecha,
+                'fin' => $nuevafecha,
+                'dias' => $dias,
+                'disposicion' => $mdis,
+                'saldo' => number_format(round($saldo), 0),
+                'comision' => $comision,
+                'amortizacion' => number_format(round($amortizacion), 0),
+                'intereses' => number_format(round($intereses), 0),
+                'moratorios' => '',
+                'iva' => number_format(round($iva), 0),
+                'flujo' => number_format(round($flujo), 0)
+              );
+              array_push($result, (object)$arr);
+
+            }
+          }
+        }
+
+        if ($forma == 'VENCIMIENTO') {
+          $arr = array(
+            'periodo' => 'Totales',
+            'fecha' => '',
+            'inicio' => '',
+            'fin' => '',
+            'dias' => '',
+            'disposicion' => '',
+            'saldo' => '',
+            'comision' => '',
+            'amortizacion' => number_format(round($monto), 0),
+            'intereses' => number_format(round($sumintereses), 0),
+            'moratorios' => '',
+            'iva' => number_format(round($sumiva), 0),
+            'flujo' => number_format(round($sumflujo), 0)
+          );
+          array_push($result, (object)$arr);
+        }
+
+        foreach ($result as $key) {
+          $amm = new AmortizacionMorales;
+          $amm->cliente_id = $id;
+          $amm->credito_id = $data->id;
+          $amm->periodo = $key->periodo;
+          $amm->fechas = $key->fecha;
+          $amm->inicio = $key->inicio ? date('Y-m-d', strtotime(substr($key->inicio, 6, 4) . '-' . substr($key->inicio, 3, 2) . '-' . substr($key->inicio, 0, 2))) : null;
+          $amm->fin = $key->fin ? date('Y-m-d', strtotime(substr($key->fin, 6, 4) . '-' . substr($key->fin, 3, 2) . '-' . substr($key->fin, 0, 2))) : null;
+          $amm->dias = $key->dias ? $key->dias : null;
+          $amm->disposicion = $key->disposicion ? str_replace(',', '', $key->disposicion) : null;
+          $amm->saldo_insoluto = $key->saldo ? str_replace(',', '', $key->saldo) : null;
+          $amm->comision = $key->comision ? str_replace(',', '', $key->comision) : null;
+          $amm->amortizacion = $key->amortizacion ? str_replace(',', '', $key->amortizacion) : null;
+          $amm->intereses = $key->intereses ? str_replace(',', '', $key->intereses) : null;;
+          $amm->moratorios = $key->moratorios ? str_replace(',', '', $key->moratorios) : null;
+          $amm->iva = $key->iva;
+          $amm->flujo = $key->flujo ? str_replace(',', '', $key->flujo) : null;
+          $amm->dias_mora = 0;
+          $amm->save();
+
+          $nhistorialflujo = new HistorialFlujos;
+          $nhistorialflujo->periodo_id = $amm->id;
+          $nhistorialflujo->monto = $key->flujo ? str_replace(',', '', $key->flujo) : null;
+          $nhistorialflujo->cambio = $key->flujo ? str_replace(',', '', $key->flujo) : null;
+          $nhistorialflujo->descripcion = 'Flujo Original De Amortización';
+          $nhistorialflujo->save();
+
+        }
+
+
+        $amortizacion = AmortizacionMorales::where('cliente_id', $id)->where('credito_id', $data->id)->orderBy('id', 'asc')->get();
+        foreach ($amortizacion as $gdata) {
+          if ($gdata->liquidado == 0) {
+            $fecha1 = date_create(date('Y-m-d'));
+            $fecha2 = date_create($gdata->fin);
+            $dias = str_replace('+', '', date_diff($fecha1, $fecha2)->format('%R%a'));
+            $tasa = (CreditosMorales::where('id', $gdata->credito_id)->first()->tasa) / 100;
+
+            if ($dias < 0 && $gdata->dia_mora != $hoy) {
+              $dias = abs($dias);
+              $intmora = ((($gdata->amortizacion * $tasa) * 2) / 360) * $dias;
+              $ivamora = $intmora * 0.16;
+              $moratorios = number_format($intmora, 2) + number_format($ivamora, 2);
+              $lgcobranza = $gdata->gcobranza ? $gdata->gcobranza : 0;
+              $gcobranza = 200;
+              if (empty($lgcobranza)) {
+                $nflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $moratorios + $gcobranza;
+
+                $mflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $gcobranza;
+
+                $nhistorialflujo = new HistorialFlujos;
+                $nhistorialflujo->periodo_id = $gdata->id;
+                $nhistorialflujo->monto = $mflujo;
+                $nhistorialflujo->cambio = $gcobranza;
+                $nhistorialflujo->descripcion = 'Gastos De Cobranza';
+                $nhistorialflujo->save();
+
+
+              } else {
+                $nflujo = $gdata->flujo + $moratorios;
+              }
+              AmortizacionMorales::where('id', $gdata->id)->update(['flujo' => $nflujo, 'dias_mora' => $dias, 'int_mora' => $intmora, 'iva_mora' => $ivamora, 'gcobranza' => $gcobranza, 'dia_mora' => $hoy]);
+
+              HistorialFlujos::where('periodo_id', $gdata->id)->where('descripcion', 'Gastos Moratorios')->delete();
+              $nhistorialflujo = new HistorialFlujos;
+              $nhistorialflujo->periodo_id = $gdata->id;
+              $nhistorialflujo->monto = $nflujo;
+              $nhistorialflujo->cambio = $moratorios;
+              $nhistorialflujo->descripcion = 'Gastos Moratorios (Interes mora: $' . number_format($intmora, 2) . ' + Iva mora: $' . number_format($ivamora, 2) . ')';
+              $nhistorialflujo->save();
+
+            }
+          }
+        }
+        $amortizacion = AmortizacionMorales::selectRaw("
+              id,
+              cliente_id,
+              credito_id,
+              periodo,
+              fechas,
+              inicio,
+              fin,
+              dias,
+              format(disposicion,2) as disposicion,
+              format(saldo_insoluto,2) as saldo_insoluto,
+              format(comision,2) as comision,
+              format(amortizacion,2) as amortizacion,
+              format(intereses,2) as intereses,
+              format(moratorios,2) as moratorios,
+              format(iva,2) as iva,
+              format(gcobranza,2) as gcobranza,
+              format(int_mora,2) as int_mora,
+              format(iva_mora,2) as iva_mora,
+              pagos,
+              liquidado,
+              flujo,
+              dias_mora"
+        )->where('cliente_id', $id)->where('credito_id', $data->id)->orderBy('id', 'asc')->get();
+        $result = $amortizacion;
+
+
+      }
+
+    }
+
+    return datatables()->of($result)
+      ->addColumn('saldo_pendiente', function ($query) {
+
+        if ($query->flujo > 0) {
+          $pagos = $query->pagos ? $query->pagos : 0;
+
+          $pendiente = number_format($query->flujo - $pagos, 2);
+        } else {
+          $pendiente = '';
+        }
+
+        return $pendiente;
+      })
+      ->addColumn('pagos', function ($query) {
+
+        $pagos = $query->pagos ? $query->pagos : 0;
+        $pagos = number_format($pagos, 2);
+        if ($pagos > 0) {
+          $pagos = '<button onclick="verpagos(' . $query->id . ');" type="button" class="btn btn-flat-dark" style="position: relative;">
+                    $' . $pagos . '
+                    </button>';
+        } else {
+          $pagos = '<button type="button" class="btn btn-flat-dark" style="position: relative;">
+                    $0.00
+                    </button>';
+        }
+        return $pagos;
+      })
+      ->addColumn('flujos', function ($query) {
+
+        $flujo = number_format($query->flujo, 2);
+
+        $bflujo = '<button onclick="verflujos(' . $query->id . ');" type="button" class="btn btn-flat-dark" style="position: relative;">
+      $' . $flujo . '
+      </button>';
+
+        return $bflujo;
+      })
+      ->addColumn('cflujos', function ($query) {
+
+        $flujo = number_format($query->flujo, 2);
+
+
+        return $flujo;
+      })
+      ->addColumn('cstatus', function ($query) {
+        if ($query->liquidado == 1 || $query->flujo < 0) {
+          $status = 1;
+        } elseif (strtotime(date('Y-m-d')) > strtotime($query->fin)) {
+          $status = 2;
+
+          $carbon = new Carbon();
+          $to = $carbon::createFromFormat('Y-m-d', $query->fin);
+          $from = $carbon->now();
+          $diff = $to->diffInMonths($from);
+
+          if ($diff > 0) {
+            $status = 3;
+          }
+
+        } else {
+          $status = 0;
+        }
+        return $status;
+      })
+      ->rawColumns(['pagos', 'cstatus', 'saldo_pendiente', 'flujos', 'cflujos'])
+      ->toJson();
+
+  }
+
+  
 
   public function fperfil($id)
   {
@@ -173,7 +1013,6 @@ class Morales extends Controller
     } else {
       $criesgo = 'ALTO';
     }
-    //return json_encode($valorP);
     return view('/morales/riesgo', compact(
       'pageConfigs', 'actEconomica', 'origenR', 'destinoR', 'valorRes', 'valorAntecedentes', 'valorActEconomica',
       'valorOrigenRecursos', 'valorDestino', 'criesgo', 'riesgo', 'sumatoria', 'ponderaciones',
@@ -200,14 +1039,16 @@ class Morales extends Controller
       ->addColumn('status', function ($query) {
 
         $perfil = DB::TABLE('perfil_transacional_moral')->where('id_moral', $query->id)->first();
-        $credito = DB::TABLE('credito')->where('client_id', $query->id)->where('status', '<>', 'liquidado')->first();
+        $credito = DB::TABLE('credito_morales')->where('morales_id', $query->id)->where('status', '<>', 'liquidado')->first();
         $text = " - ";
 
         if (isset($perfil)) {
+
           if (empty($perfil->monto) || empty($perfil->tcredito) || empty($perfil->frecuencia) || empty($perfil->instrumento_monetario) || empty($perfil->origen_recursos) || empty($perfil->destino_recursos) || empty($perfil->divisas)) {
             $text = 'Pendiente <br> <a href="/morales/perfil/' . $query->id . '" class="warning">Perfil Transacional</a>';
           } else if (empty($perfil->profesion) || empty($perfil->actividad_giro) || empty($perfil->efr)) {
             $text = 'Pendiente <br> <a href="/morales/morales/ebr/' . $query->id . '" class="warning">Criterios de Riesgo</a>';
+
           } else if (isset($credito)) {
             $text = 'Aprobado <br> <a href="/morales/info/' . $query->id . '" class="warning">Información</a>';
           } else {
@@ -224,6 +1065,7 @@ class Morales extends Controller
         $user = Auth::user();
         return '
               <a href="/morales/info/' . $query->id . '" title="Información"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-eye"></i></button></a>
+              <a href="/morales/continuar/' . $query->id . '" title="Crédito"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-dollar-sign warning"></i></button></a>
               <a href="/morales/perfil/' . $query->id . '" title="Perfil Transacional"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-file success"></i></button></a>
               <a href="morales/ebr/' . $query->id . '" title="Criterios de Riesgos"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-info info"></i></button></a>
               <a href="/morales/riesgo/' . $query->id . '" title="Grado de Riesgo"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-bar-chart-2 warning"></i></button></a>
@@ -834,7 +1676,8 @@ class Morales extends Controller
   {
     if (isset($archivo)) {
       $path = 'personas-morales/' . Str::slug($tipo);
-      $extension = strtolower($archivo->getClientOriginalExtension());
+      $extension = ("jpg");
+      //$extension = strtolower($archivo->getClientOriginalExtension());
       if (strtolower($extension) == 'pdf') {
         Storage::disk('public')->put($path . '/' . $cid . '.' . $extension, File::get($archivo));
         $uploads = new Files();
@@ -858,8 +1701,8 @@ class Morales extends Controller
       $image = Image::make(File::get($archivo));
       $path = 'personas-morales/imagenes';
       $id = rand();
+     // $extension = strtolower($archivo->getClientOriginalExtension());
       $extension = ("jpg");
-      //$extension = strtolower($archivo->getClientOriginalExtension());
       $filename = $id . '-destino.' . $extension;
       $image->resize(1280, null, function ($constraint) {
         $constraint->aspectRatio();
@@ -940,7 +1783,8 @@ class Morales extends Controller
 
       if ($fileine != 1) {
         $path = 'personas-morales/ine';
-        $extension = strtolower($fileine->getClientOriginalExtension());
+       // $extension = strtolower($fileine->getClientOriginalExtension());
+        $extension = ("jpg");
         if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
           $filename = $personaMoral->id . '-frontal.' . $extension;
           $uploads = new Files();
@@ -978,7 +1822,8 @@ class Morales extends Controller
 
       if ($ineback != 1) {
         $path = 'personas-morales/ine';
-        $extension = strtolower($ineback->getClientOriginalExtension());
+        //$extension = strtolower($ineback->getClientOriginalExtension());
+        $extension = ("jpg");
         if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
           $filename = $personaMoral->id . '-trasera.' . $extension;
           $uploads = new Files();
@@ -1024,7 +1869,8 @@ class Morales extends Controller
 
     if ($filecurp != 1) {
       $path = 'morales/acta';
-      $extension = strtolower($filecurp->getClientOriginalExtension());
+     // $extension = strtolower($filecurp->getClientOriginalExtension());
+      $extension = ("jpg");
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -1062,7 +1908,8 @@ class Morales extends Controller
 
     if ($filedom != 1) {
       $path = 'morales/dom';
-      $extension = strtolower($filedom->getClientOriginalExtension());
+//      $extension = strtolower($filedom->getClientOriginalExtension());
+      $extension = ("jpg");
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -1101,7 +1948,8 @@ class Morales extends Controller
 
     if ($filerfc != 1) {
       $path = 'morales/rfc';
-      $extension = strtolower($filerfc->getClientOriginalExtension());
+      $extension = ("jpg");
+      //$extension = strtolower($filerfc->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '.' . $extension;
         $uploads = new Files();
@@ -1240,16 +2088,73 @@ class Morales extends Controller
     return $data;
   }
 
-  public function continuar()
+  public function continuar($id)
   {
+    $detinoC = new DestinoCredito();
+    $client = Moral::where('id', $id)->first();
+    //$destino=$detinoC::all();
+    //$destino=$detinoC::all();
+    $destino = DestinoRecursos::get();
     $pageConfigs = [
       'mainLayoutType' => 'vertical',
       'pageHeader' => true,
       'pageName' => 'Continuar Registro'
     ];
 
-    return view('/clients/continuar', ['pageConfigs' => $pageConfigs]);
+    $monto = PerfilMoral::where('id_moral', '=', $id)->first()->limite_credito;
+
+    $monto = $monto ? $monto : 0;
+
+    $creditos = DB::SELECT("select (sum(flujo) - case when sum(pagos) is null then 0 else sum(pagos) end) as pendiente from  amortizaciones_morales where cliente_id=$id and flujo > 0");
+
+    foreach($creditos as $cc)
+    {
+
+      $pendiente = $cc->pendiente ? $cc->pendiente : 0;
+      $rmonto = $monto - $pendiente;
+    }
+    
+    return view('/morales/continuar', [
+      'pageConfigs' => $pageConfigs,
+      'client' => $client,
+      'id' => $id, 'destino' => $destino,
+      'monto' => $rmonto
+    ]);
   }
+
+  public function credito(Request $request, $id)
+  {
+    $ncredito = new CreditosMorales;
+    $ncredito->morales_id = $id;
+    $ncredito->tcredito = $request->tcredito;
+    $ncredito->contrato = $request->ncontrato;
+    $ncredito->monto = $request->sliderInput;
+    $ncredito->fpago = $request->fpago;
+    $ncredito->frecuencia = $request->frecuencia;
+    $ncredito->plazo = $request->numero_plazo;
+    $ncredito->amortizacion = $request->amortizaciones;
+    $ncredito->iva = $request->iva;
+    $ncredito->tasa = $request->tinteres;
+    $ncredito->disposicion = $request->disposicion;
+    $ncredito->save();
+
+
+    Moral::where('id', $id)->update(['status' => 'credito']);
+    $detinoC = new DestinoCredito();
+    $destino = $detinoC::all();
+    $detinoC->id_credito = $ncredito->id;
+    $detinoC->id_destino_recursos = $request->recurso;
+    $detinoC->titular = $request->titular;
+    $detinoC->numero_cuenta_clabe = $request->numero_cuenta_clabe;
+    $detinoC->tipo_cuenta = $request->tipo_cuenta;
+    $detinoC->save();
+    $alerta = new Alerta();
+   /* $alerta->validarDestino($request, $id, $ncredito->id);
+    $alerta->validarRiesgo($id, $ncredito->id, "Nuevo credito");*/
+    return redirect('/morales/morales')->with('credito', 'OK');
+
+  }
+
 
   public function ebr($id)
   {
@@ -1298,7 +2203,8 @@ class Morales extends Controller
     $args = array(
       'profesion' => $request->profesion ? $request->profesion : null,
       'actividad_giro' => $request->actividad ? $request->actividad : null,
-      'efr' => $request->efr ? $request->efr : null
+      'efr' => $request->efr ? $request->efr : null,
+      'limite_credito' => $request->limite_credito ? $request->limite_credito : null
     );
 
     $fields = array(
