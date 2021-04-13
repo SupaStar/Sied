@@ -62,7 +62,6 @@ class BuzonController extends Controller
     $buzon->estatus = 0;
     return response()->json($buzon);
   }
-
   public function editar(Request $request)
   {
     $this->validate($request, [
