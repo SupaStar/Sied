@@ -23,7 +23,7 @@
                       <label for="lastName3">
                         Frecuencia de los pagos que realizará en el siguiente semestre
                       </label>
-                      <select class="form-control" id="frecuencia" name="frecuencia">
+                      <select class="form-control" id="frecuencia" name="frecuencia" @if(isset($datos))disabled @endif>
                         @if(isset($datos->frecuencia))
                           <option value="{{ $datos->frecuencia }}" selected>{{ $datos->frecuencia }}</option>
                         @else
@@ -42,9 +42,9 @@
                   <div class="col-md-4">
                     <div class="form-group">
                       <label for="firstName3">
-                        Monto estimado para los pagos a realizarr
+                        Monto estimado de pagos a realizar en los próximos seis meses
                       </label>
-                      <input type="number" value="@if(isset($datos->monto)){{ $datos->monto }}@endif" step="any"
+                      <input type="number" value="@if(isset($datos->monto)){{ $datos->monto }}@endif" @if(isset($datos))disabled @endif step="any"
                         class="form-control required" id="monto" name="monto">
                     </div>
                   </div>
@@ -55,7 +55,7 @@
                         Tipo de crédito que pretende utilizar en el siguiente semestre
                       </label>
                       <input type="text" value="@if(isset($datos->tcredito)){{ $datos->tcredito }}@endif"
-                        class="form-control required" id="tcredito" name="tcredito">
+                             @if(isset($datos))disabled @endif class="form-control required" id="tcredito" name="tcredito">
                     </div>
                   </div>
                   </div>
@@ -66,7 +66,7 @@
                       <label for="lastName3">
                         Origen de Recursos
                       </label>
-                      <select class="form-control required" id="orecursos" name="orecursos" require>
+                      <select class="form-control required" id="orecursos" name="orecursos" required  @if(isset($datos))disabled @endif>
                         <option selected disabled>Seleccionar</option>
                             @foreach($origen as $data)
                             @if(isset($datos->origen_recursos))
@@ -90,7 +90,7 @@
                       <label for="lastName3">
                         Forma de Pago
                       </label>
-                      <select class="form-control required" id="imonetario" name="imonetario">
+                      <select class="form-control required" id="imonetario" name="imonetario" @if(isset($datos))disabled @endif>
 
                         <option selected disabled>Seleccionar</option>
                             @foreach($instrumento as $data)
@@ -115,7 +115,7 @@
                       <label for="lastName3">
                         Divisa
                       </label>
-                      <select class="form-control required" id="divisa" name="divisa">
+                      <select class="form-control required" id="divisa" name="divisa" @if(isset($datos))disabled @endif>
                         <option selected disabled>Seleccionar</option>
                             @foreach($divisa as $data)
                             @if(isset($datos->divisa))
@@ -140,18 +140,10 @@
                       <label for="lastName3">
                         Destino De Recursos
                       </label>
-                      <select class="form-control required" id="drecursos" name="drecursos">
+                      <select class="form-control required" id="drecursos" name="drecursos" @if(isset($datos))disabled @endif>
                         <option selected disabled>Seleccionar</option>
                             @foreach($destino as $data)
-                            @if(isset($datos->destino_recursos))
-                            @if($datos->destino_recursos == $data->id)
-                              <option value="{{$data->id}}" selected>{{$data->descripcion}}</option>
-                            @else
-                            <option value="{{$data->id}}">{{$data->descripcion}}</option>
-                            @endif
-                            @else
-                            <option value="{{$data->id}}">{{$data->descripcion}}</option>
-                            @endif
+                           <option value="{{$data->id}}">{{$data->descripcion}}</option>
                             @endforeach
 
                       </select>
@@ -163,7 +155,7 @@
                       <label for="lastName3">
                       Disponibilidad del cliente para la entrega de documentación
                       </label>
-                      <select class="form-control" id="disponibilidad" name="disponibilidad">
+                      <select class="form-control" id="disponibilidad" name="disponibilidad" @if(isset($datos))disabled @endif>
 
                         @if(isset($datos->frecuencia))
                           <option value="{{ $datos->frecuencia }}" selected>{{ $datos->frecuencia }}</option>
@@ -182,7 +174,7 @@
                       <label for="lastName3">
                       Ingreso Mensual Estimado
                       </label>
-                      <input type="number" value="@if(isset($datos->ingreso)){{ $datos->ingreso }}@endif" step="any"
+                      <input type="number" value="@if(isset($datos->ingreso)){{ $datos->ingreso }}@endif" @if(isset($datos))disabled @endif step="any"
                         class="form-control required" id="ingreso" name="ingreso">
                     </div>
                   </div>
@@ -196,7 +188,7 @@
                       <label for="lastName3">
                         Especifique si observo alguna conducta inapropiada del cliente
                       </label>
-                      <input type="text" class="form-control required" id="conducta" name="conducta"
+                      <input type="text" class="form-control required" id="conducta" @if(isset($datos))disabled @endif name="conducta"
                         value="@if(isset($datos->conducta)){{ $datos->conducta }}@endif">
                     </div>
                   </div>
@@ -207,20 +199,20 @@
                         su perfil transaccional, como características específicas de su actividad, antecedentes o
                         proyectos
                       </label>
-                      <input type="text" class="form-control required" id="comentario" name="comentario"
+                      <input type="text" class="form-control required" id="comentario" @if(isset($datos))disabled @endif name="comentario"
                         value="@if(isset($datos->comentario)){{ $datos->comentario }}@endif">
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <button type="reset" class="btn btn-secondary mr-1 mb-1">Limpiar</button>
+                    <button type="reset" class="btn btn-secondary mr-1 mb-1" @if(isset($datos))disabled readonly hidden @endif>Limpiar</button>
                   </div>
                   <div class="col-md-6 text-left">
-                    <button type="submit" class="btn btn-primary float-right mr-1 mb-1">Guardar</button>
+                    <button type="submit" class="btn btn-primary float-right mr-1 mb-1" @if(isset($datos))disabled readonly hidden @endif>Guardar</button>
                   <a href="/clientes/fisica"> <button type="button"
-                      class="btn btn-danger float-right mr-1 mb-1">Cancelar</button></a>
+                      class="btn btn-primary float-right mr-1 mb-1" @if(isset($datos))@endif>Ok</button></a>
                   </div>
 
-
+                    <input value="{{$redireccion}}" id="redireccion" aria-label="redireccion" hidden>
                 </div>
               </div>
             </form>
@@ -231,4 +223,22 @@
   </div>
 </section>
 <!-- // Basic Floating Label Form section end -->
+@endsection
+@section('page-script')
+  <script>
+    $(document).ready(function() {
+      let red = $("#redireccion").val();
+      if (red == 1){
+        Swal.fire({
+          title: "Redireccionado",
+          text: "Haz sido redireccionado para llenar tu perfil transacional!",
+          type: "success",
+          confirmButtonClass: 'btn btn-primary',
+          buttonsStyling: false,
+          animation: false,
+          customClass: 'animated tada'
+        });
+      }
+    });
+  </script>
 @endsection

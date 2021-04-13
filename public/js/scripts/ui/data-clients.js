@@ -242,6 +242,7 @@ function files(id){
     _token: token
 }, function(data) {
   $('#seemyfiles').html(data);
+
   console.log(data);
 });
 

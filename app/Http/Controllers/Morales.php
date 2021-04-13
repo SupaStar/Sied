@@ -186,7 +186,6 @@ class Morales extends Controller
     } else {
       $criesgo = 'ALTO';
     }
-    //return json_encode($valorP);
     return view('/morales/riesgo', compact(
       'pageConfigs', 'actEconomica', 'origenR', 'destinoR', 'valorRes', 'valorAntecedentes', 'valorActEconomica',
       'valorOrigenRecursos', 'valorDestino', 'criesgo', 'riesgo', 'sumatoria', 'ponderaciones',
@@ -213,7 +212,7 @@ class Morales extends Controller
       ->addColumn('status', function ($query) {
 
         $perfil = DB::TABLE('perfil_transacional_moral')->where('id_moral', $query->id)->first();
-        $credito = DB::TABLE('credito')->where('client_id', $query->id)->where('status', '<>', 'liquidado')->first();
+        $credito = DB::TABLE('credito_morales')->where('moral_id', $query->id)->where('status', '<>', 'liquidado')->first();
         $text = " - ";
 
         if (isset($perfil)) {
@@ -237,6 +236,7 @@ class Morales extends Controller
         $user = Auth::user();
         return '
               <a href="/morales/info/' . $query->id . '" title="Información"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-eye"></i></button></a>
+              <a href="/morales/continuar/' . $query->id . '" title="Crédito"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-dollar-sign warning"></i></button></a>
               <a href="/morales/perfil/' . $query->id . '" title="Perfil Transacional"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-file success"></i></button></a>
               <a href="morales/ebr/' . $query->id . '" title="Criterios de Riesgos"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-info info"></i></button></a>
               <a href="/morales/riesgo/' . $query->id . '" title="Grado de Riesgo"><button style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-bar-chart-2 warning"></i></button></a>
@@ -953,7 +953,8 @@ class Morales extends Controller
 
       if ($fileine != 1) {
         $path = 'personas-morales/ine';
-        $extension = "jpg";
+       // $extension = strtolower($fileine->getClientOriginalExtension());
+        $extension = ("jpg");
         if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
           $filename = $personaMoral->id . '-frontal.' . $extension;
           $uploads = new Files();
@@ -991,7 +992,7 @@ class Morales extends Controller
 
       if ($ineback != 1) {
         $path = 'personas-morales/ine';
-        $extension = "jpg";
+        $extension = ("jpg");
         if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
           $filename = $personaMoral->id . '-trasera.' . $extension;
           $uploads = new Files();
@@ -1258,8 +1259,6 @@ class Morales extends Controller
   {
     $detinoC = new DestinoCredito();
     $Moral = Moral::where('id', $id)->first();
-    //$destino=$detinoC::all();
-    //$destino=$detinoC::all();
     $destino = DestinoRecursos::get();
     $pageConfigs = [
       'mainLayoutType' => 'vertical',
@@ -1324,7 +1323,8 @@ class Morales extends Controller
     $args = array(
       'profesion' => $request->profesion ? $request->profesion : null,
       'actividad_giro' => $request->actividad ? $request->actividad : null,
-      'efr' => $request->efr ? $request->efr : null
+      'efr' => $request->efr ? $request->efr : null,
+      'limite_credito' => $request->limite_credito ? $request->limite_credito : null
     );
 
     $fields = array(

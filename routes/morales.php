@@ -26,7 +26,6 @@ Route::get('editar/{id}', 'Morales@editar');
 Route::get('perfil/{id}', 'Morales@fperfil');
 Route::get('riesgo/{id}', 'Morales@friesgo');
 
-
 Route::post('files/{id}', 'Morales@getfiles');
 Route::post('editado', 'Morales@editado');
 Route::post('eperfil', 'Morales@eperfil');

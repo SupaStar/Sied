@@ -35,30 +35,10 @@
             <form action="/clientes/crear" enctype="multipart/form-data" method="POST"
               class="steps-validation wizard-circle" id="formss" name="formss">
               @csrf
-                            <!-- Step 1 -->
-                            <h6>
-                <i class="step-icon feather icon-credit-card"></i> Identificación</h6>
+              <!-- Step 1 -->
+              <h6>
+                <i class="step-icon feather icon-user"></i> Datos Personales</h6>
               <fieldset>
-              <div class="row">
-                  <div class="col-md-4">
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form-group">
-                      <label for="firstName3">
-                        Tipo de Identifiación
-                      </label>
-                      <select class="form-control required" id="identificacion" name="identificacion" onchange="tipoid()">
-                        <option selected disabled>Seleccionar</option>
-                        <option value="INE">INE</option>
-                        <option value="PASAPORTE">PASAPORTE</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                  </div>
-                </div>
-
-                <div  id="ines" style="display:none">
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
@@ -67,7 +47,7 @@
                       </label>
                       <input type="file" onchange="validateine()" data-toggle="tooltip" data-placement="top"
                         title="Solo se permiten imagenes JPG, JPEG, PNG orientadas horizontalmente"
-                        class="form-control " id="inefront" name="inefront" accept=".jpg, .jpeg, .png">
+                        class="form-control required" id="inefront" name="inefront" accept=".jpg, .jpeg, .png">
                     </div>
                   </div>
                   <div class="col-md-6">
@@ -77,26 +57,10 @@
                       </label>
                       <input type="file" onchange="validateine()" data-toggle="tooltip" data-placement="top"
                         title="Solo se permiten imagenes JPG, JPEG, PNG orientadas horizontalmente"
-                        class="form-control " id="ineback" name="ineback" accept=".jpg, .jpeg, .png">
+                        class="form-control required" id="ineback" name="ineback" accept=".jpg, .jpeg, .png">
                     </div>
-                  </div>
                   </div>
                 </div>
-                <div id="pasaporte" style="display:none">
-                <div class="row">
-                  <div class="col-md-4  offset-md-4">
-                    <div class="form-group">
-                      <label for="lastName3">
-                        PASAPORTE
-                      </label>
-                      <input type="file" onchange="validatepasaporte()" data-toggle="tooltip" data-placement="top"
-                        title="Solo se permiten imagenes JPG, JPEG, PNG orientadas horizontalmente"
-                        class="form-control " id="pasaportefront" name="pasaportefront" accept=".jpg, .jpeg, .png">
-                    </div>
-                  </div>
-                  </div>
-                  </div>
-
                   <div class="row">
                     <div class="col-md-4 offset-md-4">
                       <div class="form-group">
@@ -107,15 +71,6 @@
                       </div>
                     </div>
                   </div>
-
-
-
-              </fieldset>
-
-              <!-- Step 1 -->
-              <h6>
-                <i class="step-icon feather icon-user"></i> Datos Personales</h6>
-              <fieldset>
                 <div class="row" id="firstRow">
                   <div class="col-md-4">
                     <div class="form-group">
@@ -552,7 +507,7 @@
 @endsection
 @section('page-script')
         <!-- Page js files -->
-        <script src="{{ asset('js/scripts/forms/wizard-steps.js') }}?{{rand()}}"></script>
+        <script src="{{ asset(mix('js/scripts/forms/wizard-steps.js')) }}?{{rand()}}"></script>
         <script src="{{ asset('js/curp.js') }}?{{rand()}}"></script>
         <script src="{{ asset('datepicker/datepicker.js') }}?{{rand()}}"></script>
         <script src="/js/scripts/vue.min.js"></script>
@@ -650,7 +605,6 @@ function checkemail(){
 }
 
 function checkcurp(){
-
   var curp = $("#curp").val();
   jsShowWindowLoad();
   var myheaders= new Headers({
@@ -743,8 +697,6 @@ function checkcurp(){
               });
       }
   });
-
-
 }
 
 function addData(type){
@@ -871,7 +823,7 @@ function validateine(){
     form_data.append('_token', token);
 
     $.ajax({
-        url: '/util/imgto64/ine',
+        url: '/util/imgto64',
         dataType: 'text',
         cache: false,
         contentType: false,
@@ -902,8 +854,6 @@ function validateine(){
                          animation: false,
                          customClass: 'animated tada'
                        });
-                       window.location.href = "/clientes/fisica/espera";
-
             } else if(pars.message == 'ControlListManualChecking'){
               jsRemoveWindowLoad();
                 Swal.fire({
@@ -915,8 +865,6 @@ function validateine(){
                          animation: false,
                          customClass: 'animated tada'
                        });
-                       window.location.href = "/clientes/fisica/espera";
-
             } else {
 
               for (i = 0; i < pars.documentData.length; i++) {
@@ -1020,170 +968,6 @@ function validateine(){
   }
 }
 
-
-function validatepasaporte(){
-
-var pasaportefront = $('#pasaportefront').val();
-
-if(pasaportefront != '' ){
-  jsShowWindowLoad();
-
-var fpasaportefront = $('#pasaportefront').prop('files')[0];
-
-  var form_data = new FormData();
-  form_data.append('pasaportefront', fpasaportefront);
-  form_data.append('_token', token);
-
-  $.ajax({
-      url: '/util/imgto64/pasaporte',
-      dataType: 'text',
-      cache: false,
-      contentType: false,
-      processData: false,
-      data: form_data,
-      type: 'post',
-      success: function(res){
-        pars = JSON.parse(res);
-          if(pars.message == 'fail'){
-            jsRemoveWindowLoad();
-              Swal.fire({
-                       title: "Error!",
-                       text: "Alguno de los documentos no es formato de imagen valido!",
-                       type: "error",
-                       confirmButtonClass: 'btn btn-primary',
-                       buttonsStyling: false,
-                       animation: false,
-                       customClass: 'animated tada'
-                     });
-          } else if(pars.message == 'ManualChecking'){
-            jsRemoveWindowLoad();
-              Swal.fire({
-                       title: "La verificación tardara mas de lo esperado!",
-                       text: "Agregamos esta identificación en lista de espera!",
-                       type: "warning",
-                       confirmButtonClass: 'btn btn-primary',
-                       buttonsStyling: false,
-                       animation: false,
-                       customClass: 'animated tada'
-                     });
-                     window.location.href = "/clientes/fisica/espera";
-
-          } else if(pars.message == 'ControlListManualChecking'){
-            jsRemoveWindowLoad();
-              Swal.fire({
-                       title: "Advertencia!",
-                       text: "Al parecer esta persona se encuentra en listas negras! \n La verificación  mas de lo esperado \n Agregamos esta identificación en lista de espera",
-                       type: "warning",
-                       confirmButtonClass: 'btn btn-primary',
-                       buttonsStyling: false,
-                       animation: false,
-                       customClass: 'animated tada'
-                     });
-                     window.location.href = "/clientes/fisica/espera";
-
-          } else {
-
-            for (i = 0; i < pars.documentData.length; i++) {
-              if(pars.documentData[i].type == 'Name'){
-                $('#nombre').val(pars.documentData[i].value);
-              }
-              if(pars.documentData[i].type == 'FatherSurname'){
-                $('#apellidop').val(pars.documentData[i].value);
-              }
-              if(pars.documentData[i].type == 'MotherSurname'){
-                $('#apellidom').val(pars.documentData[i].value);
-              }
-              if(pars.documentData[i].type == 'AddressStreet'){
-                $('#calle').val(pars.documentData[i].value);
-              }
-              if(pars.documentData[i].type == 'AddressStreetNumber'){
-                $('#exterior').val(pars.documentData[i].value);
-              }
-              if(pars.documentData[i].type == 'AddressPostalCode'){
-                $('#cp').val(pars.documentData[i].value);
-                sepomex();
-              }
-              if(pars.documentData[i].type == 'AddressArea'){
-                $("#colonia").append(new Option(pars.documentData[i].value, pars.documentData[i].value));
-                document.ready = document.getElementById("colonia").value = pars.documentData[i].value;
-              }
-              if(pars.documentData[i].type == 'AddressCity'){
-                $("#municipio").append(new Option(pars.documentData[i].value, pars.documentData[i].value));
-                document.ready = document.getElementById("municipio").value = pars.documentData[i].value;
-              }
-              if(pars.documentData[i].type == 'AddressCounty'){
-                $("#ciudad").append(new Option(pars.documentData[i].value, pars.documentData[i].value));
-                document.ready = document.getElementById("ciudad").value = pars.documentData[i].value;
-              }
-
-              if(pars.documentData[i].type == 'PersonalNumber'){
-                    var curp = pars.documentData[i].value;
-
-                    var rfc =  curp.substring(0, 10);
-                    $('#curp').val(curp);
-                    $('#rfc').val(rfc);
-              }
-
-              if(pars.documentData[i].type == 'Sex'){
-                document.ready = document.getElementById("genero").value = pars.documentData[i].value;
-              }
-
-              if(pars.documentData[i].type == 'Nationality'){
-                document.ready = document.getElementById("nacionalidad").value = pars.documentData[i].value;
-              }
-
-              if(pars.documentData[i].type == 'DateOfBirth'){
-
-                  var gdate = pars.documentData[i].value;
-                  var gdatearray = gdate.split("/");
-                  var gnewdate = gdatearray[1] + '/' + gdatearray[0] + '/' + gdatearray[2];
-
-                  var stringDate = gnewdate;
-                  var d = new Date(stringDate);
-                  var date = ("0" + d.getDate()).slice(-2);
-                  var month = ("0" + (d.getMonth() + 1)).slice(-2);
-                  var year = d.getFullYear();
-                  $('#nacimiento').val(month+'-'+date+'-'+year);
-                  $('[data-toggle="datepicker"]').datepicker( 'setDate', month+'-'+date+'-'+year );
-
-              }
-
-            }
-
-            var listIndex=0;
-            for (i = 0; i < pars.documentVerifications.length; i++) {
-              if(pars.documentVerifications[i].category=="ControlList" && pars.documentVerifications[i].inputFields!=null &&pars.documentVerifications[i].name!="Sin coincidencias"){
-                console.log(pars.documentVerifications[i].inputFields[0].value);
-                var html='<input name="listasNegras['+listIndex+'][name]" type="hidden" value="'+pars.documentVerifications[i].name+'">';
-                html +='<input name="listasNegras['+listIndex+'][value]" type="hidden" value="'+pars.documentVerifications[i].inputFields[0].value+'">';
-                $("#firstRow").append(html)
-                listIndex++;
-              }
-            }
-
-            document.ready = document.getElementById("pais").value = 'México';
-
-            document.ready = document.getElementById("pais_nacimiento").value = 303;
-
-
-            jsRemoveWindowLoad();
-            Swal.fire({
-                       title: "Existente!",
-                       text: "Pasaporte verificado!",
-                       type: "success",
-                       confirmButtonClass: 'btn btn-primary',
-                       buttonsStyling: false,
-                       animation: false,
-                       customClass: 'animated tada'
-                     }).then((result) => {checkcurp()});
-                     console.log(pars);
-          }
-      }
-   });
-
-}
-}
-
 function conyuge(){
   $("#conyuge").css("display", "block");
 }
@@ -1193,7 +977,7 @@ function sepomex(){
   var municipio = [];
   var ciudad = [];
 
-  $.get('https://api-sepomex.hckdrk.mx/query/info_cp/'+cp, {
+  $.get('https://api-sepomex.hckdrk.mx/query/info_cp/'+cp+'?token={{env("TOKENSEPOMEX", "")}}', {
   }, function(data) {
 
 
@@ -1260,36 +1044,6 @@ function sepomex(){
 
   });
 
-}
-
-function tipoid(){
-  var tipo = $("#identificacion").val();
-  if(tipo == 'INE')
-  {
-    $("#ines").css("display", "block");
-    $("#pasaporte").css("display", "none");
-  
-    $( "#inefront" ).addClass( "required" );
-    $( "#ineback" ).addClass( "required" );
-    $( "#pasaportefront" ).removeClass( "required" );
-  } else if(tipo == 'PASAPORTE')
-  {
-    $("#pasaporte").css("display", "block");
-    $("#ines").css("display", "none");
-
-    $( "#inefront" ).removeClass( "required" );
-    $( "#ineback" ).removeClass( "required" );
-    $( "#pasaportefront" ).addClass( "required" );
-
-  } else {
-    $("#pasaporte").css("display", "block");
-    $("#ines").css("display", "block");
-
-    $( "#inefront" ).removeClass( "required" );
-    $( "#ineback" ).removeClass( "required" );
-    $( "#pasaportefront" ).removeClass( "required" );
-
-  }
 }
 
 

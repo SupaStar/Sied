@@ -29,6 +29,7 @@
                     <!-- Input to enter the phone number -->
                     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                       <input class="mdl-textfield__input" type="text" pattern="\+[0-9\s\-\(\)]+" id="phone-number">
+                    i  {{$telefono}} h
                       <label class="mdl-textfield__label" for="phone-number">Numero Celular...</label>
                       <span class="mdl-textfield__error">No tiene los digitos requeridos!</span>
                     </div>

@@ -1,6 +1,6 @@
 @php
   $numNotificaciones=count(\App\Alerta::where('estatus',1)->get());
-$configAlertas=\App\ConfigAlertas::find(1)->first();
+  $configAlertas=\App\ConfigAlertas::find(1)->first();
 @endphp
 @if($configData["mainLayoutType"] == 'horizontal' && isset($configData["mainLayoutType"]))
   <nav class="header-navbar navbar-expand-lg navbar navbar-with-menu {{ $configData['navbarColor'] }} navbar-fixed">

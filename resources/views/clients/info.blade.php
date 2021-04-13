@@ -1162,7 +1162,7 @@
         }
       });
 
-    }
+      }
 
 
     function pagosAplicadoss(id)

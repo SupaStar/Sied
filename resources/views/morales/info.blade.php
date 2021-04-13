@@ -24,13 +24,9 @@
                      aria-controls="home-just" aria-selected="true">DATOS PERSONALES</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="profile-tab-credito" data-toggle="tab" href="#profile-credito" role="tab"
-                     aria-controls="profile-just" aria-selected="true">CRÉDITO</a>
-                </li>
-                <li class="nav-item">
                   <a class="nav-link" id="profile-tab-amortizacion" data-toggle="tab" href="#profile-amortizacion"
                      role="tab"
-                     aria-controls="profile-just" aria-selected="true">AMORTIZACIÓN</a>
+                     aria-controls="profile-just" aria-selected="true">CRÉDITOS /AMORTIZACIONES</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" id="profile-tab-pagos" data-toggle="tab" href="#profile-pagos" role="tab"
@@ -392,8 +388,7 @@
                                                       id="nacionalidad_ante">
                                                 <option selected disabled>Seleccionar</option>
                                                 @foreach($nacionantecedentes as $naciona)
-                                                  <option
-                                                    value="{{$naciona->descripcion}}">{{$naciona->descripcion}}</option>
+                                                  <option value="{{$naciona->descripcion}}">{{$naciona->descripcion}}</option>
                                                 @endforeach
                                               </select>
                                             </div>
@@ -501,9 +496,9 @@
                                               RFC
                                             </label>
                                             <br>
-                                            <a href="{{ url('/uploads/morales/rfc/'.$dato->id.'.jpg') }}"
+                                            <a href="{{ url('/uploads/morales/rfc/'.$datos->id.'.jpg') }}"
                                                target="_blank"> <img
-                                                src="{{ url('/uploads/morales/rfc/'.$dato->id.'.jpg') }}"
+                                                src="{{ url('/uploads/morales/rfc/'.$datos->id.'.jpg') }}"
                                                 alt="RFC" height="100"></a>
                                             <br>
                                             <h3>Croquis</h3>
@@ -600,9 +595,9 @@
                                             Fotografia 2
                                           </label>
                                           <br>
-                                          <a href="{{ url('/uploads/morales/acta/'.$dato->id.'.jpg') }}"
+                                          <a href="{{ url('/uploads/morales/acta/'.$datos->id.'.jpg') }}"
                                              target="_blank"> <img
-                                              src="{{ url('/uploads/morales/acta/'.$dato->id.'.jpg') }}"
+                                              src="{{ url('/uploads/morales/acta/'.$datos->id.'.jpg') }}"
                                               alt="Fotografia 2" height="100"></a></div>
                                       </div>
                                     </div>
