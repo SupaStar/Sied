@@ -212,7 +212,7 @@ class Morales extends Controller
       ->addColumn('status', function ($query) {
 
         $perfil = DB::TABLE('perfil_transacional_moral')->where('id_moral', $query->id)->first();
-        $credito = DB::TABLE('credito_morales')->where('morales_id', $query->id)->where('status', '<>', 'liquidado')->first();
+        $credito = DB::TABLE('credito_morales')->where('moral_id', $query->id)->where('status', '<>', 'liquidado')->first();
         $text = " - ";
 
         if (isset($perfil)) {
