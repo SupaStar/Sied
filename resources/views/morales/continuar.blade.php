@@ -2,16 +2,12 @@
 
 @section('title', $pageConfigs['pageName'] )
 
-
 @section('page-style')
   <!-- Page css files -->
   <link rel="stylesheet" href="{{ asset(mix('css/plugins/forms/wizard.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/pickadate/pickadate.css')) }}">
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/nouislider.min.css')) }}">
-
   <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/datatables.min.css')) }}">
-
-
   <style>
     #WindowLoad {
       position: fixed;

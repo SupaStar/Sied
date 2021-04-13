@@ -682,7 +682,7 @@
       form_data.append('_token', token);
 
       $.ajax({
-          url: '/util/imgto64/ine',
+          url: '/util/imgto64',
           dataType: 'text',
           cache: false,
           contentType: false,
@@ -834,7 +834,7 @@
     var municipio = [];
     var ciudad = [];
 
-    $.get('https://api-sepomex.hckdrk.mx/query/info_cp/'+cp, {
+    $.get('https://api-sepomex.hckdrk.mx/query/info_cp/'+cp+'?token={{env("TOKENSEPOMEX", "")}}', {
     }, function(data) {
 
 

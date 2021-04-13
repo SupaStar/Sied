@@ -1460,7 +1460,7 @@
           var municipio = [];
           var ciudad = [];
 
-          $.get('https://api-sepomex.hckdrk.mx/query/info_cp/' + cp, {}, function (data) {
+          $.get('https://api-sepomex.hckdrk.mx/query/info_cp/' + cp+'?token={{env("TOKENSEPOMEX", "")}}', {}, function (data) {
 
 
             var select = document.getElementById("colonia");

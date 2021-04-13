@@ -106,9 +106,15 @@
                       </select>
                     </div>
                   </div>
-
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label for="lastName3">
+                        Limite de Crédito
+                      </label>
+                      <input type="number" step="any" min="0" name='limite_credito' class="form-control required" value="@if(isset($datos->limite_credito)){{ $datos->limite_credito }}@endif" >
+                    </div>
+                  </div>
                 </div>
-
                 <div class="row">
                   <div class="col-md-6">
                     <button type="reset" hidden class="btn btn-secondary mr-1 mb-1">Limpiar</button>

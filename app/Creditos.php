@@ -19,6 +19,7 @@ class Creditos extends Model
       'amortizacion',
       'iva',
       'tasa',
-      'disposicion'
+      'disposicion',
+      'status'
     ];
 }

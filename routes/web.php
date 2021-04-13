@@ -21,9 +21,7 @@ Auth::routes();
 
 Route::get('/logout', 'Auth\LoginController@logout');
 
-Route::post('/util/imgto64/ine', 'Utilities@imgto64ine');
-
-Route::post('/util/imgto64/pasaporte', 'Utilities@imgto64pasaporte');
+Route::post('/util/imgto64', 'Utilities@imgto64');
 
 Route::post('/util/checkemail/{email}', 'Utilities@checkemail');
 
@@ -32,8 +30,6 @@ Route::post('/util/checkcurp/{curp}', 'Utilities@checkcurp');
 Route::post('/util/checkstate/{state}', 'Utilities@checkstate');
 
 Route::post('/util/generateContract', 'Utilities@generateContract');
-
-Route::post('/util/ineresult/{id}', 'Utilities@ineresult');
 
 
 Route::get('storage/{clase}/{tipo}/{archivo}', function ($clase, $tipo, $archivo) {

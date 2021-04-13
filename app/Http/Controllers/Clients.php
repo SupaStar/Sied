@@ -78,11 +78,10 @@ class Clients extends Controller
     $datos = db::table('clientes')->where('id', $id)->first();
     $divisa = Divisa::get();
 
-    $images = db::table('files')->where('client_id', $id)->where('type', 'INE')->get();
+    $images = db::table('files')->where('client_id', $id)->where('type', 'INE')->where('tipo',0)->get();
 
-    $ine1 = null;
-    $ine2 = null;
-
+    $ine1 = '';
+    $ine2 = '';
     $cc = 0;
     foreach ($images as $ines) {
       if ($cc == 0) {
@@ -446,25 +445,13 @@ class Clients extends Controller
   {
 
     if ($request->filtro == 'Archivados') {
-      $result = Client::with('listasNegras', 'grupo')->where('status', 'Archivado')->whereNotNull('email')->where(function ($query) {
-        $query->where('suma_estado', '<>', 'ManualChecking')
-          ->orWhereNull('suma_estado');
-      });
+      $result = Client::with('listasNegras', 'grupo')->where('status', 'Archivado');
     } elseif ($request->filtro == 'H') {
-      $result = Client::with('listasNegras', 'grupo')->where('gender', 'H')->whereNotNull('email')->where(function ($query) {
-        $query->where('suma_estado', '<>', 'ManualChecking')
-          ->orWhereNull('suma_estado');
-      });
+      $result = Client::with('listasNegras', 'grupo')->where('gender', 'H');
     } elseif ($request->filtro == 'M') {
-      $result = Client::with('listasNegras', 'grupo')->where('gender', 'M')->whereNotNull('email')->where(function ($query) {
-        $query->where('suma_estado', '<>', 'ManualChecking')
-          ->orWhereNull('suma_estado');
-      });
+      $result = Client::with('listasNegras', 'grupo')->where('gender', 'M');
     } else {
-      $result = Client::with('listasNegras', 'grupo')->where('status', '<>', 'Archivado')->whereNotNull('email')->where(function ($query) {
-        $query->where('suma_estado', '<>', 'ManualChecking')
-          ->orWhereNull('suma_estado');
-      });
+      $result = Client::with('listasNegras', 'grupo')->where('status', '<>', 'Archivado');
     }
 
     return datatables()->of($result)
@@ -722,13 +709,12 @@ class Clients extends Controller
     $dd = date('Y-m-d', strtotime($bith));
     $cid = $request->id;
     if ($request->id = !null) {
-      $cliente = Client::find($request->id);
+      $cliente = Client::find($cid);
     } else {
       $cliente = new Client;
     }
 
     $user = Auth::user();
-
     $cliente->name = strtoupper($request->nombre);
     $cliente->lastname = strtoupper($request->apellidop);
     $cliente->o_lastname = strtoupper($request->apellidom);
@@ -786,12 +772,13 @@ class Clients extends Controller
         $uploads->save();
 
         $image = Image::make(File::get($fileine));
+        $image->insert(public_path('images/confidencial.png'), 'center');
         $image->resize(1280, null, function ($constraint) {
           $constraint->aspectRatio();
           $constraint->upsize();
         });
 
-        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
+        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode('jpg', 30));
       } else {
         $uploads = new Files();
         $uploads->client_id = $cid;
@@ -829,7 +816,7 @@ class Clients extends Controller
           $constraint->upsize();
         });
 
-        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
+        Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode('jpg', 30));
       } else {
         $uploads = new Files();
         $uploads->client_id = $cid;
@@ -861,10 +848,11 @@ class Clients extends Controller
         $uploads->save();
 
         $image = Image::make(File::get($filecurp));
+        $image->insert(public_path('images/confidencial.png'), 'center');
         $image->resize(1280, null, function ($constraint) {
           $constraint->aspectRatio();
           $constraint->upsize();
-        })->insert(public_path('images/confidencial.png'), 'center');
+        });
         Storage::disk('public')->put($path . '/' . $filename, (string)$image->encode($extension, 30));
       } else {
         $uploads = new Files();
@@ -897,6 +885,7 @@ class Clients extends Controller
         $uploads->save();
 
         $image = Image::make(File::get($filedom));
+        $image->insert(public_path('images/confidencial.png'), 'center');
         $image->resize(1280, null, function ($constraint) {
           $constraint->aspectRatio();
           $constraint->upsize();
@@ -933,6 +922,7 @@ class Clients extends Controller
         $uploads->save();
 
         $image = Image::make(File::get($filecom1));
+        $image->insert(public_path('images/confidencial.png'), 'center');
         $image->resize(1280, null, function ($constraint) {
           $constraint->aspectRatio();
           $constraint->upsize();
@@ -969,6 +959,7 @@ class Clients extends Controller
         $uploads->save();
 
         $image = Image::make(File::get($filecom2));
+        $image->insert(public_path('images/confidencial.png'), 'center');
         $image->resize(1280, null, function ($constraint) {
           $constraint->aspectRatio();
           $constraint->upsize();
@@ -1005,6 +996,7 @@ class Clients extends Controller
         $uploads->save();
 
         $image = Image::make(File::get($filecom3));
+        $image->insert(public_path('images/confidencial.png'), 'center');
         $image->resize(1280, null, function ($constraint) {
           $constraint->aspectRatio();
           $constraint->upsize();
@@ -1041,6 +1033,7 @@ class Clients extends Controller
         $uploads->save();
 
         $image = Image::make(File::get($filerfc));
+        $image->insert(public_path('images/confidencial.png'), 'center');
         $image->resize(1280, null, function ($constraint) {
           $constraint->aspectRatio();
           $constraint->upsize();
@@ -1250,8 +1243,6 @@ class Clients extends Controller
         'email' => 'required|string|email|unique:users'
       ]);*/
 
-    $idc = $request->idc ? $request->idc : null;
-
     $bith = substr($request->fnacimiento, 6, 4) . '-' . substr($request->fnacimiento, 0, 2) . '-' . substr($request->fnacimiento, 3, 2);
     $dd = date('Y-m-d', strtotime($bith));
 
@@ -1292,11 +1283,7 @@ class Clients extends Controller
     $cliente->antiguedad = $request->antiguedad;
     DB::beginTransaction();
     try {
-
-
       $cliente->save();
-
-
       if (isset($request->listasNegras)) {
         $cliente->listasNegras()->createMany($request->listasNegras);
       }
@@ -1344,8 +1331,7 @@ class Clients extends Controller
 
     if ($pasaporte != 1) {
       $path = 'fisicas/pasaporte';
-      $extension = ("jpg");
-      //$extension = strtolower($pasaporte->getClientOriginalExtension());
+      $extension = strtolower($pasaporte->getClientOriginalExtension());
       if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
         $filename = $cid . '-pasaporte.' . $extension;
         $uploads = new Files();
@@ -1751,7 +1737,7 @@ class Clients extends Controller
       'images' => array()
     );
 
-    $images = DB::TABLE('files')->where('client_id', $id)->get();
+    $images = DB::TABLE('files')->where('client_id', $id)->where('tipo',0)->get();
 
     foreach ($images as $img) {
       array_push($data['images'], array('extension' => $img->extension, 'name' => $img->name, 'path' => $img->full));
@@ -1773,7 +1759,7 @@ class Clients extends Controller
   public function getfiles($id)
   {
 
-    $images = DB::TABLE('files')->where('client_id', $id)->get();
+    $images = DB::TABLE('files')->where('client_id', $id)->where('tipo',0)->get();
     $data = '';
     foreach ($images as $img) {
       $data .= '<tr><td>' . $img->type . '</td><td>' . $img->extension . '</td><td>' . $img->created_at . '</td><td><a href="/uploads/' . $img->full . '" target="popup" onclick="window.open(\'/uploads/' . $img->full . '\',\'popup\',\'width=600,height=600\'); return false;"><button  style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-eye primary"></i></button></a></td><td><a href="/storage/' . $img->full . '" target="_blank"><button  style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-download primary"></i></button></a></td></tr>';
@@ -2623,14 +2609,14 @@ class Clients extends Controller
               $gcobranza = 200;
               $ivacobranza = doubleval(number_format($gcobranza * 0.16, 2));
               if (empty($lgcobranza)) {
-                $nflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $moratorios + $gcobranza + $ivacobranza;
+                $nflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $moratorios + $gcobranza;
 
-                $mflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $gcobranza + $ivacobranza;
+                $mflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $gcobranza;
 
                 $nhistorialflujo = new HistorialFlujos;
                 $nhistorialflujo->periodo_id = $gdata->id;
                 $nhistorialflujo->monto = $mflujo;
-                $nhistorialflujo->cambio = $gcobranza + $ivacobranza;
+                $nhistorialflujo->cambio = $gcobranza;
                 $nhistorialflujo->descripcion = 'Gastos De Cobranza';
                 $nhistorialflujo->save();
 
@@ -2638,7 +2624,7 @@ class Clients extends Controller
                 $nflujo = $gdata->flujo + $moratorios;
               }
 
-              Amortizacion::where('id', $gdata->id)->update(['flujo' => $nflujo, 'dias_mora' => $dias, 'int_mora' => $intmora, 'iva_mora' => $ivamora, 'gcobranza' => $gcobranza, 'dia_mora' => $hoy, 'iva_cobranza' => $ivacobranza]);
+              Amortizacion::where('id', $gdata->id)->update(['flujo' => $nflujo, 'dias_mora' => $dias, 'int_mora' => $intmora, 'iva_mora' => $ivamora, 'gcobranza' => $gcobranza, 'dia_mora' => $hoy]);
 
               HistorialFlujos::where('periodo_id', $gdata->id)->where('descripcion', 'Gastos Moratorios')->delete();
               $nhistorialflujo = new HistorialFlujos;
@@ -2668,7 +2654,6 @@ class Clients extends Controller
               format(moratorios,2) as moratorios,
               format(iva,2) as iva,
               format(gcobranza,2) as gcobranza,
-              format(iva_cobranza,2) as ivacobranza,
               format(int_mora,2) as int_mora,
               format(iva_mora,2) as iva_mora,
               pagos,
@@ -3017,14 +3002,14 @@ class Clients extends Controller
               $gcobranza = 200;
               $ivacobranza = doubleval(number_format($gcobranza * 0.16, 2));
               if (empty($lgcobranza)) {
-                $nflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $moratorios + $gcobranza + $ivacobranza;
+                $nflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $moratorios + $gcobranza;
 
-                $mflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $gcobranza + $ivacobranza;
+                $mflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $gcobranza;
 
                 $nhistorialflujo = new HistorialFlujos;
                 $nhistorialflujo->periodo_id = $gdata->id;
                 $nhistorialflujo->monto = $mflujo;
-                $nhistorialflujo->cambio = $gcobranza + $ivacobranza;
+                $nhistorialflujo->cambio = $gcobranza;
                 $nhistorialflujo->descripcion = 'Gastos De Cobranza';
                 $nhistorialflujo->save();
 
@@ -3141,20 +3126,7 @@ class Clients extends Controller
         }
         return $status;
       })
-      ->addColumn('condonar', function ($query) {
-        $bflujo = '';
-        if ($query->flujo > 0) {
-          if ($query->liquidado == 0) {
-            $bflujo = '<button onclick="condonar(' . $query->id . ');" type="button" class="btn btn-primary" style="position: relative;">
-          Condonar
-          </button>';
-          }
-        }
-
-
-        return $bflujo;
-      })
-      ->rawColumns(['pagos', 'cstatus', 'saldo_pendiente', 'flujos', 'cflujos', 'condonar'])
+      ->rawColumns(['pagos', 'cstatus', 'saldo_pendiente', 'flujos', 'cflujos'])
       ->toJson();
 
   }
@@ -3347,7 +3319,7 @@ class Clients extends Controller
   public function listaNegraPDF($id)
   {
     $cliente = Client::where('id', $id)->with('listasNegras')->first();
-    $documentos = Files::where('client_id', '=', $id)->get();
+    $documentos = Files::where('client_id', '=', $id)->where('tipo',0)->get();
 
     return PDF::loadView('/clients/listaNegraPDF', compact('cliente', 'documentos'))->stream();
     //return view('/clients/listaNegraPDF', compact('cliente', 'documentos'));

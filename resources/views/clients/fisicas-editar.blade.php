@@ -883,7 +883,7 @@ function sepomex(){
   var municipio = [];
   var ciudad = [];
 
-  $.get('https://api-sepomex.hckdrk.mx/query/info_cp/'+cp, {
+  $.get('https://api-sepomex.hckdrk.mx/query/info_cp/'+cp+'?token={{env("TOKENSEPOMEX", "")}}', {
   }, function(data) {
     for (i=0; i<data.length; i++) {
           console.log(data[i]['response']['asentamiento']);
