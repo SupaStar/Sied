@@ -21,7 +21,7 @@ Auth::routes();
 
 Route::get('/logout', 'Auth\LoginController@logout');
 
-Route::post('/util/imgto64', 'Utilities@imgto64');
+Route::post('/util/imgto64/ine', 'Utilities@imgto64');
 
 Route::post('/util/checkemail/{email}', 'Utilities@checkemail');
 
