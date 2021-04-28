@@ -80,7 +80,7 @@ class Morales extends Controller
     $paises = db::table('paises')->get();
     $entidad = db::table('entidad_federativa')->get();
     $datos = Moral::where('id', '=', $id)->with('personasmorales')->first();
-
+    $creditos = Credito_Moral::where('moral_id', $id)->get();
     $nacionalidadesantecedente = db::table('nacionalidad_antecedentes')->get();
     return view('/morales/info', [
       'pageConfigs' => $pageConfigs,
@@ -89,6 +89,7 @@ class Morales extends Controller
       'entidad' => $entidad,
       'datos' => $datos,
       'id' => $id,
+      'creditos' => $creditos,
       'nacionantecedentes' => $nacionalidadesantecedente,
 
 
@@ -953,7 +954,7 @@ class Morales extends Controller
 
       if ($fileine != 1) {
         $path = 'personas-morales/ine';
-       // $extension = strtolower($fileine->getClientOriginalExtension());
+        // $extension = strtolower($fileine->getClientOriginalExtension());
         $extension = ("jpg");
         if (strtolower($extension) == 'png' || strtolower($extension) == 'jpg' || strtolower($extension) == 'jpeg' || strtolower($extension) == 'gif') {
           $filename = $personaMoral->id . '-frontal.' . $extension;

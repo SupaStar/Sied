@@ -388,7 +388,8 @@
                                                       id="nacionalidad_ante">
                                                 <option selected disabled>Seleccionar</option>
                                                 @foreach($nacionantecedentes as $naciona)
-                                                  <option value="{{$naciona->descripcion}}">{{$naciona->descripcion}}</option>
+                                                  <option
+                                                    value="{{$naciona->descripcion}}">{{$naciona->descripcion}}</option>
                                                 @endforeach
                                               </select>
                                             </div>
@@ -631,17 +632,21 @@
                   </section>
                   <div class="row">
                     <div style="height: 420px;" class="col-12">
-                      <label style="font-size: 18px" id="limite_c">Limite de Crédito : <label style="color: green;font-size: 18px">${{number_format($datos->limite_credito,2,'.',',')}}</label></label><br>
+                      <label style="font-size: 18px" id="limite_c">Limite de Crédito : <label
+                          style="color: green;font-size: 18px">${{number_format($datos->limite_credito,2,'.',',')}}</label></label><br>
                       @if($datos->credito_disponible==null)
-                      <label style="font-size: 18px" id="disponible">Crédito Disponible: <label style="color: #ecec00;font-size: 18px" >$0</label></label>
+                        <label style="font-size: 18px" id="disponible">Crédito Disponible: <label
+                            style="color: #ecec00;font-size: 18px">$0</label></label>
                       @else
-                        <label style="font-size: 18px" id="disponible">Crédito Disponible: <label style="color: #ecec00;font-size: 18px">${{number_format($datos->credito_disponible,2,'.',',')}}</label></label>
+                        <label style="font-size: 18px" id="disponible">Crédito Disponible: <label
+                            style="color: #ecec00;font-size: 18px">${{number_format($datos->credito_disponible,2,'.',',')}}</label></label>
                       @endif
-                        <div class="card">
+                      <div class="card">
                         <div class="card-content">
                           <div class="row card-body card-dashboard">
                             <div class="col-8">
-                              <button id="btnContrato" type="button" class="btn btn-outline-warning" data-toggle="collapse" data-target="#demo"></button>
+                              <button id="btnContrato" type="button" class="btn btn-outline-warning"
+                                      data-toggle="collapse" data-target="#demo"></button>
 
                               <div id="demo" style="position: relative" class="collapse">
                                 <div class="table-responsive">
@@ -817,11 +822,13 @@
           <div class="modal-body">
             <label>Contrato: </label>
             <div class="form-group">
-             <select class="form-control" id="NContrato" name="NContrato">
-               <option>
-
-               </option>
-             </select>
+              <select aria-label="NContrato" class="form-control" id="NContrato" name="NContrato">
+                @foreach($creditos as $credito)
+                  <option value="{{$credito->id}}">
+                    {{$credito->contrato}}
+                  </option>
+                @endforeach
+              </select>
             </div>
             <label>Monto: </label>
             <div class="form-group">
@@ -1092,10 +1099,9 @@
       });
       $.ajax(
         {
-          method:"get",
+          method: "get",
           url: "/morales/info/credito/{{$id}}",
-          success:function (response)
-          {
+          success: function (response) {
 
           }
         }
@@ -1330,17 +1336,17 @@
 
 
     function table(data = null) {
-      $('#amortizacion').DataTable( {
+      $('#amortizacion').DataTable({
         dom: 'Bfrtip',
         searching: false,
         paging: false,
         ordering: false,
         destroy: true,
-        processing:true,
+        processing: true,
         responsive: true,
         columnDefs: [
           {
-            targets: [ 17, 18 ],
+            targets: [17, 18],
             visible: false,
             searchable: false
           },
@@ -1464,20 +1470,19 @@
             "data": data
           }
         },
-        fnRowCallback: function(nRow, aData, iDisplayIndex, iDisplayIndexFull){
-          if( aData['saldo_pendiente'] != 0.00 && aData['saldo_pendiente'] != aData['cflujos'] ) {
-            $('td', nRow).css('background-color', '#FFFC8E' );
-            $('td', nRow).css('color', 'black' );
-          } else if ( aData['cstatus'] == 1 )
-          {
-            $('td', nRow).css('background-color', '#7EAD74' );
-            $('td', nRow).css('color', 'white' );
-          } else if( aData['cstatus'] == 2 ) {
-            $('td', nRow).css('background-color', '#DA8742' );
-            $('td', nRow).css('color', 'white' );
-          } else if( aData['cstatus'] == 3 ) {
-            $('td', nRow).css('background-color', '#C1705E' );
-            $('td', nRow).css('color', 'white' );
+        fnRowCallback: function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+          if (aData['saldo_pendiente'] != 0.00 && aData['saldo_pendiente'] != aData['cflujos']) {
+            $('td', nRow).css('background-color', '#FFFC8E');
+            $('td', nRow).css('color', 'black');
+          } else if (aData['cstatus'] == 1) {
+            $('td', nRow).css('background-color', '#7EAD74');
+            $('td', nRow).css('color', 'white');
+          } else if (aData['cstatus'] == 2) {
+            $('td', nRow).css('background-color', '#DA8742');
+            $('td', nRow).css('color', 'white');
+          } else if (aData['cstatus'] == 3) {
+            $('td', nRow).css('background-color', '#C1705E');
+            $('td', nRow).css('color', 'white');
           }
 
 
