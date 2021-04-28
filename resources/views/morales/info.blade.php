@@ -815,6 +815,14 @@
           <input type="hidden" name="id" value="{{$id}}">
 
           <div class="modal-body">
+            <label>Contrato: </label>
+            <div class="form-group">
+             <select class="form-control" id="NContrato" name="NContrato">
+               <option>
+
+               </option>
+             </select>
+            </div>
             <label>Monto: </label>
             <div class="form-group">
               <input type="number" name="monto" step="any" min="0" placeholder="$" class="form-control required"
