@@ -2341,8 +2341,8 @@ class Morales extends Controller
 
             $nhistorialflujo = new HistorialFlujos_Morales();
             $nhistorialflujo->amortizacion_id = $amm->id;
-            $nhistorialflujo->monto = $key->flujo ? str_replace(',', '', $key->flujo) : null;
-            $nhistorialflujo->cambio = $key->flujo ? str_replace(',', '', $key->flujo) : null;
+            $nhistorialflujo->monto = $key->flujo ? str_replace(',', '', $key->flujo) : 0;
+            $nhistorialflujo->cambio = $key->flujo ? str_replace(',', '', $key->flujo) : 0;
             $nhistorialflujo->descripcion = 'Flujo Original De Amortización';
             $nhistorialflujo->save();
 
