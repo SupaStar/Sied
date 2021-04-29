@@ -2370,7 +2370,7 @@ class Morales extends Controller
 
                   $mflujo = $gdata->amortizacion + $gdata->intereses + $gdata->iva + $gcobranza + $ivacobranza;
 
-                  $nhistorialflujo = new HistorialFlujos;
+                  $nhistorialflujo = new HistorialFlujos_Morales();
                   $nhistorialflujo->amortizacion_id = $gdata->id;
                   $nhistorialflujo->monto = $mflujo;
                   $nhistorialflujo->cambio = $gcobranza + $ivacobranza;
