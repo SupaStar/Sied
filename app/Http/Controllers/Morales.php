@@ -2031,19 +2031,19 @@ class Morales extends Controller
           $result = $amortizacion;
         } else {
 
-          $plazo = $data->plazo;
-          $tinteres = $data->tasa;
-          $monto = $data->monto;
-          $frecuencia = $data->frecuencia;
-          $amortizaciones = $data->amortizacion;
-          $forma = $data->fpago;
-          $disposicion = $data->disposicion;
+          $plazo = $credito->plazo;
+          $tinteres = $credito->tasa;
+          $monto = $credito->monto;
+          $frecuencia = $credito->frecuencia;
+          $amortizaciones = $credito->amortizacion;
+          $forma = $credito->fpago;
+          $disposicion = $credito->disposicion;
           $nuevafecha = '';
           $dias = '';
           $mdis = number_format($monto * -1, 2);
           $saldo = $monto;
           $comision = doubleval(number_format($monto * 0.01, 2));
-          $civa = $data->iva;
+          $civa = $credito->iva;
           $intereses = 0;
           $amortizacion = 0;
           $iva = 0;
@@ -2053,7 +2053,7 @@ class Morales extends Controller
           $sumintereses = 0;
           $sumiva = 0;
           $sumflujo = 0;
-          $cid = $data->id;
+          $cid = $credito->id;
 
           if ($frecuencia == 'semanales') {
             $rplazo = round(abs($plazo * 4));
@@ -2325,7 +2325,7 @@ class Morales extends Controller
           foreach ($result as $key) {
             $amm = new Amortizacion_Morales();
             $amm->moral_id = $id;
-            $amm->credito_id = $data->id;
+            $amm->credito_id = $credito->id;
             $amm->periodo = $key->periodo;
             $amm->fechas = $key->fecha;
             $amm->inicio = $key->inicio ? date('Y-m-d', strtotime(substr($key->inicio, 6, 4) . '-' . substr($key->inicio, 3, 2) . '-' . substr($key->inicio, 0, 2))) : null;
@@ -2352,7 +2352,7 @@ class Morales extends Controller
           }
 
 
-          $amortizacion = Amortizacion_Morales::where('moral_id', $id)->where('credito_id', $data->id)->orderBy('id', 'asc')->get();
+          $amortizacion = Amortizacion_Morales::where('moral_id', $id)->where('credito_id', $credito->id)->orderBy('id', 'asc')->get();
           foreach ($amortizacion as $gdata) {
             if ($gdata->liquidado == 0) {
               $fecha1 = date_create(date('Y-m-d'));
@@ -2421,7 +2421,7 @@ class Morales extends Controller
               liquidado,
               flujo,
               dias_mora"
-          )->where('moral_id', $id)->where('credito_id', $data->id)->orderBy('id', 'asc')->get();
+          )->where('moral_id', $id)->where('credito_id', $credito->id)->orderBy('id', 'asc')->get();
           $result = $amortizacion;
         }
       }
