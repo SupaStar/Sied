@@ -1950,13 +1950,11 @@ class Morales extends Controller
   public function infoamortizacion($id)
   {
     $totalCreditos = [];
-
-    $result = array();
     $data = Credito_Moral::where('moral_id', $id)->get();
-
     $hoy = date('Y-m-d');
     if (!empty($data)) {
       foreach ($data as $credito) {
+        $result = array();
         $amortizacion = Amortizacion_Morales::where('moral_id', $id)->where('credito_id', $credito->id)->orderBy('id', 'asc')->get();
         if (!empty(count($amortizacion))) {
           foreach ($amortizacion as $gdata) {
@@ -2302,7 +2300,6 @@ class Morales extends Controller
               }
             }
           }
-
           if ($forma == 'VENCIMIENTO') {
             $arr = array(
               'periodo' => 'Totales',
@@ -2424,76 +2421,76 @@ class Morales extends Controller
           )->where('moral_id', $id)->where('credito_id', $credito->id)->orderBy('id', 'asc')->get();
           $result = $amortizacion;
         }
-      }
-      $tabla = datatables()->of($result)
-        ->addColumn('saldo_pendiente', function ($query) {
-          if ($query->flujo > 0) {
+        $tabla = datatables()->of($result)
+          ->addColumn('saldo_pendiente', function ($query) {
+            if ($query->flujo > 0) {
+              $pagos = $query->pagos ? $query->pagos : 0;
+              $pendiente = number_format($query->flujo - $pagos, 2);
+            } else {
+              $pendiente = '';
+            }
+            return $pendiente;
+          })
+          ->addColumn('pagos', function ($query) {
             $pagos = $query->pagos ? $query->pagos : 0;
-            $pendiente = number_format($query->flujo - $pagos, 2);
-          } else {
-            $pendiente = '';
-          }
-          return $pendiente;
-        })
-        ->addColumn('pagos', function ($query) {
-          $pagos = $query->pagos ? $query->pagos : 0;
-          $pagos = number_format($pagos, 2);
-          if ($pagos > 0) {
-            $pagos = '<button onclick="verpagos(' . $query->id . ');" type="button" class="btn btn-flat-dark" style="position: relative;">
+            $pagos = number_format($pagos, 2);
+            if ($pagos > 0) {
+              $pagos = '<button onclick="verpagos(' . $query->id . ');" type="button" class="btn btn-flat-dark" style="position: relative;">
                     $' . $pagos . '
                     </button>';
-          } else {
-            $pagos = '<button type="button" class="btn btn-flat-dark" style="position: relative;">
+            } else {
+              $pagos = '<button type="button" class="btn btn-flat-dark" style="position: relative;">
                     $0.00
                     </button>';
-          }
-          return $pagos;
-        })
-        ->addColumn('flujos', function ($query) {
-          $flujo = number_format($query->flujo, 2);
-          $bflujo = '<button onclick="verflujos(' . $query->id . ');" type="button" class="btn btn-flat-dark" style="position: relative;">
+            }
+            return $pagos;
+          })
+          ->addColumn('flujos', function ($query) {
+            $flujo = number_format($query->flujo, 2);
+            $bflujo = '<button onclick="verflujos(' . $query->id . ');" type="button" class="btn btn-flat-dark" style="position: relative;">
       $' . $flujo . '
       </button>';
-          return $bflujo;
-        })
-        ->addColumn('cflujos', function ($query) {
-          $flujo = number_format($query->flujo, 2);
-          return $flujo;
-        })
-        ->addColumn('cstatus', function ($query) {
-          if ($query->liquidado == 1 || $query->flujo < 0) {
-            $status = 1;
-          } elseif (strtotime(date('Y-m-d')) > strtotime($query->fin)) {
-            $status = 2;
+            return $bflujo;
+          })
+          ->addColumn('cflujos', function ($query) {
+            $flujo = number_format($query->flujo, 2);
+            return $flujo;
+          })
+          ->addColumn('cstatus', function ($query) {
+            if ($query->liquidado == 1 || $query->flujo < 0) {
+              $status = 1;
+            } elseif (strtotime(date('Y-m-d')) > strtotime($query->fin)) {
+              $status = 2;
 
-            $carbon = new Carbon();
-            $to = $carbon::createFromFormat('Y-m-d', $query->fin);
-            $from = $carbon->now();
-            $diff = $to->diffInMonths($from);
+              $carbon = new Carbon();
+              $to = $carbon::createFromFormat('Y-m-d', $query->fin);
+              $from = $carbon->now();
+              $diff = $to->diffInMonths($from);
 
-            if ($diff > 0) {
-              $status = 3;
+              if ($diff > 0) {
+                $status = 3;
+              }
+
+            } else {
+              $status = 0;
             }
-
-          } else {
-            $status = 0;
-          }
-          return $status;
-        })
-        ->addColumn('condonar', function ($query) {
-          $bflujo = '';
-          if ($query->flujo > 0) {
-            if ($query->liquidado == 0) {
-              $bflujo = '<button onclick="condonar(' . $query->id . ');" type="button" class="btn btn-primary" style="position: relative;">
+            return $status;
+          })
+          ->addColumn('condonar', function ($query) {
+            $bflujo = '';
+            if ($query->flujo > 0) {
+              if ($query->liquidado == 0) {
+                $bflujo = '<button onclick="condonar(' . $query->id . ');" type="button" class="btn btn-primary" style="position: relative;">
           Condonar
           </button>';
+              }
             }
-          }
-          return $bflujo;
-        })
-        ->rawColumns(['pagos', 'cstatus', 'saldo_pendiente', 'flujos', 'cflujos', 'condonar'])
-        ->toJson();
-      array_push($totalCreditos, $tabla);
+            return $bflujo;
+          })
+          ->rawColumns(['pagos', 'cstatus', 'saldo_pendiente', 'flujos', 'cflujos', 'condonar'])
+          ->toJson();
+        array_push($totalCreditos, $tabla);
+      }
     }
     return $totalCreditos;
   }
