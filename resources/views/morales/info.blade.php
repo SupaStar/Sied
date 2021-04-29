@@ -686,6 +686,63 @@
                 <div class="tab-pane" id="profile-amortizacion" role="tabpanel" aria-labelledby="profile-tab-justified">
                   <section class="invoice-print mb-1">
                     <div class="row">
+                      <div style="height: auto" class="col-12">
+                        <label style="font-size: 18px" id="limite_c">Limite de Crédito : <label
+                            style="color: green;font-size: 18px">${{number_format($datos->limite_credito,2,'.',',')}}</label></label><br>
+                        @if($datos->credito_disponible==null)
+                          <label style="font-size: 18px" id="disponible">Crédito Disponible: <label
+                              style="color: #ecec00;font-size: 18px">$0</label></label>
+                        @else
+                          <label style="font-size: 18px" id="disponible">Crédito Disponible: <label
+                              style="color: #ecec00;font-size: 18px">${{number_format($datos->credito_disponible,2,'.',',')}}</label></label>
+                        @endif
+                        <div class="card">
+                          <div class="card-content">
+                            <div class="row card-body card-dashboard">
+                              <div class="col-8">
+                                @foreach($creditos as $credito)
+                                  <div class="row" style="margin-bottom: 10px">
+                                <button id="btnContrato" type="button" class="btn btn-outline-warning" data-toggle="collapse" data-target="#demo{{$credito->contrato}}">
+                                      {{$credito->contrato}}
+                                </button>
+                                  </div>
+                                @endforeach
+
+                                 @foreach($creditos as $credito)
+                                    <div id="demo{{$credito->contrato}}" style="position: relative" class="collapse">
+                                      <div class="table-responsive">
+                                        <table class="table table-striped table-bordered" id="credito{{$credito->contrato}}">
+                                          <thead>
+                                          <tr>
+                                            <th>Tipo</th>
+                                            <th>Contrato</th>
+                                            <th>Monto</th>
+                                            <th>Forma de Pago</th>
+                                            <th>Frecencia</th>
+                                            <th>Plazo</th>
+                                            <th>Amortización</th>
+                                            <th>Iva</th>
+                                            <th>Tasa</th>
+                                            <th>Disposición</th>
+                                            <th>Estado</th>
+                                          </tr>
+                                          </thead>
+                                          <tbody>
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </div>
+
+                                  @endforeach
+
+                              </div>
+                              <div class="col-4">
+                                <a class="btn btn-primary" href="/morales/continuar/{{$id}}">Nuevo Crédito</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                       <fieldset class="col-12 col-md-5 mb-1 mb-md-0">
                       </fieldset>
                       <div class="col-12 col-md-7 d-flex flex-column flex-md-row justify-content-end">
@@ -1090,10 +1147,17 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAC2KCt-r7yAiuktmaXWVtTaVjilIcCPFM&callback=initMap&libraries=&v=weekly"
     async
   ></script>
+  <script>
+    $(document).ready(function ()
+    {
+
+    })
+  </script>
   <script src="/js/scripts/mapsedit.js"></script>
   <script>
 
     $(document).ready(function () {
+
       $('#inlineForm').on('hidden.bs.modal', function () {
         $('#formssp')[0].reset()
       });
