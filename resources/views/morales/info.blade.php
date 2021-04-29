@@ -705,10 +705,6 @@
                                 <button id="btnContrato" type="button" class="btn btn-outline-warning" data-toggle="collapse" data-target="#demo{{$credito->contrato}}">
                                       {{$credito->contrato}}
                                 </button>
-                                  </div>
-                                @endforeach
-
-                                 @foreach($creditos as $credito)
                                     <div id="demo{{$credito->contrato}}" style="position: relative" class="collapse">
                                       <div class="table-responsive">
                                         <table class="table table-striped table-bordered" id="credito{{$credito->contrato}}">
@@ -718,7 +714,7 @@
                                             <th>Contrato</th>
                                             <th>Monto</th>
                                             <th>Forma de Pago</th>
-                                            <th>Frecencia</th>
+                                            <th>Frecuencia</th>
                                             <th>Plazo</th>
                                             <th>Amortización</th>
                                             <th>Iva</th>
@@ -728,12 +724,26 @@
                                           </tr>
                                           </thead>
                                           <tbody>
+                                          <tr>
+                                            <td>{{$credito->tcredito}}</td>
+                                            <td>{{$credito->contrato}}</td>
+                                            <td>{{$credito->monto}}</td>
+                                            <td>{{$credito->fpago}}</td>
+                                            <td>{{$credito->frecuencia}}</td>
+                                            <td>{{$credito->plazo}}</td>
+                                            <td>{{$credito->amortizacion}}</td>
+                                            <td>{{$credito->iva}}</td>
+                                            <td>{{$credito->tasa}}</td>
+                                            <td>{{$credito->disposicion}}</td>
+                                            <td>{{$credito->status}}</td>
+                                          </tr>
                                           </tbody>
                                         </table>
                                       </div>
                                     </div>
 
-                                  @endforeach
+                                  </div>
+                                @endforeach
 
                               </div>
                               <div class="col-4">
@@ -1150,6 +1160,10 @@
   <script>
     $(document).ready(function ()
     {
+      $('.collapse').on('shown.bs.collapse', function (e) {
+
+
+      })
 
     })
   </script>
@@ -1179,106 +1193,7 @@
 
       })
 
-      function credito(data = null) {
-        $('#credito').DataTable({
-          dom: 'Bfrtip',
-          searching: false,
-          paging: false,
-          ordering: false,
-          destroy: true,
-          processing: true,
-          responsive: true,
-          buttons: [
-            {
-              extend: 'pdfHtml5',
-              orientation: 'landscape',
-              pageSize: 'LEGAL',
-              title: 'Amortización',
-              text: 'Pdf'
-            },
-            {
-              extend: 'print',
-              text: 'Imprimir',
-              pageSize: 'LEGAL',
-              title: 'Amortización'
-            }
-          ],
-          language: {
-            "decimal": "",
-            "emptyTable": "No hay información",
-            "info": "",
-            "infoEmpty": "",
-            "infoFiltered": "(Filtrado de _MAX_ total entradas)",
-            "infoPostFix": "",
-            "thousands": ",",
-            "lengthMenu": "Mostrar _MENU_ Entradas",
-            "loadingRecords": "Cargando...",
-            "processing": "Procesando...",
-            "search": "Buscar:",
-            "zeroRecords": "Sin resultados encontrados",
-            "paginate": {
-              "first": "Primero",
-              "last": "Ultimo",
-              "next": "Siguiente",
-              "previous": "Anterior"
-            }
-          },
-          columns: [
-            {
-              data: 'tcredito',
-              name: 'tcredito'
-            },
-            {
-              data: 'contrato',
-              name: 'contrato'
-            },
 
-            {
-              data: 'monto',
-              name: 'monto'
-            },
-            {
-              data: 'fpago',
-              name: 'fpago'
-            },
-            {
-              data: 'frecuencia',
-              name: 'frecuencia'
-            },
-            {
-              data: 'plazo',
-              name: 'plazo'
-            },
-            {
-              data: 'amortizacion',
-              name: 'amortizacion'
-            },
-            {
-              data: 'iva',
-              name: 'iva'
-            },
-            {
-              data: 'tasa',
-              name: 'tasa'
-            },
-            {
-              data: 'disposicion',
-              name: 'disposicion'
-            },
-            {
-              data: 'status',
-              name: 'status'
-            }
-          ],
-          ajax: {
-            url: "/morales/info/credito/{{$id}}",
-            data: {
-              "data": data
-            }
-          }
-        });
-
-      }
 
       @if (session('pago'))
       Swal.fire({
