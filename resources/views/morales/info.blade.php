@@ -705,7 +705,7 @@
                                 <button id="btnContrato" type="button" class="btn btn-outline-warning" data-toggle="collapse" data-target="#demo{{$credito->contrato}}">
                                       {{$credito->contrato}}
                                 </button>
-                                    <div id="demo{{$credito->contrato}}" style="position: relative" class="collapse">
+                                    <div id="demo{{$credito->contrato}}" style="position: relative;width: 130%" class="collapse">
                                       <div class="table-responsive">
                                         <table class="table table-striped table-bordered" id="credito{{$credito->contrato}}">
                                           <thead>
