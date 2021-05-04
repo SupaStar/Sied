@@ -585,7 +585,7 @@
 
             <label>Moneda </label>
             <div class="form-group">
-              <select class="form-control" id="moneda" name="moneda" onchange="cmoneda()">
+              <select required class="form-control" id="moneda" name="moneda" onchange="cmoneda()">
                 <option selected disabled>Seleccionar</option>
                 <option value="Nacional">Nacional</option>
                 <option value="0">Extranjera</option>
@@ -593,12 +593,12 @@
             </div>
 
             <div class="form-group" style="display:none" id="cssmoneda">
-              <input type='text' class="form-control " placeholder="Moneda" id="nmoneda"  name="nmoneda" />
+              <input required type='text' class="form-control " placeholder="Moneda" id="nmoneda"  name="nmoneda" />
             </div>
 
             <label>Forma de Pago </label>
             <div class="form-group">
-              <select class="form-control" id="forma" name="forma" onchange="cforma()">
+              <select required class="form-control" id="forma" name="forma" onchange="cforma()">
                 <option selected disabled>Seleccionar</option>
                 <option value="Efectivo">Efectivo</option>
                 <option value="Transferencia">Transferencia</option>
@@ -608,13 +608,13 @@
             </div>
 
             <div class="form-group" style="display:none" id="cssforma">
-              <input type='text' class="form-control " placeholder="Forma de Pago" id="nforma"  name="nforma" />
+              <input required type='text' class="form-control " placeholder="Forma de Pago" id="nforma"  name="nforma" />
             </div>
 
             <div  style="display:none" id="trforma">
               <label>Lugar de Pago </label>
               <div class="form-group">
-                <select class="form-control" id="clforma" name="forma" onchange="lforma()">
+                <select required class="form-control" id="clforma" name="forma" onchange="lforma()">
                   <option selected disabled>Seleccionar</option>
                   <option value="Internacional">Internacional</option>
                   <option value="Nacional">Nacional</option>
@@ -625,7 +625,7 @@
             <div  style="display:none" id="lnacional">
               <label>Nacional </label>
               <div class="form-group">
-                <select class="form-control" id="clnacional" name="lnacional" >
+                <select required class="form-control" id="clnacional" name="lnacional" >
                   <option selected disabled>Seleccionar</option>
                   <option value="En la plaza">En la plaza</option>
                   <option value="En otros estados de la república">En otros estados de la república</option>
@@ -637,7 +637,7 @@
             <div  style="display:none" id="linternacional">
               <label>Internacional </label>
               <div class="form-group">
-                <select class="form-control" id="clinternacional" name="linternacional" >
+                <select required class="form-control" id="clinternacional" name="linternacional" >
                   <option selected disabled>Seleccionar</option>
                   <option value="Países no cooperantes">Países no cooperantes</option>
                   <option value="Paraísos fiscales">Paraísos fiscales</option>
@@ -648,7 +648,7 @@
 
             <label>Origen </label>
             <div class="form-group">
-              <select class="form-control" id="origen" name="origen" onchange="corigen()">
+              <select required class="form-control" id="origen" name="origen" onchange="corigen()">
                 <option selected disabled>Seleccionar</option>
                 <option value="Cuentas propias">Cuentas propias</option>
                 <option value="En el caso de créditos de nómina, del empleador">En el caso de créditos de nómina, del empleador</option>
@@ -660,7 +660,7 @@
             <div style="display:none" id="cterceros">
               <label>Internacional </label>
               <div class="form-group">
-                <select class="form-control" id="ccterceros" name="cterceros" onchange="cccterceros()">
+                <select required class="form-control" id="ccterceros" name="cterceros" onchange="cccterceros()">
                   <option selected disabled>Seleccionar</option>
                   <option value="Relacionados en listas negras">Relacionados en listas negras</option>
                   <option value="Otros">Otros</option>
@@ -671,7 +671,7 @@
             <div style="display:none" id="coterceros">
               <label>Internacional </label>
               <div class="form-group">
-                <select class="form-control" id="ccterceros" name="cterceros" >
+                <select required class="form-control" id="ccterceros" name="cterceros" >
                   <option selected disabled>Seleccionar</option>
                   <option value="Identificados">Identificados</option>
                   <option value="No identificados">No identificados</option>
