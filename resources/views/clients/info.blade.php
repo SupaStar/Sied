@@ -32,7 +32,7 @@
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" id="profile-tab-amortizacion" data-toggle="tab" href="#profile-amortizacion" role="tab"
-                     aria-controls="profile-just" aria-selected="true">AMORTIZACÓN</a>
+                     aria-controls="profile-just" aria-selected="true">AMORTIZACIÓN</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" id="profile-tab-pagos" data-toggle="tab" href="#profile-pagos" role="tab"
