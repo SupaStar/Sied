@@ -78,7 +78,7 @@ class Clients extends Controller
     $datos = db::table('clientes')->where('id', $id)->first();
     $divisa = Divisa::get();
 
-    $images = db::table('files')->where('client_id', $id)->where('type', 'INE')->where('tipo',0)->get();
+    $images = db::table('files')->where('client_id', $id)->where('type', 'INE')->where('tipo', 0)->get();
 
     $ine1 = '';
     $ine2 = '';
@@ -297,7 +297,6 @@ class Clients extends Controller
                                      when factor='Divisa' then divisa.puntaje
                                      when factor='Instrumento Monetario' then instrumento_monetario.puntaje
                                 		 end as puntaje,
-
                                 format((
                                 case when factor='Origen de Recursos' then origen_recursos.puntaje
                                      when factor='Divisa' then divisa.puntaje
@@ -350,7 +349,6 @@ class Clients extends Controller
                                  when factor='Nacionalidad' then nacionalidad_antecedentes.puntaje
                                  when factor='Entidad Federativa Residencia' then entidad_federativa_residencia.puntaje
                             		 end as puntaje,
-
                             format((
                             case when factor='Alertas PLD/FT' then pld.puntaje
                                  when factor='Edad' then edad.puntaje
@@ -1737,7 +1735,7 @@ class Clients extends Controller
       'images' => array()
     );
 
-    $images = DB::TABLE('files')->where('client_id', $id)->where('tipo',0)->get();
+    $images = DB::TABLE('files')->where('client_id', $id)->where('tipo', 0)->get();
 
     foreach ($images as $img) {
       array_push($data['images'], array('extension' => $img->extension, 'name' => $img->name, 'path' => $img->full));
@@ -1759,7 +1757,7 @@ class Clients extends Controller
   public function getfiles($id)
   {
 
-    $images = DB::TABLE('files')->where('client_id', $id)->where('tipo',0)->get();
+    $images = DB::TABLE('files')->where('client_id', $id)->where('tipo', 0)->get();
     $data = '';
     foreach ($images as $img) {
       $data .= '<tr><td>' . $img->type . '</td><td>' . $img->extension . '</td><td>' . $img->created_at . '</td><td><a href="/uploads/' . $img->full . '" target="popup" onclick="window.open(\'/uploads/' . $img->full . '\',\'popup\',\'width=600,height=600\'); return false;"><button  style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-eye primary"></i></button></a></td><td><a href="/storage/' . $img->full . '" target="_blank"><button  style="z-index:999" type="button" class="btn btn-default"><i class="feather icon-download primary"></i></button></a></td></tr>';
@@ -1785,9 +1783,9 @@ class Clients extends Controller
       $dias = '';
       $mdis = number_format($monto * -1, 2);
       $saldo = $monto;
-      if(isset($data['tipoPersona'])){
+      if (isset($data['tipoPersona'])) {
         $comision = 0;
-      }else{
+      } else {
         $comision = doubleval(number_format($monto * 0.01, 2));
       }
 
@@ -2098,7 +2096,7 @@ class Clients extends Controller
     $rperiodo = 0;
     foreach ($amortizacion as $data) {
 
-      if ($pago > 0){
+      if ($pago > 0) {
         $fecha1 = date_create(date('d-m-Y', strtotime($data->fin)));
         $fecha2 = date_create(date('d-m-Y', strtotime($request->fecha)));
 
@@ -2111,7 +2109,7 @@ class Clients extends Controller
 
         if ($dias <= 0) {
           if ($dias2 > 0) {
-            $amortizacion2 = Amortizacion::where('cliente_id', $request->id)->where('credito_id', $cid)->where('liquidado', 0)->where('periodo','>',0)->orderBy('periodo', 'asc')->orderBy('id', 'asc')->get();
+            $amortizacion2 = Amortizacion::where('cliente_id', $request->id)->where('credito_id', $cid)->where('liquidado', 0)->where('periodo', '>', 0)->orderBy('periodo', 'asc')->orderBy('id', 'asc')->get();
             foreach ($amortizacion2 as $amortizacionDos) {
               $data2 = Amortizacion::find($amortizacionDos->id);
               if ($pago > 0) {
@@ -2251,19 +2249,18 @@ class Clients extends Controller
                       $pago = $pago - $lam->flujo;
 
                       // -- llamar funcion
-
-                      if($prest > 0){
+                      if ($prest > 0) {
                         $credito = creditos::where('id', $cid)->first();
                         $tasa = $credito->tasa / 100;
-                        $amortizacionesPendientes = Amortizacion::where('cliente_id', $request->id)->where('credito_id', $cid)->where('liquidado', 0)->where("id",">",$data2->id)->orderBy('periodo', 'asc')->orderBy('id', 'asc')->get();
+                        $amortizacionesPendientes = Amortizacion::where('cliente_id', $request->id)->where('credito_id', $cid)->where('liquidado', 0)->where("id", ">", $data2->id)->orderBy('periodo', 'asc')->orderBy('id', 'asc')->get();
                         //return json_encode($amortizacionesPendientes);
 
-                        $saldoInsolutoPasado = $lam->saldo_insoluto;
+                        $saldoInsolutoPasado = $lam->saldo_insoluto - $prest;
 
                         foreach ($amortizacionesPendientes as $amortizacionePendiente) {
-                          $amortizacionePendiente->intereses = ((($saldoInsolutoPasado * $tasa) * 2) / 360) * $amortizacionePendiente->dias;
+                          $amortizacionePendiente->intereses = (($saldoInsolutoPasado * $tasa) / 360) * $amortizacionePendiente->dias;
                           $amortizacionePendiente->iva = $amortizacionePendiente->intereses * 0.16;
-                          $tp = ($tasa / 100) / 12;
+                          $tp = $tasa / 12;
 
                           $pago = ($tp * pow((1 + $tp), $credito->plazo)) * $credito->monto / ((pow((1 + $tp), $credito->plazo)) - 1);
 
@@ -2276,6 +2273,7 @@ class Clients extends Controller
                           $amortizacionePendiente->save();
                           $saldoInsolutoPasado = $saldoInsolutoPasado - $amortizacion;
                         }
+                        $pago = 0;
                       }
                     }
                   }
@@ -3347,7 +3345,7 @@ class Clients extends Controller
   public function listaNegraPDF($id)
   {
     $cliente = Client::where('id', $id)->with('listasNegras')->first();
-    $documentos = Files::where('client_id', '=', $id)->where('tipo',0)->get();
+    $documentos = Files::where('client_id', '=', $id)->where('tipo', 0)->get();
 
     return PDF::loadView('/clients/listaNegraPDF', compact('cliente', 'documentos'))->stream();
     //return view('/clients/listaNegraPDF', compact('cliente', 'documentos'));
