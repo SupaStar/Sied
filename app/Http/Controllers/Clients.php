@@ -2118,7 +2118,7 @@ class Clients extends Controller
                 if ($data2->pagos != 0) {
                   $flujo = $data2->flujo - $data2->pagos;
                   if ($flujo > $pago) {
-                    //return json_encode("Obed");
+                    echo json_encode("Obed");
                     $lam = Amortizacion::where('id', $data2->id)->first();
                     $lpagos = $lam->pagos ? $lam->pagos : 0;
                     $restante = ($lam->flujo - $lpagos) - $pago;
@@ -2139,7 +2139,7 @@ class Clients extends Controller
 
                   } else {
                     if ($flujo == $pago) {
-                      //return json_encode("Alfredo");
+                      echo  json_encode("Alfredo");
                       $lam = Amortizacion::where('id', $data2->id)->first();
                       $lpagos = $lam->pagos ? $lam->pagos : 0;
                       $restante = ($lam->flujo - $lpagos) - $pago;
@@ -2158,7 +2158,7 @@ class Clients extends Controller
                       Amortizacion::where('id', $data2->id)->update(['pagos' => $pago, 'liquidado' => 1]);
                       $pago = 0;
                     } else {
-                      //return json_encode("Emmanuel");
+                      echo json_encode("Emmanuel");
                       $lam = Amortizacion::where('id', $data2->id)->first();
 
                       $pagos = $lam->pagos ? $lam->pagos : 0;
@@ -2186,10 +2186,11 @@ class Clients extends Controller
                   }
                 } else {
                   if ($data2->flujo > $pago) {
-                    //return json_encode("Obed x2");
+                    echo json_encode("Obed x2");
                     $lam = Amortizacion::where('id', $data2->id)->first();
                     $lpagos = $lam->pagos ? $lam->pagos : 0;
                     $restante = ($lam->flujo - $lpagos) - $pago;
+
                     $rpagos = new RelacionPagos;
                     $rpagos->periodo_id = $data2->id;
                     $rpagos->pago_id = $pagoid;
@@ -2201,69 +2202,52 @@ class Clients extends Controller
                     $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
                     $rpagos->save();
                     $rmonto = 0;
-
                     Amortizacion::where('id', $data2->id)->update(['pagos' => $pago]);
+
+                      $credito = creditos::where('id', $cid)->first();
+                      $tasa = $credito->tasa / 100;
+                      $amortizacionesPendientes = Amortizacion::where('cliente_id', $request->id)->where('credito_id', $cid)->where('liquidado', 0)->where("id",">=",$data2->id)->orderBy('periodo', 'asc')->orderBy('id', 'asc')->get();
+
+                      $saldoInsolutoPasado = $lam->saldo_insoluto - $prest;
+
+                      $sobrantesDeSaldoInsoluto = [];
+                      foreach ($amortizacionesPendientes as $amortizacionePendiente) {
+                        $amortizacionePendiente->intereses = (($saldoInsolutoPasado * $tasa) / 360) * $amortizacionePendiente->dias;
+                        $amortizacionePendiente->iva = $amortizacionePendiente->intereses * 0.16;
+                        $tp = $tasa / 12;
+
+                        $pago = ($tp * pow((1 + $tp), $credito->plazo)) * $credito->monto / ((pow((1 + $tp), $credito->plazo)) - 1);
+
+                        $amortizacion = ($pago - $amortizacionePendiente->intereses);
+                        $amortizacionePendiente->saldo_insoluto = $saldoInsolutoPasado - $amortizacion;
+
+                        $flujo = $pago + $amortizacionePendiente->iva;
+                        $amortizacionePendiente->flujo = $flujo;
+                        $amortizacionePendiente->amortizacion = $amortizacion;
+                        $amortizacionePendiente->save();
+                        $saldoInsolutoPasado = $saldoInsolutoPasado - $amortizacion;
+                      }
                     $pago = 0;
                   } else {
                     if ($data2->flujo == $pago) {
-                      //return json_encode("Alfredo X2");
+                      echo json_encode("Alfredo X2");
                       $lam = Amortizacion::where('id', $data2->id)->first();
                       $lpagos = $lam->pagos ? $lam->pagos : 0;
                       $restante = ($lam->flujo - $lpagos) - $pago;
-
-
-                      $rpagos = new RelacionPagos;
-                      $rpagos->periodo_id = $data2->id;
-                      $rpagos->pago_id = $pagoid;
-                      $rpagos->fecha_pago = $rfecha;
-                      $rpagos->monto = $pago;
-                      $rpagos->monto_total = $rmonto;
-                      $rpagos->restante = $restante;
-                      $rpagos->pago_restante = 0;
-                      $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
-                      $rpagos->save();
-                      $rmonto = 0;
-
-                      Amortizacion::where('id', $data2->id)->update(['pagos' => $pago, 'liquidado' => 1]);
-                      $pago = 0;
-                    } else {
-                      $lam = Amortizacion::where('id', $data2->id)->first();
-                      //return json_encode("Emmanuel X2");
-                      $pagos = $lam->pagos ? $lam->pagos : 0;
-
-                      $apago = $lam->flujo - $pagos;
-
-                      $prest = $pago - $apago;
-
-                      $rpagos = new RelacionPagos;
-                      $rpagos->periodo_id = $data2->id;
-                      $rpagos->pago_id = $pagoid;
-                      $rpagos->fecha_pago = $rfecha;
-                      $rpagos->monto = $apago;
-                      $rpagos->monto_total = $rmonto;
-                      $rpagos->restante = 0;
-                      $rpagos->pago_restante = $prest;
-                      $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
-                      $rpagos->save();
-                      $rmonto = $prest;
-                      // TOFO EMMANUEL T
-                      Amortizacion::where('id', $data2->id)->update(['pagos' => $lam->flujo, 'liquidado' => 1, 'saldo_insoluto' => $lam->saldo_insoluto - $prest]);
-                      $pago = $pago - $lam->flujo;
-
-                      // -- llamar funcion
-
-                      if($prest > 0){
+                      // -- Verificar si se va a relizar un pago o recalcular saldo insoluto para pagos exactos
+                      $fechaHoy =date("Y-m-d");
+                      if($fechaHoy > $lam->fin){
                         $credito = creditos::where('id', $cid)->first();
                         $tasa = $credito->tasa / 100;
-                        $amortizacionesPendientes = Amortizacion::where('cliente_id', $request->id)->where('credito_id', $cid)->where('liquidado', 0)->where("id",">",$data2->id)->orderBy('periodo', 'asc')->orderBy('id', 'asc')->get();
-                        //return json_encode($amortizacionesPendientes);
+                        $amortizacionesPendientes = Amortizacion::where('cliente_id', $request->id)->where('credito_id', $cid)->where('liquidado', 0)->where("id",">=",$data2->id)->orderBy('periodo', 'asc')->orderBy('id', 'asc')->get();
 
-                        $saldoInsolutoPasado = $lam->saldo_insoluto;
+                        $saldoInsolutoPasado = $lam->saldo_insoluto - $prest;
 
+                        $sobrantesDeSaldoInsoluto = [];
                         foreach ($amortizacionesPendientes as $amortizacionePendiente) {
-                          $amortizacionePendiente->intereses = ((($saldoInsolutoPasado * $tasa) * 2) / 360) * $amortizacionePendiente->dias;
+                          $amortizacionePendiente->intereses = (($saldoInsolutoPasado * $tasa) / 360) * $amortizacionePendiente->dias;
                           $amortizacionePendiente->iva = $amortizacionePendiente->intereses * 0.16;
-                          $tp = ($tasa / 100) / 12;
+                          $tp = $tasa/ 12;
 
                           $pago = ($tp * pow((1 + $tp), $credito->plazo)) * $credito->monto / ((pow((1 + $tp), $credito->plazo)) - 1);
 
@@ -2276,7 +2260,78 @@ class Clients extends Controller
                           $amortizacionePendiente->save();
                           $saldoInsolutoPasado = $saldoInsolutoPasado - $amortizacion;
                         }
+                      }else{
+                        $rpagos = new RelacionPagos;
+                        $rpagos->periodo_id = $data2->id;
+                        $rpagos->pago_id = $pagoid;
+                        $rpagos->fecha_pago = $rfecha;
+                        $rpagos->monto = $pago;
+                        $rpagos->monto_total = $rmonto;
+                        $rpagos->restante = $restante;
+                        $rpagos->pago_restante = 0;
+                        $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
+                        $rpagos->save();
+                        $rmonto = 0;
+                        Amortizacion::where('id', $data2->id)->update(['pagos' => $pago, 'liquidado' => 1]);
                       }
+                      $pago = 0;
+                    } else {
+                      echo "Emmanuel x2";
+                      $fechaHoy =date("Y-m-d");
+                      if((($fechaHoy >= $data2->inicio) && ($fechaHoy <= $data2->fin) ) && $data2->liquidado == 0){
+                        $lam = Amortizacion::where('inicio', $data2->inicio)->where('liquidado',0)->orderBy('id','asc')->first();
+                      }else{
+                        $lam = Amortizacion::where('liquidado',1)->orderBy('id','desc')->first();
+                      }
+
+                      $pagos = $lam->pagos ? $lam->pagos : 0;
+                      $apago = $lam->flujo - $pagos;
+                      $prest = $pago - $apago;
+                      $rpagos = new RelacionPagos;
+                      $rpagos->periodo_id = $data2->id;
+                      $rpagos->pago_id = $pagoid;
+                      $rpagos->fecha_pago = $rfecha;
+                      $rpagos->monto = $apago;
+                      $rpagos->monto_total = $rmonto;
+                      $rpagos->restante = 0;
+                      $rpagos->pago_restante = $prest;
+                      $rpagos->descripcion = 'Saldo restante de pago del periodo ' . $rperiodo;
+                      $rpagos->save();
+                      $rmonto = $prest;
+
+
+                        Amortizacion::where('id', $lam->id)->update(['pagos' => $lam->flujo, 'liquidado' => 1, 'saldo_insoluto' => $lam->saldo_insoluto - $prest]);
+
+                      // TOFO EMMANUEL T
+
+                        $pago = $pago - $lam->flujo;
+                        // -- llamar funcion
+                        if($prest > 0){
+                          $credito = creditos::where('id', $cid)->first();
+                          $tasa = $credito->tasa / 100;
+                          $amortizacionesPendientes = Amortizacion::where('cliente_id', $request->id)->where('credito_id', $cid)->where('liquidado', 0)->where("id",">",$lam->id)->orderBy('periodo', 'asc')->orderBy('id', 'asc')->get();
+                          //return json_encode($amortizacionesPendientes);
+
+                          $saldoInsolutoPasado = $lam->saldo_insoluto - $prest;
+
+                          foreach ($amortizacionesPendientes as $amortizacionePendiente) {
+                            $amortizacionePendiente->intereses = (($saldoInsolutoPasado * $tasa) / 360) * $amortizacionePendiente->dias;
+                            $amortizacionePendiente->iva = $amortizacionePendiente->intereses * 0.16;
+                            $tp = $tasa/ 12;
+
+                            $pago = ($tp * pow((1 + $tp), $credito->plazo)) * $credito->monto / ((pow((1 + $tp), $credito->plazo)) - 1);
+
+                            $amortizacion = ($pago - $amortizacionePendiente->intereses);
+                            $amortizacionePendiente->saldo_insoluto = $saldoInsolutoPasado - $amortizacion;
+
+                            $flujo = $pago + $amortizacionePendiente->iva;
+                            $amortizacionePendiente->flujo = $flujo;
+                            $amortizacionePendiente->amortizacion = $amortizacion;
+                            $amortizacionePendiente->save();
+                            $saldoInsolutoPasado = $saldoInsolutoPasado - $amortizacion;
+                          }
+                        }
+                      $pago = 0;
                     }
                   }
                 }
@@ -2289,7 +2344,7 @@ class Clients extends Controller
               $flujo = $data->flujo - $data->pagos;
               $pagos = $data->pagos;
               if ($flujo > $pago) {
-
+                echo json_encode("obed x3");
                 $lam = Amortizacion::where('id', $data->id)->first();
                 $lpagos = $lam->pagos ? $lam->pagos : 0;
                 $restante = ($lam->flujo - $lpagos) - $pago;
@@ -2310,7 +2365,7 @@ class Clients extends Controller
                 $pago = 0;
               } else {
                 if ($flujo == $pago) {
-
+                  echo json_encode("Alfredo x3");
                   $lam = Amortizacion::where('id', $data->id)->first();
                   $lpagos = $lam->pagos ? $lam->pagos : 0;
                   $restante = ($lam->flujo - $lpagos) - $pago;
@@ -2331,6 +2386,7 @@ class Clients extends Controller
                   Amortizacion::where('id', $data->id)->update(['pagos' => ($pagos + $pago), 'liquidado' => 1]);
                   $pago = 0;
                 } else {
+                  echo json_encode("Emmanuel");
                   $lam = Amortizacion::where('id', $data->id)->first();
 
                   $pagos = $lam->pagos ? $lam->pagos : 0;
@@ -2357,6 +2413,7 @@ class Clients extends Controller
               }
             } else {
               if ($data->flujo > $pago) {
+                echo json_encode("test");
                 $lam = Amortizacion::where('id', $data->id)->first();
                 $lpagos = $lam->pagos ? $lam->pagos : 0;
                 $restante = ($lam->flujo - $lpagos) - $pago;
@@ -2378,6 +2435,7 @@ class Clients extends Controller
                 $pago = 0;
               } else {
                 if ($data->flujo == $pago) {
+                  echo json_encode("test x2");
                   $lam = Amortizacion::where('id', $data->id)->first();
                   $lpagos = $lam->pagos ? $lam->pagos : 0;
                   $restante = ($lam->flujo - $lpagos) - $pago;
@@ -2398,6 +2456,7 @@ class Clients extends Controller
                   Amortizacion::where('id', $data->id)->update(['pagos' => $pago, 'liquidado' => 1]);
                   $pago = 0;
                 } else {
+                  echo json_encode("test x3");
                   $lam = Amortizacion::where('id', $data->id)->first();
 
                   $pagos = $lam->pagos ? $lam->pagos : 0;
@@ -2418,8 +2477,36 @@ class Clients extends Controller
                   $rpagos->save();
                   $rmonto = $prest;
 
-                  Amortizacion::where('id', $data->id)->update(['pagos' => $lam->flujo, 'liquidado' => 1]);
-                  $pago = $pago - $lam->flujo;
+                  if($prest > 0){
+
+                    $credito = creditos::where('id', $cid)->first();
+                    $tasa = $credito->tasa / 100;
+                    $amortizacionesPendientes = Amortizacion::where('cliente_id', $request->id)->where('credito_id', $cid)->where('liquidado', 0)->where("id",">",$data->id)->orderBy('periodo', 'asc')->orderBy('id', 'asc')->get();
+                    //return json_encode($amortizacionesPendientes);
+
+                    $saldoInsolutoPasado = $lam->saldo_insoluto - $prest;
+
+                    foreach ($amortizacionesPendientes as $amortizacionePendiente) {
+
+                      $amortizacionePendiente->intereses = (($saldoInsolutoPasado * $tasa) / 360) * $amortizacionePendiente->dias;
+                      $amortizacionePendiente->iva = $amortizacionePendiente->intereses * 0.16;
+                      $tp = $tasa / 12;
+
+                      $pago = ($tp * pow((1 + $tp), $credito->plazo)) * $credito->monto / ((pow((1 + $tp), $credito->plazo)) - 1);
+
+                      $amortizacion = ($pago - $amortizacionePendiente->intereses);
+                      $amortizacionePendiente->saldo_insoluto = $saldoInsolutoPasado - $amortizacion;
+
+                      $flujo = $pago + $amortizacionePendiente->iva;
+                      $amortizacionePendiente->flujo = $flujo;
+                      $amortizacionePendiente->amortizacion = $amortizacion;
+                      $amortizacionePendiente->save();
+                      $saldoInsolutoPasado = $saldoInsolutoPasado - $amortizacion;
+                    }
+                  }
+
+                  Amortizacion::where('id', $data->id)->update(['pagos' => $lam->flujo, 'liquidado' => 1, "saldo_insoluto" => $lam->saldo_insoluto - $prest]);
+                  $pago = 0;
                 }
               }
             }
@@ -2429,6 +2516,7 @@ class Clients extends Controller
             $flujo = $data->flujo - $data->pagos;
             $pagos = $data->pagos;
             if ($flujo > $pago) {
+              echo json_encode("obed x4");
               $lam = Amortizacion::where('id', $data->id)->first();
               $lpagos = $lam->pagos ? $lam->pagos : 0;
               $restante = ($lam->flujo - $lpagos) - $pago;
@@ -2449,6 +2537,7 @@ class Clients extends Controller
               Amortizacion::where('id', $data->id)->update(['pagos' => ($pagos + $pago)]);
               $pago = 0;
             } else {
+              echo json_encode("Alfredo x4");
               if ($flujo == $pago) {
                 $lam = Amortizacion::where('id', $data->id)->first();
                 $lpagos = $lam->pagos ? $lam->pagos : 0;
@@ -2471,7 +2560,7 @@ class Clients extends Controller
                 $pago = 0;
               } else {
 
-
+                echo json_encode("Emmanuel x4");
                 $lam = Amortizacion::where('id', $data->id)->first();
 
                 $pagos = $lam->pagos ? $lam->pagos : 0;
@@ -2498,6 +2587,7 @@ class Clients extends Controller
             }
           } else {
             if ($data->flujo > $pago) {
+              echo json_encode("obed x5");
               $lam = Amortizacion::where('id', $data->id)->first();
               $lpagos = $lam->pagos ? $lam->pagos : 0;
               $restante = ($lam->flujo - $lpagos) - $pago;
@@ -2518,6 +2608,7 @@ class Clients extends Controller
               $pago = 0;
             } else {
               if ($data->flujo == $pago) {
+                echo json_encode("Alfredo x5");
                 $lam = Amortizacion::where('id', $data->id)->first();
                 $lpagos = $lam->pagos ? $lam->pagos : 0;
                 $restante = ($lam->flujo - $lpagos) - $pago;
@@ -2538,6 +2629,7 @@ class Clients extends Controller
                 Amortizacion::where('id', $data->id)->update(['pagos' => $pago, 'liquidado' => 1]);
                 $pago = 0;
               } else {
+                echo json_encode("Emmanuel x5");
                 $lam = Amortizacion::where('id', $data->id)->first();
 
                 $pagos = $lam->pagos ? $lam->pagos : 0;
@@ -2568,7 +2660,7 @@ class Clients extends Controller
       }
       $rperiodo = $data->periodo;
     }
-
+  return json_encode("");
     if ($comprobante != 1) {
       $path = 'credito/pagos/fisica/comprobante';
       $extension = strtolower($comprobante->getClientOriginalExtension());
