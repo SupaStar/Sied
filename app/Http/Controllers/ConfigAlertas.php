@@ -13,7 +13,7 @@ class ConfigAlertas extends Controller
   {
     $pageConfigs = [
       'mainLayoutType' => 'vertical',
-      'pageName' => 'Configuracion Alertas PLD'
+      'pageName' => 'Configuraciones Generales'
     ];
 
     return view('/configuracion/configuracion', [
