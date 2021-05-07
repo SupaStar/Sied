@@ -9,7 +9,7 @@ Route::prefix('creditos')->group(base_path('routes/creditos.php'));
 Route::prefix('grupos')->group(base_path('routes/grupos.php'));
 Route::prefix('buzon')->group(base_path('routes/buzon.php'));
 Route::prefix('alertas')->group(base_path('routes/alerta.php'));
-Route::prefix('configuracionpld')->group(base_path('routes/configuracionAlertas.php'));
+Route::prefix('configuracion')->group(base_path('routes/configuracionAlertas.php'));
 
 
 Route::view('/desactivado', 'not-authorized');

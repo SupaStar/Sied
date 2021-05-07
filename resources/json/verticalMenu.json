@@ -79,6 +79,21 @@
           "i18n": "nav.dashboard_analytics"
         }
       ]
+    },
+    {
+      "url": "",
+      "name": "Configuraciones",
+      "slug": "configuraciones",
+      "badgeClass": "badge badge-warning badge-pill float-right mr-2",
+      "icon": "feather icon-settings",
+      "submenu": [
+        {
+          "url": "/configuracion/configuraciones",
+          "name": "Configuraciones Generales",
+          "icon": "feather icon-settings",
+          "i18n": "nav.dashboard_analytics"
+        }
+      ]
     }
 
   ]
