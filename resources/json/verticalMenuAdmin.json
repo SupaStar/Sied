@@ -80,6 +80,7 @@
         }
       ]
     },
+
     {
       "url": "",
       "name": "Configuraciones",
@@ -88,9 +89,9 @@
       "icon": "feather icon-settings",
       "submenu": [
         {
-          "url": "/alertas/alertas",
-          "name": "Configuraciones",
-          "icon": "feather icon-circle",
+          "url": "/configuracion/configuraciones",
+          "name": "Configuraciones Generales",
+          "icon": "feather icon-settings",
           "i18n": "nav.dashboard_analytics"
         }
       ]
