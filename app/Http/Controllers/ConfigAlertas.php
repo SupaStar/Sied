@@ -11,7 +11,14 @@ class ConfigAlertas extends Controller
 {
   public function todos()
   {
+    $pageConfigs = [
+      'mainLayoutType' => 'vertical',
+      'pageName' => 'Configuracion Alertas PLD'
+    ];
 
+    return view('/configuracion/configuracion', [
+      'pageConfigs' => $pageConfigs
+    ]);
   }
 
   public function nueva(Request $request)
