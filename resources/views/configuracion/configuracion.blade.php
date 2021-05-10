@@ -43,7 +43,7 @@
                       <fieldset class="col-12 col-md-5 mb-1 mb-md-0">
                       </fieldset>
                       <div class="col-12 col-md-7 d-flex flex-column flex-md-row justify-content-end">
-                         <!-- <button class="btn btn-outline-primary  ml-0 ml-md-1"> <i class="feather icon-download"></i> Descargar</button> -->
+                        <!-- <button class="btn btn-outline-primary  ml-0 ml-md-1"> <i class="feather icon-download"></i> Descargar</button> -->
                       </div>
                     </div>
                   </section>
@@ -57,23 +57,29 @@
 
                         </div>
                         <div class="row">
-                          <form>
+                          <form action="configuracionesAlertas" method="post">
                             @csrf
                             <input type="hidden" name="id" value="">
                             <div class="form-group row">
                               <div class="col">
                                 <label>Monto: </label>
-                                <input type="number" name="monto" step="any" min="0" placeholder="$" class="form-control required" required>
+                                <input type="number" name="monto" step="any" min="0" placeholder="$"
+                                       @if(isset($configuracionesAlertas->monto)) value="{{$configuracionesAlertas->monto}}"
+                                       @endif
+                                       class="form-control required" required>
                               </div>
                               <div class="col">
                                 <label>Numero de Pagos: </label>
-                                <input type="number" name="nPagos" step="any" min="0" placeholder="0" class="form-control required" required>
+                                <input type="number" name="nPagos" step="any" min="0" placeholder="0"
+                                       @if(isset($configuracionesAlertas->pagosMes)) value="{{$configuracionesAlertas->pagosMes}}"
+                                       @endif
+                                       class="form-control required" required>
                               </div>
 
                             </div>
                             <div class="float-right">
                               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                              <button type="submit" class="btn btn-primary" >Aplicar</button>
+                              <button type="submit" class="btn btn-primary">Aplicar</button>
                             </div>
 
                           </form>
@@ -90,7 +96,8 @@
                   </section>
                 </div>
 
-                <div class="tab-pane justify-content-center" id="tab-amortizacion" role="tabpanel" aria-labelledby="profile-tab-justified">
+                <div class="tab-pane justify-content-center" id="tab-amortizacion" role="tabpanel"
+                     aria-labelledby="profile-tab-justified">
                   <section class="invoice-print mb-1">
                   </section>
                   <section class="card invoice-page d-flex justify-content-center">
@@ -102,23 +109,28 @@
 
                         </div>
                         <div class="row">
-                          <form>
+                          <form action="configuracionesAmorti" method="post">
                             @csrf
                             <input type="hidden" name="id" value="">
                             <div class="form-group row">
                               <div class="col">
                                 <label>Gasto de Cobranza: </label>
-                                <input type="number" name="GastoCobranza" step="any" min="0" placeholder="$" class="form-control required" required>
+                                <input type="number" name="GastoCobranza" step="any" min="0" placeholder="$"
+                                       @if(isset($configuraciones->gasto_cobranza)) value="{{$configuraciones->gasto_cobranza}}"
+                                       @endif class="form-control required" required>
                               </div>
                               <div class="col">
                                 <label>Iva: </label>
-                                <input type="number" name="IVA" step="any" min="0" placeholder="$" class="form-control required" required>
+                                <input type="number" name="IVA" step="any" min="0" placeholder="$"
+                                       @if(isset($configuraciones->iva)) value="{{$configuraciones->iva}}"
+                                       @endif
+                                       class="form-control required" required>
                               </div>
 
                             </div>
                             <div class="float-right">
                               <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
-                              <button type="submit" class="btn btn-primary" >Aplicar</button>
+                              <button type="submit" class="btn btn-primary">Aplicar</button>
                             </div>
 
                           </form>
@@ -135,7 +147,6 @@
                   </section>
 
                 </div>
-
 
 
               </div>
